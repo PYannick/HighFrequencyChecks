@@ -1,0 +1,31 @@
+Package: HighFrequencyChecks
+Type: Package
+Title: High Frequency Checks
+Version: 0.1.6
+Author: Yannick Pascaud
+Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
+Depends: R (>= 2.10)
+Description: This package groups the functions used to perform the 
+    High Frequency checks during the data collection.
+    These are usual functions to be ran periodically during the 
+    data collection process to check for possible errors and provide
+    meaningful inputs to the enumerators.
+    All these functions do not have to be ran at the same period of 
+    time. They are provided there to help you to build a report.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    sp,
+    rgdal,
+    rgeos,
+    geosphere,
+    stringi,
+    data.table,
+    lazyeval,
+    plotly,
+    outliers,
+    gsubfn
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
