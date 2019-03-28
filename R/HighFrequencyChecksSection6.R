@@ -17,7 +17,8 @@ chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
-  tmp<-(ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% count(survey_consent) %>% mutate(pct=round(100*n/sum(n), digits=2)))[-3]
+  tmp<-(ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% count_(survey_consent) %>% mutate(pct=round(100*n/sum(n), digits=2)))[-3]
+  colnames(tmp)[2]<-"survey_consent"
   logf<-dcast(tmp,enumeratorID ~ survey_consent, value.var="pct")
   logf[is.na(logf)]<-0
   return(logf)

@@ -41,7 +41,8 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp<-ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
+  tmp<-ds %>% group_by_(surveydate=surveydate) %>% count_(survey_consent)
+  colnames(tmp)[2]<-"survey_consent"
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   tmp<-tmp[with(tmp, order(surveydate)), ]
   tmp<-dcast(tmp,surveydate ~ survey_consent, value.var="n")
@@ -70,7 +71,8 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp<-ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
+  tmp<-ds %>% group_by_(surveydate=surveydate) %>% count_(survey_consent)
+  colnames(tmp)[2]<-"survey_consent"
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   tmp<-tmp[with(tmp, order(surveydate)), ]
   logf<-dcast(tmp,surveydate ~ survey_consent, value.var="n")
