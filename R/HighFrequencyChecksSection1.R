@@ -86,7 +86,7 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
   proj4string(dfsp)<-proj4string(adm)
   dfsp_over_adm<-over(dfsp,adm)
   fm<-data.frame(ds,dfsp_over_adm, stringsAsFactors = FALSE)
-  fm[,admin_site][is.na(fm[,admin_site])]<-""
+  fm[,adm_site][is.na(fm[,adm_site])]<-""
 
   # Should not be kept if the site in the kobo form is the same than the one in the shapefile
   #fm[,adm_site]<-tolower(as.character(gsub(" ", "_", fm[,adm_site])))
