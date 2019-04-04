@@ -1,4 +1,4 @@
-MIT License
+﻿MIT License
 
 Copyright (c) 2019 Yannick Pascaud
 
@@ -9,8 +9,10 @@ Based on: the High Frequency Code template released in March 2017
 	R version : R version 3.3.2 (Sincere Pumpkin Patch)
 	Last edited by : Krishanu Chakraborty
 
-Include code from: make_GeodesicBuffer
-	https://stackoverflow.com/users/5193830/valentin
+Include code from: the R package geobuffer
+	Function : make_GeodesicBuffer
+	Contributors : Valentin Ștefan
+	https://github.com/valentinitnelav/geobuffer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
