@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.1.8
+Version: 0.1.9
 Author: Yannick Pascaud
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10)

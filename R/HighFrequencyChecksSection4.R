@@ -116,7 +116,8 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   }
   '%ni%' <- Negate('%in%')
 
-  tmp<-sapply(ds[sapply(ds, is.numeric)], norm_or_lognorm)
+  tmp<-ds[,colnames(ds[colMeans(is.na(ds))<1])]
+  tmp<-sapply(tmp[sapply(tmp, is.numeric)], norm_or_lognorm)
   distribution_type<-data.frame(t(data.frame(tmp[2,])), stringsAsFactors = FALSE)
   colnames(distribution_type)<-"DistributionType"
   distribution_type$ind<-rownames(distribution_type)
