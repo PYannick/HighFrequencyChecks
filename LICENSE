@@ -6,8 +6,8 @@ Based on: the High Frequency Code template released in March 2017
 	Contributors : Krishanu Chakraborty, Vikram Jambulapati, James Dunham
 	Originally written in Stata by Saurabh (J-PAL SA) and IPA (https://github.com/PovertyAction/high-frequency-checks)
 	Version of code : 1.1.1
-	R version : R version 3.3.2 (Sincere Pumpkin Patch)
 	Last edited by : Krishanu Chakraborty
+
 
 Include code from: the R package geobuffer
 	Function : make_GeodesicBuffer
