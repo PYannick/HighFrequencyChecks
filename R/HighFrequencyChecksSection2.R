@@ -4,19 +4,19 @@
 
 
 chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(UniqueID)){
+  if(is.null(UniqueID) | !is.character(UniqueID)){
     stop("Please provide the field where the survey unique ID is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -30,19 +30,19 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
 }
 
 chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(UniqueID)){
+  if(is.null(UniqueID) | !is.character(UniqueID)){
     stop("Please provide the field where the survey unique ID is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 

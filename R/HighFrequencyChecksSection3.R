@@ -6,19 +6,19 @@
 
 
 chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -32,19 +32,19 @@ chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 }
 
 chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -58,22 +58,22 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 }
 
 chk3c_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, start_collection=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(start_collection)){
+  if(is.null(start_collection) | !is.character(start_collection)){
     stop("Please provide the date when the data collection began ('yyyy-mm-dd')")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -87,19 +87,19 @@ chk3c_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, start_c
 }
 
 chk3d_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 

@@ -8,10 +8,13 @@
 
 
 chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(isTRUE(enumeratorcheck) & is.null(enumeratorID)){
+  if(is.null(enumeratorcheck) | !is.logical(enumeratorcheck)){
+    stop("Please provide the enumeratorcheck action to be done (TRUE/FALSE)")
+  }
+  if(isTRUE(enumeratorcheck) & (is.null(enumeratorID) | !is.character(enumeratorID))){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -26,10 +29,13 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 }
 
 chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(isTRUE(enumeratorcheck) & is.null(enumeratorID)){
+  if(is.null(enumeratorcheck) | !is.logical(enumeratorcheck)){
+    stop("Please provide the enumeratorcheck action to be done (TRUE/FALSE)")
+  }
+  if(isTRUE(enumeratorcheck) & (is.null(enumeratorID) | !is.character(enumeratorID))){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -46,13 +52,16 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
 }
 
 chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(otherpattern)){
+  if(is.null(otherpattern) | !is.character(otherpattern)){
     stop("Please provide the pattern for other fields ('_other$')")
   }
-  if(isTRUE(enumeratorcheck) & is.null(enumeratorID)){
+  if(is.null(enumeratorcheck) | !is.logical(enumeratorcheck)){
+    stop("Please provide the enumeratorcheck action to be done (TRUE/FALSE)")
+  }
+  if(isTRUE(enumeratorcheck) & (is.null(enumeratorID) | !is.character(enumeratorID))){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -69,16 +78,19 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
 }
 
 chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(sdval)){
+  if(is.null(sdval) | !is.numeric(sdval)){
     stop("Please provide the number of standard deviations you want to check for")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(isTRUE(enumeratorcheck) & is.null(enumeratorID)){
+  if(is.null(enumeratorcheck) | !is.logical(enumeratorcheck)){
+    stop("Please provide the enumeratorcheck action to be done (TRUE/FALSE)")
+  }
+  if(isTRUE(enumeratorcheck) & (is.null(enumeratorID) | !is.character(enumeratorID))){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -133,19 +145,22 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
 }
 
 chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(questions)){
+  if(is.null(questions) | !is.character(questions)){
     stop("Please provide the fields you want to check for (c('field1','field2',...))")
   }
-  if(is.null(value)){
+  if(is.null(value) | !is.numeric(value)){
     stop("Please provide the maximum value for which you want to check")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(isTRUE(enumeratorcheck) & is.null(enumeratorID)){
+  if(is.null(enumeratorcheck) | !is.logical(enumeratorcheck)){
+    stop("Please provide the enumeratorcheck action to be done (TRUE/FALSE)")
+  }
+  if(isTRUE(enumeratorcheck) & (is.null(enumeratorID) | !is.character(enumeratorID))){
     stop("Please provide the field where the enumerator ID is stored")
   }
 

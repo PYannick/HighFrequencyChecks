@@ -7,13 +7,13 @@
 
 
 chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(enumeratorID)){
+  if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -25,13 +25,13 @@ chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
 }
 
 chk6b_duration <- function(ds=NULL, dates=NULL, enumeratorID=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(enumeratorID)){
+  if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -44,13 +44,13 @@ chk6b_duration <- function(ds=NULL, dates=NULL, enumeratorID=NULL){
 }
 
 chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(surveydate)){
+  if(is.null(surveydate) | !is.character(surveydate)){
     stop("Please provide the field where the survey date is stored")
   }
-  if(is.null(enumeratorID)){
+  if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
 
@@ -62,16 +62,16 @@ chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
 }
 
 chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdval=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(enumeratorID)){
+  if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
-  if(is.null(surveydate)){
+  if(is.null(surveydate) | !is.character(surveydate)){
     stop("Please provide the field where the survey date is stored")
   }
-  if(is.null(sdval)){
+  if(is.null(sdval) | !is.numeric(sdval)){
     stop("Please provide the number of standard deviations you want to check for")
   }
 
@@ -86,16 +86,16 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 }
 
 chk6g_question_less_X_answers <- function(ds=NULL, enumeratorID=NULL, questions=NULL, minnbanswers=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(enumeratorID)){
+  if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
-  if(is.null(questions)){
+  if(is.null(questions) | !is.character(questions)){
     stop("Please provide the fields you want to check for (c('field1[.]','field2[.]',...))")
   }
-  if(is.null(minnbanswers)){
+  if(is.null(minnbanswers) | !is.numeric(minnbanswers)){
     stop("Please provide the minimum number of expected answers")
   }
 

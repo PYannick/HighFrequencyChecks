@@ -5,19 +5,19 @@
 # chk1dii_GIS_Xm: GIS check surveys if fall without Xm radius from a sampled point
 
 chk1a_interview_completed <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -30,16 +30,16 @@ chk1a_interview_completed <- function(ds=NULL, survey_consent=NULL, dates=NULL, 
 }
 
 chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -52,28 +52,28 @@ chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL
 }
 
 chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_site=NULL, survey_consent=NULL, reportingcol=NULL, correct=NULL){
-  if(is.null(adm)){
+  if(is.null(adm) | !isS4(adm) | nrow(adm)==0){
     stop("Please provide the spatial dataset of the boundaries shapefile")
   }
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(ds_site)){
+  if(is.null(ds_site) | !is.character(ds_site)){
     stop("Please provide the field where the site to check against is stored")
   }
-  if(is.null(ds_coord)){
+  if(is.null(ds_coord) | !is.character(ds_coord) | length(ds_coord)!=2){
     stop("Please provide the fields where the coordinates are stored (c('Long','Lat'))")
   }
-  if(is.null(adm_site)){
+  if(is.null(adm_site) | !is.character(ds_site)){
     stop("Please provide the field where the site in the shapefile is stored")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(correct)){
+  if(is.null(correct) | !is.logical(correct)){
     stop("Please provide the correction action to be done (TRUE/FALSE)")
   }
 
@@ -102,25 +102,25 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
 }
 
 chk1dii_GIS_Xm <- function(pts=NULL, ds=NULL, ds_coord=NULL, buff=10, survey_consent=NULL, reportingcol=NULL, delete=NULL){
-  if(is.null(pts)){
+  if(is.null(pts) | !isS4(pts) | nrow(pts)==0){
     stop("Please provide the spatial dataset of the sample points shapefile")
   }
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(ds_coord)){
+  if(is.null(ds_coord) | !is.character(ds_coord) | length(ds_coord)!=2){
     stop("Please provide the fields where the coordinates are stored (c('Long','Lat'))")
   }
-  if(is.null(buff)){
+  if(is.null(buff) | !is.numeric(buff)){
     stop("Please provide the buffer in meters")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 

@@ -6,10 +6,10 @@
 
 
 chk5a_duration <- function(ds=NULL, dates=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
 
@@ -20,22 +20,22 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
 }
 
 chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, minduration=30, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(minduration)){
+  if(is.null(minduration) | !is.numeric(minduration)){
     stop("Please provide the minimum survey time to check against")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -49,25 +49,25 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
 }
 
 chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL, HHSize=NULL, reportingcol=NULL, minduration=10, delete=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(HHSize)){
+  if(is.null(HHSize) | !is.character(HHSize)){
     stop("Please provide the field where the HH size is stored")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
-  if(is.null(minduration)){
+  if(is.null(minduration) | !is.numeric(minduration)){
     stop("Please provide the minimum survey time to check against")
   }
-  if(is.null(delete)){
+  if(is.null(delete) | !is.logical(delete)){
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
@@ -81,16 +81,16 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL,
 }
 
 chk5d_duration_outliers <- function(ds=NULL, dates=NULL, sdval=NULL, reportingcol=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(dates)){
+  if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(sdval)){
+  if(is.null(sdval) | !is.numeric(sdval)){
     stop("Please provide the number of standard deviations you want to check for")
   }
-  if(is.null(reportingcol)){
+  if(is.null(reportingcol) | !is.character(reportingcol)){
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
 

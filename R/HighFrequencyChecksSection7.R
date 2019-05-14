@@ -6,16 +6,16 @@
 
 
 chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(surveydate)){
+  if(is.null(surveydate) | !is.character(surveydate)){
     stop("Please provide the field where the survey date is stored")
   }
-  if(is.null(dateformat)){
+  if(is.null(dateformat) | !is.character(dateformat)){
     stop("Please provide the format used for the date ('%m/%d/%Y')")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
 
@@ -28,16 +28,16 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
 }
 
 chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(surveydate)){
+  if(is.null(surveydate) | !is.character(surveydate)){
     stop("Please provide the field where the survey date is stored")
   }
-  if(is.null(dateformat)){
+  if(is.null(dateformat) | !is.character(dateformat)){
     stop("Please provide the format used for the date ('%m/%d/%Y')")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
 
@@ -58,16 +58,16 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
 }
 
 chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(surveydate)){
+  if(is.null(surveydate) | !is.character(surveydate)){
     stop("Please provide the field where the survey date is stored")
   }
-  if(is.null(dateformat)){
+  if(is.null(dateformat) | !is.character(dateformat)){
     stop("Please provide the format used for the date ('%m/%d/%Y')")
   }
-  if(is.null(survey_consent)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
 
@@ -81,31 +81,31 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
 }
 
 chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcons=NULL, sftarget=NULL, sfnbpts=NULL, formul=NULL, colorder=NULL){
-  if(is.null(ds)){
+  if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
-  if(is.null(sf)){
+  if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
     stop("Please provide the sampling frame")
   }
-  if(is.null(dssite)){
+  if(is.null(dssite) | !is.character(dssite)){
     stop("Please provide the field where the site is stored in the dataset")
   }
-  if(is.null(sfsite)){
+  if(is.null(sfsite) | !is.character(sfsite)){
     stop("Please provide the field where the site is stored in the sampling frame")
   }
-  if(is.null(survcons)){
+  if(is.null(survcons) | !is.character(survcons)){
     stop("Please provide the field where the survey consent is stored")
   }
-  if(is.null(sftarget)){
+  if(is.null(sftarget) | !is.character(sftarget)){
     stop("Please provide the field where the target number of survey is stored in the sampling frame")
   }
-  if(is.null(sfnbpts)){
+  if(is.null(sfnbpts) | !is.character(sfnbpts)){
     stop("Please provide the field where the number of points generated is stored in the sampling frame")
   }
-  if(is.null(formul)){
+  if(is.null(formul) | !is.character(formul) | length(formul)!=2){
     stop("Please provide the formulas used to compute the final number of eligible surveys and the variance from the target (C('formula1','formula2'))")
   }
-  if(is.null(colorder)){
+  if(is.null(colorder) | !is.character(colorder)){
     stop("Please provide the order the colums have to be displayed in the result (C('col1','col2',...))")
   }
 
