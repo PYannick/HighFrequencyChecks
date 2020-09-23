@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check for surveys where end date/time is before the start date/time — chk3b_date_mistake • HighFrequencyChecks</title>
+<title>Surveys where end date/time is before the start date/time — chk3b_date_mistake • HighFrequencyChecks</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Check for surveys where end date/time is before the start date/time — chk3b_date_mistake" />
+<meta property="og:title" content="Surveys where end date/time is before the start date/time — chk3b_date_mistake" />
 <meta property="og:description" content="This function check that all interviews in the dataset start before they end.
 There is an option to automatically mark for deletion the surveys which have an ending date/time before the starting ones." />
 
@@ -87,7 +87,7 @@ There is an option to automatically mark for deletion the surveys which have an 
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -113,7 +113,7 @@ There is an option to automatically mark for deletion the surveys which have an 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check for surveys where end date/time is before the start date/time</h1>
+    <h1>Surveys where end date/time is before the start date/time</h1>
     
     <div class="hidden name"><code>chk3b_date_mistake.Rd</code></div>
     </div>
@@ -123,11 +123,13 @@ There is an option to automatically mark for deletion the surveys which have an 
 There is an option to automatically mark for deletion the surveys which have an ending date/time before the starting ones.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk3b_date_mistake</span>(<span class='kw'>ds</span>,
-                   <span class='kw'>survey_consent</span>,
-                   <span class='kw'>dates</span>,
-                   <span class='kw'>reportingcol</span>,
-                   <span class='kw'>delete</span>)</pre>
+    <pre class="usage"><span class='fu'>chk3b_date_mistake</span>(
+  ds = <span class='kw'>NULL</span>,
+  survey_consent = <span class='kw'>NULL</span>,
+  dates = <span class='kw'>NULL</span>,
+  reportingcol = <span class='kw'>NULL</span>,
+  delete = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,24 +158,23 @@ There is an option to automatically mark for deletion the surveys which have an 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>ds </dt><dd><p>same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p></dd>
-<dt>errors </dt><dd><p>list of the errors found</p></dd>
-
+    <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
+<p>errors  list of the errors found</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>&lt;-</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
-  <span class='kw'>dt</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
-  <span class='kw'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-  <span class='kw'>dl</span><span class='op'>&lt;-</span><span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>dates</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
+<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='kw'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='kw'>dl</span> <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
 
-  <span class='fu'>chk3b_date_mistake</span>(<span class='kw'>df</span>, <span class='kw'>sc</span>, <span class='kw'>dt</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk3b_date_mistake(df, sc, dt, rc, dl): could not find function "chk3b_date_mistake"</span></div></pre>
+<span class='fu'>chk3b_date_mistake</span>(<span class='kw'>df</span>, <span class='kw'>uuid</span>, <span class='kw'>sc</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

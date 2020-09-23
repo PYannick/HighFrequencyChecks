@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -121,12 +121,14 @@
     <p>This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk4e_values_greater_X</span>(<span class='kw'>ds</span>,
-                       <span class='kw'>questions</span>,
-                       <span class='kw'>value</span>,
-                       <span class='kw'>reportingcol</span>,
-                       <span class='kw'>enumeratorID</span>,
-                       <span class='kw'>enumeratorcheck</span>)</pre>
+    <pre class="usage"><span class='fu'>chk4e_values_greater_X</span>(
+  ds = <span class='kw'>NULL</span>,
+  questions = <span class='kw'>NULL</span>,
+  value = <span class='kw'>NULL</span>,
+  reportingcol = <span class='kw'>NULL</span>,
+  enumeratorID = <span class='kw'>NULL</span>,
+  enumeratorcheck = <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,47 +151,46 @@
     </tr>
     <tr>
       <th>enumeratorID</th>
-      <td><p>name as a string of the field in the dataset where the enumerator ID is stored (NOT USED: use the reportingcol instead)</p></td>
+      <td><p>name as a string of the field in the dataset where the enumerator ID is stored</p></td>
     </tr>
     <tr>
       <th>enumeratorcheck</th>
-      <td><p>specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE) (NOT USED: use the reportingcol instead)</p></td>
+      <td><p>specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>logf </dt><dd><p>the report</p></dd>
-
+    <p>logf  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>&lt;-</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>qu</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"consent_received.food_security.spend_food"</span>,
-        <span class='st'>"consent_received.food_security.spend_medication"</span>,
-        <span class='st'>"consent_received.food_security.spend_education"</span>,
-        <span class='st'>"consent_received.food_security.spend_fix_shelter"</span>,
-        <span class='st'>"consent_received.food_security.spend_clothing"</span>,
-        <span class='st'>"consent_received.food_security.spend_hygiene"</span>,
-        <span class='st'>"consent_received.food_security.spend_fuel"</span>,
-        <span class='st'>"consent_received.food_security.spend_hh_items"</span>,
-        <span class='st'>"consent_received.food_security.spend_transport"</span>,
-        <span class='st'>"consent_received.food_security.spend_communication"</span>,
-        <span class='st'>"consent_received.food_security.spend_tobacco"</span>,
-        <span class='st'>"consent_received.food_security.spend_rent"</span>,
-        <span class='st'>"consent_received.food_security.spend_debts"</span>,
-        <span class='st'>"consent_received.food_security.spend_other"</span>)
-  <span class='kw'>v</span><span class='op'>&lt;-</span><span class='fl'>25000</span>
-  <span class='kw'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-  <span class='kw'>eid</span><span class='op'>&lt;-</span><span class='st'>"enumerator_id"</span>
-  <span class='kw'>ec</span><span class='op'>&lt;-</span><span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>qu</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"consent_received.food_security.spend_food"</span>,
+      <span class='st'>"consent_received.food_security.spend_medication"</span>,
+      <span class='st'>"consent_received.food_security.spend_education"</span>,
+      <span class='st'>"consent_received.food_security.spend_fix_shelter"</span>,
+      <span class='st'>"consent_received.food_security.spend_clothing"</span>,
+      <span class='st'>"consent_received.food_security.spend_hygiene"</span>,
+      <span class='st'>"consent_received.food_security.spend_fuel"</span>,
+      <span class='st'>"consent_received.food_security.spend_hh_items"</span>,
+      <span class='st'>"consent_received.food_security.spend_transport"</span>,
+      <span class='st'>"consent_received.food_security.spend_communication"</span>,
+      <span class='st'>"consent_received.food_security.spend_tobacco"</span>,
+      <span class='st'>"consent_received.food_security.spend_rent"</span>,
+      <span class='st'>"consent_received.food_security.spend_debts"</span>,
+      <span class='st'>"consent_received.food_security.spend_other"</span>)
+<span class='kw'>v</span> <span class='op'>&lt;-</span> <span class='fl'>25000</span>
+<span class='kw'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='kw'>eid</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
+<span class='kw'>ec</span> <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
 
-  <span class='fu'>chk4e_values_greater_X</span>(<span class='kw'>df</span>, <span class='kw'>qu</span>, <span class='kw'>v</span>, <span class='kw'>rc</span>, <span class='kw'>eid</span>, <span class='kw'>ec</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk4e_values_greater_X(df, qu, v, rc, eid, ec): could not find function "chk4e_values_greater_X"</span></div></pre>
+<span class='fu'>chk4e_values_greater_X</span>(<span class='kw'>df</span>, <span class='kw'>qu</span>, <span class='kw'>v</span>, <span class='kw'>eid</span>, <span class='kw'>ec</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

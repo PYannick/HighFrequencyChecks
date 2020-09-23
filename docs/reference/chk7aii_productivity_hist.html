@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -121,10 +121,12 @@
     <p>This function create an histogram showing the overall productivity per consent status per day.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk7aii_productivity_hist</span>(<span class='kw'>ds</span>,
-                          <span class='kw'>surveydate</span>,
-                          <span class='kw'>dateformat</span>,
-                          <span class='kw'>survey_consent</span>)</pre>
+    <pre class="usage"><span class='fu'>chk7aii_productivity_hist</span>(
+  ds = <span class='kw'>NULL</span>,
+  surveydate = <span class='kw'>NULL</span>,
+  dateformat = <span class='kw'>NULL</span>,
+  survey_consent = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,22 +151,13 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>graph </dt><dd><p>the graphic as a plot.ly object</p></dd>
-
+    <p>graph  graphic as a plot.ly object</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>&lt;-</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>sdte</span><span class='op'>&lt;-</span><span class='st'>"survey_date"</span>
-  <span class='kw'>dtf</span><span class='op'>&lt;-</span><span class='st'>"%m/%d/%Y"</span>
-  <span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
-
-  <span class='fu'>chk7aii_productivity_hist</span>(<span class='kw'>df</span>, <span class='kw'>sdte</span>, <span class='kw'>dtf</span>, <span class='kw'>sc</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk7aii_productivity_hist(df, sdte, dtf, sc): could not find function "chk7aii_productivity_hist"</span></div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

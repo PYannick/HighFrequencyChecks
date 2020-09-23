@@ -1,11 +1,26 @@
-
-# chk4aiii_missing_pct: Missing values percentage per variables
-# chk4bii_distinct_values: Number of distinct values (not missing) per fields
-# chk4biv_others_values: List of other distinct values (not missing) per fields other with count
-# chk4c_distribution: Distribution of specific coded values ----------------Not implemented yet-----------------
-# chk4d_outliers: Outliers
-# chk4e_values_greater_X: Check values greater than X
-
+#' @name chk4aiii_missing_pct
+#' @rdname chk4aiii_missing_pct
+#' @title Report the percentage of missing values (NA) per fields
+#' @description This function provide a report showing the percentage of missing values (NA) for each fields.
+#' This report can be global (all the surveys) or displayed for each enumerator ID
+#'
+#' @param ds dataset as a data.frame object
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return logf  the report
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
+#'
+#' chk4aiii_missing_pct(df, enumeratorID, enumeratorcheck)
+#'}
+#' @export chk4aiii_missing_pct
 
 chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -27,6 +42,32 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
   }
   return(logf)
 }
+
+
+#' @name chk4bii_distinct_values
+#' @rdname chk4bii_distinct_values
+#' @title Number of distinct values (not missing) per fields
+#' @description This function provide a report showing the number of distinct values for each fields.
+#' This report can be global (all the surveys) or displayed for each enumerator ID
+#'
+#' @param ds dataset as a data.frame object
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return logf  the report
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
+#'
+#' chk4bii_distinct_values(df, enumeratorID, enumeratorcheck)
+#'}
+#' @export chk4bii_distinct_values
+
 
 chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -50,6 +91,33 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
   }
   return(t(logf))
 }
+
+#' @name chk4biv_others_values
+#' @rdname chk4biv_others_values
+#' @title List of other distinct values (not missing) per fields other with count
+#' @description This function provide a report showing all distinct other values and the number of occurrences for each fields "other".
+#' This report can be global (all the surveys) or displayed for each enumerator ID
+#'
+#' @param ds dataset as a data.frame object
+#' @param otherpattern pattern as string to identify the fields containing others values ('_other$')
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return logf  the report
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' otherpattern <- "_other$"
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
+#'
+#' chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+#'}
+#' @export chk4biv_others_values
+
 
 chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -76,6 +144,35 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
   }
   return(logf)
 }
+
+#' @name chk4d_outliers
+#' @rdname chk4d_outliers
+#' @title Report the outlier values for all numerical field
+#' @description This function provide a report showing all outlier values for each numerical fields.
+#' The function will try to automatically determine the type of distribution (between Normal and Log-Normal)
+#' based on the difference between mean and median between untransformed normalized and log transformed normalized distribution.
+#'
+#' @param ds dataset as a data.frame object
+#' @param sdval number of standard deviation for which the data within is considered as acceptable
+#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return logf  the report
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' sdval <- 2
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
+#'
+#' chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#'}
+#' @export chk4d_outliers
 
 chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -140,10 +237,54 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   scores_outliers <- data.frame(scores_outliers[reportingcol], stack(scores_outliers[(names(scores_outliers) %ni% reportingcol)]), stringsAsFactors = FALSE)
   scores_outliers <- subset(scores_outliers, abs(values)>=sdval)
   scores_outliers$ind <- as.character(scores_outliers$ind)
-  logf<-left_join(scores_outliers,distribution_type,by=c("ind"="ind"))
+  logf <- left_join(scores_outliers,distribution_type,by=c("ind"="ind"))
   return(logf)
 }
 
+
+
+#' @name chk4e_values_greater_X
+#' @rdname chk4e_values_greater_X
+#' @title Report the values greater than a specified value per specified fields
+#' @description This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
+#'
+#' @param ds dataset as a data.frame object
+#' @param questions columns as a list of string name from the dataset you want to check against (c('col1','col2',...))
+#' @param value   maximum acceptable value as integer for the checked fields
+#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return logf  the report
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' qu <-c("consent_received.food_security.spend_food",
+#'       "consent_received.food_security.spend_medication",
+#'       "consent_received.food_security.spend_education",
+#'       "consent_received.food_security.spend_fix_shelter",
+#'       "consent_received.food_security.spend_clothing",
+#'       "consent_received.food_security.spend_hygiene",
+#'       "consent_received.food_security.spend_fuel",
+#'       "consent_received.food_security.spend_hh_items",
+#'       "consent_received.food_security.spend_transport",
+#'       "consent_received.food_security.spend_communication",
+#'       "consent_received.food_security.spend_tobacco",
+#'       "consent_received.food_security.spend_rent",
+#'       "consent_received.food_security.spend_debts",
+#'       "consent_received.food_security.spend_other")
+#' v <- 25000
+#' rc <- c("enumerator_id","X_uuid")
+#' eid <- "enumerator_id"
+#' ec <- FALSE
+#'
+#' chk4e_values_greater_X(df, qu, v, eid, ec)
+#'}
+#' @export chk4e_values_greater_X
+#'
 chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")

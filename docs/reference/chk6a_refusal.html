@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -121,9 +121,7 @@
     <p>This function display the percentage of survey refusal per enumerator.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk6a_refusal</span>(<span class='kw'>ds</span>,
-              <span class='kw'>survey_consent</span>,
-              <span class='kw'>enumeratorID</span>)</pre>
+    <pre class="usage"><span class='fu'>chk6a_refusal</span>(ds = <span class='kw'>NULL</span>, survey_consent = <span class='kw'>NULL</span>, enumeratorID = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,21 +142,20 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>logf </dt><dd><p>the report</p></dd>
-
+    <p>logf  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>&lt;-</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
-  <span class='kw'>eid</span><span class='op'>&lt;-</span><span class='st'>"enumerator_id"</span>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='kw'>eid</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 
-  <span class='fu'>chk6a_refusal</span>(<span class='kw'>df</span>, <span class='kw'>sc</span>, <span class='kw'>eid</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk6a_refusal(df, sc, eid): could not find function "chk6a_refusal"</span></div></pre>
+<span class='fu'>chk6a_refusal</span>(<span class='kw'>df</span>, <span class='kw'>sc</span>, <span class='kw'>eid</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

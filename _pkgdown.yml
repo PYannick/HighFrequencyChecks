@@ -1,5 +1,5 @@
 title: HighFrequencyChecks
-url: https://unhcr.github.io/HighFrequencyChecks/docs/
+url: https://edouard-legoupil.github.io/HighFrequencyChecks/docs/
 template:
   params:
     bootswatch: yeti
@@ -9,7 +9,7 @@ navbar:
   left:
   - text: "Articles"
     menu:
-     - text: High Frequency Checks template
+     - text: High Frequency Checks, a template for data quality monitoring
        href: articles/HFC.html
   - text: News
     href: news/index.html
@@ -53,7 +53,7 @@ reference:
       - chk6c_nb_survey
       - chk6f_productivity
       - chk6g_question_less_X_answers
-  - title: Convenience functions for
+  - title: Convenience functions for Productivity
     contents:
       - chk7ai_productivity
       - chk7aii_productivity_hist
@@ -62,3 +62,6 @@ reference:
   - title: Demo dataset
     contents:
       - sample_dataset
+      - SamplePts
+      - SampleSize
+      - admin

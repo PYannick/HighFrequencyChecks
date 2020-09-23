@@ -53,7 +53,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/HFC.html">High Frequency Checks template</a>
+      <a href="articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -79,9 +79,10 @@
 <div id="high-frequency-data-quality-checks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#high-frequency-data-quality-checks" class="anchor"></a>High Frequency Data Quality Checks</h2>
-<p>This package brings a series of convenience function to monitor data quality when running a survey with kobotoolbox (or any <code>xlsform</code> compatible platform).</p>
+<p>This package brings a series of convenience functions to monitor data quality when running a survey with kobotoolbox (or any <code>xlsform</code> compatible platform).</p>
 <p>It is an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package for running high-frequency checks on research data at Innovations for Poverty Action</a></p>
-<p>It includes the following check:</p>
+<p>The package vignette offers a practical <a href="articles/HFC.html">data quality monitoring template</a></p>
+<p>The packages includes the following check:</p>
 <div id="enumerator-productivity" class="section level3">
 <h3 class="hasAnchor">
 <a href="#enumerator-productivity" class="anchor"></a>Enumerator Productivity</h3>
@@ -124,19 +125,16 @@
 <li>check that the recorded site is the actual one</li>
 <li>check that the survey is done within a certain buffer meter buffer from a sample point</li>
 </ul>
-<p>Consult the vignette for a practical example…</p>
-<p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/PYannick/HighFrequencyChecks/issues">github</a>.</p>
-<div id="buid-site-documentation" class="section level4">
+<div id="building-site-documentation" class="section level4">
 <h4 class="hasAnchor">
-<a href="#buid-site-documentation" class="anchor"></a>Buid Site documentation</h4>
+<a href="#building-site-documentation" class="anchor"></a>Building Site documentation</h4>
 <blockquote>
-<p>devtools::document() pkgdown::build_site()</p>
+<p>devtools::document()</p>
 </blockquote>
-exportPattern(“^[[:alpha:]]+”) import(dplyr) import(sp)
-#import(rgdal)
-#import(rgeos) import(geosphere) import(stringi)
-#import(data.table) # %like%, dcast import(lazyeval) import(plotly) import(outliers) import(gsubfn) importFrom(“data.table”, “%like%”, “dcast”)
-<p>#importFrom(“gsubfn”, “list”) importFrom(“stats”, “median”, “na.omit”, “sd”, “setNames”) importFrom(“utils”, “stack”)</p>
+<blockquote>
+<p>pkgdown::build_site()</p>
+</blockquote>
+<p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/PYannick/HighFrequencyChecks/issues">github</a>.</p>
 </div>
 </div>
 </div>

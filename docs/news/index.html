@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GIS check surveys if fall without Xm radius from a sampled point — chk1dii_GIS_Xm • HighFrequencyChecks</title>
+<title>Changelog • HighFrequencyChecks</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,7 @@
 
 
 
-<meta property="og:title" content="GIS check surveys if fall without Xm radius from a sampled point — chk1dii_GIS_Xm" />
-<meta property="og:description" content="This function check that all interviews in the dataset were made within a distance from a sampled point.
-It is based on a GIS shapefile providing the sample points for the assessment.
-The function is based on the GPS data filled in the survey to determine their location.
-There is an option to automatically mark for deletion the surveys which are to far away from a sampled point.
-One internal function &quot;make_GeodesicBuffer&quot; used to create the buffers is created by Valentin
-https://stackoverflow.com/users/5193830/valentin" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -64,7 +58,7 @@ https://stackoverflow.com/users/5193830/valentin" />
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,86 +111,33 @@ https://stackoverflow.com/users/5193830/valentin" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GIS check surveys if fall without Xm radius from a sampled point</h1>
-    
-    <div class="hidden name"><code>chk1dii_GIS_Xm.Rd</code></div>
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      
     </div>
 
-    <div class="ref-description">
-    <p>This function check that all interviews in the dataset were made within a distance from a sampled point.
-It is based on a GIS shapefile providing the sample points for the assessment.
-The function is based on the GPS data filled in the survey to determine their location.
-There is an option to automatically mark for deletion the surveys which are to far away from a sampled point.</p>
-<p>One internal function "make_GeodesicBuffer" used to create the buffers is created by Valentin
-https://stackoverflow.com/users/5193830/valentin</p>
-    </div>
-
-    <pre class="usage"><span class='fu'>chk1dii_GIS_Xm</span>(
-  pts = <span class='kw'>NULL</span>,
-  ds = <span class='kw'>NULL</span>,
-  ds_coord = <span class='kw'>NULL</span>,
-  buff = <span class='fl'>10</span>,
-  survey_consent = <span class='kw'>NULL</span>,
-  reportingcol = <span class='kw'>NULL</span>,
-  delete = <span class='kw'>NULL</span>
-)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>pts</th>
-      <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
-    </tr>
-    <tr>
-      <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
-    </tr>
-    <tr>
-      <th>ds_coord</th>
-      <td><p>columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))</p></td>
-    </tr>
-    <tr>
-      <th>buff</th>
-      <td><p>value as an integer in meter to determine the buffer from a sampled point which is acceptable</p></td>
-    </tr>
-    <tr>
-      <th>survey_consent</th>
-      <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
-    </tr>
-    <tr>
-      <th>reportingcol</th>
-      <td><p>columns as a list of string name from the dataset you want in the result (c('col1','col2',...))</p></td>
-    </tr>
-    <tr>
-      <th>delete</th>
-      <td><p>delete action to be done as a boolean (TRUE/FALSE)</p></td>
-    </tr>
-    <tr>
-      <th>adm_site</th>
-      <td><p>name as a string of the field in the shapefile where the site is stored</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
-<p>errors  list of the errors found</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Yannick Pascaud</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>chk1dii_GIS_Xm</span>()
-}
-</div></pre>
+    <div id="highfrequencychecks-030" class="section level2">
+<h2 class="hasAnchor">
+<a href="#highfrequencychecks-030" class="anchor"></a>HighFrequencyChecks 0.3.0</h2>
+<p>Edouard Legoupil contributed with</p>
+<ul>
+<li>documentation - pkgdown::build_site() - added more readme documentation</li>
+<li>revise all functions so that doc can be produced by Roxygen</li>
+<li>within function made correct call to function for instance sp::</li>
+</ul>
+</div>
+    <div id="highfrequencychecks-020" class="section level2">
+<h2 class="hasAnchor">
+<a href="#highfrequencychecks-020" class="anchor"></a>HighFrequencyChecks 0.2.0</h2>
+<p>Initial Commit</p>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
 
 

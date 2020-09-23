@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Check that the duration relative to the household size of each interview is more than a threshold — chk5c_duration_Xmin_HHSize" />
 <meta property="og:description" content="This function check that the duration relative to the household size of each interview is more than a specified threshold.
-There is an option to automatically mark for deletion the surveys which are under the threshold." />
+There is an option to automatically mark for deletion the surveys which are under the threshold.
+Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well" />
 
 
 
@@ -87,7 +88,7 @@ There is an option to automatically mark for deletion the surveys which are unde
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -120,16 +121,19 @@ There is an option to automatically mark for deletion the surveys which are unde
 
     <div class="ref-description">
     <p>This function check that the duration relative to the household size of each interview is more than a specified threshold.
-There is an option to automatically mark for deletion the surveys which are under the threshold.</p>
+There is an option to automatically mark for deletion the surveys which are under the threshold.
+Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk5c_duration_Xmin_HHSize</span>(<span class='kw'>ds</span>,
-                           <span class='kw'>survey_consent</span>,
-                           <span class='kw'>dates</span>,
-                           <span class='kw'>HHSize</span>,
-                           <span class='kw'>reportingcol</span>,
-                           <span class='kw'>minduration</span>,
-                           <span class='kw'>delete</span>)</pre>
+    <pre class="usage"><span class='fu'>chk5c_duration_Xmin_HHSize</span>(
+  ds = <span class='kw'>NULL</span>,
+  survey_consent = <span class='kw'>NULL</span>,
+  dates = <span class='kw'>NULL</span>,
+  HHSize = <span class='kw'>NULL</span>,
+  reportingcol = <span class='kw'>NULL</span>,
+  minduration = <span class='fl'>10</span>,
+  delete = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,7 +160,7 @@ There is an option to automatically mark for deletion the surveys which are unde
     </tr>
     <tr>
       <th>minduration</th>
-      <td><p>minimum acceptable survey duration as integer</p></td>
+      <td><p>minimum acceptable survey duration as integer in minutes</p></td>
     </tr>
     <tr>
       <th>delete</th>
@@ -166,29 +170,25 @@ There is an option to automatically mark for deletion the surveys which are unde
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>ds </dt><dd><p>same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p></dd>
-<dt>errors </dt><dd><p>list of the errors found</p></dd>
-
+    <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
+<p>errors  list of the errors found</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
-    <h2 class="hasAnchor" id="warning-"><a class="anchor" href="#warning-"></a>Warning </h2>
-
-    <p>If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>&lt;-</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
-  <span class='kw'>dt</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
-  <span class='kw'>hs</span><span class='op'>&lt;-</span><span class='st'>"consent_received.respondent_info.hh_size"</span>
-  <span class='kw'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-  <span class='kw'>md</span><span class='op'>&lt;-</span><span class='fl'>10</span>
-  <span class='kw'>dl</span><span class='op'>&lt;-</span><span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='kw'>hs</span> <span class='op'>&lt;-</span><span class='st'>"consent_received.respondent_info.hh_size"</span>
+<span class='kw'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
+<span class='kw'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='kw'>md</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
+<span class='kw'>dl</span> <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
 
-  <span class='fu'>chk5c_duration_Xmin_HHSize</span>(<span class='kw'>df</span>, <span class='kw'>sc</span>, <span class='kw'>dt</span>, <span class='kw'>hs</span>, <span class='kw'>rc</span>, <span class='kw'>md</span>, <span class='kw'>dl</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl): could not find function "chk5c_duration_Xmin_HHSize"</span></div></pre>
+<span class='fu'>chk5c_duration_Xmin_HHSize</span>(<span class='kw'>df</span>, <span class='kw'>sc</span>, <span class='kw'>dt</span>, <span class='kw'>hs</span>, <span class='kw'>rc</span>, <span class='kw'>md</span>, <span class='kw'>dl</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

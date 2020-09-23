@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/HFC.html">High Frequency Checks template</a>
+      <a href="../articles/HFC.html">High Frequency Checks, a template for data quality monitoring</a>
     </li>
   </ul>
 </li>
@@ -121,15 +121,17 @@
     <p>This function display the overall tracking sheet.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk7bii_tracking</span>(<span class='kw'>ds</span>,
-                 <span class='kw'>sf</span>,
-                 <span class='kw'>dssite</span>,
-                 <span class='kw'>sfsite</span>,
-                 <span class='kw'>survcons</span>,
-                 <span class='kw'>sftarget</span>,
-                 <span class='kw'>sfnbpts</span>,
-                 <span class='kw'>formul</span>,
-                 <span class='kw'>colorder</span>)</pre>
+    <pre class="usage"><span class='fu'>chk7bii_tracking</span>(
+  ds = <span class='kw'>NULL</span>,
+  sf = <span class='kw'>NULL</span>,
+  dssite = <span class='kw'>NULL</span>,
+  sfsite = <span class='kw'>NULL</span>,
+  survcons = <span class='kw'>NULL</span>,
+  sftarget = <span class='kw'>NULL</span>,
+  sfnbpts = <span class='kw'>NULL</span>,
+  formul = <span class='kw'>NULL</span>,
+  colorder = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,29 +178,29 @@ the columns available are: site, done, final, variance and the ones generated ac
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<dt>logf </dt><dd><p>the report</p></dd>
-
+    <p>logf  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='kw'>df</span><span class='op'>=</span><span class='kw'>sample_dataset</span>
-  <span class='kw'>sf</span><span class='op'>=</span><span class='kw'>SampleSize</span>
-  <span class='kw'>dssite</span><span class='op'>=</span><span class='st'>"union_name"</span>
-  <span class='kw'>sfsite</span><span class='op'>=</span><span class='st'>"Union"</span>
-  <span class='kw'>sc</span><span class='op'>=</span><span class='st'>"survey_consent"</span>
-  <span class='kw'>sftarget</span><span class='op'>=</span><span class='st'>"SS"</span>
-  <span class='kw'>sfnbpts</span><span class='op'>=</span><span class='st'>"TotPts"</span>
-  <span class='co'>#formul=c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")</span>
-  <span class='co'>#colorder=c("site","SS","Provision","done","not_eligible","no","deleted","yes","final","variance")</span>
-  <span class='kw'>formul</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"done-no-not_eligible"</span>,<span class='st'>"done-no-not_eligible-SS"</span>)
-  <span class='kw'>colorder</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"TotPts"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,<span class='st'>"no"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>sf</span> <span class='op'>&lt;-</span> <span class='kw'>SampleSize</span>
+<span class='kw'>dssite</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
+<span class='kw'>sfsite</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
+<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='kw'>sftarget</span> <span class='op'>&lt;-</span> <span class='st'>"SS"</span>
+<span class='kw'>sfnbpts</span> <span class='op'>&lt;-</span> <span class='st'>"TotPts"</span>
+<span class='co'>#formul &lt;- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")</span>
+<span class='co'>#colorder &lt;- c("site","SS","Provision","done","not_eligible","no","deleted","yes","final","variance")</span>
+<span class='kw'>formul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"done-no-not_eligible"</span>,<span class='st'>"done-no-not_eligible-SS"</span>)
+<span class='kw'>colorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"TotPts"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,<span class='st'>"no"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span>)
 
-  <span class='fu'>chk7bii_tracking</span>(<span class='kw'>df</span>, <span class='kw'>sf</span>, <span class='kw'>dssite</span>, <span class='kw'>sfsite</span>, <span class='kw'>sc</span>, <span class='kw'>sftarget</span>, <span class='kw'>sfnbpts</span>, <span class='kw'>formul</span>, <span class='kw'>colorder</span>)
-</div><div class='output co'>#&gt; <span class='error'>Error in chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget, sfnbpts,     formul, colorder): could not find function "chk7bii_tracking"</span></div></pre>
+<span class='fu'>chk7bii_tracking</span>(<span class='kw'>df</span>, <span class='kw'>sf</span>, <span class='kw'>dssite</span>, <span class='kw'>sfsite</span>, <span class='kw'>sc</span>, <span class='kw'>sftarget</span>, <span class='kw'>sfnbpts</span>, <span class='kw'>formul</span>, <span class='kw'>colorder</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
