@@ -1,2 +1,65 @@
-# HighFrequencyChecks
-Perform HFC on data collected through kobo
+## High Frequency Data Quality Checks
+
+This package brings a series of convenience function to monitor data quality when running a survey with kobotoolbox (or any `xlsform` compatible platform). 
+
+It is an adaptation in R of the [Stata package for running high-frequency checks on research data at Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
+
+It includes the following check:
+
+### Enumerator Productivity
+ * Number of surveys per day by enumerator
+ * Build tracking sheet
+ * Identify  enumerators with very low or high productivity
+ * Identify  enumerators who pick up less than a certain number answers per specific questions
+ * Identify enumerators who made a survey below a certain number of minutes
+ * Assess number of survey per day of data collection
+ * Assess number of survey per day of data collection per consent status
+ * Percentage of survey per consent status by enumerator
+ * Average interview duration by enumerator
+ 
+
+### Checking for logical errors in data
+ * Duplicates in unique ID
+ * Interviews that do not end on the same day as they started
+ * Interviews which end before they start
+ * Interviews made before the first day of data collection 
+ * Interviews made in the future
+ * Check for potential errors on the dates are not marked for deletion which can lead to weird duration
+
+### Checks on the surveys content
+ * Number of distinct values per questions
+ * Number of other distinct values (for the questions with a possibility of other)
+
+### Checking Spatial Data
+
+ * check that the recorded site is the actual one
+ * check that the survey is done within a certain buffer meter buffer from a sample point
+
+Consult the vignette for a practical example...
+
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/PYannick/HighFrequencyChecks/issues). 
+
+#### Buid Site documentation 
+> devtools::document()
+> pkgdown::build_site()
+
+
+
+
+
+exportPattern("^[[:alpha:]]+")
+import(dplyr)
+import(sp)
+#import(rgdal)
+#import(rgeos)
+import(geosphere)
+import(stringi)
+#import(data.table)  # %like%, dcast
+import(lazyeval)
+import(plotly)
+import(outliers)
+import(gsubfn)
+importFrom("data.table", "%like%", "dcast")
+#importFrom("gsubfn", "list")
+importFrom("stats", "median", "na.omit", "sd", "setNames")
+importFrom("utils", "stack")

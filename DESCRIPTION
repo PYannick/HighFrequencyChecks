@@ -2,7 +2,15 @@ Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
 Version: 0.2.0
-Author: Yannick Pascaud
+Authors@R: 
+    c(person(given = "Yannick",
+             family = "Pascaud",
+             role = c("aut", "cre"),
+             email = "yannick.pascaud@free.fr"),
+      person(given = "Edouard",
+             family = "Legoupil",
+             role = "ctb",
+             email = "legoupil@unhcr.org"))
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10)
 Description: This package groups the functions used to perform the 
@@ -12,6 +20,8 @@ Description: This package groups the functions used to perform the
     meaningful inputs to the enumerators.
     All these functions do not have to be ran at the same period of 
     time. They are provided there to help you to build a report.
+    the package is an adaptation of a Stata Package from 
+    [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -29,3 +39,6 @@ Imports:
     gsubfn
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+RoxygenNote: 7.1.1
+
+
