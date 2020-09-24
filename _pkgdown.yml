@@ -17,10 +17,12 @@ navbar:
     href: reference/index.html
 
 reference:
-  - title: Convenience functions for
+  - title: Convenience functions for Interview completion
     contents:
       - chk1a_interview_completed
       - chk1b_survey_consent
+  - title: Convenience functions for Spatial Check
+    contents:
       - chk1di_GIS_site
       - chk1dii_GIS_Xm
   - title: Convenience functions for unique ID
@@ -33,33 +35,35 @@ reference:
       - chk3b_date_mistake
       - chk3c_date_mistake
       - chk3d_date_mistake
-  - title: Convenience functions for
+  - title: Convenience functions for missing values
     contents:
       - chk4aiii_missing_pct
       - chk4bii_distinct_values
       - chk4biv_others_values
+  - title: Convenience functions for outliers
+    contents:
       - chk4d_outliers
       - chk4e_values_greater_X
-  - title: Convenience functions for
+  - title: Convenience functions for duration
     contents:
       - chk5a_duration
       - chk5b_duration_Xmin
       - chk5c_duration_Xmin_HHSize
       - chk5d_duration_outliers
-  - title: Convenience functions for
+  - title: Convenience functions for Interaction with enumerators
     contents:
       - chk6a_refusal
       - chk6b_duration
       - chk6c_nb_survey
       - chk6f_productivity
       - chk6g_question_less_X_answers
-  - title: Convenience functions for Productivity
+  - title: Convenience functions for enumerator productivity
     contents:
       - chk7ai_productivity
       - chk7aii_productivity_hist
       - chk7bi_nb_status
       - chk7bii_tracking
-  - title: Demo dataset
+  - title: List of demonstration dataset
     contents:
       - sample_dataset
       - SamplePts

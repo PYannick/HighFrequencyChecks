@@ -73,7 +73,7 @@ There is an option to automatically mark for deletion the surveys which have sta
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -125,8 +125,8 @@ There is an option to automatically mark for deletion the surveys which have sta
 
     <pre class="usage"><span class='fu'>chk3c_date_mistake</span>(
   ds = <span class='kw'>NULL</span>,
-  survey_consent = <span class='kw'>NULL</span>,
   dates = <span class='kw'>NULL</span>,
+  survey_consent = <span class='kw'>NULL</span>,
   start_collection = <span class='kw'>NULL</span>,
   reportingcol = <span class='kw'>NULL</span>,
   delete = <span class='kw'>NULL</span>
@@ -140,12 +140,16 @@ There is an option to automatically mark for deletion the surveys which have sta
       <td><p>dataset as a data.frame object</p></td>
     </tr>
     <tr>
+      <th>dates</th>
+      <td><p>fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))</p></td>
+    </tr>
+    <tr>
       <th>survey_consent</th>
       <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
     </tr>
     <tr>
-      <th>dates</th>
-      <td><p>fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))</p></td>
+      <th>start_collection</th>
+      <td><p>date as a string of the first day of data collection ('yyyy-mm-dd')</p></td>
     </tr>
     <tr>
       <th>reportingcol</th>
@@ -170,10 +174,11 @@ There is an option to automatically mark for deletion the surveys which have sta
 <span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
 <span class='kw'>dates</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
 <span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='kw'>st</span> <span class='op'>&lt;-</span> <span class='st'>"2018-11-11"</span>
 <span class='kw'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
 <span class='kw'>dl</span> <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
 
-<span class='fu'>chk3c_date_mistake</span>(<span class='kw'>df</span>, <span class='kw'>uuid</span>, <span class='kw'>sc</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
+<span class='fu'>chk3c_date_mistake</span>(<span class='kw'>df</span>, <span class='kw'>dates</span>, <span class='kw'>sc</span>, <span class='kw'>st</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
 }
 </div></pre>
   </div>

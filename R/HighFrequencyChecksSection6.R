@@ -126,7 +126,7 @@ chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
 
   logf <- ds %>%
           group_by_(enumeratorID) %>%
-          summarize_(days_worked = interp::interp(~length(unique(var)),
+          summarize_(days_worked = lazyeval::interp(~length(unique(var)),
                                           var = as.name(surveydate)),
                      total_surveys_done = ~n()) %>%
           mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
@@ -174,7 +174,7 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 
   tmp <- ds %>%
          group_by_(enumeratorID) %>%
-         summarize_(days_worked = interp::interp(~length(unique(var)),
+         summarize_(days_worked = lazyeval::interp(~length(unique(var)),
                                          var = as.name(surveydate)),
                     total_surveys_done = ~n()) %>%
          mutate(daily_average = total_surveys_done / days_worked)
@@ -230,7 +230,7 @@ chk6g_question_less_X_answers <- function(ds=NULL, enumeratorID=NULL, questions=
     stop("Please provide the minimum number of expected answers")
   }
 
-  tmp <- setNames(data.frame(matrix(ncol = 3, nrow = 0)), c("enumeratorID","NbErr","field"))
+  tmp <- stats::setNames(data.frame(matrix(ncol = 3, nrow = 0)), c("enumeratorID","NbErr","field"))
   for(i in questions){
     tmp <- rbind(tmp, data.frame(data.frame(ds, nb = rowSums(ds[,colnames(ds) %like% i], na.rm=TRUE) ) %>%
                        group_by(enumeratorID = ds[,enumeratorID]) %>%

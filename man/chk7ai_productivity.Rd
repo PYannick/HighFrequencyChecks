@@ -30,7 +30,7 @@ This function display the number of surveys conducted per day.
 \dontrun{
 df <- sample_dataset
 sdte <- "survey_date"
-dtf <- "\\%m/\\%d/\\%Y"
+dtf <- "\%m/\%d/\%Y"
 sc <- "survey_consent"
 
 chk7ai_productivity(df, sdte, dtf, sc)

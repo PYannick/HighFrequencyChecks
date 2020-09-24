@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -157,7 +157,15 @@
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>sdte</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
+<span class='kw'>dtf</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
+<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+
+<span class='fu'>chk7ai_productivity</span>(<span class='kw'>df</span>, <span class='kw'>sdte</span>, <span class='kw'>dtf</span>, <span class='kw'>sc</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

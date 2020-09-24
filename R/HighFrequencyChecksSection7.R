@@ -16,7 +16,7 @@
 #' \dontrun{
 #' df <- sample_dataset
 #' sdte <- "survey_date"
-#' dtf <- "\%m/\%d/\%Y"
+#' dtf <- "%m/%d/%Y"
 #' sc <- "survey_consent"
 #'
 #' chk7ai_productivity(df, sdte, dtf, sc)
@@ -62,9 +62,9 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
 #' @examples
 #' \dontrun{
 #' df <- sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "\%m/\%d/\%Y"
-#' sc <- "survey_consent"
+#' sdte <- \"survey_date\"
+#' dtf <- \"\%m/\%d/\%Y\"
+#' sc <- \"survey_consent\"
 #'
 #' chk7aii_productivity_hist(df, sdte, dtf, sc)
 #'}
@@ -88,14 +88,16 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
-  tmp <- data.table::dcast(tmp,surveydate ~ survey_consent, value.var="n")
+  tmp <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
   tmp[is.na(tmp)] <- 0
 
-  graph <- plot_ly(type = 'bar', width = 1800, height = 900)
+  graph <- plotly::plot_ly(type = 'bar', width = 1800, height = 900)
   for(i in 2:length(tmp)){
     graph<-add_trace(graph, x=tmp[,1], y = tmp[,i], name = colnames(tmp)[i])
   }
-  graph <- layout(graph, yaxis = list(title = 'Nb Survey'), barmode = 'stack')
+  graph <- plotly::layout(graph,
+                  yaxis = list(title = "Nb Survey"),
+                  barmode = "stack")
 
   return(graph)
 }
@@ -118,12 +120,13 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
 #' @examples
 #' \dontrun{
 #' df <- sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "\%m/\%d/\%Y"
-#' sc <- "survey_consent"
+#' sdte <- \"survey_date\"
+#' dtf <- \"\%m/\%d/\%Y\"
+#' sc <- \"survey_consent\"
 #'
 #' chk7bi_nb_status(df, sdte, dtf, sc)
 #'}
+#'
 #' @export chk7bi_nb_status
 
 chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
@@ -144,7 +147,7 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
-  logf <- data.table::dcast(tmp,surveydate ~ survey_consent, value.var="n")
+  logf <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
   logf[is.na(logf)] <- 0
   return(logf)
 }
@@ -175,19 +178,21 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
 #' df <- sample_dataset
 #' df <- sample_dataset
 #' sf <- SampleSize
-#' dssite <- "union_name"
-#' sfsite <- "Union"
-#' sc <- "survey_consent"
-#' sftarget <- "SS"
-#' sfnbpts <- "TotPts"
-#' #formul <- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
-#' #colorder <- c("site","SS","Provision","done","not_eligible","no","deleted","yes","final","variance")
-#' formul <- c("done-no-not_eligible","done-no-not_eligible-SS")
-#' colorder <- c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
+#' dssite <- \"union_name\"
+#' sfsite <- \"Union\"
+#' sc <- \"survey_consent\"
+#' sftarget <- \"SS\"
+#' sfnbpts <- \"TotPts\"
+#' #formul <- c(\"done-no-not_eligible-delete\",
+#' #               \"done-no-not_eligible-deleted-SS\")
+#' #colorder <- c(\"site\",\"SS\",\"Provisio\",\"done\",\"not_eligible\",
+#' #                 \"no\",\"deleted\",\"yes\",\"final\",\"variance\")
 #'
-#' chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget, sfnbpts, formul, colorder)
+#' chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
+#'                   sfnbpts, formul, colorder)
 #'}
 #' @export chk7bii_tracking
+#'
 
 chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcons=NULL, sftarget=NULL, sfnbpts=NULL, formul=NULL, colorder=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -232,7 +237,7 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survcons) %>% mutate(done=sum(n))
-  df2 <-data.table::dcast(df2,site + done ~ consent, value.var="n")
+  df2 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
   df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
   df[is.na(df)] <- 0
 

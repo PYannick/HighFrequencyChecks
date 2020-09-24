@@ -208,9 +208,8 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
 #'
 #' @param ds dataset as a data.frame object
 #' @param pts dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84
-#' @param buff value as an integer in meter to determine the buffer from a sampled point which is acceptable
 #' @param ds_coord columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))
-#' @param adm_site name as a string of the field in the shapefile where the site is stored
+#' @param buff value as an integer in meter to determine the buffer from a sampled point which is acceptable
 #' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
@@ -222,11 +221,25 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
 #'
 #' @examples
 #' \dontrun{
-#' chk1dii_GIS_Xm()
+#' df <- sample_dataset
+#' pts <- SamplePts
+#' df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#' bu <- 10
+#' sc<-"survey_consent"
+#' rc<-c("enumerator_id","X_uuid")
+#' dl<-FALSE
+#'
+#' chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl)
 #'}
 #' @export chk1dii_GIS_Xm
 #'
-chk1dii_GIS_Xm <- function(pts=NULL, ds=NULL, ds_coord=NULL, buff=10, survey_consent=NULL, reportingcol=NULL, delete=NULL){
+chk1dii_GIS_Xm <- function(ds=NULL,
+                           pts=NULL,
+                           ds_coord=NULL,
+                           buff=10,
+                           survey_consent=NULL,
+                           reportingcol=NULL,
+                           delete=NULL){
   if(is.null(pts) | !isS4(pts) | nrow(pts)==0){
     stop("Please provide the spatial dataset of the sample points shapefile")
   }

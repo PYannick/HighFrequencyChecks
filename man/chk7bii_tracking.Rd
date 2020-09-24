@@ -48,17 +48,18 @@ This function display the overall tracking sheet.
 df <- sample_dataset
 df <- sample_dataset
 sf <- SampleSize
-dssite <- "union_name"
-sfsite <- "Union"
-sc <- "survey_consent"
-sftarget <- "SS"
-sfnbpts <- "TotPts"
-#formul <- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
-#colorder <- c("site","SS","Provision","done","not_eligible","no","deleted","yes","final","variance")
-formul <- c("done-no-not_eligible","done-no-not_eligible-SS")
-colorder <- c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
+dssite <- \"union_name\"
+sfsite <- \"Union\"
+sc <- \"survey_consent\"
+sftarget <- \"SS\"
+sfnbpts <- \"TotPts\"
+#formul <- c(\"done-no-not_eligible-delete\",
+#               \"done-no-not_eligible-deleted-SS\")
+#colorder <- c(\"site\",\"SS\",\"Provisio\",\"done\",\"not_eligible\",
+#                 \"no\",\"deleted\",\"yes\",\"final\",\"variance\")
 
-chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget, sfnbpts, formul, colorder)
+chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
+                  sfnbpts, formul, colorder)
 }
 }
 \author{

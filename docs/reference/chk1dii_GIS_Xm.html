@@ -77,7 +77,7 @@ https://stackoverflow.com/users/5193830/valentin" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -132,8 +132,8 @@ https://stackoverflow.com/users/5193830/valentin</p>
     </div>
 
     <pre class="usage"><span class='fu'>chk1dii_GIS_Xm</span>(
-  pts = <span class='kw'>NULL</span>,
   ds = <span class='kw'>NULL</span>,
+  pts = <span class='kw'>NULL</span>,
   ds_coord = <span class='kw'>NULL</span>,
   buff = <span class='fl'>10</span>,
   survey_consent = <span class='kw'>NULL</span>,
@@ -145,12 +145,12 @@ https://stackoverflow.com/users/5193830/valentin</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pts</th>
-      <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
-    </tr>
-    <tr>
       <th>ds</th>
       <td><p>dataset as a data.frame object</p></td>
+    </tr>
+    <tr>
+      <th>pts</th>
+      <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
     </tr>
     <tr>
       <th>ds_coord</th>
@@ -172,10 +172,6 @@ https://stackoverflow.com/users/5193830/valentin</p>
       <th>delete</th>
       <td><p>delete action to be done as a boolean (TRUE/FALSE)</p></td>
     </tr>
-    <tr>
-      <th>adm_site</th>
-      <td><p>name as a string of the field in the shapefile where the site is stored</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -188,7 +184,15 @@ https://stackoverflow.com/users/5193830/valentin</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>chk1dii_GIS_Xm</span>()
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
+<span class='kw'>pts</span> <span class='op'>&lt;-</span> <span class='kw'>SamplePts</span>
+<span class='kw'>df_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span>)
+<span class='kw'>bu</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
+<span class='kw'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='kw'>dl</span><span class='op'>&lt;-</span><span class='fl'>FALSE</span>
+
+<span class='fu'>chk1dii_GIS_Xm</span>( <span class='kw'>df</span>, <span class='kw'>pts</span>, <span class='kw'>df_coord</span>, <span class='kw'>bu</span>, <span class='kw'>sc</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
 }
 </div></pre>
   </div>

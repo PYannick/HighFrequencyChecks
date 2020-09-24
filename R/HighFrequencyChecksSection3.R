@@ -118,6 +118,7 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 #' @param ds dataset as a data.frame object
 #' @param dates fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))
 #' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
+#' @param start_collection date as a string of the first day of data collection ('yyyy-mm-dd')
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
@@ -131,15 +132,21 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 #' df <- sample_dataset
 #' dates <- -c("survey_start","end_survey")
 #' sc <- "survey_consent"
+#' st <- "2018-11-11"
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk3c_date_mistake(df, uuid, sc, rc, dl)
+#' chk3c_date_mistake(df, dates, sc, st, rc, dl)
 #'}
 #' @export chk3c_date_mistake
 
 
-chk3c_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, start_collection=NULL, reportingcol=NULL, delete=NULL){
+chk3c_date_mistake <- function(ds = NULL,
+                               dates = NULL,
+                               survey_consent = NULL,
+                               start_collection = NULL,
+                               reportingcol = NULL,
+                               delete = NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }

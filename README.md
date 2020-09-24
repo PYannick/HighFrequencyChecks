@@ -1,11 +1,15 @@
 ## High Frequency Data Quality Checks
 
-This package brings a series of convenience functions to monitor data quality when running a survey with kobotoolbox (or any `xlsform` compatible platform). 
+This package brings a series of convenience functions to monitor data quality during the data collection when running a survey with kobotoolbox (or any `xlsform` compatible platform). 
 
-It is an adaptation in R of the [Stata package for running high-frequency checks on research data at Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
+Those can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports.
+
+The package an adaptation in R of the [Stata package for running high-frequency checks on research data at Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
 
 
 The package vignette offers a practical [data quality monitoring template](articles/HFC.html)
+
+Install from github with `devtools::install_github("Edouard-Legoupil/HighFrequencyChecks")`.
 
 The packages includes the following check:
 
@@ -43,6 +47,9 @@ The packages includes the following check:
 #### Building Site documentation 
 
 > devtools::document()
+
+> devtools::check(document = FALSE)
+
 
 > pkgdown::build_site()
 

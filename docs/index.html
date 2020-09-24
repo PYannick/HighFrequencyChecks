@@ -12,15 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="High Frequency Checks">
-<meta property="og:description" content="This package groups the functions used to perform the 
-    High Frequency checks during the data collection.
-    These are usual functions to be ran periodically during the 
-    data collection process to check for possible errors and provide
-    meaningful inputs to the enumerators.
-    All these functions do not have to be ran at the same period of 
-    time. They are provided there to help you to build a report.
-    the package is an adaptation of a Stata Package from 
-    [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)">
+<meta property="og:description" content="During the data collection, a series of automatic check, aka: High Frequency checks, are required. The functions shared here are useful during the data collection process to check  periodicallyxfor possible errors, and will provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports. This work is an adaptation of a Stata Package from [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -39,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -79,9 +71,11 @@
 <div id="high-frequency-data-quality-checks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#high-frequency-data-quality-checks" class="anchor"></a>High Frequency Data Quality Checks</h2>
-<p>This package brings a series of convenience functions to monitor data quality when running a survey with kobotoolbox (or any <code>xlsform</code> compatible platform).</p>
-<p>It is an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package for running high-frequency checks on research data at Innovations for Poverty Action</a></p>
+<p>This package brings a series of convenience functions to monitor data quality during the data collection when running a survey with kobotoolbox (or any <code>xlsform</code> compatible platform).</p>
+<p>Those can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports.</p>
+<p>The package an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package for running high-frequency checks on research data at Innovations for Poverty Action</a></p>
 <p>The package vignette offers a practical <a href="articles/HFC.html">data quality monitoring template</a></p>
+<p>Install from github with <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("Edouard-Legoupil/HighFrequencyChecks")</a></code>.</p>
 <p>The packages includes the following check:</p>
 <div id="enumerator-productivity" class="section level3">
 <h3 class="hasAnchor">
@@ -130,6 +124,9 @@
 <a href="#building-site-documentation" class="anchor"></a>Building Site documentation</h4>
 <blockquote>
 <p>devtools::document()</p>
+</blockquote>
+<blockquote>
+<p>devtools::check(document = FALSE)</p>
 </blockquote>
 <blockquote>
 <p>pkgdown::build_site()</p>

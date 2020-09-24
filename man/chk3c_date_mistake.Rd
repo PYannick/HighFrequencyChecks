@@ -6,8 +6,8 @@
 \usage{
 chk3c_date_mistake(
   ds = NULL,
-  survey_consent = NULL,
   dates = NULL,
+  survey_consent = NULL,
   start_collection = NULL,
   reportingcol = NULL,
   delete = NULL
@@ -16,9 +16,11 @@ chk3c_date_mistake(
 \arguments{
 \item{ds}{dataset as a data.frame object}
 
+\item{dates}{fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))}
+
 \item{survey_consent}{name as a string of the field in the dataset where the survey consent is stored}
 
-\item{dates}{fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))}
+\item{start_collection}{date as a string of the first day of data collection ('yyyy-mm-dd')}
 
 \item{reportingcol}{columns as a list of string name from the dataset you want in the result (c('col1','col2',...))}
 
@@ -38,10 +40,11 @@ There is an option to automatically mark for deletion the surveys which have sta
 df <- sample_dataset
 dates <- -c("survey_start","end_survey")
 sc <- "survey_consent"
+st <- "2018-11-11"
 rc <- c("enumerator_id","X_uuid")
 dl <- FALSE
 
-chk3c_date_mistake(df, uuid, sc, rc, dl)
+chk3c_date_mistake(df, dates, sc, st, rc, dl)
 }
 }
 \author{

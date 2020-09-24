@@ -9,11 +9,13 @@ header-includes:
 - \newcommand{\elandscape}{\end{landscape}}
 output: rmarkdown::html_vignette
 vignette: >
+  \usepackage[utf8]{inputenc}
   %\VignetteIndexEntry{High Frequency Checks: a template for data quality monitoring}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
 geometry: margin=0.5in
 fontsize: 10pt
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -86,7 +88,7 @@ kable(err)
 check that the survey is done within a **`r buffer`** meter buffer from a sample point
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk1dii_GIS_Xm(pts, sample_dataset, df_coord, buffer, consent, reportcol, TRUE)
+list[dts,err] <- chk1dii_GIS_Xm(sample_dataset, pts, df_coord, buffer, consent, reportcol, TRUE)
 sample_dataset <- dts
 
 kable(err)
@@ -132,7 +134,8 @@ if(nrow(err)>0){
 Interviews made before the first day of data collection (**`r startdate`**)
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk3c_date_mistake(sample_dataset, consent, dates, startdate, reportcol, FALSE)
+list[dts,err] <- chk3c_date_mistake(sample_dataset, dates,consent,  startdate, reportcol, FALSE)
+
 # sample_dataset <- dts
 if(nrow(err)>0){
   kable(err)
@@ -205,8 +208,8 @@ kable(reportlog)
 #### Number of distinct values per questions
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-#reportlog <- chk4bii_distinct_values(sample_dataset, enumid, TRUE)
-#kable(reportlog)
+reportlog <- chk4bii_distinct_values(sample_dataset, enumid, TRUE)
+kable(reportlog)
 ```
 
 \newpage
@@ -241,16 +244,16 @@ kable(reportlog)
 Number of surveys per day by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-#reportlog <- chk6c_nb_survey(sample_dataset, surveydte, enumid)
-#kable(reportlog)
+reportlog <- chk6c_nb_survey(sample_dataset, surveydte, enumid)
+kable(reportlog)
 ```
 
 Surveyors with very low or high productivity
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 sdvalue=2
-#reportlog <- chk6f_productivity(sample_dataset, enumid, surveydte, sdvalue)
-#kable(reportlog)
+reportlog <- chk6f_productivity(sample_dataset, enumid, surveydte, sdvalue)
+kable(reportlog)
 ```
 
 Enumerators who pick up less than **`r minans`** answers per specific questions

@@ -135,11 +135,11 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
 
   if(!enumeratorcheck){
     tmp <- ds[,colnames(ds[,colnames(ds) %like% otherpattern])]
-    tmp <- data.frame(stack(tmp[1:ncol(tmp)]))
+    tmp <- data.frame(utils::stack(tmp[1:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by(field=ind, values) %>% summarize(nb=n())
   } else {
     tmp <- ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))]
-    tmp <- data.frame(tmp[1], stack(tmp[2:ncol(tmp)]))
+    tmp <- data.frame(tmp[1], utils::stack(tmp[2:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by_(field=colnames(tmp[3]), enumeratorID, colnames(tmp[2])) %>% summarize(nb=n())
   }
   return(logf)
@@ -205,7 +205,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   #   scores(x[!is.na(x) & x > -1], type = "z")
   # }
   z_score <- function(x){
-    pop_sd <- sd(x, na.rm = TRUE)*sqrt((length(na.omit(x))-1)/(length(na.omit(x))))
+    pop_sd <- stats::sd(x, na.rm = TRUE)*sqrt((length( stats::na.omit(x))-1)/(length( stats::na.omit(x))))
     pop_mean <- mean(x, na.rm = TRUE)
     inz<-function(x){
       return((x - pop_mean) / pop_sd)
@@ -215,7 +215,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   norm_or_lognorm <- function(x){
     norm<-normalized(x)
     lognorm<-normalized(signedlog10(x))
-    if(abs(mean(norm, na.rm = TRUE)-median(norm, na.rm = TRUE))>abs(mean(lognorm, na.rm = TRUE)-median(lognorm, na.rm = TRUE))){
+    if(abs(mean(norm, na.rm = TRUE)- stats::median(norm, na.rm = TRUE)) > abs(mean(lognorm, na.rm = TRUE)- stats::median(lognorm, na.rm = TRUE))){
       # more like log normal
       return(list(lognorm,"LogNormal"))
     } else {
@@ -234,8 +234,8 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   scores_outliers <- data.frame(sapply(tmp[1,], z_score), stringsAsFactors = FALSE)
   scores_outliers[,reportingcol]<-ds[,reportingcol]
 
-  scores_outliers <- data.frame(scores_outliers[reportingcol], stack(scores_outliers[(names(scores_outliers) %ni% reportingcol)]), stringsAsFactors = FALSE)
-  scores_outliers <- subset(scores_outliers, abs(values)>=sdval)
+  scores_outliers <- data.frame(scores_outliers[reportingcol], utils::stack(scores_outliers[(names(scores_outliers) %ni% reportingcol)]), stringsAsFactors = FALSE)
+  scores_outliers <- subset(scores_outliers, abs(values) >= sdval)
   scores_outliers$ind <- as.character(scores_outliers$ind)
   logf <- left_join(scores_outliers,distribution_type,by=c("ind"="ind"))
   return(logf)
@@ -305,7 +305,7 @@ chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportin
     stop("Please provide the field where the enumerator ID is stored")
   }
 
-  tmp <- data.frame(ds[reportingcol], stack(ds[questions]), stringsAsFactors = FALSE)
+  tmp <- data.frame(ds[reportingcol], utils::stack(ds[questions]), stringsAsFactors = FALSE)
   logf <- subset(tmp, values>=value)
   return(logf)
 }
