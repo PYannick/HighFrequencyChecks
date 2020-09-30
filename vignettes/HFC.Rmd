@@ -1,5 +1,5 @@
 ---
-title: "High Frequency Checks template"
+title: "High Frequency Checks: a template for data quality monitoring"
 author: "Yannick Pascaud"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: yes
@@ -9,103 +9,108 @@ header-includes:
 - \newcommand{\elandscape}{\end{landscape}}
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{High Frequency Checks template}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{High Frequency Checks: a template for data quality monitoring}
+  %\VignetteEngine{knitr::rmarkdown}
 geometry: margin=0.5in
 fontsize: 10pt
+editor_options: 
+  chunk_output_type: console
 ---
 
+
+## High Frequency Check - 
+
+You can use this template with your own dataset.
+
+### 0. Set up the package & data
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r eval=TRUE, echo=TRUE}
 library(knitr)
-#library(rgdal)
-#library(sqldf)
 library(gsubfn)
+library(tidyverse)
+library(data.table)
 library(HighFrequencyChecks)
 
 # Loads needed datasets
-SampleSize<-SampleSize
-Header<-sample_dataset
+SampleSize <- HighFrequencyChecks::SampleSize
+sample_dataset <- HighFrequencyChecks::sample_dataset
 
 # Loads needed shapefiles
-adm<-admin
-pts<-SamplePts
+adm <- HighFrequencyChecks::admin
+pts <- HighFrequencyChecks::SamplePts
 
 # correction for uppercase/lowercase in the site name (should not happen if we can use the same name in the shapefile/kobo/sample size)
-Header$union_name<-tolower(Header$union_name)
-SampleSize$Union<-tolower(SampleSize$Union)
-adm$Union<-tolower(adm$Union)
+sample_dataset$union_name <- tolower(sample_dataset$union_name)
+SampleSize$Union <- tolower(SampleSize$Union)
+adm$Union <- tolower(adm$Union)
+```
 
-# Initialize common variables
-#admin<-admin
-#df<-sample_dataset
-df_site<-"union_name"
-df_coord<-c("X_gps_reading_longitude","X_gps_reading_latitude")
-admin_site<-"Union"
-consent<-"survey_consent"
-reportcol<-c("enumerator_id","X_uuid")
-buffer<-10
-uuid<-"X_uuid"
-dates<-c("survey_start","end_survey")
-startdate<-"11/11/2018"
-mindur<-10
-enumid<-"enumerator_id"
-otherpattern<-"_other$"
-surveydte<-"survey_date"
-dteformat<-"%m/%d/%Y"
-questions<-c("consent_received.shelter_nfi.non_food_items[.]",
+Below are initialized variables to perform data quality control for this specific dataset
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+df_site <- "union_name"
+df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+admin_site <- "Union"
+consent <- "survey_consent"
+reportcol <- c("enumerator_id","X_uuid")
+buffer <- 10
+uuid <- "X_uuid"
+dates <- c("survey_start","end_survey")
+startdate <- "11/11/2018"
+mindur <- 10
+enumid <- "enumerator_id"
+otherpattern <- "_other$"
+surveydte <- "survey_date"
+dteformat <- "%m/%d/%Y"
+questions <- c("consent_received.shelter_nfi.non_food_items[.]",
              "consent_received.food_security.main_income[.]",
              "consent_received.child_protection.boy_risk[.]",
              "consent_received.child_protection.girl_risk[.]")
-minans<-3
+minans <- 3
 ```
 
-## High Frequency Check - Examples
 
 ### 1. Overall checks
 
-#### GIS Checks
+#### Spatial checks
 
 check that the recorded site is the actual one
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk1di_GIS_site(adm, Header, df_site, df_coord, admin_site, consent, reportcol, TRUE)
-Header<-dts
+list[dts,err] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
+sample_dataset <- dts
+
 kable(err)
 ```
-
 
 check that the survey is done within a **`r buffer`** meter buffer from a sample point
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk1dii_GIS_Xm(pts, Header, df_coord, buffer, consent, reportcol, TRUE)
-Header<-dts
+list[dts,err] <- chk1dii_GIS_Xm(sample_dataset, pts, df_coord, buffer, consent, reportcol, TRUE)
+sample_dataset <- dts
+
 kable(err)
 ```
-
-
 
 #### Duplicates in unique ID
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk2b_unique_id(Header, uuid, consent, reportcol, TRUE)
-Header<-dts
+list[dts,err] <- chk2b_unique_id(sample_dataset, uuid, consent, reportcol, TRUE)
+sample_dataset <- dts
+
 kable(err)
 ```
-
-
 
 #### Dates mistakes in the survey
 
 Surveys that do not end on the same day as they started
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk3a_date_mistake(Header, consent, dates, reportcol, FALSE)
-# Header<-dts
+list[dts,err] <- chk3a_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
+# sample_dataset<-dts
+
 if(nrow(err)>0){
   kable(err)
 } else {
@@ -113,12 +118,12 @@ if(nrow(err)>0){
 }
 ```
 
-
-Surveys which end before they start
+Interviews which end before they start
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk3b_date_mistake(Header, consent, dates, reportcol, FALSE)
-# Header<-dts
+list[dts,err] <- chk3b_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
+# sample_dataset<-dts
+
 if(nrow(err)>0){
   kable(err)
 } else {
@@ -126,12 +131,12 @@ if(nrow(err)>0){
 }
 ```
 
-
-Surveys made before the first day of data collection (**`r startdate`**)
+Interviews made before the first day of data collection (**`r startdate`**)
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk3c_date_mistake(Header, consent, dates, startdate, reportcol, FALSE)
-# Header<-dts
+list[dts,err] <- chk3c_date_mistake(sample_dataset, dates,consent,  startdate, reportcol, FALSE)
+
+# sample_dataset <- dts
 if(nrow(err)>0){
   kable(err)
 } else {
@@ -139,12 +144,11 @@ if(nrow(err)>0){
 }
 ```
 
-
-Surveys made in the future
+Interviews made in the future
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk3d_date_mistake(Header, consent, dates, reportcol, FALSE)
-# Header<-dts
+list[dts,err] <- chk3d_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
+# sample_dataset <- dts
 if(nrow(err)>0){
   kable(err)
 } else {
@@ -152,46 +156,39 @@ if(nrow(err)>0){
 }
 ```
 
+#### Durations of Interviews
 
-
-#### Durations of surveys
-
-Beware that surveys with potential errors on the dates are not marked for deletion which can lead to weird durations
+Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[avg,tot]<-chk5a_duration(Header, dates)
-# Header<-dts
+list[avg,tot] <- chk5a_duration(sample_dataset, dates)
+# sample_dataset <- dts
 cat("The total time of data collection is", tot, "minutes and the average time per survey is", avg, "minutes")
 ```
-
 
 Enumerators who made a survey below **`r mindur`** minutes
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err]<-chk5b_duration_Xmin(Header, consent, dates, reportcol, mindur, TRUE)
-Header<-dts
+list[dts,err] <- chk5b_duration_Xmin(sample_dataset, consent, dates, reportcol, mindur, TRUE)
+sample_dataset <- dts
 kable(err)
 ```
-
-
 
 ### 2. Productivity
 
 Number of survey per day of data collection
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk7ai_productivity(Header, surveydte, dteformat, consent)
+reportlog <- chk7ai_productivity(sample_dataset, surveydte, dteformat, consent)
 kable(reportlog)
 ```
-
 
 Number of survey per day of data collection per consent status
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk7bi_nb_status(Header, surveydte, dteformat, consent)
+reportlog <- chk7bi_nb_status(sample_dataset, surveydte, dteformat, consent)
 kable(reportlog)
 ```
-
 
 Tracking sheet
 
@@ -202,19 +199,17 @@ sf_nbpts="TotPts"
 formul=c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
 colorder=c("site","SS","TotPts","done","not_eligible","no","deleted","yes","final","variance")
 
-reportlog<-chk7bii_tracking(Header, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder)
+reportlog <- chk7bii_tracking(sample_dataset, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder)
 kable(reportlog)
 ```
-
-
 
 ### 3. Checks on the surveys content
 
 #### Number of distinct values per questions
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-#reportlog<-chk4bii_distinct_values(Header, enumid, TRUE)
-#kable(reportlog)
+reportlog <- chk4bii_distinct_values(sample_dataset, enumid, TRUE)
+kable(reportlog)
 ```
 
 \newpage
@@ -223,7 +218,7 @@ kable(reportlog)
 #### Number of other distinct values (for the questions with a possibility of other)
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk4biv_others_values(Header, otherpattern, enumid, TRUE)
+reportlog <- chk4biv_others_values(sample_dataset, otherpattern, enumid, TRUE)
 kable(reportlog)
 ```
 
@@ -235,40 +230,36 @@ kable(reportlog)
 Percentage of survey per consent status by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk6a_refusal(Header, consent, enumid)
+reportlog <- chk6a_refusal(sample_dataset, consent, enumid)
 kable(reportlog)
 ```
-
 
 Average interview duration by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk6b_duration(Header, dates, enumid)
+reportlog <- chk6b_duration(sample_dataset, dates, enumid)
 kable(reportlog)
 ```
-
 
 Number of surveys per day by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk6c_nb_survey(Header, surveydte, enumid)
+reportlog <- chk6c_nb_survey(sample_dataset, surveydte, enumid)
 kable(reportlog)
 ```
-
 
 Surveyors with very low or high productivity
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 sdvalue=2
-reportlog<-chk6f_productivity(Header, enumid, surveydte, sdvalue)
+reportlog <- chk6f_productivity(sample_dataset, enumid, surveydte, sdvalue)
 kable(reportlog)
 ```
-
 
 Enumerators who pick up less than **`r minans`** answers per specific questions
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog<-chk6g_question_less_X_answers(Header, enumid, questions, minans)
+reportlog <- chk6g_question_less_X_answers(sample_dataset, enumid, questions, minans)
 kable(reportlog)
 ```
 

@@ -1,6 +1,31 @@
-
-# chk2a_missing_id: Missing unique ID
-# chk2b_unique_id: Duplicates in unique ID
+#' @name chk2a_missing_id
+#' @rdname chk2a_missing_id
+#' @title Missing unique ID
+#' @description This function check that all interviews in the dataset have an ID.
+#'   There is an option to automatically mark for deletion the surveys which have not an ID.
+#'
+#' @param ds dataset as a data.frame object
+#' @param UniqueID name as a string of the field in the dataset where the unique ID is stored
+#' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
+#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
+#' @param delete delete action to be done as a boolean (TRUE/FALSE)
+#'
+#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  errors  list of the errors found
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' uuid <- "X_uuid"
+#' sc <- "survey_consent"
+#' rc <- c("enumerator_id","X_uuid")
+#' dl <- FALSE
+#'
+#' chk2a_missing_id(df, uuid, sc, rc, dl)
+#'}
+#' @export chk2a_missing_id
 
 
 chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
@@ -29,6 +54,36 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
   return(list(ds,errors))
 }
 
+
+#' @name chk2b_unique_id
+#' @rdname chk2b_unique_id
+#' @title Duplicates in unique ID
+#' @description This function check that all interviews in the dataset have an ID which is unique.
+#' There is an option to automatically mark for deletion the surveys which have a duplicated unique ID.
+#'
+#' @param ds dataset as a data.frame object
+#' @param UniqueID name as a string of the field in the dataset where the unique ID is stored
+#' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
+#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
+#' @param delete delete action to be done as a boolean (TRUE/FALSE)
+#'
+#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  errors  list of the errors found
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- sample_dataset
+#' uuid <- "X_uuid"
+#' sc <- "survey_consent"
+#' rc <- c("enumerator_id","X_uuid")
+#' dl <- FALSE
+#'
+#' chk2b_unique_id(df, uuid, sc, rc, dl)
+#'}
+#' @export chk2b_unique_id
+
 chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
@@ -47,17 +102,10 @@ chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reporti
   }
 
   if(delete){
-    ds[,survey_consent][duplicated(ds[,UniqueID])]<-"deleted"
+    ds[,survey_consent][duplicated(ds[,UniqueID])] <- "deleted"
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
   errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
   return(list(ds,errors))
 }
-
-
-
-
-
-
-
