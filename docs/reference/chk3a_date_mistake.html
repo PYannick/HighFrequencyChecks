@@ -123,13 +123,13 @@ There is an option to automatically mark for deletion the surveys which have dif
 There is an option to automatically mark for deletion the surveys which have different starting and ending dates.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk3a_date_mistake</span>(
-  ds = <span class='kw'>NULL</span>,
-  survey_consent = <span class='kw'>NULL</span>,
-  dates = <span class='kw'>NULL</span>,
-  reportingcol = <span class='kw'>NULL</span>,
-  delete = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>chk3a_date_mistake</span><span class='op'>(</span>
+  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
+  delete <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,15 +165,15 @@ There is an option to automatically mark for deletion the surveys which have dif
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
-<span class='kw'>dates</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
-<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='kw'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-<span class='kw'>dl</span> <span class='op'>&lt;-</span> <span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>sample_dataset</span>
+<span class='va'>dates</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span><span class='op'>)</span>
+<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
+<span class='va'>dl</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='fu'>chk3a_date_mistake</span>(<span class='kw'>df</span>, <span class='kw'>uuid</span>, <span class='kw'>sc</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
-}
+<span class='fu'>chk3a_date_mistake</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>uuid</span>, <span class='va'>sc</span>, <span class='va'>rc</span>, <span class='va'>dl</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

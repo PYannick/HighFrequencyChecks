@@ -121,12 +121,12 @@
     <p>This function display the number of surveys conducted per day.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk7ai_productivity</span>(
-  ds = <span class='kw'>NULL</span>,
-  surveydate = <span class='kw'>NULL</span>,
-  dateformat = <span class='kw'>NULL</span>,
-  survey_consent = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>chk7ai_productivity</span><span class='op'>(</span>
+  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveydate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dateformat <span class='op'>=</span> <span class='cn'>NULL</span>,
+  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,14 +157,14 @@
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
-<span class='kw'>sdte</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
-<span class='kw'>dtf</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
-<span class='kw'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>sample_dataset</span>
+<span class='va'>sdte</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
+<span class='va'>dtf</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
+<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
-<span class='fu'>chk7ai_productivity</span>(<span class='kw'>df</span>, <span class='kw'>sdte</span>, <span class='kw'>dtf</span>, <span class='kw'>sc</span>)
-}
+<span class='fu'>chk7ai_productivity</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sdte</span>, <span class='va'>dtf</span>, <span class='va'>sc</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -131,15 +131,15 @@ There is an option to automatically mark for deletion the surveys which are to f
 https://stackoverflow.com/users/5193830/valentin</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk1dii_GIS_Xm</span>(
-  ds = <span class='kw'>NULL</span>,
-  pts = <span class='kw'>NULL</span>,
-  ds_coord = <span class='kw'>NULL</span>,
-  buff = <span class='fl'>10</span>,
-  survey_consent = <span class='kw'>NULL</span>,
-  reportingcol = <span class='kw'>NULL</span>,
-  delete = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>chk1dii_GIS_Xm</span><span class='op'>(</span>
+  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ds_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
+  buff <span class='op'>=</span> <span class='fl'>10</span>,
+  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
+  delete <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,17 +183,17 @@ https://stackoverflow.com/users/5193830/valentin</p>
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='kw'>sample_dataset</span>
-<span class='kw'>pts</span> <span class='op'>&lt;-</span> <span class='kw'>SamplePts</span>
-<span class='kw'>df_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span>)
-<span class='kw'>bu</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='kw'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
-<span class='kw'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-<span class='kw'>dl</span><span class='op'>&lt;-</span><span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>sample_dataset</span>
+<span class='va'>pts</span> <span class='op'>&lt;-</span> <span class='va'>SamplePts</span>
+<span class='va'>df_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span><span class='op'>)</span>
+<span class='va'>bu</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>sc</span><span class='op'>&lt;-</span><span class='st'>"survey_consent"</span>
+<span class='va'>rc</span><span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
+<span class='va'>dl</span><span class='op'>&lt;-</span><span class='cn'>FALSE</span>
 
-<span class='fu'>chk1dii_GIS_Xm</span>( <span class='kw'>df</span>, <span class='kw'>pts</span>, <span class='kw'>df_coord</span>, <span class='kw'>bu</span>, <span class='kw'>sc</span>, <span class='kw'>rc</span>, <span class='kw'>dl</span>)
-}
+<span class='fu'>chk1dii_GIS_Xm</span><span class='op'>(</span> <span class='va'>df</span>, <span class='va'>pts</span>, <span class='va'>df_coord</span>, <span class='va'>bu</span>, <span class='va'>sc</span>, <span class='va'>rc</span>, <span class='va'>dl</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

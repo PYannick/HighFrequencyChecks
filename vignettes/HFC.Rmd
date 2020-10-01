@@ -15,182 +15,362 @@ vignette: >
 geometry: margin=0.5in
 fontsize: 10pt
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
+Supervising the quality of data collection is not straightforward. Survey questionnaires are often quite long and have systematic control is worth automatising.
 
-## High Frequency Check - 
+The HighFrequencyCheck package is a translation in in R of the [Stata package from Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks). It brings a series of convenience functions to monitor data quality during the data collection when running a survey with kobotoolbox (or any `xlsform` compatible platform). 
 
-You can use this template with your own dataset.
+Those can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports:
 
-### 0. Set up the package & data
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+* A wrapper function is included to generate directly an final data quality assessment Rmd Report
 
+* A shyniApp Interface is also included to provide a live monitoring dashbaord
+
+## Measuring data collection quality 
+
+Data collection quality monitoring includes 4 different dimensions
+
+ 1. Correct set-up of data collection devices
+ 2. Data collected according the samplin plan
+ 3. Enumerator rigorous work standards 
+ 4. Enumerator productivity 
+
+Ideally the data collection monitoring dashboard should be known to all enumerators so that they are aware of the data quality metrics that will be used to assess the quality of their work and potentially some incentive can be offered for the enumerators performing on the quality metrics (_It is good to recall that each records in household survey cost between 15 to 50 USD_). Some of those indicators can support some remedial supervision interventions, such as calling individually the enumerator and point some specific issues that were detected.
+
+Below are the required configuration and an illustration of those indicators based on a demo dataset included in the package.
+
+## Initial configuration
+
+### loading the required R packages
+
+```{r message=FALSE, warning=FALSE, include=TRUE, echo = TRUE}
 library(knitr)
 library(gsubfn)
 library(tidyverse)
 library(data.table)
 library(HighFrequencyChecks)
+library(kableExtra)
+library(ggplot2)
+```
 
-# Loads needed datasets
-SampleSize <- HighFrequencyChecks::SampleSize
+### Loading survey dataset (microdata)
+
+In a production environment, it is possible to connect this a live API (kobotoolbox, ODK , etc.)
+
+```{r, include=TRUE}
 sample_dataset <- HighFrequencyChecks::sample_dataset
-
-# Loads needed shapefiles
-adm <- HighFrequencyChecks::admin
-pts <- HighFrequencyChecks::SamplePts
-
 # correction for uppercase/lowercase in the site name (should not happen if we can use the same name in the shapefile/kobo/sample size)
 sample_dataset$union_name <- tolower(sample_dataset$union_name)
+```
+
+### Loading sampling plan
+
+The sampling plan is defined through the sampling strategy. It includes for each enumerator the sufficient details for the enumerator to reach out to respondent satisfying the sampling target definition (i.e. name, location, phone number)
+
+```{r, include=TRUE}
+SampleSize <- HighFrequencyChecks::SampleSize
+# correction for uppercase/lowercase in the site name (should not happen if we can use the same name in the shapefile/kobo/sample size)
 SampleSize$Union <- tolower(SampleSize$Union)
+```
+
+### Loading geodata for the surveyed area
+
+Often sampling strategy includes a geographic coverage.
+
+This can be overview through either:
+
+ * a defined polygon, aka area or admin unit
+
+
+```{r message=FALSE, warning=FALSE, include=TRUE}
+adm <- HighFrequencyChecks::admin
+# To avoid futher issue the unique key with the survey dataset is chnaged to all small cap 
 adm$Union <- tolower(adm$Union)
 ```
 
+ * a sampling point, around which enumerators are supposed to randomly interview persons.
+
+```{r, include=TRUE}
+pts <- HighFrequencyChecks::SamplePts
+```
+
+### Specific variables to be controlled
+
 Below are initialized variables to perform data quality control for this specific dataset
+
+#### geodata
+
+
+
+ * Name of variables for geographic coordinates as recorded by data collection device GPS
+
+```{r, include=TRUE}
+df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+```
+
+ * Name of location (__matching external geodata__)
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 df_site <- "union_name"
-df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+```
+
+
+ * Name of unique key in polygon file
+
+```{r, include=TRUE}
 admin_site <- "Union"
+```
+
+
+#### Variable of interest for data quality check
+
+ *  Variable recording initial consent
+
+```{r, include=TRUE}
 consent <- "survey_consent"
-reportcol <- c("enumerator_id","X_uuid")
-buffer <- 10
-uuid <- "X_uuid"
-dates <- c("survey_start","end_survey")
-startdate <- "11/11/2018"
-mindur <- 10
-enumid <- "enumerator_id"
-otherpattern <- "_other$"
-surveydte <- "survey_date"
-dteformat <- "%m/%d/%Y"
+```
+
+
+ * Variable recording multiples screening questions
+
+```{r, include=TRUE}
 questions <- c("consent_received.shelter_nfi.non_food_items[.]",
              "consent_received.food_security.main_income[.]",
              "consent_received.child_protection.boy_risk[.]",
              "consent_received.child_protection.girl_risk[.]")
+```
+
+
+ * Variable to be checked
+
+```{r, include=TRUE}
+reportcol <- c("enumerator_id","X_uuid")
+```
+
+### Metadata
+
+ * unique ID for each record
+
+```{r, include=TRUE}
+uuid <- "X_uuid"
+```
+
+ * dates
+
+```{r, include=TRUE}
+dates <- c("survey_start","end_survey")
+ 
+## Official date for start of data collection
+startdate <- "11/11/2018"
+
+surveydte <- "survey_date"
+
+```
+
+
+* Variable used to record enumerator identifiers
+
+```{r, include=TRUE}
+enumid <- "enumerator_id"
+```
+
+
+#### Qualiity target
+
+
+ * What is the minimum survey duration in minutes (when using all skip logic)?
+
+```{r, include=TRUE}
+mindur <- 10
+```
+
+ * minans answers per specific questions
+
+```{r, include=TRUE}
 minans <- 3
 ```
 
+* Standard value
 
-### 1. Overall checks
-
-#### Spatial checks
-
-check that the recorded site is the actual one
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
-sample_dataset <- dts
-
-kable(err)
+```{r, include=TRUE}
+sdvalue <- 2
 ```
 
-check that the survey is done within a **`r buffer`** meter buffer from a sample point
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk1dii_GIS_Xm(sample_dataset, pts, df_coord, buffer, consent, reportcol, TRUE)
-sample_dataset <- dts
+ * Size of the buffer in meters around the assigned data collection location points
 
-kable(err)
+```{r, include=TRUE}
+buffer <- 10
 ```
 
-#### Duplicates in unique ID
+### Server specific config
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk2b_unique_id(sample_dataset, uuid, consent, reportcol, TRUE)
-sample_dataset <- dts
+```{r, include=TRUE}
+otherpattern <- "_other$"
 
-kable(err)
+dteformat <- "%m/%d/%Y"
 ```
 
-#### Dates mistakes in the survey
+## 1. Correct set-up of data collection devices
 
-Surveys that do not end on the same day as they started
+### Duplicates in unique ID
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk3a_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
+list[dts,err] <- chk2b_unique_id(sample_dataset, 
+                                 uuid, 
+                                 consent, 
+                                 reportcol, 
+                                 TRUE)
+sample_dataset <- dts
+
+#kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
+
+```
+
+### Configuration of dates on device
+
+ * Checking record for which interview that do not end on the same day as they started
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list[dts,err] <- chk3a_date_mistake(sample_dataset, 
+                                    consent, 
+                                    dates, 
+                                    reportcol, 
+                                    FALSE)
 # sample_dataset<-dts
 
 if(nrow(err)>0){
-  kable(err)
+  #kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 } else {
-  cat("no errors")
+  cat("__No errors__: All interviews ended on the same day as they started")
 }
 ```
 
-Interviews which end before they start
+ * Checking record for which interview ended before they start
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk3b_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
+list[dts,err] <- chk3b_date_mistake(sample_dataset, 
+                                    consent, 
+                                    dates, 
+                                    reportcol, 
+                                    FALSE)
 # sample_dataset<-dts
 
 if(nrow(err)>0){
-  kable(err)
+  #kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 } else {
-  cat("no errors")
+  cat("__No errors__: all interview ended before they start")
 }
 ```
 
-Interviews made before the first day of data collection (**`r startdate`**)
+
+
+ * Checking record for which interview tagged in the future
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk3c_date_mistake(sample_dataset, dates,consent,  startdate, reportcol, FALSE)
+list[dts,err] <- chk3d_date_mistake(sample_dataset, 
+                                    consent, 
+                                    dates, 
+                                    reportcol, 
+                                    FALSE)
+# sample_dataset <- dts
+if(nrow(err)>0){
+  #kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
+} else {
+  cat("__No errors__: records dat are not in the future")
+}
+```
+
+
+## 2. Data collected according the plan
+
+
+
+### Interviews made before the first day of data collection
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list[dts,err] <- chk3c_date_mistake(sample_dataset, 
+                                    dates,consent,  
+                                    startdate, 
+                                    reportcol, 
+                                    FALSE)
 
 # sample_dataset <- dts
 if(nrow(err)>0){
-  kable(err)
+  #kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 } else {
-  cat("no errors")
+  cat(paste0("__No errors__: all records occured after the official beginning of data collection on ", startdate))
 }
 ```
 
-Interviews made in the future
+### Recorded site name for each interview matches the name of the location
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk3d_date_mistake(sample_dataset, consent, dates, reportcol, FALSE)
-# sample_dataset <- dts
-if(nrow(err)>0){
-  kable(err)
-} else {
-  cat("no errors")
-}
-```
-
-#### Durations of Interviews
-
-Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[avg,tot] <- chk5a_duration(sample_dataset, dates)
-# sample_dataset <- dts
-cat("The total time of data collection is", tot, "minutes and the average time per survey is", avg, "minutes")
-```
-
-Enumerators who made a survey below **`r mindur`** minutes
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk5b_duration_Xmin(sample_dataset, consent, dates, reportcol, mindur, TRUE)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+list[dts,err] <- chk1di_GIS_site(adm, 
+                                 sample_dataset, 
+                                 df_site, 
+                                 df_coord, 
+                                 admin_site, 
+                                 consent, 
+                                 reportcol, 
+                                 TRUE)
 sample_dataset <- dts
-kable(err)
+
+#kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 ```
 
-### 2. Productivity
+### Recorded locations for each interview within a **`r buffer`** meter buffer from a sample point
 
-Number of survey per day of data collection
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+list[dts,err] <- chk1dii_GIS_Xm(sample_dataset, 
+                                pts, 
+                                df_coord, 
+                                buffer, 
+                                consent, 
+                                reportcol, 
+                                TRUE)
+sample_dataset <- dts
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk7ai_productivity(sample_dataset, surveydte, dteformat, consent)
-kable(reportlog)
+#kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 ```
-
-Number of survey per day of data collection per consent status
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk7bi_nb_status(sample_dataset, surveydte, dteformat, consent)
-kable(reportlog)
-```
-
-Tracking sheet
+### Tracking sheet per site
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 sf_site="Union"
@@ -199,67 +379,132 @@ sf_nbpts="TotPts"
 formul=c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
 colorder=c("site","SS","TotPts","done","not_eligible","no","deleted","yes","final","variance")
 
-reportlog <- chk7bii_tracking(sample_dataset, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder)
-kable(reportlog)
+reportlog <- chk7bii_tracking(sample_dataset, 
+                              SampleSize, 
+                              df_site, 
+                              sf_site, 
+                              consent, 
+                              sf_target, 
+                              sf_nbpts, 
+                              formul, 
+                              colorder)
+kable(head(reportlog,10))
 ```
 
-### 3. Checks on the surveys content
+## 4. Enumerators rigorous work standards
 
-#### Number of distinct values per questions
+### Durations of Interviews
+
+Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk4bii_distinct_values(sample_dataset, enumid, TRUE)
-kable(reportlog)
+list[avg,tot] <- chk5a_duration(sample_dataset, 
+                                dates)
+# sample_dataset <- dts
+cat("The total time of data collection is ", tot, " minutes and the average time per survey is ", avg, " minutes")
 ```
 
-\newpage
-\blandscape
 
-#### Number of other distinct values (for the questions with a possibility of other)
+### Enumerators who made a survey below **`r mindur`** minutes
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk4biv_others_values(sample_dataset, otherpattern, enumid, TRUE)
-kable(reportlog)
+list[dts,err] <- chk5b_duration_Xmin(sample_dataset, 
+                                     consent, 
+                                     dates, 
+                                     reportcol, 
+                                     mindur, 
+                                     TRUE)
+sample_dataset <- dts
+#kable(head(err,10))
+knitr::kable(err, 
+             caption = "Detected records with errors") %>%
+           kable_styling(bootstrap_options = c("striped", "bordered",
+                                               "condensed", "responsive"),
+                         font_size = 9)
 ```
 
-\elandscape
-
-
-### 4. Enumerators checks
-
-Percentage of survey per consent status by enumerator
+### Enumerators who pick up less than **`r minans`** answers per specific questions
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk6a_refusal(sample_dataset, consent, enumid)
-kable(reportlog)
+reportlog <- chk6g_question_less_X_answers(sample_dataset, 
+                                           enumid, 
+                                           questions, 
+                                           minans)
+kable(head(reportlog,10))
 ```
 
-Average interview duration by enumerator
+
+
+### Number of other distinct values (for the questions with a possibility of other)
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog <- chk4biv_others_values(sample_dataset, 
+                                   otherpattern, 
+                                   enumid, 
+                                   TRUE)
+kable(head(reportlog,10))
+```
+
+
+## 5. Enumerator productivity
+
+### How many completed interview per day fro the project?
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk6b_duration(sample_dataset, dates, enumid)
-kable(reportlog)
+reportlog <- chk7ai_productivity(sample_dataset, 
+                                 surveydte, 
+                                 dteformat, 
+                                 consent)
+kable(head(reportlog,10))
 ```
 
-Number of surveys per day by enumerator
+
+### How many attempted interview per day and obtained consent?
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog <- chk7bi_nb_status(sample_dataset, 
+                              surveydte, 
+                              dteformat, 
+                              consent)
+kable(head(reportlog,10))
+```
+
+### Percentage of survey per consent status by enumerator
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog <- chk6a_refusal(sample_dataset, 
+                           consent, 
+                           enumid)
+kable(head(reportlog,10))
+```
+
+### Average interview duration by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk6c_nb_survey(sample_dataset, surveydte, enumid)
-kable(reportlog)
+reportlog <- chk6b_duration(sample_dataset, 
+                            dates, 
+                            enumid)
+kable(head(reportlog,10))
 ```
 
-Surveyors with very low or high productivity
+### Number of surveys per day by enumerator
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog <- chk6c_nb_survey(sample_dataset, 
+                             surveydte, 
+                             enumid)
+kable(head(reportlog,10))
+```
+
+### Surveyors with productivity significantly different from the average (low or high)
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-sdvalue=2
-reportlog <- chk6f_productivity(sample_dataset, enumid, surveydte, sdvalue)
-kable(reportlog)
+
+reportlog <- chk6f_productivity(sample_dataset, 
+                                enumid, 
+                                surveydte, 
+                                sdvalue)
+kable(head(reportlog,10))
 ```
 
-Enumerators who pick up less than **`r minans`** answers per specific questions
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog <- chk6g_question_less_X_answers(sample_dataset, enumid, questions, minans)
-kable(reportlog)
-```
 
