@@ -31,7 +31,10 @@ Imports:
     gsubfn,
     tidyverse,
     magrittr,
-    reshape2
+    reshape2,
+    DT,
+    ggplot2,
+    kableExtra
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

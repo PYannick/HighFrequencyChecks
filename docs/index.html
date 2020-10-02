@@ -75,64 +75,31 @@
 <p>Those can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports.</p>
 <p>The package an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package for running high-frequency checks on research data at Innovations for Poverty Action</a></p>
 <p>The package vignette offers a practical <a href="articles/HFC.html">data quality monitoring template</a></p>
-<p>Install from github with <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("Edouard-Legoupil/HighFrequencyChecks")</a></code>.</p>
-<p>The packages includes the following check:</p>
-<div id="enumerator-productivity" class="section level3">
-<h3 class="hasAnchor">
-<a href="#enumerator-productivity" class="anchor"></a>Enumerator Productivity</h3>
+<p>Install from github with <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("unhcr/HighFrequencyChecks")</a></code>.</p>
+<p>The packages includes a series of controls calling for:</p>
 <ul>
-<li>Number of surveys per day by enumerator</li>
-<li>Build tracking sheet</li>
-<li>Identify enumerators with very low or high productivity</li>
-<li>Identify enumerators who pick up less than a certain number answers per specific questions</li>
-<li>Identify enumerators who made a survey below a certain number of minutes</li>
-<li>Assess number of survey per day of data collection</li>
-<li>Assess number of survey per day of data collection per consent status</li>
-<li>Percentage of survey per consent status by enumerator</li>
-<li>Average interview duration by enumerator</li>
+<li>
+<p>Corrective actions:</p>
+<ul>
+<li>Correct set-up of data collection devices and encoding of the forms</li>
+<li>Data collected according the sampling plan</li>
 </ul>
-</div>
-<div id="checking-for-logical-errors-in-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#checking-for-logical-errors-in-data" class="anchor"></a>Checking for logical errors in data</h3>
+</li>
+<li>
+<p>Pro-active actions:</p>
 <ul>
-<li>Duplicates in unique ID</li>
-<li>Interviews that do not end on the same day as they started</li>
-<li>Interviews which end before they start</li>
-<li>Interviews made before the first day of data collection</li>
-<li>Interviews made in the future</li>
-<li>Check for potential errors on the dates are not marked for deletion which can lead to weird duration</li>
+<li>Ensuring enumerators rigorous work standards</li>
+<li>Promoting enumerators productivity</li>
 </ul>
-</div>
-<div id="checks-on-the-surveys-content" class="section level3">
-<h3 class="hasAnchor">
-<a href="#checks-on-the-surveys-content" class="anchor"></a>Checks on the surveys content</h3>
-<ul>
-<li>Number of distinct values per questions</li>
-<li>Number of other distinct values (for the questions with a possibility of other)</li>
-</ul>
-</div>
-<div id="checking-spatial-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#checking-spatial-data" class="anchor"></a>Checking Spatial Data</h3>
-<ul>
-<li>check that the recorded site is the actual one</li>
-<li>check that the survey is done within a certain buffer meter buffer from a sample point</li>
+</li>
 </ul>
 <div id="building-site-documentation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#building-site-documentation" class="anchor"></a>Building Site documentation</h4>
-<blockquote>
-<p>devtools::document()</p>
-</blockquote>
-<blockquote>
-<p>devtools::check(document = FALSE)</p>
-</blockquote>
-<blockquote>
-<p>pkgdown::build_site()</p>
-</blockquote>
+<p><code><a href="https://devtools.r-lib.org//reference/document.html">devtools::document()</a></code></p>
+<p><code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check(document = FALSE)</a></code></p>
+<p><code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code></p>
 <p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/PYannick/HighFrequencyChecks/issues">github</a>.</p>
-</div>
 </div>
 </div>
   </div>
