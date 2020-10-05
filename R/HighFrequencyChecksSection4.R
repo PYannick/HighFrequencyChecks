@@ -134,11 +134,11 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
   }
 
   if(!enumeratorcheck){
-    tmp <- ds[,colnames(ds[,colnames(ds) %like% otherpattern])]
+    tmp <- data.frame(ds[,colnames(ds[,colnames(ds) %like% otherpattern])], stringsAsFactors = FALSE)
     tmp <- data.frame(utils::stack(tmp[1:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by(field=ind, values) %>% summarize(nb=n())
   } else {
-    tmp <- ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))]
+    tmp <- data.frame(ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))], stringsAsFactors = FALSE)
     tmp <- data.frame(tmp[1], utils::stack(tmp[2:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by_(field=colnames(tmp[3]), enumeratorID, colnames(tmp[2])) %>% summarize(nb=n())
   }
