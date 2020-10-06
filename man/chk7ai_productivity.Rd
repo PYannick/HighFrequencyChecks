@@ -28,12 +28,13 @@ This function display the number of surveys conducted per day.
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sdte <- "survey_date"
 dtf <- "\%m/\%d/\%Y"
 sc <- "survey_consent"
 
-chk7ai_productivity(df, sdte, dtf, sc)
+log <- chk7ai_productivity(df, sdte, dtf, sc)
+head(log,10)
 }
 }
 \author{

@@ -184,7 +184,25 @@ the columns available are: site, done, final, variance and the ones generated ac
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='va'>sf</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='SampleSize.html'>SampleSize</a></span>
+<span class='va'>dssite</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
+<span class='va'>sfsite</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
+<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>sftarget</span> <span class='op'>&lt;-</span> <span class='st'>"SS"</span>
+<span class='va'>sfnbpts</span> <span class='op'>&lt;-</span> <span class='st'>"TotPts"</span>
+<span class='va'>formul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"done-no-not_eligible-delete"</span>,
+               <span class='st'>"done-no-not_eligible-deleted-SS"</span><span class='op'>)</span>
+<span class='va'>colorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
+                 <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span><span class='op'>)</span>
+
+<span class='va'>log</span> <span class='op'>&lt;-</span> <span class='fu'>chk7bii_tracking</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sf</span>, <span class='va'>dssite</span>, <span class='va'>sfsite</span>, <span class='va'>sc</span>, <span class='va'>sftarget</span>,
+                  <span class='va'>sfnbpts</span>, <span class='va'>formul</span>, <span class='va'>colorder</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>log</span>,<span class='fl'>10</span><span class='op'>)</span>
+
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

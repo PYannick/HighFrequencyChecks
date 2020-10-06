@@ -20,11 +20,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
 #' eid <- "enumerator_id"
 #'
-#' chk6a_refusal(df, sc, eid)
+#' log <- chk6a_refusal(df, sc, eid)
+#' head(log,10)
 #'}
 #' @export chk6a_refusal
 
@@ -63,11 +64,12 @@ chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' dt <- c("survey_start","end_survey")
 #' eid <- "enumerator_id"
 #'
-#' chk6b_duration(df, dt, eid)
+#' log <- chk6b_duration(df, dt, eid)
+#' head(log,10)
 #'}
 #' @export chk6b_duration
 
@@ -105,11 +107,12 @@ chk6b_duration <- function(ds=NULL, dates=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sdte <- "survey_date"
 #' eid <- "enumerator_id"
 #'
-#' chk6c_nb_survey(df, sdte, eid)
+#' log <- chk6c_nb_survey(df, sdte, eid)
+#' head(log,10)
 #'}
 #' @export chk6c_nb_survey
 
@@ -149,12 +152,13 @@ chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' eid <- "enumerator_id"
 #' sdte <- "survey_date"
 #' sdv<-2
 #'
-#' chk6f_productivity(df, eid, sdte, sdv)
+#' log <- chk6f_productivity(df, eid, sdte, sdv)
+#' head(log,10)
 #'}
 #' @export chk6f_productivity
 
@@ -181,7 +185,7 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 
   survey_outliers <- outliers::scores(tmp$daily_average, type = "z")
   tmp <- data.frame(tmp,survey_outliers)
-  logf <- subset(tmp, abs(survey_outliers)>sdval)
+  logf <- subset(tmp, abs(survey_outliers) > sdval)
 
   return(logf)
 }
@@ -204,7 +208,7 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' eid <- "enumerator_id"
 #' qu <- c("consent_received.shelter_nfi.non_food_items[.]",
 #'       "consent_received.food_security.main_income[.]",
@@ -212,7 +216,8 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 #'       "consent_received.child_protection.girl_risk[.]")
 #' mna <- 3
 #'
-#' chk6g_question_less_X_answers(df, eid, qu, mna)
+#' log <- chk6g_question_less_X_answers(df, eid, qu, mna)
+#' head(log,10)
 #'}
 #' @export chk6g_question_less_X_answers
 

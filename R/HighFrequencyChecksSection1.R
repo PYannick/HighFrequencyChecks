@@ -17,14 +17,14 @@
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
 #' dt <- c("survey_start","end_survey")
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk1a_interview_completed(df, sc, dt, rc, dl)
+#' head(chk1a_interview_completed(df, sc, dt, rc, dl),10)
 #'}
 #'
 #' @export chk1a_interview_completed
@@ -75,17 +75,20 @@ chk1a_interview_completed <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
 #' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' dl <- TRUE
 #'
-#' chk1b_survey_consent(df, sc, dt, rc, dl)
+#' head(chk1b_survey_consent(df, sc, dt, rc, dl),10)
 #'}
 #' @export chk1b_survey_consent
 
-chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
+chk1b_survey_consent <- function(ds=NULL,
+                                 survey_consent=NULL,
+                                 reportingcol=NULL,
+                                 delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -100,10 +103,11 @@ chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL
   }
 
   if(delete){
-    ds[,survey_consent][is.na(ds[,survey_consent])]<-"deleted"
+    ds[,survey_consent][is.na(ds[,survey_consent])] <- "deleted"
   }
 
-  errors <- subset(ds,is.na(survey_consent)) %>% select(reportingcol, survey_consent=survey_consent)
+  errors <- subset(ds, is.na(survey_consent)) %>%
+    select(reportingcol, survey_consent = survey_consent)
   return(list(ds,errors))
 }
 
@@ -130,22 +134,29 @@ chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#'   admin <- admin
-#'   df <- sample_dataset
+#' {
+#'   admin <- HighFrequencyChecks::admin
+#'   df <- HighFrequencyChecks::sample_dataset
 #'   df_site <- "union_name"
 #'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #'   admin_site <- "Union"
 #'   sc <- "survey_consent"
 #'   rc <- c("enumerator_id","X_uuid")
 #'   co <- FALSE
-#'   chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co)
+#'
+#'   head(chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co),10)
 #'}
 #' @export chk1di_GIS_site
 #'
 
-chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_site=NULL,
-                            survey_consent=NULL, reportingcol=NULL, correct=NULL){
+chk1di_GIS_site <- function(adm=NULL,
+                            ds=NULL,
+                            ds_site=NULL,
+                            ds_coord=NULL,
+                            adm_site=NULL,
+                            survey_consent=NULL,
+                            reportingcol=NULL,
+                            correct=NULL){
   if(is.null(adm) | !isS4(adm) | nrow(adm)==0){
     stop("Please provide the spatial dataset of the boundaries shapefile")
   }
@@ -191,7 +202,10 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
     ds[,ds_site][fm$check=="NOk"] <- fm[,adm_site][fm$check=="NOk"]
   }
 
-  errors <- subset(fm,check=="NOk") %>% select(reportingcol, SiteRec=ds_site, SiteReal=adm_site)
+  # errors <- subset(fm,check=="NOk") %>% select(reportingcol,
+  #                                              SiteRec = ds_site,
+  #                                              SiteReal = adm_site)
+  errors <- fm[ which(fm$check=="NOk"), c(reportingcol,ds_site, adm_site)]
   return(list(ds,errors))
 }
 
@@ -220,16 +234,17 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
-#' pts <- SamplePts
+#'  {
+#' df <- HighFrequencyChecks::sample_dataset
+#' pts <- HighFrequencyChecks::SamplePts
 #' df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #' bu <- 10
-#' sc<-"survey_consent"
-#' rc<-c("enumerator_id","X_uuid")
-#' dl<-FALSE
+#' sc <- "survey_consent"
+#' rc <- c("enumerator_id","X_uuid")
+#' dl <- FALSE
 #'
-#' chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl)
+#'
+#' head(chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl),10)
 #'}
 #' @export chk1dii_GIS_Xm
 #'
@@ -298,12 +313,14 @@ chk1dii_GIS_Xm <- function(ds=NULL,
   dfsp_over_buffer <- sp::over(dfsp,buffer)
   fm <- data.frame(ds,dfsp_over_buffer, stringsAsFactors = FALSE)
 
-  fm$check <- ifelse(is.na(fm$dfsp_over_buffer),"NOk","Ok")
+  fm$Outside <- ifelse(is.na(fm$dfsp_over_buffer),"NOk","Ok")
   if(delete){
-    ds[,survey_consent][fm$check=="NOk"]<-"deleted"
+    ds[,survey_consent][fm$Outside=="NOk"]<-"deleted"
   }
 
-  errors <- subset(fm,check=="NOk") %>% select(reportingcol, Outside=check)
+  #errors <- subset(fm,check=="NOk") %>% select(reportingcol, Outside=check)
+  errors <- fm[ which(fm$check=="NOk"), c(reportingcol, "Outside")]
+
   return(list(ds,errors))
 }
 

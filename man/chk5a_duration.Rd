@@ -22,7 +22,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 dt <- c("survey_start","end_survey")
 
 chk5a_duration(df, dt)

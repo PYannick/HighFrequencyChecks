@@ -34,14 +34,14 @@ This function check that all interviews in the dataset are completed,
   There is an option to automatically mark for deletion the surveys which have not an end date.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
+{
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 dt <- c("survey_start","end_survey")
 rc <- c("enumerator_id","X_uuid")
 dl <- FALSE
 
-chk1a_interview_completed(df, sc, dt, rc, dl)
+head(chk1a_interview_completed(df, sc, dt, rc, dl),10)
 }
 
 }

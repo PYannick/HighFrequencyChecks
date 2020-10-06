@@ -16,14 +16,15 @@
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' uuid <- "X_uuid"
 #' sc <- "survey_consent"
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk2a_missing_id(df, uuid, sc, rc, dl)
+#'
+#' head(chk2a_missing_id(df, uuid, sc, rc, dl),10)
 #'}
 #' @export chk2a_missing_id
 
@@ -50,7 +51,9 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>% select(reportingcol, survey_consent=survey_consent)
+  # errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
+  #   select(reportingcol, survey_consent=survey_consent)
+  errors <- ds[ which(is.na(ds[,UniqueID]) | ds[,UniqueID]=="") , c(reportingcol, survey_consent)]
   return(list(ds,errors))
 }
 
@@ -73,14 +76,15 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' uuid <- "X_uuid"
 #' sc <- "survey_consent"
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk2b_unique_id(df, uuid, sc, rc, dl)
+#'
+#' head(chk2b_unique_id(df, uuid, sc, rc, dl),10)
 #'}
 #' @export chk2b_unique_id
 
@@ -106,6 +110,7 @@ chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reporti
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
+  #errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
+  errors <- ds[ which(duplicated(ds[,UniqueID])) , c(reportingcol, survey_consent)]
   return(list(ds,errors))
 }

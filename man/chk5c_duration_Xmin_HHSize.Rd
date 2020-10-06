@@ -41,7 +41,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 hs <-"consent_received.respondent_info.hh_size"
 dt <- c("survey_start","end_survey")
@@ -49,7 +49,8 @@ rc <- c("enumerator_id","X_uuid")
 md <- 30
 dl <- FALSE
 
-chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl)
+list[dts,error] <- chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl)
+head(error,10)
 }
 }
 \author{

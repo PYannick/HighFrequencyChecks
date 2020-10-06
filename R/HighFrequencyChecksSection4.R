@@ -14,11 +14,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' chk4aiii_missing_pct(df, enumeratorID, enumeratorcheck)
+#' log <- chk4aiii_missing_pct(df, enumeratorID, enumeratorcheck)
+#' head(log,10)
 #'}
 #' @export chk4aiii_missing_pct
 
@@ -34,11 +35,11 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
   }
 
   if(!enumeratorcheck){
-    logf<-data.frame(variables=colnames(ds), pct=colMeans(is.na(ds[]) | ds[]=="") * 100)
+    logf<-data.frame(variables=colnames(ds), pct = colMeans(is.na(ds[]) | ds[]=="") * 100)
   } else {
-    logf<-ds %>%
-      group_by(ds[,enumeratorID]) %>%
-      summarise_all(funs(100*mean(is.na(.) | .=="")))
+    logf  <-ds %>%
+            group_by(ds[,enumeratorID]) %>%
+            summarise_all(funs(100*mean(is.na(.) | .=="")))
   }
   return(logf)
 }
@@ -60,11 +61,12 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' chk4bii_distinct_values(df, enumeratorID, enumeratorcheck)
+#' log <- chk4bii_distinct_values(df, enumeratorID, enumeratorcheck)
+#' head(log,10)
 #'}
 #' @export chk4bii_distinct_values
 
@@ -109,12 +111,13 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' otherpattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+#' log <- chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+#' head(log,10)
 #'}
 #' @export chk4biv_others_values
 
@@ -164,13 +167,14 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sdval <- 2
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' log <- chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' head(log,10)
 #'}
 #' @export chk4d_outliers
 
@@ -261,7 +265,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' qu <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
@@ -281,7 +285,8 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
 #' eid <- "enumerator_id"
 #' ec <- FALSE
 #'
-#' chk4e_values_greater_X(df, qu, v, eid, ec)
+#' log <- chk4e_values_greater_X(df, qu, v, eid, ec)
+#' head(log,10)
 #'}
 #' @export chk4e_values_greater_X
 #'

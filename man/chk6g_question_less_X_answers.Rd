@@ -29,7 +29,7 @@ This can be useful for select_multiple questions where respondent shall give at 
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 eid <- "enumerator_id"
 qu <- c("consent_received.shelter_nfi.non_food_items[.]",
       "consent_received.food_security.main_income[.]",
@@ -37,7 +37,8 @@ qu <- c("consent_received.shelter_nfi.non_food_items[.]",
       "consent_received.child_protection.girl_risk[.]")
 mna <- 3
 
-chk6g_question_less_X_answers(df, eid, qu, mna)
+log <- chk6g_question_less_X_answers(df, eid, qu, mna)
+head(log,10)
 }
 }
 \author{

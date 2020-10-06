@@ -33,14 +33,15 @@ This function check that all interviews in the dataset do not start after the cu
 There is an option to automatically mark for deletion the surveys which have a start date in the future.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-dates <- -c("survey_start","end_survey")
+{
+df <- HighFrequencyChecks::sample_dataset
+dates <- c("survey_start","end_survey")
 sc <- "survey_consent"
 rc <- c("enumerator_id","X_uuid")
 dl <- FALSE
 
-chk3d_date_mistake(df, uuid, sc, rc, dl)
+
+head(chk3d_date_mistake(df, uuid, sc, rc, dl),10)
 }
 }
 \author{

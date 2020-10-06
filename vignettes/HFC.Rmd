@@ -61,6 +61,7 @@ library(HighFrequencyChecks)
 library(kableExtra)
 library(DT)
 library(ggplot2)
+library(plotly)
 ```
 
 ### Loading survey dataset (microdata)
@@ -81,41 +82,47 @@ The sampling plan is defined through the sampling strategy. It includes for each
 SampleSize <- HighFrequencyChecks::SampleSize
 # correction for uppercase/lowercase in the site name 
 SampleSize$Union <- tolower(SampleSize$Union)
-```
 
-Sampling targets shall also be defined
-
-```{r, include=TRUE}
+# name as a string of the field where the number of points
+# generated is stored in the sampling frame
+sf_nbpts="TotPts"
 
 # name as a string of the field in the dataset where the site is stored
 sf_site="Union"
 
 # name as a string of the field in the sampling frame where the site is stored
 sf_target="SS"
+```
 
-# name as a string of the field where the number of points generated is stored in the sampling frame
-sf_nbpts="TotPts"
+Sampling targets shall also be defined
 
-# formulas as a list of string used to compute the final number of eligible surveys 
-# and the variance from the target (C('formula1','formula2')).
-# the values/fields available are: done and the ones generated according the survey consent values (one per value)
-formul=c("done-no-not_eligible-deleted",
+```{r, include=TRUE}
+
+
+
+# formulas as a list of string used to compute the final number 
+# of eligible surveys  and the variance from the target
+# (C('formula1','formula2')).
+# the values/fields available are: done and the ones generated 
+# according the survey consent values (one per value)
+formul = c("done-no-not_eligible-deleted",
          "done-no-not_eligible-deleted-SS")
 
 # column names as a list of string to order the colums in the result
 # the columns available are: site, done, final, variance and 
 # the ones generated according the survey consent values (one per value)
-colorder=c("site",
-           "SS",
-           "TotPts",
-           "done",
-           "not_eligible",
-           "no",
-           "deleted",
-           "yes",
-           "final",
-           "variance")
+colorder = c("site",
+             "SS",
+             "TotPts",
+             "done",
+             "not_eligible",
+             "no",
+             "deleted",
+             "yes",
+             "final",
+             "variance")
 ```
+
 ### Loading geodata for the surveyed area
 
 Often sampling strategy includes a geographic coverage.
@@ -123,7 +130,6 @@ Often sampling strategy includes a geographic coverage.
 This can be overview through either:
 
  * a defined polygon, aka area or admin unit
-
 
 ```{r message=FALSE, warning=FALSE, include=TRUE}
 adm <- HighFrequencyChecks::admin
@@ -145,7 +151,7 @@ When it comes to back checks, variables can be divided into the following differ
  
  * Type 2 variables are based on questions where a __risk of error is possible__. For example, questions based on sensitive topics, or questions that involve calculations or classification with possibility of 'or other'. If there is an error in these variables, there might be a need to provide further training for enumerators.
  
- * Type 3 variables are based on questions about the survey instrument, and errors in this case provide feedback which can help improve the survey instrument itself.
+ * Type 3 variables are based on questions about the survey instrument, and errors in this case provide feedback which can help improve the survey instrument itself. This is often the case for questions including __or other, please specify__ question type.
 
 Below are initialized variables to perform data quality control for this specific dataset
 
@@ -259,7 +265,6 @@ buffer <- 10
 
 ```{r, include=TRUE}
 otherpattern <- "_other$"
-
 dteformat <- "%m/%d/%Y"
 ```
 
@@ -269,11 +274,7 @@ dteformat <- "%m/%d/%Y"
 
 These checks are designed to ensure that responses are consistent for a particular survey instrument, and that the responses fall within a particular range. For example, checks to ensure that all variables are standardized, and there are no outliers in the data. Share a daily log of such errors, and check if it is an issue with enumerators, in which case there might be a need to re-train enumerators.
 
-
-
- *  Survey coding: Suppose question 1a asks “Do you have children under the age of 18?” followed by question 1b: “(if yes) Are they in school?” If respondents who answer “no” to the first question are shown the second question, then the skip pattern is not working correctly and should be fixed.
- 
- *  Missing data: Are some questions skipped more than others? Are there questions that no respondents answered? This may indicate a programming error.
+Missing data: Are some questions skipped more than others? Are there questions that no respondents answered? This may indicate a programming error.
  
  *  Categorical variables: Are respondents selecting the given categories or are many respondents selecting “None of the above”, or “other”? If conducting a survey, you may want to add categories or modify your existing ones.
 
@@ -281,16 +282,16 @@ These checks are designed to ensure that responses are consistent for a particul
 
 
 
-#### Duplicates in respondent ID
+#### Respondent ID
 
 Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent. 
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 list[dts_unique_id,err_unique_id] <- chk2b_unique_id(sample_dataset, 
-                                 uuid, 
-                                 consent, 
-                                 reportcol, 
-                                 TRUE)
+                                                     uuid, 
+                                                     consent, 
+                                                     reportcol, 
+                                                     TRUE)
 sample_dataset <- dts_unique_id
 
 if(nrow(err_unique_id)>0){ 
@@ -298,6 +299,23 @@ DT::datatable(err_unique_id,
              caption = "Detected records with errors: Duplicate respondent ID")
 } else {
   cat(">__No errors__: All records have a unique repondent ID")
+}
+
+```
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list[dts_missing_id,err_missing_id] <- chk2a_missing_id(sample_dataset, 
+                                                     uuid, 
+                                                     consent, 
+                                                     reportcol, 
+                                                     TRUE)
+sample_dataset <- dts_missing_id
+
+if(nrow(err_missing_id)>0){ 
+DT::datatable(err_missing_id, 
+             caption = "Detected records with errors: Missing respondent ID")
+} else {
+  cat(">__No errors__: All records have an ID")
 }
 
 ```
@@ -360,7 +378,7 @@ DT::datatable(err_date_mistake3,
 ```
 
 
-### Data collected according the sampling plan
+### Data collected according the plan
 
 
 
@@ -541,6 +559,13 @@ DT::datatable(reportlog_productivity,
 } 
 ```
 
+```{r eval=TRUE, echo=TRUE, results='asis'}
+chk7aii_productivity_hist(sample_dataset, 
+                                 surveydte, 
+                                 dteformat, 
+                                 consent)
+
+```
 
 #### How many attempted interview per day and obtained consent?
 

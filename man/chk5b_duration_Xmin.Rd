@@ -38,14 +38,15 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 dt <- c("survey_start","end_survey")
 rc <- c("enumerator_id","X_uuid")
 md <- 30
 dl <- FALSE
 
-chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
+list[dts,error] <- chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
+head(error,10)
 }
 }
 \author{

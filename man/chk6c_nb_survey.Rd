@@ -21,11 +21,12 @@ This function display the total number of survey made and the average per day pe
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sdte <- "survey_date"
 eid <- "enumerator_id"
 
-chk6c_nb_survey(df, sdte, eid)
+log <- chk6c_nb_survey(df, sdte, eid)
+head(log,10)
 }
 }
 \author{

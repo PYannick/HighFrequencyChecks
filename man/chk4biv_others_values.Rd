@@ -29,12 +29,13 @@ This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 otherpattern <- "_other$"
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+log <- chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+head(log,10)
 }
 }
 \author{

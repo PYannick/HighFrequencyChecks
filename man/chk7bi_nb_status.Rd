@@ -28,12 +28,13 @@ This function display the number of surveys conducted per day per constent statu
 }
 \examples{
 \dontrun{
-df <- sample_dataset
-sdte <- \"survey_date\"
-dtf <- \"\\%m/\\%d/\\%Y\"
-sc <- \"survey_consent\"
+df <- HighFrequencyChecks::sample_dataset
+sdte <- "survey_date"
+dtf <- "\%m/\%d/\%Y"
+sc <- "survey_consent"
 
-chk7bi_nb_status(df, sdte, dtf, sc)
+log <- chk7bi_nb_status(df, sdte, dtf, sc)
+head(log,10)
 }
 
 }

@@ -31,13 +31,13 @@ This function check that all interviews in the dataset have information about th
  There is an option to automatically mark for deletion the surveys which have not consent information.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
+{
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+dl <- TRUE
 
-chk1b_survey_consent(df, sc, dt, rc, dl)
+head(chk1b_survey_consent(df, sc, dt, rc, dl),10)
 }
 }
 \author{

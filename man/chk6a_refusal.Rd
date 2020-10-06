@@ -21,11 +21,12 @@ This function display the percentage of survey refusal per enumerator.
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 eid <- "enumerator_id"
 
-chk6a_refusal(df, sc, eid)
+log <- chk6a_refusal(df, sc, eid)
+head(log,10)
 }
 }
 \author{

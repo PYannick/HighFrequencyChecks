@@ -34,7 +34,7 @@ This function provide a report showing all values which are greater than a certa
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 qu <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
       "consent_received.food_security.spend_education",
@@ -54,7 +54,8 @@ rc <- c("enumerator_id","X_uuid")
 eid <- "enumerator_id"
 ec <- FALSE
 
-chk4e_values_greater_X(df, qu, v, eid, ec)
+log <- chk4e_values_greater_X(df, qu, v, eid, ec)
+head(log,10)
 }
 }
 \author{

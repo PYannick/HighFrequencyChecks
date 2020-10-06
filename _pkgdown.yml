@@ -17,53 +17,43 @@ navbar:
     href: reference/index.html
 
 reference:
-  - title: Convenience functions for Interview completion
+  - title: Corrective actions - Correct set-up of data collection devices and encoding of the forms
     contents:
-      - chk1a_interview_completed
-      - chk1b_survey_consent
-  - title: Convenience functions for Spatial Check
-    contents:
-      - chk1di_GIS_site
-      - chk1dii_GIS_Xm
-  - title: Convenience functions for unique ID
-    contents:
-      - chk2a_missing_id
       - chk2b_unique_id
-  - title: Convenience functions for date
-    contents:
+      - chk2a_missing_id
       - chk3a_date_mistake
       - chk3b_date_mistake
-      - chk3c_date_mistake
       - chk3d_date_mistake
-  - title: Convenience functions for missing values
+  - title: Corrective actions - Data collected according the plan
     contents:
-      - chk4aiii_missing_pct
-      - chk4bii_distinct_values
-      - chk4biv_others_values
-  - title: Convenience functions for outliers
-    contents:
-      - chk4d_outliers
-      - chk4e_values_greater_X
-  - title: Convenience functions for duration
+      - chk3c_date_mistake
+      - chk1di_GIS_site
+      - chk1dii_GIS_Xm
+      - chk5b_duration_Xmin
+      - chk7bii_tracking
+  - title: Pro-active actions - Enumerators rigorous work standards
     contents:
       - chk5a_duration
-      - chk5b_duration_Xmin
       - chk5c_duration_Xmin_HHSize
       - chk5d_duration_outliers
-  - title: Convenience functions for Interaction with enumerators
-    contents:
-      - chk6a_refusal
-      - chk6b_duration
-      - chk6c_nb_survey
-      - chk6f_productivity
       - chk6g_question_less_X_answers
-  - title: Convenience functions for enumerator productivity
+      - chk4biv_others_values
+      - chk1a_interview_completed
+      - chk1b_survey_consent
+      - chk4d_outliers
+      - chk4e_values_greater_X
+      - chk4aiii_missing_pct
+      - chk4bii_distinct_values
+  - title: Pro-active actions - Enumerators productivity
     contents:
       - chk7ai_productivity
       - chk7aii_productivity_hist
       - chk7bi_nb_status
-      - chk7bii_tracking
-  - title: List of demonstration dataset
+      - chk6a_refusal
+      - chk6b_duration
+      - chk6c_nb_survey
+      - chk6f_productivity
+  - title: Dataset used for demonstration
     contents:
       - sample_dataset
       - SamplePts

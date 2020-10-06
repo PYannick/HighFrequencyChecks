@@ -33,14 +33,15 @@ This function check that all interviews in the dataset have an ID which is uniqu
 There is an option to automatically mark for deletion the surveys which have a duplicated unique ID.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
+{
+df <- HighFrequencyChecks::sample_dataset
 uuid <- "X_uuid"
 sc <- "survey_consent"
 rc <- c("enumerator_id","X_uuid")
 dl <- FALSE
 
-chk2b_unique_id(df, uuid, sc, rc, dl)
+
+head(chk2b_unique_id(df, uuid, sc, rc, dl),10)
 }
 }
 \author{

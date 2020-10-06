@@ -28,12 +28,13 @@ This function display the surveyors with very low or high productivity.
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 eid <- "enumerator_id"
 sdte <- "survey_date"
 sdv<-2
 
-chk6f_productivity(df, eid, sdte, sdv)
+log <- chk6f_productivity(df, eid, sdte, sdv)
+head(log,10)
 }
 }
 \author{

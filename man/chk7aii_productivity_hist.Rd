@@ -28,10 +28,10 @@ This function create an histogram showing the overall productivity per consent s
 }
 \examples{
 \dontrun{
-df <- sample_dataset
-sdte <- \"survey_date\"
-dtf <- \"\\%m/\\%d/\\%Y\"
-sc <- \"survey_consent\"
+df <- HighFrequencyChecks::sample_dataset
+sdte <- "survey_date"
+dtf <- "\%m/\%d/\%Y"
+sc <- "survey_consent"
 
 chk7aii_productivity_hist(df, sdte, dtf, sc)
 }

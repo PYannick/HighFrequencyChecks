@@ -44,16 +44,17 @@ One internal function "make_GeodesicBuffer" used to create the buffers is create
 https://stackoverflow.com/users/5193830/valentin
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-pts <- SamplePts
+ {
+df <- HighFrequencyChecks::sample_dataset
+pts <- HighFrequencyChecks::SamplePts
 df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 bu <- 10
-sc<-"survey_consent"
-rc<-c("enumerator_id","X_uuid")
-dl<-FALSE
+sc <- "survey_consent"
+rc <- c("enumerator_id","X_uuid")
+dl <- FALSE
 
-chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl)
+
+head(chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl),10)
 }
 }
 \author{

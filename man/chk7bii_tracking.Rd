@@ -45,21 +45,22 @@ This function display the overall tracking sheet.
 }
 \examples{
 \dontrun{
-df <- sample_dataset
-df <- sample_dataset
-sf <- SampleSize
-dssite <- \"union_name\"
-sfsite <- \"Union\"
-sc <- \"survey_consent\"
-sftarget <- \"SS\"
-sfnbpts <- \"TotPts\"
-#formul <- c(\"done-no-not_eligible-delete\",
-#               \"done-no-not_eligible-deleted-SS\")
-#colorder <- c(\"site\",\"SS\",\"Provisio\",\"done\",\"not_eligible\",
-#                 \"no\",\"deleted\",\"yes\",\"final\",\"variance\")
+df <- HighFrequencyChecks::sample_dataset
+sf <- HighFrequencyChecks::SampleSize
+dssite <- "union_name"
+sfsite <- "Union"
+sc <- "survey_consent"
+sftarget <- "SS"
+sfnbpts <- "TotPts"
+formul <- c("done-no-not_eligible-delete",
+               "done-no-not_eligible-deleted-SS")
+colorder <- c("site","SS","Provisio","done","not_eligible",
+                 "no","deleted","yes","final","variance")
 
-chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
+log <- chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
                   sfnbpts, formul, colorder)
+head(log,10)
+
 }
 }
 \author{

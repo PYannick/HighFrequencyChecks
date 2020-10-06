@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' dt <- c("survey_start","end_survey")
 #'
 #' chk5a_duration(df, dt)
@@ -56,14 +56,15 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
 #' dt <- c("survey_start","end_survey")
 #' rc <- c("enumerator_id","X_uuid")
 #' md <- 30
 #' dl <- FALSE
 #'
-#' chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
+#' list[dts,error] <- chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
+#' head(error,10)
 #'}
 #' @export chk5b_duration_Xmin
 
@@ -119,7 +120,7 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
 #' hs <-"consent_received.respondent_info.hh_size"
 #' dt <- c("survey_start","end_survey")
@@ -127,7 +128,8 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
 #' md <- 30
 #' dl <- FALSE
 #'
-#' chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl)
+#' list[dts,error] <- chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl)
+#' head(error,10)
 #'}
 #' @export chk5c_duration_Xmin_HHSize
 
@@ -179,10 +181,11 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL,
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' dt <- c("survey_start","end_survey")
 #'
-#' chk5d_duration_outliers(df, dt)
+#' log <- chk5d_duration_outliers(df, dt)
+#' head(log,10)
 #'}
 #' @export chk5d_duration_outliers
 

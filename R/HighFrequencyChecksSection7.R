@@ -14,12 +14,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
+#' df <- HighFrequencyChecks::sample_dataset
 #' sdte <- "survey_date"
 #' dtf <- "%m/%d/%Y"
 #' sc <- "survey_consent"
 #'
-#' chk7ai_productivity(df, sdte, dtf, sc)
+#' log <- chk7ai_productivity(df, sdte, dtf, sc)
+#' head(log,10)
 #'}
 #' @export chk7ai_productivity
 
@@ -38,7 +39,7 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
   }
 
   tmp<-ds %>%
-      group_by_(surveydate=surveydate) %>%
+      group_by(surveydate=surveydate) %>%
       summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
@@ -61,10 +62,10 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
-#' sdte <- \"survey_date\"
-#' dtf <- \"\%m/\%d/\%Y\"
-#' sc <- \"survey_consent\"
+#' df <- HighFrequencyChecks::sample_dataset
+#' sdte <- "survey_date"
+#' dtf <- "%m/%d/%Y"
+#' sc <- "survey_consent"
 #'
 #' chk7aii_productivity_hist(df, sdte, dtf, sc)
 #'}
@@ -84,11 +85,14 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by_(surveydate=surveydate) %>% count_(survey_consent)
+  tmp <- ds %>%
+         group_by(surveydate=surveydate) %>%
+         count(survey_consent)
+
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
-  tmp <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
+  tmp <- reshape2::dcast(tmp, surveydate ~ survey_consent, value.var="n")
   tmp[is.na(tmp)] <- 0
 
   graph <- plotly::plot_ly(type = 'bar', width = 1800, height = 900)
@@ -119,12 +123,13 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
-#' sdte <- \"survey_date\"
-#' dtf <- \"\%m/\%d/\%Y\"
-#' sc <- \"survey_consent\"
+#' df <- HighFrequencyChecks::sample_dataset
+#' sdte <- "survey_date"
+#' dtf <- "%m/%d/%Y"
+#' sc <- "survey_consent"
 #'
-#' chk7bi_nb_status(df, sdte, dtf, sc)
+#' log <- chk7bi_nb_status(df, sdte, dtf, sc)
+#' head(log,10)
 #'}
 #'
 #' @export chk7bi_nb_status
@@ -143,7 +148,7 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by_(surveydate=surveydate) %>% count_(survey_consent)
+  tmp <- ds %>% group_by(surveydate=surveydate) %>% count(survey_consent)
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
@@ -175,21 +180,22 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
 #'
 #' @examples
 #' \dontrun{
-#' df <- sample_dataset
-#' df <- sample_dataset
-#' sf <- SampleSize
-#' dssite <- \"union_name\"
-#' sfsite <- \"Union\"
-#' sc <- \"survey_consent\"
-#' sftarget <- \"SS\"
-#' sfnbpts <- \"TotPts\"
-#' #formul <- c(\"done-no-not_eligible-delete\",
-#' #               \"done-no-not_eligible-deleted-SS\")
-#' #colorder <- c(\"site\",\"SS\",\"Provisio\",\"done\",\"not_eligible\",
-#' #                 \"no\",\"deleted\",\"yes\",\"final\",\"variance\")
+#' df <- HighFrequencyChecks::sample_dataset
+#' sf <- HighFrequencyChecks::SampleSize
+#' dssite <- "union_name"
+#' sfsite <- "Union"
+#' sc <- "survey_consent"
+#' sftarget <- "SS"
+#' sfnbpts <- "TotPts"
+#' formul <- c("done-no-not_eligible-delete",
+#'                "done-no-not_eligible-deleted-SS")
+#' colorder <- c("site","SS","Provisio","done","not_eligible",
+#'                  "no","deleted","yes","final","variance")
 #'
-#' chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
+#' log <- chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
 #'                   sfnbpts, formul, colorder)
+#' head(log,10)
+#'
 #'}
 #' @export chk7bii_tracking
 #'
@@ -225,7 +231,7 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
 
   df1<-data.frame(sf[,sfsite], sf[,sftarget], sf[,sfnbpts])
   colnames(df1)<-c("site",sftarget,sfnbpts)
-  ## df2<-data.frame(ds, stringsAsFactors = FALSE) %>% group_by_(dssite) %>% count_(survcons) %>% mutate(done=sum(n))
+  ## df2<-data.frame(ds, stringsAsFactors = FALSE) %>% group_by(dssite) %>% count(survcons) %>% mutate(done=sum(n))
   ## colnames(df2)[2]<-"site"
   #df2<-ds[,c(dssite,survcons)]
   #colnames(df2)<-c("site","consent")
@@ -233,7 +239,7 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
   ## survcons<-lazyeval::lazy(survcons)
-  df2<-ds %>% group_by_(site=dssite, consent=survcons) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  df2<-ds %>% group_by(site=dssite, consent=survcons) %>% summarize(n=n()) %>% mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survcons) %>% mutate(done=sum(n))

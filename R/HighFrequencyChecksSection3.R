@@ -16,18 +16,23 @@
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
-#' dates <- -c("survey_start","end_survey")
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
+#' dates <- c("survey_start","end_survey")
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk3a_date_mistake(df, uuid, sc, rc, dl)
+#'
+#' head(chk3a_date_mistake(df, sc, dates, rc, dl),10)
 #'}
 #' @export chk3a_date_mistake
 
-chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
+chk3a_date_mistake <- function(ds=NULL,
+                               survey_consent=NULL,
+                               dates=NULL,
+                               reportingcol=NULL,
+                               delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -48,8 +53,12 @@ chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
     ds[,survey_consent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!= stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
   }
 
-  errors <- subset(ds, stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-    select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  # errors <- subset(ds, stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+
+  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) ,
+                c(reportingcol, dates)]
+
   return(list(ds,errors))
 }
 
@@ -71,18 +80,23 @@ chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
-#' dates <- -c("survey_start","end_survey")
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
+#' dates <- c("survey_start","end_survey")
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk3b_date_mistake(df, uuid, sc, rc, dl)
+#'
+#' head(chk3b_date_mistake(df, sc, dates, rc, dl),10)
 #'}
 #' @export chk3b_date_mistake
 
-chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
+chk3b_date_mistake <- function(ds=NULL,
+                               survey_consent=NULL,
+                               dates=NULL,
+                               reportingcol=NULL,
+                               delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -100,11 +114,15 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
   }
 
   if(delete){
-    ds[,survey_consent][strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")]<-"deleted"
+    ds[,survey_consent][strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS") > strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")]<-"deleted"
   }
 
-  errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
-    select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  # errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
+  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+
+  errors <- ds[ which(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")),
+                c(reportingcol, dates)]
+
   return(list(ds,errors))
 }
 
@@ -128,15 +146,16 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
-#' dates <- -c("survey_start","end_survey")
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
+#' dates <- c("survey_start","end_survey")
 #' sc <- "survey_consent"
 #' st <- "2018-11-11"
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk3c_date_mistake(df, dates, sc, st, rc, dl)
+#'
+#' head(chk3c_date_mistake(df, dates, sc, st, rc, dl),10)
 #'}
 #' @export chk3c_date_mistake
 
@@ -170,8 +189,13 @@ chk3c_date_mistake <- function(ds = NULL,
     ds[,survey_consent][start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
   }
 
-  errors <- subset(ds,start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-    select(reportingcol, survey_start=dates[1])
+  # errors <- subset(ds,start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1])
+
+
+  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < start_collection),
+                c(reportingcol, dates[1])]
+
   return(list(ds,errors))
 }
 
@@ -194,14 +218,15 @@ chk3c_date_mistake <- function(ds = NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- sample_dataset
-#' dates <- -c("survey_start","end_survey")
+#' {
+#' df <- HighFrequencyChecks::sample_dataset
+#' dates <- c("survey_start","end_survey")
 #' sc <- "survey_consent"
 #' rc <- c("enumerator_id","X_uuid")
 #' dl <- FALSE
 #'
-#' chk3d_date_mistake(df, uuid, sc, rc, dl)
+#'
+#' head(chk3d_date_mistake(df, uuid, sc, rc, dl),10)
 #'}
 #' @export chk3d_date_mistake
 
@@ -228,7 +253,11 @@ chk3d_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-    select(reportingcol, survey_start=dates[1])
+  # errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1])
+
+  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < Sys.Date()),
+                c(reportingcol, dates[1])]
+
   return(list(ds,errors))
 }

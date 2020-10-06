@@ -28,10 +28,11 @@ This function report the outlier durations for the surveys
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 dt <- c("survey_start","end_survey")
 
-chk5d_duration_outliers(df, dt)
+log <- chk5d_duration_outliers(df, dt)
+head(log,10)
 }
 }
 \author{

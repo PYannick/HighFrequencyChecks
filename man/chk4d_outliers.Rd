@@ -33,13 +33,14 @@ based on the difference between mean and median between untransformed normalized
 }
 \examples{
 \dontrun{
-df <- sample_dataset
+df <- HighFrequencyChecks::sample_dataset
 sdval <- 2
 reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+log <- chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+head(log,10)
 }
 }
 \author{

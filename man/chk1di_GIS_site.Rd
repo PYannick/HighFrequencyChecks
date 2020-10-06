@@ -44,16 +44,17 @@ The function is based on the GPS data filled in the survey to determine their lo
 There is an option to automatically correct the site in the surveys whith the correct location.
 }
 \examples{
-\dontrun{
-  admin <- admin
-  df <- sample_dataset
+{
+  admin <- HighFrequencyChecks::admin
+  df <- HighFrequencyChecks::sample_dataset
   df_site <- "union_name"
   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
   admin_site <- "Union"
   sc <- "survey_consent"
   rc <- c("enumerator_id","X_uuid")
   co <- FALSE
-  chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co)
+
+  head(chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co),10)
 }
 }
 \author{

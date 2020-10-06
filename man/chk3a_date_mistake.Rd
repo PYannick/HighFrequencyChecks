@@ -33,14 +33,15 @@ This function check that all interviews in the dataset start and end the same da
 There is an option to automatically mark for deletion the surveys which have different starting and ending dates.
 }
 \examples{
-\dontrun{
-df <- sample_dataset
-dates <- -c("survey_start","end_survey")
+{
+df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
+dates <- c("survey_start","end_survey")
 rc <- c("enumerator_id","X_uuid")
 dl <- FALSE
 
-chk3a_date_mistake(df, uuid, sc, rc, dl)
+
+head(chk3a_date_mistake(df, sc, dates, rc, dl),10)
 }
 }
 \author{
