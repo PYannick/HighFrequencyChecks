@@ -51,16 +51,13 @@ chk3a_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!= stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")!= stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")]<-"deleted"
   }
 
-  # errors <- subset(ds, stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) ,
-                c(reportingcol, dates)]
-
-  return(list(ds,errors))
+  errors <- subset(ds, stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd") != stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk3b_date_mistake
@@ -116,16 +113,15 @@ chk3b_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS") > strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")]<-"deleted"
+    ds[,survey_consent][readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))]<-"deleted"
   }
 
-  # errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
-  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
 
-  errors <- ds[ which(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")),
-                c(reportingcol, dates)]
 
-  return(list(ds,errors))
+  errors <- subset(ds, readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))) %>%
+              select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  return(list(ds,errors,NULL,NULL))
+
 }
 
 
@@ -189,17 +185,14 @@ chk3c_date_mistake <- function(ds = NULL,
   }
 
   if(delete){
-    ds[,survey_consent][start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
   }
 
-  # errors <- subset(ds,start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1])
 
+  errors <- subset(ds,start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1])
+  return(list(ds,errors,NULL,NULL))
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < start_collection),
-                c(reportingcol, dates[1])]
-
-  return(list(ds,errors))
 }
 
 
@@ -257,15 +250,13 @@ chk3d_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  # errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1])
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < Sys.Date()),
-                c(reportingcol, dates[1])]
+  errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1])
+  return(list(ds,errors,NULL,NULL))
 
-  return(list(ds,errors))
 }

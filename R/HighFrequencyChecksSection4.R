@@ -41,7 +41,7 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
             group_by(ds[,enumeratorID]) %>%
             summarise_all(funs(100*mean(is.na(.) | .=="")))
   }
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
@@ -91,7 +91,7 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
       group_by(ds[,enumeratorID]) %>%
       summarise_all(funs(n_distinct_no_na(.)))
   }
-  return(t(logf))
+  return(list(NULL,t(logf),NULL,NULL))
 }
 
 #' @name chk4biv_others_values
@@ -137,15 +137,15 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
   }
 
   if(!enumeratorcheck){
-    tmp <- ds[,colnames(ds[,colnames(ds) %like% otherpattern])]
+    tmp <- data.frame(ds[,colnames(ds[,colnames(ds) %like% otherpattern])], stringsAsFactors = FALSE)
     tmp <- data.frame(utils::stack(tmp[1:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by(field=ind, values) %>% summarize(nb=n())
   } else {
-    tmp <- ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))]
+    tmp <- data.frame(ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))], stringsAsFactors = FALSE)
     tmp <- data.frame(tmp[1], utils::stack(tmp[2:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by_(field=colnames(tmp[3]), enumeratorID, colnames(tmp[2])) %>% summarize(nb=n())
   }
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk4d_outliers
@@ -242,7 +242,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   scores_outliers <- subset(scores_outliers, abs(values) >= sdval)
   scores_outliers$ind <- as.character(scores_outliers$ind)
   logf <- left_join(scores_outliers,distribution_type,by=c("ind"="ind"))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
@@ -312,5 +312,5 @@ chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportin
 
   tmp <- data.frame(ds[reportingcol], utils::stack(ds[questions]), stringsAsFactors = FALSE)
   logf <- subset(tmp, values>=value)
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
