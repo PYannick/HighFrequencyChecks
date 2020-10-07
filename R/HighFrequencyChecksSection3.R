@@ -17,14 +17,15 @@
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
+#' ds <- HighFrequencyChecks::sample_dataset
+#' survey_consent <- "survey_consent"
 #' dates <- c("survey_start","end_survey")
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk3a_date_mistake(df, sc, dates, rc, dl),10)
+#' list_date_mistake <- chk3a_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+#' head(list_date_mistake[[2]], 10)
 #'}
 #' @export chk3a_date_mistake
 
@@ -81,14 +82,15 @@ chk3a_date_mistake <- function(ds=NULL,
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
+#' ds <- HighFrequencyChecks::sample_dataset
+#' survey_consent <- "survey_consent"
 #' dates <- c("survey_start","end_survey")
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk3b_date_mistake(df, sc, dates, rc, dl),10)
+#' list_date_mistake2 <- chk3b_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+#' head(list_date_mistake2[[2]], 10)
 #'}
 #' @export chk3b_date_mistake
 
@@ -147,15 +149,16 @@ chk3b_date_mistake <- function(ds=NULL,
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
-#' sc <- "survey_consent"
-#' st <- "2018-11-11"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' survey_consent <- "survey_consent"
+#' start_collection <- "2018-11-11"
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk3c_date_mistake(df, dates, sc, st, rc, dl),10)
+#' list_date_mistake3 <- chk3c_date_mistake(ds, dates, survey_consent,start_collection, reportingcol, delete)
+#' head(list_date_mistake3[[2]], 10)
 #'}
 #' @export chk3c_date_mistake
 
@@ -219,19 +222,24 @@ chk3c_date_mistake <- function(ds = NULL,
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
-#' sc <- "survey_consent"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' survey_consent <- "survey_consent"
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk3d_date_mistake(df, uuid, sc, rc, dl),10)
+#' list_date_mistake4 <- chk3d_date_mistake(ds, uuid, survey_consent,reportingcol, delete)
+#' head(list_date_mistake4[[2]], 10)
 #'}
 #' @export chk3d_date_mistake
 
 
-chk3d_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, delete=NULL){
+chk3d_date_mistake <- function(ds=NULL,
+                               survey_consent=NULL,
+                               dates=NULL,
+                               reportingcol=NULL,
+                               delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }

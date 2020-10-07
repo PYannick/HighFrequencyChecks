@@ -57,8 +57,15 @@ formul <- c("done-no-not_eligible-delete",
 colorder <- c("site","SS","Provisio","done","not_eligible",
                  "no","deleted","yes","final","variance")
 
-log <- chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
-                  sfnbpts, formul, colorder)
+log <- chk7bii_tracking(df,
+                        sf,
+                        dssite,
+                        sfsite,
+                        sc,
+                        sftarget,
+                        sfnbpts,
+                        formul,
+                        colorder)
 head(log,10)
 
 }

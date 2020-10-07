@@ -21,11 +21,11 @@ This function compute the average and total time for the surveys
 Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
-dt <- c("survey_start","end_survey")
+{
+ds <- HighFrequencyChecks::sample_dataset
+dates <- c("survey_start","end_survey")
 
-chk5a_duration(df, dt)
+chk5a_duration(ds, dates)
 }
 }
 \author{

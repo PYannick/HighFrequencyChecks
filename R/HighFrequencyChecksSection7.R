@@ -61,17 +61,20 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "%m/%d/%Y"
-#' sc <- "survey_consent"
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' surveydate <- "survey_date"
+#' dateformat <- "%m/%d/%Y"
+#' survey_consent <- "survey_consent"
 #'
-#' chk7aii_productivity_hist(df, sdte, dtf, sc)
+#' chk7aii_productivity_hist(ds, surveydate, dateformat, survey_consent)
 #'}
 #' @export chk7aii_productivity_hist
 
-chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
+chk7aii_productivity_hist <- function(ds = NULL,
+                                      surveydate = NULL,
+                                      dateformat = NULL,
+                                      survey_consent = NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -86,7 +89,7 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
   }
 
   tmp <- ds %>%
-         group_by(surveydate=surveydate) %>%
+         group_by_(surveydate=surveydate) %>%
          count(survey_consent)
 
   colnames(tmp)[2] <- "survey_consent"
@@ -95,7 +98,7 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
   tmp <- reshape2::dcast(tmp, surveydate ~ survey_consent, value.var="n")
   tmp[is.na(tmp)] <- 0
 
-  graph <- plotly::plot_ly(type = 'bar', width = 1800, height = 900)
+  graph <- plotly::plot_ly(type = 'bar', width = 800, height = 600)
   for(i in 2:length(tmp)){
     graph<-add_trace(graph, x=tmp[,1], y = tmp[,i], name = colnames(tmp)[i])
   }
@@ -122,19 +125,22 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "%m/%d/%Y"
-#' sc <- "survey_consent"
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' surveydate <- "survey_date"
+#' dateformat <- "%m/%d/%Y"
+#' survey_consent <- "survey_consent"
 #'
-#' log <- chk7bi_nb_status(df, sdte, dtf, sc)
+#' log <- chk7bi_nb_status(ds, surveydate, dateformat, survey_consent )
 #' head(log,10)
 #'}
 #'
 #' @export chk7bi_nb_status
 
-chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
+chk7bi_nb_status <- function(ds=NULL,
+                             surveydate=NULL,
+                             dateformat=NULL,
+                             survey_consent=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -148,7 +154,7 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by(surveydate=surveydate) %>% count(survey_consent)
+  tmp <- ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
@@ -192,15 +198,30 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
 #' colorder <- c("site","SS","Provisio","done","not_eligible",
 #'                  "no","deleted","yes","final","variance")
 #'
-#' log <- chk7bii_tracking(df, sf, dssite, sfsite, sc, sftarget,
-#'                   sfnbpts, formul, colorder)
+#' log <- chk7bii_tracking(df,
+#'                         sf,
+#'                         dssite,
+#'                         sfsite,
+#'                         sc,
+#'                         sftarget,
+#'                         sfnbpts,
+#'                         formul,
+#'                         colorder)
 #' head(log,10)
 #'
 #'}
 #' @export chk7bii_tracking
 #'
 
-chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcons=NULL, sftarget=NULL, sfnbpts=NULL, formul=NULL, colorder=NULL){
+chk7bii_tracking <- function(ds=NULL,
+                             sf=NULL,
+                             dssite=NULL,
+                             sfsite=NULL,
+                             survcons=NULL,
+                             sftarget=NULL,
+                             sfnbpts=NULL,
+                             formul=NULL,
+                             colorder=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -239,7 +260,7 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
   ## survcons<-lazyeval::lazy(survcons)
-  df2<-ds %>% group_by(site=dssite, consent=survcons) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  df2 <- ds %>% group_by_(site=dssite, consent=survcons) %>% summarize(n=n()) %>% mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survcons) %>% mutate(done=sum(n))
@@ -247,9 +268,20 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
   df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
   df[is.na(df)] <- 0
 
-  formul[1] <- paste0("df[,'", stringi::stri_replace_all_fixed(formul[1],c("+","-","/","*"),c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"), vectorize_all=FALSE), "']")
-  formul[2] <- paste0("df[,'", stringi::stri_replace_all_fixed(formul[2],c("+","-","/","*"),c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"), vectorize_all=FALSE), "']")
+  formul[1] <- paste0("df[,'",
+                      stringi::stri_replace_all_fixed(formul[1],
+                                                      c("+","-","/","*"),
+                                                      c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
+                                                      vectorize_all=FALSE),
+                      "']")
   df$final <- eval(parse(text=formul[1]))
+
+  formul[2] <- paste0("df[,'",
+                      stringi::stri_replace_all_fixed(formul[2],
+                                                      c("+","-","/","*"),
+                                                      c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
+                                                      vectorize_all=FALSE),
+                      "']")
   df$variance <- eval(parse(text=formul[2]))
 
   logf <- df[colorder]

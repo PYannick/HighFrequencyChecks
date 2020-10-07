@@ -35,13 +35,13 @@ This function check that all interviews in the dataset are completed,
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
-sc <- "survey_consent"
-dt <- c("survey_start","end_survey")
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+ds <- HighFrequencyChecks::sample_dataset
+survey_consent <- "survey_consent"
+dates <- c("survey_start","end_survey")
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
-head(chk1a_interview_completed(df, sc, dt, rc, dl),10)
+head(chk1a_interview_completed(ds, survey_consent, dt, reportingcol, delete),10)
 }
 
 }

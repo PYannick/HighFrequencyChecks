@@ -37,16 +37,16 @@ There is an option to automatically mark for deletion the surveys which are unde
 Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
-sc <- "survey_consent"
-dt <- c("survey_start","end_survey")
-rc <- c("enumerator_id","X_uuid")
-md <- 30
-dl <- FALSE
+{
+ds <- HighFrequencyChecks::sample_dataset
+survey_consent <- "survey_consent"
+dates <- c("survey_start","end_survey")
+reportingcol <- c("enumerator_id","X_uuid")
+minduration <- 30
+delete <- FALSE
 
-list[dts,error] <- chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
-head(error,10)
+list <- chk5b_duration_Xmin(ds, survey_consent, dates,  reportingcol, minduration, delete)
+head(list[[2]], 10)
 }
 }
 \author{

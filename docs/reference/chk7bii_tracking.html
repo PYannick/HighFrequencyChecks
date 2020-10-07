@@ -197,8 +197,15 @@ the columns available are: site, done, final, variance and the ones generated ac
 <span class='va'>colorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
                  <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span><span class='op'>)</span>
 
-<span class='va'>log</span> <span class='op'>&lt;-</span> <span class='fu'>chk7bii_tracking</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sf</span>, <span class='va'>dssite</span>, <span class='va'>sfsite</span>, <span class='va'>sc</span>, <span class='va'>sftarget</span>,
-                  <span class='va'>sfnbpts</span>, <span class='va'>formul</span>, <span class='va'>colorder</span><span class='op'>)</span>
+<span class='va'>log</span> <span class='op'>&lt;-</span> <span class='fu'>chk7bii_tracking</span><span class='op'>(</span><span class='va'>df</span>,
+                        <span class='va'>sf</span>,
+                        <span class='va'>dssite</span>,
+                        <span class='va'>sfsite</span>,
+                        <span class='va'>sc</span>,
+                        <span class='va'>sftarget</span>,
+                        <span class='va'>sfnbpts</span>,
+                        <span class='va'>formul</span>,
+                        <span class='va'>colorder</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>log</span>,<span class='fl'>10</span><span class='op'>)</span>
 
 <span class='op'>}</span>

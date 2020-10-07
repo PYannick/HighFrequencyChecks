@@ -34,14 +34,15 @@ This function check that all interviews in the dataset have an ID.
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
-uuid <- "X_uuid"
-sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+ds <- HighFrequencyChecks::sample_dataset
+UniqueID <- "X_uuid"
+survey_consent <- "survey_consent"
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk2a_missing_id(df, uuid, sc, rc, dl),10)
+list_missing_id <- chk2a_missing_id(ds, UniqueID, survey_consent, reportingcol, delete)
+head(list_missing_id[[2]], 10)
 }
 }
 \author{

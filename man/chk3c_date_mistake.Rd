@@ -37,15 +37,16 @@ There is an option to automatically mark for deletion the surveys which have sta
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
+ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
-sc <- "survey_consent"
-st <- "2018-11-11"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+survey_consent <- "survey_consent"
+start_collection <- "2018-11-11"
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk3c_date_mistake(df, dates, sc, st, rc, dl),10)
+list_date_mistake3 <- chk3c_date_mistake(ds, dates, survey_consent,start_collection, reportingcol, delete)
+head(list_date_mistake3[[2]], 10)
 }
 }
 \author{

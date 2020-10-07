@@ -50,11 +50,12 @@ pts <- HighFrequencyChecks::SamplePts
 df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 bu <- 10
 sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl),10)
+list_sitept  <- chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, reportingcol, delete)
+head(list_sitept[[2]], 10)
 }
 }
 \author{

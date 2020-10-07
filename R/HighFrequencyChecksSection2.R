@@ -17,19 +17,25 @@
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
-#' uuid <- "X_uuid"
-#' sc <- "survey_consent"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' ds <- HighFrequencyChecks::sample_dataset
+#' UniqueID <- "X_uuid"
+#' survey_consent <- "survey_consent"
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk2a_missing_id(df, uuid, sc, rc, dl),10)
+#' list_missing_id <- chk2a_missing_id(ds, UniqueID, survey_consent, reportingcol, delete)
+#' head(list_missing_id[[2]], 10)
 #'}
 #' @export chk2a_missing_id
 
 
-chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
+chk2a_missing_id <- function(ds=NULL,
+                             UniqueID=NULL,
+                             survey_consent=NULL,
+                             reportingcol=NULL,
+                             delete=NULL)
+  {
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -47,13 +53,14 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
   }
 
   if(delete){
-    ds[,survey_consent][is.na(ds[,UniqueID])]<-"deleted"
+    ds[,survey_consent][is.na(ds[,UniqueID])] <- "deleted"
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  # errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
-  #   select(reportingcol, survey_consent=survey_consent)
-  errors <- ds[ which(is.na(ds[,UniqueID]) | ds[,UniqueID]=="") , c(reportingcol, survey_consent)]
+   errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
+   #  dplyr::select(reportingcol, survey_consent=survey_consent)
+     dplyr::select(all_of(reportingcol), survey_consent=survey_consent)
+  #errors <- ds[ which(is.na(ds[,UniqueID]) | ds[,UniqueID]=="") , c(reportingcol, survey_consent)]
   return(list(ds,errors))
 }
 
@@ -77,18 +84,23 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
-#' uuid <- "X_uuid"
-#' sc <- "survey_consent"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' ds <- HighFrequencyChecks::sample_dataset
+#' UniqueID <- "X_uuid"
+#' survey_consent <- "survey_consent"
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk2b_unique_id(df, uuid, sc, rc, dl),10)
+#' list_unique_id <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
+#' head(list_unique_id[[2]], 10)
 #'}
 #' @export chk2b_unique_id
 
-chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reportingcol=NULL, delete=NULL){
+chk2b_unique_id <- function(ds=NULL,
+                            UniqueID=NULL,
+                            survey_consent=NULL,
+                            reportingcol=NULL,
+                            delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }

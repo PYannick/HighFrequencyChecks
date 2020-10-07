@@ -20,17 +20,19 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
-#' eid <- "enumerator_id"
+#' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6a_refusal(df, sc, eid)
+#' log <- chk6a_refusal(ds, sc, enumeratorID)
 #' head(log,10)
 #'}
 #' @export chk6a_refusal
 
 
-chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
+chk6a_refusal <- function(ds=NULL,
+                          survey_consent=NULL,
+                          enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -64,16 +66,18 @@ chk6a_refusal <- function(ds=NULL, survey_consent=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' dt <- c("survey_start","end_survey")
-#' eid <- "enumerator_id"
+#' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6b_duration(df, dt, eid)
+#' log <- chk6b_duration(ds, dt, enumeratorID)
 #' head(log,10)
 #'}
 #' @export chk6b_duration
 
-chk6b_duration <- function(ds=NULL, dates=NULL, enumeratorID=NULL){
+chk6b_duration <- function(ds=NULL,
+                           dates=NULL,
+                           enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -107,16 +111,18 @@ chk6b_duration <- function(ds=NULL, dates=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdte <- "survey_date"
-#' eid <- "enumerator_id"
+#' ds <- HighFrequencyChecks::sample_dataset
+#' surveydate <- "survey_date"
+#' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6c_nb_survey(df, sdte, eid)
+#' log <- chk6c_nb_survey(ds, surveydate, enumeratorID)
 #' head(log,10)
 #'}
 #' @export chk6c_nb_survey
 
-chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
+chk6c_nb_survey <- function(ds=NULL,
+                            surveydate=NULL,
+                            enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -152,17 +158,20 @@ chk6c_nb_survey <- function(ds=NULL, surveydate=NULL, enumeratorID=NULL){
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' eid <- "enumerator_id"
-#' sdte <- "survey_date"
-#' sdv<-2
+#' ds <- HighFrequencyChecks::sample_dataset
+#' enumeratorID <- "enumerator_id"
+#' surveydate <- "survey_date"
+#' sdval<-2
 #'
-#' log <- chk6f_productivity(df, eid, sdte, sdv)
+#' log <- chk6f_productivity(ds, enumeratorID, surveydate, sdval)
 #' head(log,10)
 #'}
 #' @export chk6f_productivity
 
-chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdval=NULL){
+chk6f_productivity <- function(ds=NULL,
+                               enumeratorID=NULL,
+                               surveydate=NULL,
+                               sdval=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -208,20 +217,23 @@ chk6f_productivity <- function(ds=NULL, enumeratorID=NULL, surveydate=NULL, sdva
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' eid <- "enumerator_id"
-#' qu <- c("consent_received.shelter_nfi.non_food_items[.]",
+#' ds <- HighFrequencyChecks::sample_dataset
+#' enumeratorID <- "enumerator_id"
+#' questions <- c("consent_received.shelter_nfi.non_food_items[.]",
 #'       "consent_received.food_security.main_income[.]",
 #'       "consent_received.child_protection.boy_risk[.]",
 #'       "consent_received.child_protection.girl_risk[.]")
 #' mna <- 3
 #'
-#' log <- chk6g_question_less_X_answers(df, eid, qu, mna)
+#' log <- chk6g_question_less_X_answers(ds, enumeratorID, questions, mna)
 #' head(log,10)
 #'}
 #' @export chk6g_question_less_X_answers
 
-chk6g_question_less_X_answers <- function(ds=NULL, enumeratorID=NULL, questions=NULL, minnbanswers=NULL){
+chk6g_question_less_X_answers <- function(ds=NULL,
+                                          enumeratorID=NULL,
+                                          questions=NULL,
+                                          minnbanswers=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }

@@ -51,10 +51,11 @@ There is an option to automatically correct the site in the surveys whith the co
   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
   admin_site <- "Union"
   sc <- "survey_consent"
-  rc <- c("enumerator_id","X_uuid")
-  co <- FALSE
+  reportingcol <- c("enumerator_id","X_uuid")
+  correct <- FALSE
 
-  head(chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co),10)
+  list_site <- chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+  head(list_site[[2]], 10)
 }
 }
 \author{

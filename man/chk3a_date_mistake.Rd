@@ -34,14 +34,15 @@ There is an option to automatically mark for deletion the surveys which have dif
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
-sc <- "survey_consent"
+ds <- HighFrequencyChecks::sample_dataset
+survey_consent <- "survey_consent"
 dates <- c("survey_start","end_survey")
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk3a_date_mistake(df, sc, dates, rc, dl),10)
+list_date_mistake <- chk3a_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+head(list_date_mistake[[2]], 10)
 }
 }
 \author{

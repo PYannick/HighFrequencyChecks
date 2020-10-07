@@ -34,14 +34,15 @@ There is an option to automatically mark for deletion the surveys which have a s
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
+ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
-sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+survey_consent <- "survey_consent"
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk3d_date_mistake(df, uuid, sc, rc, dl),10)
+list_date_mistake4 <- chk3d_date_mistake(ds, uuid, survey_consent,reportingcol, delete)
+head(list_date_mistake4[[2]], 10)
 }
 }
 \author{

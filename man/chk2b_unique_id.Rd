@@ -34,14 +34,15 @@ There is an option to automatically mark for deletion the surveys which have a d
 }
 \examples{
 {
-df <- HighFrequencyChecks::sample_dataset
-uuid <- "X_uuid"
-sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- FALSE
+ds <- HighFrequencyChecks::sample_dataset
+UniqueID <- "X_uuid"
+survey_consent <- "survey_consent"
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- FALSE
 
 
-head(chk2b_unique_id(df, uuid, sc, rc, dl),10)
+list_unique_id <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
+head(list_unique_id[[2]], 10)
 }
 }
 \author{

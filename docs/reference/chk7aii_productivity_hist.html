@@ -157,15 +157,15 @@
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>sdte</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
-<span class='va'>dtf</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
-<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='va'>surveydate</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
+<span class='va'>dateformat</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
+<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
-<span class='fu'>chk7aii_productivity_hist</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sdte</span>, <span class='va'>dtf</span>, <span class='va'>sc</span><span class='op'>)</span>
+<span class='fu'>chk7aii_productivity_hist</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>surveydate</span>, <span class='va'>dateformat</span>, <span class='va'>survey_consent</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in ds %&gt;% group_by_(surveydate = surveydate) %&gt;% count(survey_consent): could not find function "%&gt;%"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

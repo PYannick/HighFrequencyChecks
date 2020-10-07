@@ -27,13 +27,13 @@ graph  graphic as a plot.ly object
 This function create an histogram showing the overall productivity per consent status per day.
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
-sdte <- "survey_date"
-dtf <- "\%m/\%d/\%Y"
-sc <- "survey_consent"
+{
+ds <- HighFrequencyChecks::sample_dataset
+surveydate <- "survey_date"
+dateformat <- "\%m/\%d/\%Y"
+survey_consent <- "survey_consent"
 
-chk7aii_productivity_hist(df, sdte, dtf, sc)
+chk7aii_productivity_hist(ds, surveydate, dateformat, survey_consent)
 }
 }
 \author{

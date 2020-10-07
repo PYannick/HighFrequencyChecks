@@ -18,13 +18,13 @@
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
-#' dt <- c("survey_start","end_survey")
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' ds <- HighFrequencyChecks::sample_dataset
+#' survey_consent <- "survey_consent"
+#' dates <- c("survey_start","end_survey")
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
-#' head(chk1a_interview_completed(df, sc, dt, rc, dl),10)
+#' head(chk1a_interview_completed(ds, survey_consent, dt, reportingcol, delete),10)
 #'}
 #'
 #' @export chk1a_interview_completed
@@ -78,10 +78,10 @@ chk1a_interview_completed <- function(ds=NULL,
 #' {
 #' df <- HighFrequencyChecks::sample_dataset
 #' sc <- "survey_consent"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- TRUE
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- TRUE
 #'
-#' head(chk1b_survey_consent(df, sc, dt, rc, dl),10)
+#' head(chk1b_survey_consent(df, sc, dt, reportingcol, delete),10)
 #'}
 #' @export chk1b_survey_consent
 
@@ -141,10 +141,11 @@ chk1b_survey_consent <- function(ds=NULL,
 #'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #'   admin_site <- "Union"
 #'   sc <- "survey_consent"
-#'   rc <- c("enumerator_id","X_uuid")
-#'   co <- FALSE
+#'   reportingcol <- c("enumerator_id","X_uuid")
+#'   correct <- FALSE
 #'
-#'   head(chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, rc, co),10)
+#'   list_site <- chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+#'   head(list_site[[2]], 10)
 #'}
 #' @export chk1di_GIS_site
 #'
@@ -240,11 +241,12 @@ chk1di_GIS_site <- function(adm=NULL,
 #' df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #' bu <- 10
 #' sc <- "survey_consent"
-#' rc <- c("enumerator_id","X_uuid")
-#' dl <- FALSE
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' delete <- FALSE
 #'
 #'
-#' head(chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, rc, dl),10)
+#' list_sitept  <- chk1dii_GIS_Xm( df, pts, df_coord, bu, sc, reportingcol, delete)
+#' head(list_sitept[[2]], 10)
 #'}
 #' @export chk1dii_GIS_Xm
 #'

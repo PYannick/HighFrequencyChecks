@@ -34,10 +34,10 @@ This function check that all interviews in the dataset have information about th
 {
 df <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
-rc <- c("enumerator_id","X_uuid")
-dl <- TRUE
+reportingcol <- c("enumerator_id","X_uuid")
+delete <- TRUE
 
-head(chk1b_survey_consent(df, sc, dt, rc, dl),10)
+head(chk1b_survey_consent(df, sc, dt, reportingcol, delete),10)
 }
 }
 \author{

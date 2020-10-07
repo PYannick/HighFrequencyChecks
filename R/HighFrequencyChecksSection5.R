@@ -13,11 +13,11 @@
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' dt <- c("survey_start","end_survey")
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' dates <- c("survey_start","end_survey")
 #'
-#' chk5a_duration(df, dt)
+#' chk5a_duration(ds, dates)
 #'}
 #' @export chk5a_duration
 
@@ -29,7 +29,10 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
 
-  surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
+  surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                       readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                   units = "secs") / 60
+
   avg <- round(mean(surveytime), digits = 2)
   tot <- round(sum(surveytime), digits = 2)
   return(list(avg,tot))
@@ -55,20 +58,25 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
-#' dt <- c("survey_start","end_survey")
-#' rc <- c("enumerator_id","X_uuid")
-#' md <- 30
-#' dl <- FALSE
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' survey_consent <- "survey_consent"
+#' dates <- c("survey_start","end_survey")
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' minduration <- 30
+#' delete <- FALSE
 #'
-#' list[dts,error] <- chk5b_duration_Xmin(df, sc, dt, rc, md, dl)
-#' head(error,10)
+#' list <- chk5b_duration_Xmin(ds, survey_consent, dates,  reportingcol, minduration, delete)
+#' head(list[[2]], 10)
 #'}
 #' @export chk5b_duration_Xmin
 
-chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, reportingcol=NULL, minduration=30, delete=NULL){
+chk5b_duration_Xmin <- function(ds=NULL,
+                                survey_consent=NULL,
+                                dates=NULL,
+                                reportingcol=NULL,
+                                minduration=30,
+                                delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -88,10 +96,13 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  tmp<-data.frame(ds[reportingcol], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  tmp <- data.frame(ds[reportingcol],
+                    SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                          readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                      units = "secs") / 60)
 
   if(delete){
-    ds[,survey_consent][tmp$SurveyLength<minduration]<-"deleted"
+    ds[,survey_consent][tmp$SurveyLength<minduration] <- "deleted"
   }
   errors <- subset(tmp, SurveyLength<minduration)
   return(list(ds,errors))
@@ -119,21 +130,27 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
-#' hs <-"consent_received.respondent_info.hh_size"
-#' dt <- c("survey_start","end_survey")
-#' rc <- c("enumerator_id","X_uuid")
-#' md <- 30
-#' dl <- FALSE
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' survey_consent <- "survey_consent"
+#' HHSize <-"consent_received.respondent_info.hh_size"
+#' dates <- c("survey_start","end_survey")
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' minduration <- 30
+#' delete <- FALSE
 #'
-#' list[dts,error] <- chk5c_duration_Xmin_HHSize(df, sc, dt, hs, rc, md, dl)
-#' head(error,10)
+#' list_duration_Xmin <- chk5c_duration_Xmin_HHSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+#' head(list_duration_Xmin[[2]], 10)
 #'}
 #' @export chk5c_duration_Xmin_HHSize
 
-chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL, HHSize=NULL, reportingcol=NULL, minduration=10, delete=NULL){
+chk5c_duration_Xmin_HHSize <- function(ds=NULL,
+                                       survey_consent=NULL,
+                                       dates=NULL,
+                                       HHSize=NULL,
+                                       reportingcol=NULL,
+                                       minduration=10,
+                                       delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -156,7 +173,10 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize],
+                  SurveyLength=as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                  units = "secs") / 60)
 
   if(delete){
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
@@ -180,16 +200,21 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' dt <- c("survey_start","end_survey")
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' dates <- c("survey_start","end_survey")
+#' sdval <- 5
+#' reportingcol <- c("enumerator_id","X_uuid")
 #'
-#' log <- chk5d_duration_outliers(df, dt)
+#' log <- chk5d_duration_outliers(ds, dates, sdval, reportingcol)
 #' head(log,10)
 #'}
 #' @export chk5d_duration_outliers
 
-chk5d_duration_outliers <- function(ds=NULL, dates=NULL, sdval=NULL, reportingcol=NULL){
+chk5d_duration_outliers <- function(ds=NULL,
+                                    dates=NULL,
+                                    sdval=NULL,
+                                    reportingcol=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -203,7 +228,9 @@ chk5d_duration_outliers <- function(ds=NULL, dates=NULL, sdval=NULL, reportingco
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
 
-  surveytime <- data.frame(duration=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  surveytime <- data.frame(duration= as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                            readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                        units = "secs") / 60)
   duration_outliers <- data.frame(outliers::scores(surveytime, type = "z"))
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"

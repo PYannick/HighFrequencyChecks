@@ -69,9 +69,9 @@ library(plotly)
 In a production environment, it is possible to connect this a live API (kobotoolbox, ODK , etc.)
 
 ```{r, include=TRUE}
-sample_dataset <- HighFrequencyChecks::sample_dataset
+ds <- HighFrequencyChecks::sample_dataset
 # correction for uppercase/lowercase in the site name 
-sample_dataset$union_name <- tolower(sample_dataset$union_name)
+ds$union_name <- tolower(ds$union_name)
 ```
 
 ### Loading sampling plan
@@ -97,8 +97,6 @@ sf_target="SS"
 Sampling targets shall also be defined
 
 ```{r, include=TRUE}
-
-
 
 # formulas as a list of string used to compute the final number 
 # of eligible surveys  and the variance from the target
@@ -127,19 +125,15 @@ colorder = c("site",
 
 Often sampling strategy includes a geographic coverage.
 
-This can be overview through either:
-
- * a defined polygon, aka area or admin unit
-
 ```{r message=FALSE, warning=FALSE, include=TRUE}
+#This can be overview through either:
+
+# a defined polygon, aka area or admin unit
 adm <- HighFrequencyChecks::admin
 # Unique key with the survey dataset is changed to all small cap for further join
 adm$Union <- tolower(adm$Union)
-```
 
- * a sampling point, around which enumerators are supposed to randomly interview persons.
-
-```{r, include=TRUE}
+# OR a sampling point, around which enumerators are supposed to randomly interview persons.
 pts <- HighFrequencyChecks::SamplePts
 ```
 
@@ -156,108 +150,65 @@ When it comes to back checks, variables can be divided into the following differ
 Below are initialized variables to perform data quality control for this specific dataset
 
 #### Geodata
-
- * Name of variables for geographic coordinates as recorded by data collection device GPS
-
 ```{r, include=TRUE}
+# Name of variables for geographic coordinates as recorded by data collection device GPS
 df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-```
 
- * Name of location (__matching external geodata__)
-
-```{r eval=TRUE, echo=TRUE, results='asis'}
+# Name of location (__matching external geodata__)
 df_site <- "union_name"
-```
 
-
- * Name of unique key in polygon file
-
-```{r, include=TRUE}
+#Name of unique key in polygon file
 admin_site <- "Union"
 ```
 
-
-
-
-
 #### Variable of interest for data quality check
-
- *  Variable recording initial consent
-
 ```{r, include=TRUE}
-consent <- "survey_consent"
-```
+# Variable recording initial consent
+survey_consent <- "survey_consent"
 
-
- * Variable recording multiples screening questions
-
-```{r, include=TRUE}
+# Variable recording multiples screening questions
 questions <- c("consent_received.shelter_nfi.non_food_items[.]",
              "consent_received.food_security.main_income[.]",
              "consent_received.child_protection.boy_risk[.]",
              "consent_received.child_protection.girl_risk[.]")
-```
 
-
- * Variable to be checked
-
-```{r, include=TRUE}
-reportcol <- c("enumerator_id","X_uuid")
+# Variable to be checked
+reportingcol <- c("enumerator_id","X_uuid")
 ```
 
 ####  specifying Metadata variables
 
- * unique ID for each record
-
 ```{r, include=TRUE}
-uuid <- "X_uuid"
-```
+# unique ID for each record
+UniqueID <- "X_uuid"
 
- * dates
-
-```{r, include=TRUE}
+# dates
 dates <- c("survey_start","end_survey")
  
 ## Official date for start of data collection
-startdate <- "11/11/2018"
+start_collection <- "11/11/2018"
 
-surveydte <- "survey_date"
+surveydate <- "survey_date"
 
-```
-
-
-* Variable used to record enumerator identifiers
-
-```{r, include=TRUE}
-enumid <- "enumerator_id"
+# Variable used to record enumerator identifiers
+enumeratorID <- "enumerator_id"
 ```
 
 
 #### Quality target
 
 
- * What is the minimum survey duration in minutes (when using all skip logic)?
-
 ```{r, include=TRUE}
-mindur <- 10
-```
+# What is the minimum survey duration in minutes (when using all skip logic)?
+minduration <- 10
 
- * minans answers per specific questions
-
-```{r, include=TRUE}
+# minans answers per specific questions
 minans <- 3
-```
 
-* Standard value
-
-```{r, include=TRUE}
+# Standard value
 sdvalue <- 2
-```
 
-
- * Size of the buffer in meters around the assigned data collection location points
-
-```{r, include=TRUE}
+#Size of the buffer in meters around the assigned data collection location points
 buffer <- 10
 ```
 
@@ -265,7 +216,9 @@ buffer <- 10
 
 ```{r, include=TRUE}
 otherpattern <- "_other$"
-dteformat <- "%m/%d/%Y"
+dateformat <- "%m/%d/%Y"
+delete <- FALSE
+correct <- TRUE
 ```
 
 ## Corrective actions
@@ -287,15 +240,11 @@ Missing data: Are some questions skipped more than others? Are there questions t
 Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent. 
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_unique_id,err_unique_id] <- chk2b_unique_id(sample_dataset, 
-                                                     uuid, 
-                                                     consent, 
-                                                     reportcol, 
-                                                     TRUE)
-sample_dataset <- dts_unique_id
+list_unique_id <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
+ds <- list_unique_id[[1]]
 
-if(nrow(err_unique_id)>0){ 
-DT::datatable(err_unique_id, 
+if(nrow(list_unique_id[[2]])>0){ 
+DT::datatable(list_unique_id[[2]], 
              caption = "Detected records with errors: Duplicate respondent ID")
 } else {
   cat(">__No errors__: All records have a unique repondent ID")
@@ -304,15 +253,11 @@ DT::datatable(err_unique_id,
 ```
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_missing_id,err_missing_id] <- chk2a_missing_id(sample_dataset, 
-                                                     uuid, 
-                                                     consent, 
-                                                     reportcol, 
-                                                     TRUE)
-sample_dataset <- dts_missing_id
+list_missing_id <- chk2a_missing_id(ds, UniqueID, survey_consent, reportingcol, delete)
+ds <- list_missing_id[[1]] 
 
-if(nrow(err_missing_id)>0){ 
-DT::datatable(err_missing_id, 
+if(nrow(list_missing_id[[2]] )>0){ 
+DT::datatable(list_missing_id[[2]], 
              caption = "Detected records with errors: Missing respondent ID")
 } else {
   cat(">__No errors__: All records have an ID")
@@ -325,15 +270,15 @@ DT::datatable(err_missing_id,
  * Checking record for which interview that do not end on the same day as they started
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_date_mistake,err_date_mistake] <- chk3a_date_mistake(sample_dataset, 
-                                                              consent, 
+list_date_mistake <- chk3a_date_mistake(ds, 
+                                                              survey_consent, 
                                                               dates, 
-                                                              reportcol, 
-                                                              FALSE)
-sample_dataset <- dts_date_mistake
+                                                              reportingcol, 
+                                                              delete)
+ds <- list_date_mistake[[1]]
 
-if(nrow(err_date_mistake)>0){ 
-DT::datatable(err_date_mistake, 
+if(nrow(list_date_mistake[[2]])>0){ 
+DT::datatable(list_date_mistake[[2]], 
              caption = "Detected records with errors")
 } else {
   
@@ -344,15 +289,15 @@ DT::datatable(err_date_mistake,
  * Checking record for which interview ended before they start
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_date_mistake2,err_date_mistake2] <- chk3b_date_mistake(sample_dataset, 
-                                                                consent, 
+list_date_mistake2 <- chk3b_date_mistake(ds, 
+                                                                survey_consent, 
                                                                 dates, 
-                                                                reportcol, 
-                                                                FALSE)
-#sample_dataset <- dts_date_mistake2
+                                                                reportingcol, 
+                                                                delete)
+#ds <- list_date_mistake2[[1]]
 
-if(nrow(err_date_mistake2)>0){ 
-DT::datatable(err_date_mistake2, 
+if(nrow(list_date_mistake2[[2]])>0){ 
+DT::datatable(list_date_mistake2[[2]], 
              caption = "Detected records with errors: interviews ended before they start")
 } else {
   cat(">__No errors__: All interviews ended before they start")
@@ -362,15 +307,15 @@ DT::datatable(err_date_mistake2,
  * Checking record for which interview tagged in the future
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_date_mistake3,err_date_mistake3] <- chk3d_date_mistake(sample_dataset, 
-                                                                consent, 
+list_date_mistake3 <- chk3d_date_mistake(ds, 
+                                                                survey_consent, 
                                                                 dates, 
-                                                                reportcol, 
-                                                                FALSE)
-#sample_dataset <- dts_date_mistake3
+                                                                reportingcol, 
+                                                                delete)
+#ds <- list_date_mistake3[[1]]
 
-if(nrow(err_date_mistake3)>0){ 
-DT::datatable(err_date_mistake3, 
+if(nrow(list_date_mistake3[[2]])>0){ 
+DT::datatable(list_date_mistake3[[2]], 
              caption = "Detected records with errors - date are not in the future")
 } else {
   cat(">__No errors__: records date are not in the future")
@@ -385,37 +330,38 @@ DT::datatable(err_date_mistake3,
 #### Interviews made before the first day of data collection
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_date_mistake4,err_date_mistake4] <- chk3c_date_mistake(sample_dataset, 
-                                    dates,consent,  
-                                    startdate, 
-                                    reportcol, 
-                                    FALSE)
+list_date_mistake4 <- chk3c_date_mistake(ds, 
+                                    dates,
+                                    survey_consent,  
+                                    start_collection, 
+                                    reportingcol, 
+                                    delete)
 
-sample_dataset <- dts_date_mistake3
+ds <- list_date_mistake4[[1]]
 
-if(nrow(err_date_mistake4)>0){ 
-DT::datatable(err_date_mistake4, 
+if(nrow(list_date_mistake4[[2]])>0){ 
+DT::datatable(list_date_mistake4[[2]], 
              caption = "Detected records with errors - records occured after the official beginning of data collection")
 } else {
-  cat(paste0(">__No errors__: all records occured after the official beginning of data collection on ", startdate))
+  cat(paste0(">__No errors__: all records occured after the official beginning of data collection on ", start_collection))
 }
 ```
 
 #### Recorded site name for each interview matches the name of the location
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-list[dts_site,err_site] <- chk1di_GIS_site(adm, 
-                                 sample_dataset, 
+list_site <- chk1di_GIS_site(adm, 
+                                 ds, 
                                  df_site, 
                                  df_coord, 
                                  admin_site, 
-                                 consent, 
-                                 reportcol, 
-                                 TRUE)
-sample_dataset <- dts_site
+                                 survey_consent, 
+                                 reportingcol, 
+                                 correct)
+ds <- list_site[[1]]
 
-if(nrow(err_site)>0){ 
-DT::datatable(err_site, 
+if(nrow(list_site[[2]])>0){ 
+DT::datatable(list_site[[2]], 
              caption = "Detected records with errors - location name not matching with GPS")
 } else {
   cat(">__No errors__: all records location name not matching with GPS")
@@ -425,17 +371,17 @@ DT::datatable(err_site,
 #### Recorded locations for each interview within a **`r buffer`** meter buffer from a sample point
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-list[dts_sitept,err_sitept] <- chk1dii_GIS_Xm(sample_dataset, 
+list_sitept <- chk1dii_GIS_Xm(ds, 
                                 pts, 
                                 df_coord, 
                                 buffer, 
-                                consent, 
-                                reportcol, 
+                                survey_consent, 
+                                reportingcol, 
                                 TRUE)
-sample_dataset <- dts_sitept
+ds <- list_sitept[[1]]
 
-if(nrow(err_sitept)>0){ 
-DT::datatable(err_sitept, 
+if(nrow(list_sitept[[2]])>0){ 
+DT::datatable(list_sitept[[2]], 
              caption = "Detected records with errors - recorded location too far from sampling points")
 } else {
   cat(">__No errors__: all records location in accpetable distance from sampling points")
@@ -443,22 +389,22 @@ DT::datatable(err_sitept,
 ```
 
 
-#### Enumerators who made a survey below **`r mindur`** minutes
+#### Enumerators who made a survey below **`r minduration`** minutes
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts_duration_Xmin,err_duration_Xmin] <- chk5b_duration_Xmin(sample_dataset, 
-                                     consent, 
+list_duration_Xmin <- chk5b_duration_Xmin(ds, 
+                                     survey_consent, 
                                      dates, 
-                                     reportcol, 
-                                     mindur, 
+                                     reportingcol, 
+                                     minduration, 
                                      TRUE)
-sample_dataset <- dts_duration_Xmin
+ds <- list_duration_Xmin[[1]]
 
-if(nrow(err_duration_Xmin)>0){ 
-DT::datatable(err_duration_Xmin, 
-             caption = paste0("Detected records with errors - Interviews duration shorter than ", mindur))
+if(nrow(list_duration_Xmin[[2]])>0){ 
+DT::datatable(list_duration_Xmin[[2]], 
+             caption = paste0("Detected records with errors - Interviews duration shorter than ", minduration))
 } else {
-  cat(paste0(">__No errors__: No interviews duration shorter than ", mindur))
+  cat(paste0(">__No errors__: No interviews duration shorter than ", minduration))
 }
 
 ```
@@ -471,11 +417,11 @@ Test for target number: since surveys are submitted in daily waves, keep track o
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
 
 
-trackingSheet <- chk7bii_tracking(sample_dataset,
+trackingSheet <- chk7bii_tracking(ds,
                               SampleSize,
                               df_site,
                               sf_site,
-                              consent,
+                              survey_consent,
                               sf_target,
                               sf_nbpts,
                               formul,
@@ -506,18 +452,18 @@ Outliers: Are some respondents reporting values drastically higher or lower than
 Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[avg,tot] <- chk5a_duration(sample_dataset, 
+list_dur <- chk5a_duration(ds, 
                                 dates)
-# sample_dataset <- dts
-cat("> The total time of data collection is ", tot, " minutes and the average time per survey is ", avg, " minutes")
+# ds <- dts
+cat("> The total time of data collection is ", list_dur[[1]], " minutes and the average time per survey is ", list_dur[[2]], " minutes")
 ```
 
 
 #### Enumerators who pick up less than **`r minans`** answers per specific questions
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog_less_X_answers <- chk6g_question_less_X_answers(sample_dataset, 
-                                           enumid, 
+reportlog_less_X_answers <- chk6g_question_less_X_answers(ds, 
+                                           enumeratorID, 
                                            questions, 
                                            minans)
 
@@ -533,9 +479,9 @@ DT::datatable(reportlog_less_X_answers,
 #### Number of other distinct values (for the questions with a possibility of other)
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-reportlog_others_values <- chk4biv_others_values(sample_dataset, 
+reportlog_others_values <- chk4biv_others_values(ds, 
                                    otherpattern, 
-                                   enumid, 
+                                   enumeratorID, 
                                    TRUE)
 if(nrow(reportlog_others_values)>0){ 
 DT::datatable(reportlog_others_values, 
@@ -549,10 +495,10 @@ DT::datatable(reportlog_others_values,
 #### How many completed interview per day?
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog_productivity <- chk7ai_productivity(sample_dataset, 
-                                 surveydte, 
-                                 dteformat, 
-                                 consent)
+reportlog_productivity <- chk7ai_productivity(ds, 
+                                 surveydate, 
+                                 dateformat, 
+                                 survey_consent)
 if(nrow(reportlog_productivity)>0){ 
 DT::datatable(reportlog_productivity, 
              caption = paste0("Completed interview per day"))
@@ -560,20 +506,20 @@ DT::datatable(reportlog_productivity,
 ```
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-chk7aii_productivity_hist(sample_dataset, 
-                                 surveydte, 
-                                 dteformat, 
-                                 consent)
+chk7aii_productivity_hist(ds, 
+                                 surveydate, 
+                                 dateformat, 
+                                 survey_consent)
 
 ```
 
 #### How many attempted interview per day and obtained consent?
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-reportlog_nb_status <- chk7bi_nb_status(sample_dataset, 
-                              surveydte, 
-                              dteformat, 
-                              consent)
+reportlog_nb_status <- chk7bi_nb_status(ds, 
+                              surveydate, 
+                              dateformat, 
+                              survey_consent)
 if(nrow(reportlog_nb_status)>0){ 
 DT::datatable(reportlog_nb_status, 
              caption = paste0("attempted interview per day and obtained consent"))
@@ -583,9 +529,9 @@ DT::datatable(reportlog_nb_status,
 #### Percentage of survey per consent status by enumerator
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-reportlog_refusal <- chk6a_refusal(sample_dataset, 
-                           consent, 
-                           enumid)
+reportlog_refusal <- chk6a_refusal(ds, 
+                           survey_consent, 
+                           enumeratorID)
 if(nrow(reportlog_refusal)>0){ 
 DT::datatable(reportlog_refusal, 
              caption = paste0("Percentage of survey per consent status by enumerator"))
@@ -595,9 +541,9 @@ DT::datatable(reportlog_refusal,
 #### Average interview duration by enumerator
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-reportlog_duration <- chk6b_duration(sample_dataset, 
+reportlog_duration <- chk6b_duration(ds, 
                             dates, 
-                            enumid)
+                            enumeratorID)
 if(nrow(reportlog_others_values)>0){ 
 DT::datatable(reportlog_duration, 
              caption = paste0("Average interview duration by enumerator"))
@@ -607,9 +553,9 @@ DT::datatable(reportlog_duration,
 #### Number of surveys per day by enumerator
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-reportlog_nb_survey <- chk6c_nb_survey(sample_dataset, 
-                             surveydte, 
-                             enumid)
+reportlog_nb_survey <- chk6c_nb_survey(ds, 
+                             surveydate, 
+                             enumeratorID)
 if(nrow(reportlog_nb_survey)>0){ 
 DT::datatable(reportlog_nb_survey, 
              caption = paste0("Number of surveys per day by enumerator"))
@@ -620,9 +566,9 @@ DT::datatable(reportlog_nb_survey,
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
 
-reportlog_productivity <- chk6f_productivity(sample_dataset, 
-                                enumid, 
-                                surveydte, 
+reportlog_productivity <- chk6f_productivity(ds, 
+                                enumeratorID, 
+                                surveydate, 
                                 sdvalue)
 if(nrow(reportlog_productivity)>0){ 
 DT::datatable(reportlog_productivity, 
