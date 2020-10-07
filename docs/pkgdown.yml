@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   HFC: HFC.html
-last_built: 2020-10-06T16:33Z
+last_built: 2020-10-07T05:36Z
 urls:
   reference: https://edouard-legoupil.github.io/HighFrequencyChecks/docs//reference
   article: https://edouard-legoupil.github.io/HighFrequencyChecks/docs//articles

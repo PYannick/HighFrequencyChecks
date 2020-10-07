@@ -172,18 +172,28 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span><span class='op'>)</span>
-<span class='va'>rc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
-<span class='va'>md</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
-<span class='va'>dl</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>dates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span><span class='op'>)</span>
+<span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
+<span class='va'>minduration</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
+<span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dts</span>,<span class='va'>error</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>chk5b_duration_Xmin</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sc</span>, <span class='va'>dt</span>, <span class='va'>rc</span>, <span class='va'>md</span>, <span class='va'>dl</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>error</span>,<span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>list</span> <span class='op'>&lt;-</span> <span class='fu'>chk5b_duration_Xmin</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>survey_consent</span>, <span class='va'>dates</span>,  <span class='va'>reportingcol</span>, <span class='va'>minduration</span>, <span class='va'>delete</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>list</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div></pre>
+</div><div class='output co'>#&gt;    enumerator_id                               X_uuid SurveyLength
+#&gt; 4          10046 b1634db9-9108-486d-a8f1-5706290b5f7d    1.8311667
+#&gt; 7             54 06b1df42-600d-4b51-90c0-1ec06b9c2d13    1.3205333
+#&gt; 8          30022 89af7eaf-efa4-4f05-89eb-cae03133258a    0.7672167
+#&gt; 10         10046 5222a1b0-75a8-4b99-9ce2-138128f88b73    0.5624000
+#&gt; 15            45 92375644-2a47-4e00-963b-5b33cdf12a6b    0.6502667
+#&gt; 17            96 28b89222-1869-433d-95c5-47ab81c4c28c    1.0778833
+#&gt; 19            73 46fc2ca2-995a-4e8f-a15f-d34e4f674446    0.4145833
+#&gt; 21            47 288afd76-f646-4696-b40c-f1d6a6e79c5f    0.5327833
+#&gt; 28         30024 30eccbea-4e29-4d32-84a1-1925c4cb3d9a    1.8957833
+#&gt; 33         10011 05ac6aaa-675c-4cef-b051-df370c876287    0.5280667</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

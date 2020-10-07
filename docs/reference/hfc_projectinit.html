@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute the average and total time for the surveys — chk5a_duration • HighFrequencyChecks</title>
+<title>Analysis package project initiation — hfc_projectinit • HighFrequencyChecks</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Compute the average and total time for the surveys — chk5a_duration" />
-<meta property="og:description" content="This function compute the average and total time for the surveys
-Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well" />
+<meta property="og:title" content="Analysis package project initiation — hfc_projectinit" />
+<meta property="og:description" content="Create analysis package project structure" />
 
 
 
@@ -113,52 +112,30 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute the average and total time for the surveys</h1>
+    <h1>Analysis package project initiation</h1>
     
-    <div class="hidden name"><code>chk5a_duration.Rd</code></div>
+    <div class="hidden name"><code>hfc_projectinit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function compute the average and total time for the surveys
-Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well</p>
+    <p>Create analysis package project structure</p>
     </div>
 
-    <pre class="usage"><span class='fu'>chk5a_duration</span><span class='op'>(</span>ds <span class='op'>=</span> <span class='cn'>NULL</span>, dates <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>hfc_projectinit</span><span class='op'>(</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
-    </tr>
-    <tr>
-      <th>dates</th>
-      <td><p>fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>avg  average time per survey</p>
-<p>tot total time</p>
+    <p>A structure of directory and scripts in order to set up quickly a project.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Yannick Pascaud</p>
+    <p>Edouard Legoupil, Elliott Messeiller</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>dates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span><span class='op'>)</span>
-
-<span class='fu'>chk5a_duration</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>dates</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>hfc_projectinit</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt; [1] 35.89
-#&gt; 
-#&gt; [[2]]
-#&gt; [1] 17872.7
-#&gt; </div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
