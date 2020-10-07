@@ -68,14 +68,13 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="high-frequency-data-quality-checks" class="section level2">
 <h2 class="hasAnchor">
 <a href="#high-frequency-data-quality-checks" class="anchor"></a>High Frequency Data Quality Checks</h2>
-<p>This package brings a series of convenience functions to monitor data quality during the data collection when running a survey with kobotoolbox (or any <code>xlsform</code> compatible platform).</p>
+<p><code>HighFrequencyCheck</code> can be used to detect programming errors, surveyor errors, data fabrication, poorly understood questions, and other issues happening during Household Survey data collection. The results of these checks can also be useful in improving the survey, identifying enumerator effects, and assessing the reliability of your outcome measures. It allows teams to catch survey issues and collection mistakes in time to correct them and ensure high-quality data. Such checks are based are among best practices from both the <a href="https://dimewiki.worldbank.org/wiki/High_Frequency_Checks">World Bank</a> and <a href="https://www.povertyactionlab.org/resource/data-quality-checks">Innovations for Poverty Action</a>.</p>
+<p>This package brings a series of convenience functions to monitor data quality during the data collection when running a survey with <a href="">KoboToolbox</a> (or any <code>xlsform</code> compatible platform). it is an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package</a> from Innovations for Poverty Action.</p>
 <p>Those can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports.</p>
-<p>The package an adaptation in R of the <a href="https://github.com/PovertyAction/high-frequency-checks">Stata package for running high-frequency checks on research data at Innovations for Poverty Action</a></p>
-<p>The package vignette offers a practical <a href="articles/HFC.html">data quality monitoring template</a></p>
-<p>Install from github with <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("unhcr/HighFrequencyChecks")</a></code>.</p>
 <p>The packages includes a series of controls calling for:</p>
 <ul>
 <li>
@@ -93,15 +92,30 @@
 </ul>
 </li>
 </ul>
-<div id="building-site-documentation" class="section level4">
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>The package <a href="articles/HFC.html">vignette</a> offers introduce the main functions in the package.</p>
+<p>Install from github with <code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("unhcr/HighFrequencyChecks")</a></code>.</p>
+<p>You can then create a new Rstudio project and run the following</p>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co">## enable the library</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://edouard-legoupil.github.io/HighFrequencyChecks/docs/">HighFrequencyChecks</a></span><span class="op">)</span>
+
+<span class="co">## create a standard folder sructure</span>
+<span class="fu"><a href="reference/hfc_projectinit.html">hfc_projectinit</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<p>You can then follow the instructions in the <code>R/run-check.R</code> script.</p>
+<div id="building-package-documentation" class="section level4">
 <h4 class="hasAnchor">
-<a href="#building-site-documentation" class="anchor"></a>Building Site documentation</h4>
+<a href="#building-package-documentation" class="anchor"></a>Building package documentation</h4>
 <p><code><a href="https://devtools.r-lib.org//reference/document.html">devtools::document()</a></code></p>
 <p><code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check(document = FALSE)</a></code></p>
 <p><code><a href="https://pkgdown.r-lib.org/reference/build_site.html">pkgdown::build_site()</a></code></p>
-<p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/PYannick/HighFrequencyChecks/issues">github</a>.</p>
+<p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/unhcr/HighFrequencyChecks/issues">github</a>.</p>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

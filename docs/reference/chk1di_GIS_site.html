@@ -190,11 +190,11 @@ There is an option to automatically correct the site in the surveys whith the co
   <span class='va'>df_site</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
   <span class='va'>df_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span><span class='op'>)</span>
   <span class='va'>admin_site</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
-  <span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+  <span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
   <span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
   <span class='va'>correct</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-  <span class='va'>list_site</span> <span class='op'>&lt;-</span> <span class='fu'>chk1di_GIS_site</span><span class='op'>(</span><span class='va'>admin</span>, <span class='va'>df</span>, <span class='va'>df_site</span>, <span class='va'>df_coord</span>, <span class='va'>admin_site</span>, <span class='va'>sc</span>, <span class='va'>reportingcol</span>, <span class='va'>correct</span><span class='op'>)</span>
+  <span class='va'>list_site</span> <span class='op'>&lt;-</span> <span class='fu'>chk1di_GIS_site</span><span class='op'>(</span><span class='va'>admin</span>, <span class='va'>df</span>, <span class='va'>df_site</span>, <span class='va'>df_coord</span>, <span class='va'>admin_site</span>, <span class='va'>survey_consent</span>, <span class='va'>reportingcol</span>, <span class='va'>correct</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>list_site</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
