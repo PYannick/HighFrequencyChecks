@@ -42,7 +42,7 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
       summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk7aii_productivity_hist
@@ -99,7 +99,7 @@ chk7aii_productivity_hist <- function(ds=NULL, surveydate=NULL, dateformat=NULL,
                   yaxis = list(title = "Nb Survey"),
                   barmode = "stack")
 
-  return(graph)
+  return(list(NULL,NULL,NULL,graph))
 }
 
 
@@ -149,7 +149,7 @@ chk7bi_nb_status <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_c
   tmp <- tmp[with(tmp, order(surveydate)), ]
   logf <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
   logf[is.na(logf)] <- 0
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk7bii_tracking
@@ -247,5 +247,5 @@ chk7bii_tracking <- function(ds=NULL, sf=NULL, dssite=NULL, sfsite=NULL, survcon
   df$variance <- eval(parse(text=formul[2]))
 
   logf <- df[colorder]
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }

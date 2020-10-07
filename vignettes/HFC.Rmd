@@ -29,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(knitr)
 library(gsubfn)
-library(tidyverse)
+library(dplyr)
 library(data.table)
 library(HighFrequencyChecks)
 
@@ -79,7 +79,7 @@ minans <- 3
 check that the recorded site is the actual one
 
 ```{r eval=TRUE, echo=TRUE, results='asis'}
-list[dts,err] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
+list[dts,err,var3,var4] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
 sample_dataset <- dts
 
 kable(err)

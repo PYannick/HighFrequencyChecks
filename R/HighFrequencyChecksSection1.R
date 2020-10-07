@@ -55,7 +55,7 @@ chk1a_interview_completed <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(reportingcol, survey_end=dates[2])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk1b_survey_consent
@@ -104,7 +104,7 @@ chk1b_survey_consent <- function(ds=NULL, survey_consent=NULL, reportingcol=NULL
   }
 
   errors <- subset(ds,is.na(survey_consent)) %>% select(reportingcol, survey_consent=survey_consent)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk1di_GIS_site
@@ -192,7 +192,7 @@ chk1di_GIS_site <- function(adm=NULL, ds=NULL, ds_site=NULL, ds_coord=NULL, adm_
   }
 
   errors <- subset(fm,check=="NOk") %>% select(reportingcol, SiteRec=ds_site, SiteReal=adm_site)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk1dii_GIS_Xm
@@ -304,7 +304,7 @@ chk1dii_GIS_Xm <- function(ds=NULL,
   }
 
   errors <- subset(fm,check=="NOk") %>% select(reportingcol, Outside=check)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 

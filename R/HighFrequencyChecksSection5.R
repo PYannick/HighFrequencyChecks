@@ -32,7 +32,7 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
   surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
   avg <- round(mean(surveytime), digits = 2)
   tot <- round(sum(surveytime), digits = 2)
-  return(list(avg,tot))
+  return(list(NULL,NULL,list(avg=avg,tot=tot),NULL))
 }
 
 #' @name chk5b_duration_Xmin
@@ -93,7 +93,7 @@ chk5b_duration_Xmin <- function(ds=NULL, survey_consent=NULL, dates=NULL, report
     ds[,survey_consent][tmp$SurveyLength<minduration]<-"deleted"
   }
   errors <- subset(tmp, SurveyLength<minduration)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 
@@ -160,7 +160,7 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL, survey_consent=NULL, dates=NULL,
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minduration)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk5d_duration_outliers
@@ -205,5 +205,5 @@ chk5d_duration_outliers <- function(ds=NULL, dates=NULL, sdval=NULL, reportingco
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"
   logf <- subset(tmp, abs(Zscore)>sdval)
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }

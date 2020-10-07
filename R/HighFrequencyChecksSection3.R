@@ -50,7 +50,7 @@ chk3a_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 
   errors <- subset(ds, stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1], survey_end=dates[2])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 #' @name chk3b_date_mistake
@@ -105,7 +105,7 @@ chk3b_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
 
   errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
     select(reportingcol, survey_start=dates[1], survey_end=dates[2])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 
@@ -172,7 +172,7 @@ chk3c_date_mistake <- function(ds = NULL,
 
   errors <- subset(ds,start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 
@@ -230,5 +230,5 @@ chk3d_date_mistake <- function(ds=NULL, survey_consent=NULL, dates=NULL, reporti
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
   errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }

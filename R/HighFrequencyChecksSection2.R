@@ -51,7 +51,7 @@ chk2a_missing_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, report
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
   errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>% select(reportingcol, survey_consent=survey_consent)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 
@@ -107,5 +107,5 @@ chk2b_unique_id <- function(ds=NULL, UniqueID=NULL, survey_consent=NULL, reporti
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
   errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }

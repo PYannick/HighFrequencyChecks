@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     c(person(given = "Yannick",
              family = "Pascaud",
@@ -29,9 +29,9 @@ Imports:
     plotly,
     outliers,
     gsubfn,
-    tidyverse,
     magrittr,
-    reshape2
+    reshape2,
+    openxlsx
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
