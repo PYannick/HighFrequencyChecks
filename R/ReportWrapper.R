@@ -1,5 +1,37 @@
+#' @name ReportWrapper
+#' @rdname ReportWrapper
+#' @title Create an Rmd file for the report
+#' @description Create an Rmd file for the report
+#'
+#' @param ds dataset as a data.frame object
+#' @param sdval number of standard deviation for which the data within is considered as acceptable
+#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
+#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
+#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#'
+#' @return vignette file
+#'
+#' @author Yannick Pascaud
+#'
+#' @examples
+#' \dontrun{
+#' df <- HighFrequencyChecks::sample_dataset
+#' sdval <- 2
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
+#'
+#' ReportWrapper(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#'}
+#' @export ReportWrapper
+#'
+ReportWrapper <- function(ds=NULL,
+                           sdval=NULL,
+                           reportingcol=NULL,
+                           enumeratorID=NULL,
+                           enumeratorcheck=FALSE){
 
-wdir <- "C:/Users/yanni/Documents/GitHub/HighFrequencyChecks/"
+wdir <- getwd()
 file <- "form.xlsx"
 
 repstr <- openxlsx::read.xlsx(paste0(wdir,file), 1)
@@ -141,6 +173,7 @@ for(i in 1:length(repstr[,1])){
   }
 
 
+}
 }
 
 

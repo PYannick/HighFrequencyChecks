@@ -4,6 +4,9 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//index.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ReportWrapper.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
   </url>
   <url>
@@ -13,88 +16,37 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/admin.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk1a_interview_completed.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentDailyValidSurveys.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk1b_survey_consent.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentDuration.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk1di_GIS_site.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentDurationOutliers.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk1dii_GIS_Xm.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentProductivity.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk2a_missing_id.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentProductivityGraphical.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk2b_unique_id.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentTrackingSheet.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk3a_date_mistake.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorIsLazy.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk3b_date_mistake.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorProductivity.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk3c_date_mistake.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorProductivityOutliers.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk3d_date_mistake.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorSurveysConsent.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk4aiii_missing_pct.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk4bii_distinct_values.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk4biv_others_values.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk4d_outliers.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk4e_values_greater_X.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk5a_duration.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk5b_duration_Xmin.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk5c_duration_Xmin_HHSize.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk5d_duration_outliers.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk6a_refusal.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk6b_duration.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk6c_nb_survey.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk6f_productivity.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk6g_question_less_X_answers.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk7ai_productivity.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk7aii_productivity_hist.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk7bi_nb_status.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/chk7bii_tracking.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorSurveysDuration.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfcApp.html</loc>
@@ -103,7 +55,58 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfc_projectinit.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewAtTheSamplePoint.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewCompleted.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewInTheCorrectSite.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewTooShort.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewTooShortForTheHouseholdSize.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewWithConsent.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isSurveyEndBeforeItStarts.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isSurveyMadeInTheFuture.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isSurveyOnMoreThanADay.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isSurveyStartedBeforeTheAssessment.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDDuplicated.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDMissing.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/sample_dataset.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyBigValues.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyDistinctValues.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyMissingValues.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyOtherValues.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyOutliers.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC.html</loc>

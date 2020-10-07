@@ -19,40 +19,45 @@ navbar:
 reference:
   - title: Corrective actions - Correct set-up of data collection devices and encoding of the forms
     contents:
-      - chk2b_unique_id
-      - chk2a_missing_id
-      - chk3a_date_mistake
-      - chk3b_date_mistake
-      - chk3d_date_mistake
+      - isUniqueIDDuplicated
+      - isUniqueIDMissing
+      - isSurveyOnMoreThanADay
+      - isSurveyEndBeforeItStarts
+      - isSurveyMadeInTheFuture
   - title: Corrective actions - Data collected according the plan
     contents:
-      - chk3c_date_mistake
-      - chk1di_GIS_site
-      - chk1dii_GIS_Xm
-      - chk5b_duration_Xmin
-      - chk7bii_tracking
+      - isSurveyStartedBeforeTheAssessment
+      - isInterviewInTheCorrectSite
+      - isInterviewAtTheSamplePoint
+      - isInterviewTooShort
+      - assessmentTrackingSheet
   - title: Pro-active actions - Enumerators rigorous work standards
     contents:
-      - chk5a_duration
-      - chk5c_duration_Xmin_HHSize
-      - chk5d_duration_outliers
-      - chk6g_question_less_X_answers
-      - chk4biv_others_values
-      - chk1a_interview_completed
-      - chk1b_survey_consent
-      - chk4d_outliers
-      - chk4e_values_greater_X
-      - chk4aiii_missing_pct
-      - chk4bii_distinct_values
+      - assessmentDuration
+      - isInterviewTooShortForTheHouseholdSize
+      - assessmentDurationOutliers
+      - enumeratorIsLazy
+      - surveyOtherValues
+      - isInterviewCompleted
+      - isInterviewWithConsent
+      - surveyOutliers
+      - surveyBigValues
+      - surveyMissingValues
+      - surveyDistinctValues
   - title: Pro-active actions - Enumerators productivity
     contents:
-      - chk7ai_productivity
-      - chk7aii_productivity_hist
-      - chk7bi_nb_status
-      - chk6a_refusal
-      - chk6b_duration
-      - chk6c_nb_survey
-      - chk6f_productivity
+      - assessmentProductivity
+      - assessmentProductivityGraphical
+      - assessmentDailyValidSurveys
+      - enumeratorSurveysConsent
+      - enumeratorSurveysDuration
+      - enumeratorProductivity
+      - enumeratorProductivityOutliers
+  - title: Convenience functions
+    contents:
+      - hfc_projectinit
+      - ReportWrapper
+      - hfcApp
   - title: Dataset used for demonstration
     contents:
       - sample_dataset

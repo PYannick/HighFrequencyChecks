@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -137,31 +137,31 @@
       <tr>
         
         <td>
-          <p><code><a href="chk2b_unique_id.html">chk2b_unique_id()</a></code> </p>
+          <p><code><a href="isUniqueIDDuplicated.html">isUniqueIDDuplicated()</a></code> </p>
         </td>
         <td><p>Duplicates in unique ID</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk2a_missing_id.html">chk2a_missing_id()</a></code> </p>
+          <p><code><a href="isUniqueIDMissing.html">isUniqueIDMissing()</a></code> </p>
         </td>
         <td><p>Missing unique ID</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk3a_date_mistake.html">chk3a_date_mistake()</a></code> </p>
+          <p><code><a href="isSurveyOnMoreThanADay.html">isSurveyOnMoreThanADay()</a></code> </p>
         </td>
         <td><p>Surveys that do not end on the same day as they started</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk3b_date_mistake.html">chk3b_date_mistake()</a></code> </p>
+          <p><code><a href="isSurveyEndBeforeItStarts.html">isSurveyEndBeforeItStarts()</a></code> </p>
         </td>
         <td><p>Surveys where end date/time is before the start date/time</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk3d_date_mistake.html">chk3d_date_mistake()</a></code> </p>
+          <p><code><a href="isSurveyMadeInTheFuture.html">isSurveyMadeInTheFuture()</a></code> </p>
         </td>
         <td><p>Surveys that have start date/time after system date</p></td>
       </tr>
@@ -180,31 +180,31 @@
       <tr>
         
         <td>
-          <p><code><a href="chk3c_date_mistake.html">chk3c_date_mistake()</a></code> </p>
+          <p><code><a href="isSurveyStartedBeforeTheAssessment.html">isSurveyStartedBeforeTheAssessment()</a></code> </p>
         </td>
         <td><p>Surveys that show start date earlier than first day of data collection</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk1di_GIS_site.html">chk1di_GIS_site()</a></code> </p>
+          <p><code><a href="isInterviewInTheCorrectSite.html">isInterviewInTheCorrectSite()</a></code> </p>
         </td>
         <td><p>GIS check surveys for site</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk1dii_GIS_Xm.html">chk1dii_GIS_Xm()</a></code> </p>
+          <p><code><a href="isInterviewAtTheSamplePoint.html">isInterviewAtTheSamplePoint()</a></code> </p>
         </td>
         <td><p>GIS check surveys if fall without Xm radius from a sampled point</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk5b_duration_Xmin.html">chk5b_duration_Xmin()</a></code> </p>
+          <p><code><a href="isInterviewTooShort.html">isInterviewTooShort()</a></code> </p>
         </td>
         <td><p>Check that the duration of each interview is more than a threshold</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk7bii_tracking.html">chk7bii_tracking()</a></code> </p>
+          <p><code><a href="assessmentTrackingSheet.html">assessmentTrackingSheet()</a></code> </p>
         </td>
         <td><p>Overall tracking sheet</p></td>
       </tr>
@@ -223,67 +223,67 @@
       <tr>
         
         <td>
-          <p><code><a href="chk5a_duration.html">chk5a_duration()</a></code> </p>
+          <p><code><a href="assessmentDuration.html">assessmentDuration()</a></code> </p>
         </td>
         <td><p>Compute the average and total time for the surveys</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk5c_duration_Xmin_HHSize.html">chk5c_duration_Xmin_HHSize()</a></code> </p>
+          <p><code><a href="isInterviewTooShortForTheHouseholdSize.html">isInterviewTooShortForTheHouseholdSize()</a></code> </p>
         </td>
         <td><p>Check that the duration relative to the household size of each interview is more than a threshold</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk5d_duration_outliers.html">chk5d_duration_outliers()</a></code> </p>
+          <p><code><a href="assessmentDurationOutliers.html">assessmentDurationOutliers()</a></code> </p>
         </td>
         <td><p>Report the outlier durations for the surveys</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk6g_question_less_X_answers.html">chk6g_question_less_X_answers()</a></code> </p>
+          <p><code><a href="enumeratorIsLazy.html">enumeratorIsLazy()</a></code> </p>
         </td>
         <td><p>Check the enumerators who pick up less than X answers per specific question</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk4biv_others_values.html">chk4biv_others_values()</a></code> </p>
+          <p><code><a href="surveyOtherValues.html">surveyOtherValues()</a></code> </p>
         </td>
         <td><p>List of other distinct values (not missing) per fields other with count</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk1a_interview_completed.html">chk1a_interview_completed()</a></code> </p>
+          <p><code><a href="isInterviewCompleted.html">isInterviewCompleted()</a></code> </p>
         </td>
         <td><p>Check that all interviews were completed</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk1b_survey_consent.html">chk1b_survey_consent()</a></code> </p>
+          <p><code><a href="isInterviewWithConsent.html">isInterviewWithConsent()</a></code> </p>
         </td>
         <td><p>Check that all surveys have consent</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk4d_outliers.html">chk4d_outliers()</a></code> </p>
+          <p><code><a href="surveyOutliers.html">surveyOutliers()</a></code> </p>
         </td>
         <td><p>Report the outlier values for all numerical field</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk4e_values_greater_X.html">chk4e_values_greater_X()</a></code> </p>
+          <p><code><a href="surveyBigValues.html">surveyBigValues()</a></code> </p>
         </td>
         <td><p>Report the values greater than a specified value per specified fields</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk4aiii_missing_pct.html">chk4aiii_missing_pct()</a></code> </p>
+          <p><code><a href="surveyMissingValues.html">surveyMissingValues()</a></code> </p>
         </td>
         <td><p>Report the percentage of missing values (NA) per fields</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk4bii_distinct_values.html">chk4bii_distinct_values()</a></code> </p>
+          <p><code><a href="surveyDistinctValues.html">surveyDistinctValues()</a></code> </p>
         </td>
         <td><p>Number of distinct values (not missing) per fields</p></td>
       </tr>
@@ -302,45 +302,76 @@
       <tr>
         
         <td>
-          <p><code><a href="chk7ai_productivity.html">chk7ai_productivity()</a></code> </p>
+          <p><code><a href="assessmentProductivity.html">assessmentProductivity()</a></code> </p>
         </td>
         <td><p>Summary of daily average productivity</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk7aii_productivity_hist.html">chk7aii_productivity_hist()</a></code> </p>
+          <p><code><a href="assessmentProductivityGraphical.html">assessmentProductivityGraphical()</a></code> </p>
         </td>
         <td><p>Overall productivity histogram</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk7bi_nb_status.html">chk7bi_nb_status()</a></code> </p>
+          <p><code><a href="assessmentDailyValidSurveys.html">assessmentDailyValidSurveys()</a></code> </p>
         </td>
         <td><p>Daily number of survey per consent status</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk6a_refusal.html">chk6a_refusal()</a></code> </p>
+          <p><code><a href="enumeratorSurveysConsent.html">enumeratorSurveysConsent()</a></code> </p>
         </td>
         <td><p>Check the percentage of survey refusals by enumerator</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk6b_duration.html">chk6b_duration()</a></code> </p>
+          <p><code><a href="enumeratorSurveysDuration.html">enumeratorSurveysDuration()</a></code> </p>
         </td>
         <td><p>Check the average interview duration by enumerator</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk6c_nb_survey.html">chk6c_nb_survey()</a></code> </p>
+          <p><code><a href="enumeratorProductivity.html">enumeratorProductivity()</a></code> </p>
         </td>
         <td><p>Check the number of surveys by enumerator</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="chk6f_productivity.html">chk6f_productivity()</a></code> </p>
+          <p><code><a href="enumeratorProductivityOutliers.html">enumeratorProductivityOutliers()</a></code> </p>
         </td>
         <td><p>Check the surveyors with very low or high productivity</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-convenience-functions" class="hasAnchor"><a href="#section-convenience-functions" class="anchor"></a>Convenience functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="hfc_projectinit.html">hfc_projectinit()</a></code> </p>
+        </td>
+        <td><p>Analysis package project initiation</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ReportWrapper.html">ReportWrapper()</a></code> </p>
+        </td>
+        <td><p>Create an Rmd file for the report</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hfcApp.html">hfcApp()</a></code> </p>
+        </td>
+        <td><p>starts the graphical user interface developed with <em>shiny</em>.</p></td>
       </tr>
     </tbody><tbody>
       <tr>

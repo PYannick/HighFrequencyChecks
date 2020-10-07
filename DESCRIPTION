@@ -14,7 +14,7 @@ Authors@R:
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10)
 Description: During the data collection, a series of automatic check, aka: High Frequency checks, are required. The functions shared here are useful during the data collection process to check  periodicallyxfor possible errors, and will provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports. This work is an adaptation of a Stata Package from [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
-URL: https://edouard-legoupil.github.io/HighFrequencyChecks/docs/
+URL: https://unhcr.github.io/HighFrequencyChecks/docs/
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -32,13 +32,9 @@ Imports:
     gsubfn,
     magrittr,
     reshape2,
-<<<<<<< HEAD
     DT,
     ggplot2,
-    kableExtra
-=======
     openxlsx
->>>>>>> ff115024ba0c0d240709b337cd49478e53f134fa
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

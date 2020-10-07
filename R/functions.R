@@ -1,5 +1,5 @@
-#' @name chk1a_interview_completed
-#' @rdname chk1a_interview_completed
+#' @name isInterviewCompleted
+#' @rdname isInterviewCompleted
 #' @title Check that all interviews were completed
 #' @description This function check that all interviews in the dataset are completed,
 #'   meaning all the interviews have an end date and time.
@@ -24,12 +24,13 @@
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- FALSE
 #'
-#' head(chk1a_interview_completed(ds, survey_consent, dt, reportingcol, delete),10)
+#' list_iscompled <- isInterviewCompleted(ds, survey_consent, dt, reportingcol, delete)
+#' head(list_iscompled[[2]],10)
 #'}
 #'
-#' @export chk1a_interview_completed
+#' @export isInterviewCompleted
 
-chk1a_interview_completed <- function(ds=NULL,
+isInterviewCompleted <- function(ds=NULL,
                                       survey_consent=NULL,
                                       dates=NULL,
                                       reportingcol=NULL,
@@ -55,11 +56,11 @@ chk1a_interview_completed <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(reportingcol, survey_end=dates[2])
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk1b_survey_consent
-#' @rdname chk1b_survey_consent
+#' @name isInterviewWithConsent
+#' @rdname isInterviewWithConsent
 #' @title Check that all surveys have consent
 #' @description This function check that all interviews in the dataset have information about the consent
 #'  of the people surveyed, meaning all the field where this information is stored is not empty.
@@ -76,19 +77,21 @@ chk1a_interview_completed <- function(ds=NULL,
 #'
 #' @examples
 #' {
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' survey_consent <- "survey_consent"
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- TRUE
 #'
-#' head(chk1b_survey_consent(df, survey_consent, dt, reportingcol, delete),10)
+#' list_withconsent <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
+#' head(list_withconsent[[2]]),10)
 #'}
-#' @export chk1b_survey_consent
+#' @export isInterviewWithConsent
 
-chk1b_survey_consent <- function(ds=NULL,
+isInterviewWithConsent <- function(ds=NULL,
                                  survey_consent=NULL,
                                  reportingcol=NULL,
-                                 delete=NULL){
+                                 delete=NULL)
+  {
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -106,13 +109,13 @@ chk1b_survey_consent <- function(ds=NULL,
     ds[,survey_consent][is.na(ds[,survey_consent])] <- "deleted"
   }
 
-  errors <- subset(ds, is.na(survey_consent)) %>%
-    select(reportingcol, survey_consent = survey_consent)
-  return(list(ds,errors))
+
+  errors <- subset(ds,is.na(survey_consent)) %>% select(reportingcol, survey_consent=survey_consent)
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk1di_GIS_site
-#' @rdname chk1di_GIS_site
+#' @name isInterviewInTheCorrectSite
+#' @rdname isInterviewInTheCorrectSite
 #' @title GIS check surveys for site
 #' @description This function check that all interviews in the dataset were made in the correct site.
 #' It is based on a GIS shapefile providing the boundaries of each site with their names.
@@ -140,17 +143,17 @@ chk1b_survey_consent <- function(ds=NULL,
 #'   df_site <- "union_name"
 #'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #'   admin_site <- "Union"
-#'   survey_consent <- "survey_consent"
+#'   sc <- "survey_consent"
 #'   reportingcol <- c("enumerator_id","X_uuid")
 #'   correct <- FALSE
 #'
-#'   list_site <- chk1di_GIS_site(admin, df, df_site, df_coord, admin_site, survey_consent, reportingcol, correct)
+#'   list_site <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
 #'   head(list_site[[2]], 10)
 #'}
-#' @export chk1di_GIS_site
+#' @export isInterviewInTheCorrectSite
 #'
 
-chk1di_GIS_site <- function(adm=NULL,
+isInterviewInTheCorrectSite <- function(adm=NULL,
                             ds=NULL,
                             ds_site=NULL,
                             ds_coord=NULL,
@@ -203,15 +206,13 @@ chk1di_GIS_site <- function(adm=NULL,
     ds[,ds_site][fm$check=="NOk"] <- fm[,adm_site][fm$check=="NOk"]
   }
 
-  # errors <- subset(fm,check=="NOk") %>% select(reportingcol,
-  #                                              SiteRec = ds_site,
-  #                                              SiteReal = adm_site)
-  errors <- fm[ which(fm$check=="NOk"), c(reportingcol,ds_site, adm_site)]
-  return(list(ds,errors))
+
+  errors <- subset(fm,check=="NOk") %>% select(reportingcol, SiteRec=ds_site, SiteReal=adm_site)
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk1dii_GIS_Xm
-#' @rdname chk1dii_GIS_Xm
+#' @name isInterviewAtTheSamplePoint
+#' @rdname isInterviewAtTheSamplePoint
 #' @title GIS check surveys if fall without Xm radius from a sampled point
 #' @description This function check that all interviews in the dataset were made within a distance from a sampled point.
 #' It is based on a GIS shapefile providing the sample points for the assessment.
@@ -236,21 +237,21 @@ chk1di_GIS_site <- function(adm=NULL,
 #'
 #' @examples
 #'  {
-#' df <- HighFrequencyChecks::sample_dataset
+#' ds <- HighFrequencyChecks::sample_dataset
 #' pts <- HighFrequencyChecks::SamplePts
-#' df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-#' bu <- 10
+#' ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#' buff <- 10
 #' survey_consent <- "survey_consent"
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- FALSE
 #'
 #'
-#' list_sitept  <- chk1dii_GIS_Xm( df, pts, df_coord, bu, survey_consent, reportingcol, delete)
+#' list_sitept  <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
 #' head(list_sitept[[2]], 10)
 #'}
-#' @export chk1dii_GIS_Xm
+#' @export isInterviewAtTheSamplePoint
 #'
-chk1dii_GIS_Xm <- function(ds=NULL,
+isInterviewAtTheSamplePoint <- function(ds=NULL,
                            pts=NULL,
                            ds_coord=NULL,
                            buff=10,
@@ -281,13 +282,13 @@ chk1dii_GIS_Xm <- function(ds=NULL,
 
   # function made by Valentin: https://stackoverflow.com/users/5193830/valentin
   make_GeodesicBuffer <- function(pts, width) {
-    # A) Construct buffers as points at given distance and bearing ---------------
+    # A) Construct buffers as points at given distance and bearing
     dg <- seq(from = 0, to = 360, by = 5)
     # Construct equidistant points defining circle shapes (the "buffer points")
     buff.XY <- geosphere::destPoint(p = pts,
                                     b = rep(dg, each = length(pts)),
                                     d = width)
-    # B) Make SpatialPolygons -------------------------------------------------
+    # B) Make SpatialPolygons
     # Group (split) "buffer points" by id
     buff.XY <- as.data.frame(buff.XY)
     id  <- rep(1:dim(pts)[1], times = length(dg))
@@ -320,15 +321,14 @@ chk1dii_GIS_Xm <- function(ds=NULL,
     ds[,survey_consent][fm$Outside=="NOk"]<-"deleted"
   }
 
-  #errors <- subset(fm,check=="NOk") %>% select(reportingcol, Outside=check)
-  errors <- fm[ which(fm$check=="NOk"), c(reportingcol, "Outside")]
 
-  return(list(ds,errors))
+  errors <- subset(fm, Outside=="NOk") %>% select(reportingcol, Outside=Outside)
+  return(list(ds,errors,NULL,NULL))
 }
 
 
-#' @name chk2a_missing_id
-#' @rdname chk2a_missing_id
+#' @name isUniqueIDMissing
+#' @rdname isUniqueIDMissing
 #' @title Missing unique ID
 #' @description This function check that all interviews in the dataset have an ID.
 #'   There is an option to automatically mark for deletion the surveys which have not an ID.
@@ -353,13 +353,13 @@ chk1dii_GIS_Xm <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_missing_id <- chk2a_missing_id(ds, UniqueID, survey_consent, reportingcol, delete)
+#' list_missing_id <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
 #' head(list_missing_id[[2]], 10)
 #'}
-#' @export chk2a_missing_id
+#' @export isUniqueIDMissing
 
 
-chk2a_missing_id <- function(ds=NULL,
+isUniqueIDMissing <- function(ds=NULL,
                              UniqueID=NULL,
                              survey_consent=NULL,
                              reportingcol=NULL,
@@ -386,16 +386,15 @@ chk2a_missing_id <- function(ds=NULL,
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
+
   errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
-    #  dplyr::select(reportingcol, survey_consent=survey_consent)
-    dplyr::select(all_of(reportingcol), survey_consent=survey_consent)
-  #errors <- ds[ which(is.na(ds[,UniqueID]) | ds[,UniqueID]=="") , c(reportingcol, survey_consent)]
-  return(list(ds,errors))
+    dplyr::select(reportingcol, survey_consent=survey_consent)
+  return(list(ds,errors,NULL,NULL))
 }
 
 
-#' @name chk2b_unique_id
-#' @rdname chk2b_unique_id
+#' @name isUniqueIDDuplicated
+#' @rdname isUniqueIDDuplicated
 #' @title Duplicates in unique ID
 #' @description This function check that all interviews in the dataset have an ID which is unique.
 #' There is an option to automatically mark for deletion the surveys which have a duplicated unique ID.
@@ -420,12 +419,12 @@ chk2a_missing_id <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_unique_id <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
+#' list_unique_id <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
 #' head(list_unique_id[[2]], 10)
 #'}
-#' @export chk2b_unique_id
+#' @export isUniqueIDDuplicated
 
-chk2b_unique_id <- function(ds=NULL,
+isUniqueIDDuplicated <- function(ds=NULL,
                             UniqueID=NULL,
                             survey_consent=NULL,
                             reportingcol=NULL,
@@ -451,13 +450,14 @@ chk2b_unique_id <- function(ds=NULL,
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  #errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
-  errors <- ds[ which(duplicated(ds[,UniqueID])) , c(reportingcol, survey_consent)]
-  return(list(ds,errors))
+
+  errors <- subset(ds,duplicated(ds[,UniqueID])) %>%
+    dplyr::select(reportingcol, survey_consent=survey_consent)
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk3a_date_mistake
-#' @rdname chk3a_date_mistake
+#' @name isSurveyOnMoreThanADay
+#' @rdname isSurveyOnMoreThanADay
 #' @title Surveys that do not end on the same day as they started
 #' @description This function check that all interviews in the dataset start and end the same day.
 #' There is an option to automatically mark for deletion the surveys which have different starting and ending dates.
@@ -482,12 +482,12 @@ chk2b_unique_id <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake <- chk3a_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+#' list_date_mistake <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
 #' head(list_date_mistake[[2]], 10)
 #'}
-#' @export chk3a_date_mistake
+#' @export isSurveyOnMoreThanADay
 
-chk3a_date_mistake <- function(ds=NULL,
+isSurveyOnMoreThanADay <- function(ds=NULL,
                                survey_consent=NULL,
                                dates=NULL,
                                reportingcol=NULL,
@@ -509,20 +509,17 @@ chk3a_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!= stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")!= stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")]<-"deleted"
   }
 
-  # errors <- subset(ds, stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd") != stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) ,
-                c(reportingcol, dates)]
-
-  return(list(ds,errors))
+  errors <- subset(ds, stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd") != stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk3b_date_mistake
-#' @rdname chk3b_date_mistake
+#' @name isSurveyEndBeforeItStarts
+#' @rdname isSurveyEndBeforeItStarts
 #' @title Surveys where end date/time is before the start date/time
 #' @description This function check that all interviews in the dataset start before they end.
 #' There is an option to automatically mark for deletion the surveys which have an ending date/time before the starting ones.
@@ -547,12 +544,12 @@ chk3a_date_mistake <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake2 <- chk3b_date_mistake(ds, survey_consent,dates, reportingcol, delete)
+#' list_date_mistake2 <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
 #' head(list_date_mistake2[[2]], 10)
 #'}
-#' @export chk3b_date_mistake
+#' @export isSurveyEndBeforeItStarts
 
-chk3b_date_mistake <- function(ds=NULL,
+isSurveyEndBeforeItStarts <- function(ds=NULL,
                                survey_consent=NULL,
                                dates=NULL,
                                reportingcol=NULL,
@@ -574,21 +571,20 @@ chk3b_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS") > strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")]<-"deleted"
+    ds[,survey_consent][readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))]<-"deleted"
   }
 
-  # errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
-  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
 
-  errors <- ds[ which(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")),
-                c(reportingcol, dates)]
 
-  return(list(ds,errors))
+  errors <- subset(ds, readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))) %>%
+    select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  return(list(ds,errors,NULL,NULL))
+
 }
 
 
-#' @name chk3c_date_mistake
-#' @rdname chk3c_date_mistake
+#' @name isSurveyStartedBeforeTheAssessment
+#' @rdname isSurveyStartedBeforeTheAssessment
 #' @title Surveys that show start date earlier than first day of data collection
 #' @description This function check that all interviews in the dataset start after the actual first day of data collection.
 #' There is an option to automatically mark for deletion the surveys which have started before the first day of data collection.
@@ -615,13 +611,13 @@ chk3b_date_mistake <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake3 <- chk3c_date_mistake(ds, dates, survey_consent,start_collection, reportingcol, delete)
+#' list_date_mistake3 <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
 #' head(list_date_mistake3[[2]], 10)
 #'}
-#' @export chk3c_date_mistake
+#' @export isSurveyStartedBeforeTheAssessment
 
 
-chk3c_date_mistake <- function(ds = NULL,
+isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
                                dates = NULL,
                                survey_consent = NULL,
                                start_collection = NULL,
@@ -647,22 +643,19 @@ chk3c_date_mistake <- function(ds = NULL,
   }
 
   if(delete){
-    ds[,survey_consent][start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
   }
 
-  # errors <- subset(ds,start_collection > stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1])
 
+  errors <- subset(ds,start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1])
+  return(list(ds,errors,NULL,NULL))
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < start_collection),
-                c(reportingcol, dates[1])]
-
-  return(list(ds,errors))
 }
 
 
-#' @name chk3d_date_mistake
-#' @rdname chk3d_date_mistake
+#' @name isSurveyMadeInTheFuture
+#' @rdname isSurveyMadeInTheFuture
 #' @title Surveys that have start date/time after system date
 #' @description This function check that all interviews in the dataset do not start after the current date.
 #' There is an option to automatically mark for deletion the surveys which have a start date in the future.
@@ -687,13 +680,13 @@ chk3c_date_mistake <- function(ds = NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake4 <- chk3d_date_mistake(ds, uuid, survey_consent,reportingcol, delete)
+#' list_date_mistake4 <- isSurveyMadeInTheFuture(ds, uuid, survey_consent,reportingcol, delete)
 #' head(list_date_mistake4[[2]], 10)
 #'}
-#' @export chk3d_date_mistake
+#' @export isSurveyMadeInTheFuture
 
 
-chk3d_date_mistake <- function(ds=NULL,
+isSurveyMadeInTheFuture <- function(ds=NULL,
                                survey_consent=NULL,
                                dates=NULL,
                                reportingcol=NULL,
@@ -715,22 +708,19 @@ chk3d_date_mistake <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  # errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1])
 
-  errors <- ds[ which(stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")  < Sys.Date()),
-                c(reportingcol, dates[1])]
+  errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+    select(reportingcol, survey_start=dates[1])
+  return(list(ds,errors,NULL,NULL))
 
-  return(list(ds,errors))
 }
 
-
-#' @name chk4aiii_missing_pct
-#' @rdname chk4aiii_missing_pct
+#' @name surveyMissingValues
+#' @rdname surveyMissingValues
 #' @title Report the percentage of missing values (NA) per fields
 #' @description This function provide a report showing the percentage of missing values (NA) for each fields.
 #' This report can be global (all the surveys) or displayed for each enumerator ID
@@ -744,17 +734,17 @@ chk3d_date_mistake <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
+#' \dontrun{
 #' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- chk4aiii_missing_pct(df, enumeratorID, enumeratorcheck)
+#' log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
 #' head(log,10)
 #'}
-#' @export chk4aiii_missing_pct
+#' @export surveyMissingValues
 
-chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -772,12 +762,12 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
       group_by(ds[,enumeratorID]) %>%
       summarise_all(funs(100*mean(is.na(.) | .=="")))
   }
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
-#' @name chk4bii_distinct_values
-#' @rdname chk4bii_distinct_values
+#' @name surveyDistinctValues
+#' @rdname surveyDistinctValues
 #' @title Number of distinct values (not missing) per fields
 #' @description This function provide a report showing the number of distinct values for each fields.
 #' This report can be global (all the surveys) or displayed for each enumerator ID
@@ -791,18 +781,18 @@ chk4aiii_missing_pct <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
+#' \dontrun{
 #' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- chk4bii_distinct_values(df, enumeratorID, enumeratorcheck)
+#' log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
 #' head(log,10)
 #'}
-#' @export chk4bii_distinct_values
+#' @export surveyDistinctValues
 
 
-chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -822,11 +812,11 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
       group_by(ds[,enumeratorID]) %>%
       summarise_all(funs(n_distinct_no_na(.)))
   }
-  return(t(logf))
+  return(list(NULL,t(logf),NULL,NULL))
 }
 
-#' @name chk4biv_others_values
-#' @rdname chk4biv_others_values
+#' @name surveyOtherValues
+#' @rdname surveyOtherValues
 #' @title List of other distinct values (not missing) per fields other with count
 #' @description This function provide a report showing all distinct other values and the number of occurrences for each fields "other".
 #' This report can be global (all the surveys) or displayed for each enumerator ID
@@ -841,19 +831,19 @@ chk4bii_distinct_values <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
+#' \dontrun{
 #' df <- HighFrequencyChecks::sample_dataset
 #' otherpattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- chk4biv_others_values(df, otherpattern, enumeratorID, enumeratorcheck)
+#' log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
 #' head(log,10)
 #'}
-#' @export chk4biv_others_values
+#' @export surveyOtherValues
 
 
-chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -868,19 +858,19 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
   }
 
   if(!enumeratorcheck){
-    tmp <- ds[,colnames(ds[,colnames(ds) %like% otherpattern])]
+    tmp <- data.frame(ds[,colnames(ds[,colnames(ds) %like% otherpattern])], stringsAsFactors = FALSE)
     tmp <- data.frame(utils::stack(tmp[1:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by(field=ind, values) %>% summarize(nb=n())
   } else {
-    tmp <- ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))]
+    tmp <- data.frame(ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))], stringsAsFactors = FALSE)
     tmp <- data.frame(tmp[1], utils::stack(tmp[2:ncol(tmp)]))
     logf <- subset(tmp, values!="") %>% group_by_(field=colnames(tmp[3]), enumeratorID, colnames(tmp[2])) %>% summarize(nb=n())
   }
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk4d_outliers
-#' @rdname chk4d_outliers
+#' @name surveyOutliers
+#' @rdname surveyOutliers
 #' @title Report the outlier values for all numerical field
 #' @description This function provide a report showing all outlier values for each numerical fields.
 #' The function will try to automatically determine the type of distribution (between Normal and Log-Normal)
@@ -897,19 +887,23 @@ chk4biv_others_values <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
+#' \dontrun{
 #' df <- HighFrequencyChecks::sample_dataset
 #' sdval <- 2
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- chk4d_outliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
 #' head(log,10)
 #'}
-#' @export chk4d_outliers
+#' @export surveyOutliers
 
-chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyOutliers <- function(ds=NULL,
+                           sdval=NULL,
+                           reportingcol=NULL,
+                           enumeratorID=NULL,
+                           enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -929,6 +923,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   signedlog10 <- function(x){
     ifelse(abs(x) <= 1, 0, sign(x)*log10(abs(x)))
   }
+
   normalized <- function(x, bound=c(0,1)){
     if(diff(range(x, na.rm = TRUE))){
       (x - min(x, na.rm = TRUE)) / diff(range(x, na.rm = TRUE)) * diff(bound) + bound[1L]
@@ -973,13 +968,13 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
   scores_outliers <- subset(scores_outliers, abs(values) >= sdval)
   scores_outliers$ind <- as.character(scores_outliers$ind)
   logf <- left_join(scores_outliers,distribution_type,by=c("ind"="ind"))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
 
-#' @name chk4e_values_greater_X
-#' @rdname chk4e_values_greater_X
+#' @name surveyBigValues
+#' @rdname surveyBigValues
 #' @title Report the values greater than a specified value per specified fields
 #' @description This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
 #'
@@ -995,7 +990,7 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
+#' \dontrun{
 #' df <- HighFrequencyChecks::sample_dataset
 #' qu <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
@@ -1016,12 +1011,12 @@ chk4d_outliers <- function(ds=NULL, sdval=NULL, reportingcol=NULL, enumeratorID=
 #' eid <- "enumerator_id"
 #' ec <- FALSE
 #'
-#' log <- chk4e_values_greater_X(df, qu, v, eid, ec)
+#' log <- surveyBigValues(df, qu, v, eid, ec)
 #' head(log,10)
 #'}
-#' @export chk4e_values_greater_X
+#' @export surveyBigValues
 #'
-chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1043,11 +1038,12 @@ chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportin
 
   tmp <- data.frame(ds[reportingcol], utils::stack(ds[questions]), stringsAsFactors = FALSE)
   logf <- subset(tmp, values>=value)
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk5a_duration
-#' @rdname chk5a_duration
+
+#' @name assessmentDuration
+#' @rdname assessmentDuration
 #' @title Compute the average and total time for the surveys
 #' @description This function compute the average and total time for the surveys
 #' Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well
@@ -1065,11 +1061,11 @@ chk4e_values_greater_X <- function(ds=NULL, questions=NULL, value=NULL, reportin
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' chk5a_duration(ds, dates)
+#' assessmentDuration(ds, dates)
 #'}
-#' @export chk5a_duration
+#' @export assessmentDuration
 
-chk5a_duration <- function(ds=NULL, dates=NULL){
+assessmentDuration <- function(ds=NULL, dates=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1083,11 +1079,11 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
 
   avg <- round(mean(surveytime), digits = 2)
   tot <- round(sum(surveytime), digits = 2)
-  return(list(avg,tot))
+  return(list(NULL,NULL,list(avg=avg,tot=tot),NULL))
 }
 
-#' @name chk5b_duration_Xmin
-#' @rdname chk5b_duration_Xmin
+#' @name isInterviewTooShort
+#' @rdname isInterviewTooShort
 #' @title Check that the duration of each interview is more than a threshold
 #' @description This function check that the duration of each interview is more than a specified threshold.
 #' There is an option to automatically mark for deletion the surveys which are under the threshold.
@@ -1114,12 +1110,12 @@ chk5a_duration <- function(ds=NULL, dates=NULL){
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list <- chk5b_duration_Xmin(ds, survey_consent, dates,  reportingcol, minduration, delete)
+#' list <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
 #' head(list[[2]], 10)
 #'}
-#' @export chk5b_duration_Xmin
+#' @export isInterviewTooShort
 
-chk5b_duration_Xmin <- function(ds=NULL,
+isInterviewTooShort <- function(ds=NULL,
                                 survey_consent=NULL,
                                 dates=NULL,
                                 reportingcol=NULL,
@@ -1153,12 +1149,12 @@ chk5b_duration_Xmin <- function(ds=NULL,
     ds[,survey_consent][tmp$SurveyLength<minduration] <- "deleted"
   }
   errors <- subset(tmp, SurveyLength<minduration)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
 
-#' @name chk5c_duration_Xmin_HHSize
-#' @rdname chk5c_duration_Xmin_HHSize
+#' @name isInterviewTooShortForTheHouseholdSize
+#' @rdname isInterviewTooShortForTheHouseholdSize
 #' @title Check that the duration relative to the household size of each interview is more than a threshold
 #' @description This function check that the duration relative to the household size of each interview is more than a specified threshold.
 #' There is an option to automatically mark for deletion the surveys which are under the threshold.
@@ -1187,12 +1183,12 @@ chk5b_duration_Xmin <- function(ds=NULL,
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list_duration_Xmin <- chk5c_duration_Xmin_HHSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+#' list_duration_Xmin <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
 #' head(list_duration_Xmin[[2]], 10)
 #'}
-#' @export chk5c_duration_Xmin_HHSize
+#' @export isInterviewTooShortForTheHouseholdSize
 
-chk5c_duration_Xmin_HHSize <- function(ds=NULL,
+isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
                                        survey_consent=NULL,
                                        dates=NULL,
                                        HHSize=NULL,
@@ -1230,11 +1226,11 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL,
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minduration)
-  return(list(ds,errors))
+  return(list(ds,errors,NULL,NULL))
 }
 
-#' @name chk5d_duration_outliers
-#' @rdname chk5d_duration_outliers
+#' @name assessmentDurationOutliers
+#' @rdname assessmentDurationOutliers
 #' @title Report the outlier durations for the surveys
 #' @description This function report the outlier durations for the surveys
 #'
@@ -1254,12 +1250,12 @@ chk5c_duration_Xmin_HHSize <- function(ds=NULL,
 #' sdval <- 5
 #' reportingcol <- c("enumerator_id","X_uuid")
 #'
-#' log <- chk5d_duration_outliers(ds, dates, sdval, reportingcol)
+#' log <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
 #' head(log,10)
 #'}
-#' @export chk5d_duration_outliers
+#' @export assessmentDurationOutliers
 
-chk5d_duration_outliers <- function(ds=NULL,
+assessmentDurationOutliers <- function(ds=NULL,
                                     dates=NULL,
                                     sdval=NULL,
                                     reportingcol=NULL){
@@ -1283,19 +1279,12 @@ chk5d_duration_outliers <- function(ds=NULL,
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"
   logf <- subset(tmp, abs(Zscore)>sdval)
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
-
-# chk6a_refusal: Check the percentage of survey refusals by enumerator
-# chk6b_duration: Check the average interview duration by enumerator
-# chk6c_nb_survey: Check the number of surveys per day by enumerator
-# chk6f_productivity: Surveyors with very low or high productivity
-# chk6g_question_less_X_answers: Enumerators who pick up less than X answers per question
-
-#' @name chk6a_refusal
-#' @rdname chk6a_refusal
+#' @name enumeratorSurveysConsent
+#' @rdname enumeratorSurveysConsent
 #' @title Check the percentage of survey refusals by enumerator
 #' @description This function display the percentage of survey refusal per enumerator.
 #'
@@ -1310,16 +1299,16 @@ chk5d_duration_outliers <- function(ds=NULL,
 #' @examples
 #' \dontrun{
 #' ds <- HighFrequencyChecks::sample_dataset
-#' survey_consent <- "survey_consent"
+#' sc <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6a_refusal(ds, survey_consent, enumeratorID)
+#' log <- enumeratorSurveysConsent(ds, sc, enumeratorID)
 #' head(log,10)
 #'}
-#' @export chk6a_refusal
+#' @export enumeratorSurveysConsent
 
 
-chk6a_refusal <- function(ds=NULL,
+enumeratorSurveysConsent <- function(ds=NULL,
                           survey_consent=NULL,
                           enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -1336,11 +1325,11 @@ chk6a_refusal <- function(ds=NULL,
   colnames(tmp)[2] <- "survey_consent"
   logf <- data.table::dcast(tmp,enumeratorID ~ survey_consent, value.var = "pct")
   logf[is.na(logf)] <- 0
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk6b_duration
-#' @rdname chk6b_duration
+#' @name enumeratorSurveysDuration
+#' @rdname enumeratorSurveysDuration
 #' @title Check the average interview duration by enumerator
 #' @description This function display the average interview duration per enumerator.
 #'
@@ -1359,12 +1348,12 @@ chk6a_refusal <- function(ds=NULL,
 #' dt <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6b_duration(ds, dt, enumeratorID)
+#' log <- enumeratorSurveysDuration(ds, dt, enumeratorID)
 #' head(log,10)
 #'}
-#' @export chk6b_duration
+#' @export enumeratorSurveysDuration
 
-chk6b_duration <- function(ds=NULL,
+enumeratorSurveysDuration <- function(ds=NULL,
                            dates=NULL,
                            enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -1382,11 +1371,11 @@ chk6b_duration <- function(ds=NULL,
   logf<-ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% summarize(duration_mean = round(mean(surveytime), digits=2),
                                                                       overall_avg_duration,
                                                                       perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk6c_nb_survey
-#' @rdname chk6c_nb_survey
+#' @name enumeratorProductivity
+#' @rdname enumeratorProductivity
 #' @title Check the number of surveys by enumerator
 #' @description This function display the total number of survey made and the average per day per enumerator.
 #'
@@ -1404,12 +1393,12 @@ chk6b_duration <- function(ds=NULL,
 #' surveydate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- chk6c_nb_survey(ds, surveydate, enumeratorID)
+#' log <- enumeratorProductivity(ds, surveydate, enumeratorID)
 #' head(log,10)
 #'}
-#' @export chk6c_nb_survey
+#' @export enumeratorProductivity
 
-chk6c_nb_survey <- function(ds=NULL,
+enumeratorProductivity <- function(ds=NULL,
                             surveydate=NULL,
                             enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
@@ -1428,11 +1417,11 @@ chk6c_nb_survey <- function(ds=NULL,
                                               var = as.name(surveydate)),
                total_surveys_done = ~n()) %>%
     mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk6f_productivity
-#' @rdname chk6f_productivity
+#' @name enumeratorProductivityOutliers
+#' @rdname enumeratorProductivityOutliers
 #' @title Check the surveyors with very low or high productivity
 #' @description This function display the surveyors with very low or high productivity.
 #'
@@ -1452,12 +1441,12 @@ chk6c_nb_survey <- function(ds=NULL,
 #' surveydate <- "survey_date"
 #' sdval<-2
 #'
-#' log <- chk6f_productivity(ds, enumeratorID, surveydate, sdval)
+#' log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
 #' head(log,10)
 #'}
-#' @export chk6f_productivity
+#' @export enumeratorProductivityOutliers
 
-chk6f_productivity <- function(ds=NULL,
+enumeratorProductivityOutliers <- function(ds=NULL,
                                enumeratorID=NULL,
                                surveydate=NULL,
                                sdval=NULL){
@@ -1485,12 +1474,12 @@ chk6f_productivity <- function(ds=NULL,
   tmp <- data.frame(tmp,survey_outliers)
   logf <- subset(tmp, abs(survey_outliers) > sdval)
 
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
-#' @name chk6g_question_less_X_answers
-#' @rdname chk6g_question_less_X_answers
+#' @name enumeratorIsLazy
+#' @rdname enumeratorIsLazy
 #' @title Check the enumerators who pick up less than X answers per specific question
 #' @description This function display the surveyors who picked up less than a specified amount of answers per specific question.
 #' This can be useful for select_multiple questions where respondent shall give at least 3 options for instance.
@@ -1514,12 +1503,12 @@ chk6f_productivity <- function(ds=NULL,
 #'       "consent_received.child_protection.girl_risk[.]")
 #' mna <- 3
 #'
-#' log <- chk6g_question_less_X_answers(ds, enumeratorID, questions, mna)
+#' log <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
 #' head(log,10)
 #'}
-#' @export chk6g_question_less_X_answers
+#' @export enumeratorIsLazy
 
-chk6g_question_less_X_answers <- function(ds=NULL,
+enumeratorIsLazy <- function(ds=NULL,
                                           enumeratorID=NULL,
                                           questions=NULL,
                                           minnbanswers=NULL){
@@ -1543,12 +1532,12 @@ chk6g_question_less_X_answers <- function(ds=NULL,
                                    summarize(NbErr = sum(nb < minnbanswers)), field = stringi::stri_replace_all_fixed(i, "[.]", "")))
   }
   logf<-tmp
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
-#' @name chk7ai_productivity
-#' @rdname chk7ai_productivity
+#' @name assessmentProductivity
+#' @rdname assessmentProductivity
 #' @title Summary of daily average productivity
 #' @description This function display the number of surveys conducted per day.
 #'
@@ -1566,14 +1555,14 @@ chk6g_question_less_X_answers <- function(ds=NULL,
 #' df <- HighFrequencyChecks::sample_dataset
 #' sdte <- "survey_date"
 #' dtf <- "%m/%d/%Y"
-#' survey_consent <- "survey_consent"
+#' sc <- "survey_consent"
 #'
-#' log <- chk7ai_productivity(df, sdte, dtf, survey_consent)
+#' log <- assessmentProductivity(df, sdte, dtf, sc)
 #' head(log,10)
 #'}
-#' @export chk7ai_productivity
+#' @export assessmentProductivity
 
-chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
+assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1592,11 +1581,11 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk7aii_productivity_hist
-#' @rdname chk7aii_productivity_hist
+#' @name assessmentProductivityGraphical
+#' @rdname assessmentProductivityGraphical
 #' @title Overall productivity histogram
 #' @description This function create an histogram showing the overall productivity per consent status per day.
 #'
@@ -1616,11 +1605,11 @@ chk7ai_productivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, surve
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' chk7aii_productivity_hist(ds, surveydate, dateformat, survey_consent)
+#' assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
 #'}
-#' @export chk7aii_productivity_hist
+#' @export assessmentProductivityGraphical
 
-chk7aii_productivity_hist <- function(ds = NULL,
+assessmentProductivityGraphical <- function(ds = NULL,
                                       surveydate = NULL,
                                       dateformat = NULL,
                                       survey_consent = NULL){
@@ -1655,12 +1644,12 @@ chk7aii_productivity_hist <- function(ds = NULL,
                           yaxis = list(title = "Nb Survey"),
                           barmode = "stack")
 
-  return(graph)
+  return(list(NULL,NULL,NULL,graph))
 }
 
 
-#' @name chk7bi_nb_status
-#' @rdname chk7bi_nb_status
+#' @name assessmentDailyValidSurveys
+#' @rdname assessmentDailyValidSurveys
 #' @title Daily number of survey per consent status
 #' @description This function display the number of surveys conducted per day per constent status.
 #'
@@ -1680,13 +1669,13 @@ chk7aii_productivity_hist <- function(ds = NULL,
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' log <- chk7bi_nb_status(ds, surveydate, dateformat, survey_consent )
+#' log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
 #' head(log,10)
 #'}
 #'
-#' @export chk7bi_nb_status
+#' @export assessmentDailyValidSurveys
 
-chk7bi_nb_status <- function(ds=NULL,
+assessmentDailyValidSurveys <- function(ds=NULL,
                              surveydate=NULL,
                              dateformat=NULL,
                              survey_consent=NULL){
@@ -1709,11 +1698,11 @@ chk7bi_nb_status <- function(ds=NULL,
   tmp <- tmp[with(tmp, order(surveydate)), ]
   logf <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
   logf[is.na(logf)] <- 0
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
-#' @name chk7bii_tracking
-#' @rdname chk7bii_tracking
+#' @name assessmentTrackingSheet
+#' @rdname assessmentTrackingSheet
 #' @title Overall tracking sheet
 #' @description This function display the overall tracking sheet.
 #'
@@ -1721,7 +1710,7 @@ chk7bi_nb_status <- function(ds=NULL,
 #' @param sf sampling frame as a data.frame object
 #' @param dssite  name as a string of the field in the dataset where the site is stored
 #' @param sfsite name as a string of the field in the sampling frame where the site is stored
-#' @param survcons name as a string of the field in the dataset where the survey consent is stored
+#' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
 #' @param sftarget name as a string of the field where the target number of survey is stored in the sampling frame
 #' @param sfnbpts  name as a string of the field where the number of points generated is stored in the sampling frame
 #' @param formul  formulas as a list of string used to compute the final number of eligible surveys and the variance from the target (C('formula1','formula2')).
@@ -1734,8 +1723,8 @@ chk7bi_nb_status <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' {
-#' df <- HighFrequencyChecks::sample_dataset
+#' \dontrun{
+#' ds <- HighFrequencyChecks::sample_dataset
 #' sf <- HighFrequencyChecks::SampleSize
 #' dssite <- "union_name"
 #' sfsite <- "Union"
@@ -1747,7 +1736,7 @@ chk7bi_nb_status <- function(ds=NULL,
 #' colorder <- c("site","SS","Provisio","done","not_eligible",
 #'                  "no","deleted","yes","final","variance")
 #'
-#' log <- chk7bii_tracking(df,
+#' log <- assessmentTrackingSheet(ds,
 #'                         sf,
 #'                         dssite,
 #'                         sfsite,
@@ -1759,14 +1748,14 @@ chk7bi_nb_status <- function(ds=NULL,
 #' head(log,10)
 #'
 #'}
-#' @export chk7bii_tracking
+#' @export assessmentTrackingSheet
 #'
 
-chk7bii_tracking <- function(ds=NULL,
+assessmentTrackingSheet <- function(ds=NULL,
                              sf=NULL,
                              dssite=NULL,
                              sfsite=NULL,
-                             survcons=NULL,
+                             survey_consent=NULL,
                              sftarget=NULL,
                              sfnbpts=NULL,
                              formul=NULL,
@@ -1783,7 +1772,7 @@ chk7bii_tracking <- function(ds=NULL,
   if(is.null(sfsite) | !is.character(sfsite)){
     stop("Please provide the field where the site is stored in the sampling frame")
   }
-  if(is.null(survcons) | !is.character(survcons)){
+  if(is.null(survey_consent) | !is.character(survey_consent)){
     stop("Please provide the field where the survey consent is stored")
   }
   if(is.null(sftarget) | !is.character(sftarget)){
@@ -1801,18 +1790,18 @@ chk7bii_tracking <- function(ds=NULL,
 
   df1<-data.frame(sf[,sfsite], sf[,sftarget], sf[,sfnbpts])
   colnames(df1)<-c("site",sftarget,sfnbpts)
-  ## df2<-data.frame(ds, stringsAsFactors = FALSE) %>% group_by(dssite) %>% count(survcons) %>% mutate(done=sum(n))
+  ## df2<-data.frame(ds, stringsAsFactors = FALSE) %>% group_by(dssite) %>% count(survey_consent) %>% mutate(done=sum(n))
   ## colnames(df2)[2]<-"site"
-  #df2<-ds[,c(dssite,survcons)]
+  #df2<-ds[,c(dssite,survey_consent)]
   #colnames(df2)<-c("site","consent")
   #df2$site<-as.character(df2$site)
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
-  ## survcons<-lazyeval::lazy(survcons)
-  df2 <- ds %>% group_by_(site=dssite, consent=survcons) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  ## survey_consent<-lazyeval::lazy(survey_consent)
+  df2 <- ds %>% group_by_(site=dssite, consent=survey_consent) %>% summarize(n=n()) %>% mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
-  #df2<-ds %>% group_by_(site=dssite) %>% count_(survcons) %>% mutate(done=sum(n))
+  #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))
   df2 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
   df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
   df[is.na(df)] <- 0
@@ -1834,7 +1823,7 @@ chk7bii_tracking <- function(ds=NULL,
   df$variance <- eval(parse(text=formul[2]))
 
   logf <- df[colorder]
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
