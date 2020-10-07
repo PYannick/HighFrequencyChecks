@@ -1,0 +1,460 @@
+---
+title: "High Frequency Checks template"
+author: "Yannick Pascaud"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+always_allow_html: yes
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+  html_document: default
+geometry: margin=0.5in
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(gsubfn)
+library(dplyr)
+library(data.table)
+library(HighFrequencyChecks)
+```
+```{r surveysDataset, eval=TRUE, echo=FALSE}
+dset<-list()
+dset[["lev1"]]<-sample_dataset
+```
+```{r sampleSizeDataset, eval=TRUE, echo=FALSE}
+begin_sample<-NA
+SampleSize<-SampleSize
+```
+```{r shapefiles, eval=TRUE, echo=FALSE}
+begin_shp<-NA
+adm<-admin
+pts<-SamplePts
+```
+```{r initializeVariables, eval=TRUE, echo=FALSE}
+#Header<-sample_dataset
+#admin<-admin
+#df<-sample_dataset
+df_site<-"union_name"
+df_coord<-c("X_gps_reading_longitude","X_gps_reading_latitude")
+admin_site<-"Union"
+consent<-"survey_consent"
+reportcol<-c("enumerator_id","X_uuid")
+buffer<-10
+uuid<-"X_uuid"
+dates<-c("survey_start","end_survey")
+startdate<-"11/11/2018"
+mindur<-10
+enumid<-"enumerator_id"
+otherpattern<-"_other$"
+surveydte<-"survey_date"
+dteformat<-"%m/%d/%Y"
+questions_enumeratorIsLazy_level1<-c("consent_received.shelter_nfi.non_food_items[.]","consent_received.food_security.main_income[.]","consent_received.child_protection.boy_risk[.]","consent_received.child_protection.girl_risk[.]")
+minans<-3
+sdvalue<-2
+sf_site<-"Union"
+sf_target<-"SS"
+sf_nbpts<-"TotPts"
+formul<-c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
+colorder<-c("site","SS","TotPts","done","not_eligible","no","deleted","yes","final","variance")
+```
+```{r eval=TRUE, echo=FALSE}
+dset[["lev1"]]$union_name<-tolower(dset[["lev1"]]$union_name)
+```
+```{r eval=TRUE, echo=FALSE}
+SampleSize$Union<-tolower(SampleSize$Union)
+```
+```{r eval=TRUE, echo=FALSE}
+adm$Union<-tolower(adm$Union)
+```
+```{r eval=TRUE, echo=FALSE}
+options(scipen = 999)
+```
+
+## High Frequency Check - Examples
+
+### 1. Overall checks
+
+#### GIS Checks
+
+check that the recorded site is the actual one
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("adm, lev1, df_site, df_coord, admin_site, consent, reportcol, TRUE",
+                                           names(dset)[stringi::stri_detect_fixed("adm, lev1, df_site, df_coord, admin_site, consent, reportcol, TRUE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("adm, lev1, df_site, df_coord, admin_site, consent, reportcol, TRUE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk1di_GIS_site(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("adm, lev1, df_site, df_coord, admin_site, consent, reportcol, TRUE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+check that the survey is done within a **`r buffer`** meter buffer from a sample point
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, pts, df_coord, buffer, consent, reportcol, TRUE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, pts, df_coord, buffer, consent, reportcol, TRUE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, pts, df_coord, buffer, consent, reportcol, TRUE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk1dii_GIS_Xm(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, pts, df_coord, buffer, consent, reportcol, TRUE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+#### Duplicates in unique ID
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, uuid, consent, reportcol, TRUE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, uuid, consent, reportcol, TRUE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, uuid, consent, reportcol, TRUE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk2b_unique_id(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, uuid, consent, reportcol, TRUE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+#### Dates mistakes in the survey
+
+Surveys that do not end on the same day as they started
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, consent, dates, reportcol, FALSE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk3a_date_mistake(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Surveys which end before they start
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, consent, dates, reportcol, FALSE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk3b_date_mistake(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Surveys made before the first day of data collection (**`r startdate`**)
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates, consent, startdate, reportcol, FALSE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates, consent, startdate, reportcol, FALSE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates, consent, startdate, reportcol, FALSE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk3c_date_mistake(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates, consent, startdate, reportcol, FALSE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Surveys made in the future
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, consent, dates, reportcol, FALSE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk3d_date_mistake(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, FALSE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+#### Durations of surveys
+
+Beware that if surveys with potential errors on the dates are not marked for deletion which can lead to weird durations
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk5a_duration(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+The total time of data collection is **`r var3$tot`** minutes and the average time per survey is **`r var3$avg`** minutes
+
+Enumerators who made a survey below **`r mindur`** minutes
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, consent, dates, reportcol, mindur, TRUE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, mindur, TRUE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, mindur, TRUE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk5b_duration_Xmin(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, consent, dates, reportcol, mindur, TRUE", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+### 2. Productivity
+
+Number of survey per day of data collection
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveydte, dteformat, consent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk7ai_productivity(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Number of survey per day of data collection per consent status
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveydte, dteformat, consent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk7bi_nb_status(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveydte, dteformat, consent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Tracking sheet
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk7bii_tracking(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, SampleSize, df_site, sf_site, consent, sf_target, sf_nbpts, formul, colorder", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+### 3. Checks on the surveys content
+
+#### Number of distinct values per questions
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumid, TRUE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumid, TRUE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumid, TRUE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk4bii_distinct_values(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumid, TRUE", names(dset))]]]<-var1
+}
+write.csv(var2, paste0("chk4bii_distinct_values", ".csv"))
+```
+Please see the generated csv file: chk4bii_distinct_values.csv
+
+#### Number of other distinct values (for the questions with a possibility of other)
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, otherpattern, enumid, FALSE",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, otherpattern, enumid, FALSE", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, otherpattern, enumid, FALSE", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk4biv_others_values(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, otherpattern, enumid, FALSE", names(dset))]]]<-var1
+}
+write.csv(var2, paste0("chk4biv_others_values", ".csv"))
+```
+Please see the generated csv file: chk4biv_others_values.csv
+
+### 4. Enumerators checks
+
+Percentage of survey per consent status by enumerator
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, consent, enumid",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, consent, enumid", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, consent, enumid", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk6a_refusal(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, consent, enumid", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Average interview duration by enumerator
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates, enumid",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates, enumid", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates, enumid", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk6b_duration(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates, enumid", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Number of surveys per day by enumerator
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveydte, enumid",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveydte, enumid", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveydte, enumid", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk6c_nb_survey(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveydte, enumid", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Surveyors with very low or high productivity
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumid, surveydte, sdvalue",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumid, surveydte, sdvalue", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumid, surveydte, sdvalue", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk6f_productivity(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumid, surveydte, sdvalue", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+
+Enumerators who pick up less than **`r minans`** answers per specific questions (Level1 level)
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumid, questions_enumeratorIsLazy_level1, minans",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumid, questions_enumeratorIsLazy_level1, minans", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumid, questions_enumeratorIsLazy_level1, minans", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("chk6g_question_less_X_answers(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumid, questions_enumeratorIsLazy_level1, minans", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```

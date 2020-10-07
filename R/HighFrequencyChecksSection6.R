@@ -47,7 +47,7 @@ chk6a_refusal <- function(ds=NULL,
   colnames(tmp)[2] <- "survey_consent"
   logf <- data.table::dcast(tmp,enumeratorID ~ survey_consent, value.var = "pct")
   logf[is.na(logf)] <- 0
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk6b_duration
@@ -93,7 +93,7 @@ chk6b_duration <- function(ds=NULL,
   logf<-ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% summarize(duration_mean = round(mean(surveytime), digits=2),
                                                    overall_avg_duration,
                                                    perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk6c_nb_survey
@@ -139,7 +139,7 @@ chk6c_nb_survey <- function(ds=NULL,
                                           var = as.name(surveydate)),
                      total_surveys_done = ~n()) %>%
           mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 #' @name chk6f_productivity
@@ -196,7 +196,7 @@ chk6f_productivity <- function(ds=NULL,
   tmp <- data.frame(tmp,survey_outliers)
   logf <- subset(tmp, abs(survey_outliers) > sdval)
 
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 
@@ -254,7 +254,7 @@ chk6g_question_less_X_answers <- function(ds=NULL,
                        summarize(NbErr = sum(nb < minnbanswers)), field = stringi::stri_replace_all_fixed(i, "[.]", "")))
   }
   logf<-tmp
-  return(logf)
+  return(list(NULL,logf,NULL,NULL))
 }
 
 

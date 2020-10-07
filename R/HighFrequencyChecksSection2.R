@@ -57,11 +57,10 @@ chk2a_missing_id <- function(ds=NULL,
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-   errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
-   #  dplyr::select(reportingcol, survey_consent=survey_consent)
-     dplyr::select(all_of(reportingcol), survey_consent=survey_consent)
-  #errors <- ds[ which(is.na(ds[,UniqueID]) | ds[,UniqueID]=="") , c(reportingcol, survey_consent)]
-  return(list(ds,errors))
+
+  errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
+     dplyr::select(reportingcol, survey_consent=survey_consent)
+  return(list(ds,errors,NULL,NULL))
 }
 
 
@@ -122,7 +121,8 @@ chk2b_unique_id <- function(ds=NULL,
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
-  #errors <- subset(ds,duplicated(ds[,UniqueID])) %>% select(reportingcol, survey_consent=survey_consent)
-  errors <- ds[ which(duplicated(ds[,UniqueID])) , c(reportingcol, survey_consent)]
-  return(list(ds,errors))
+
+  errors <- subset(ds,duplicated(ds[,UniqueID])) %>%
+    dplyr::select(reportingcol, survey_consent=survey_consent)
+  return(list(ds,errors,NULL,NULL))
 }

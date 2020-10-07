@@ -55,7 +55,7 @@ Below are the required configuration and an illustration of those indicators bas
 ```{r message=FALSE, warning=FALSE, include=TRUE, echo = TRUE}
 library(knitr)
 library(gsubfn)
-library(tidyverse)
+library(dplyr)
 library(data.table)
 library(HighFrequencyChecks)
 library(kableExtra)
@@ -188,7 +188,13 @@ dates <- c("survey_start","end_survey")
 ## Official date for start of data collection
 start_collection <- "11/11/2018"
 
+<<<<<<< HEAD
 surveydate <- "survey_date"
+=======
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list[dts,err,var3,var4] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
+sample_dataset <- dts
+>>>>>>> ff115024ba0c0d240709b337cd49478e53f134fa
 
 # Variable used to record enumerator identifiers
 enumeratorID <- "enumerator_id"
