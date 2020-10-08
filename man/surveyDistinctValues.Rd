@@ -26,8 +26,8 @@ df <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
-head(log,10)
+list[dst,ret_log,var,graph] <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{

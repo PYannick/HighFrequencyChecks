@@ -54,8 +54,8 @@ rc <- c("enumerator_id","X_uuid")
 eid <- "enumerator_id"
 ec <- FALSE
 
-log <- surveyBigValues(df, qu, v, eid, ec)
-head(log,10)
+list[dst,ret_log,var,graph] <- surveyBigValues(df, qu, v, eid, ec)
+head(ret_log,10)
 }
 }
 \author{

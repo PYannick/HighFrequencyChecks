@@ -37,8 +37,8 @@ questions <- c("consent_received.shelter_nfi.non_food_items[.]",
       "consent_received.child_protection.girl_risk[.]")
 mna <- 3
 
-log <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
+head(ret_log,10)
 }
 }
 \author{

@@ -45,8 +45,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list_date_mistake3 <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
-head(list_date_mistake3[[2]], 10)
+list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
+head(ret_log, 10)
 }
 }
 \author{

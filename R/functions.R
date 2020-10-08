@@ -1738,7 +1738,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' sf <- HighFrequencyChecks::SampleSize
 #' dssite <- "union_name"

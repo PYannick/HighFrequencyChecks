@@ -49,8 +49,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 minduration <- 30
 delete <- FALSE
 
-list_duration_Xmin <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
-head(list_duration_Xmin[[2]], 10)
+list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+head(ret_log, 10)
 }
 }
 \author{

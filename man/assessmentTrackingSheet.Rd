@@ -57,7 +57,7 @@ formul <- c("done-no-not_eligible-delete",
 colorder <- c("site","SS","Provisio","done","not_eligible",
                  "no","deleted","yes","final","variance")
 
-log <- assessmentTrackingSheet(ds,
+list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
                         sf,
                         dssite,
                         sfsite,
@@ -66,7 +66,7 @@ log <- assessmentTrackingSheet(ds,
                         sfnbpts,
                         formul,
                         colorder)
-head(log,10)
+head(ret_log,10)
 
 }
 }

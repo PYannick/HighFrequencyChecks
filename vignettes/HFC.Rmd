@@ -15,7 +15,7 @@ vignette: >
 geometry: margin=0.5in
 fontsize: 10pt
 editor_options: 
-  chunk_output_type: inline 
+  chunk_output_type: inline
 ---
 
 Supervising the quality of data collection is not straightforward. Survey questionnaires are often quite long and have systematic control is worth automatizing.
@@ -59,7 +59,6 @@ library(knitr)
 library(gsubfn)
 library(dplyr)
 library(data.table)
-library(kableExtra)
 library(DT)
 library(ggplot2)
 library(plotly)
@@ -244,7 +243,7 @@ Respondent IDs: Are there duplicates of your unique identifiers? If so, does the
 list_unique_id <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
 ds <- list_unique_id[[1]]
 
-if(nrow(list_unique_id[[2]])>0){ 
+if(nrow(list_unique_id[[2]]) > 0){ 
 DT::datatable(list_unique_id[[2]], 
              caption = "Detected records with errors: Duplicate respondent ID")
 } else {
@@ -257,7 +256,7 @@ DT::datatable(list_unique_id[[2]],
 list_missing_id <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
 ds <- list_missing_id[[1]] 
 
-if(nrow(list_missing_id[[2]] )>0){ 
+if(nrow(list_missing_id[[2]] ) > 0){ 
 DT::datatable(list_missing_id[[2]], 
              caption = "Detected records with errors: Missing respondent ID")
 } else {
@@ -278,7 +277,7 @@ list_date_mistake <- isSurveyOnMoreThanADay(ds,
                                                               delete)
 ds <- list_date_mistake[[1]]
 
-if(nrow(list_date_mistake[[2]])>0){ 
+if(nrow(list_date_mistake[[2]]) > 0){ 
 DT::datatable(list_date_mistake[[2]], 
              caption = "Detected records with errors")
 } else {
@@ -297,7 +296,7 @@ list_date_mistake2 <- isSurveyEndBeforeItStarts(ds,
                                                                 delete)
 #ds <- list_date_mistake2[[1]]
 
-if(nrow(list_date_mistake2[[2]])>0){ 
+if(nrow(list_date_mistake2[[2]]) > 0){ 
 DT::datatable(list_date_mistake2[[2]], 
              caption = "Detected records with errors: interviews ended before they start")
 } else {
@@ -315,7 +314,7 @@ list_date_mistake3 <- isSurveyMadeInTheFuture(ds,
                                                                 delete)
 #ds <- list_date_mistake3[[1]]
 
-if(nrow(list_date_mistake3[[2]])>0){ 
+if(nrow(list_date_mistake3[[2]]) > 0){ 
 DT::datatable(list_date_mistake3[[2]], 
              caption = "Detected records with errors - date are not in the future")
 } else {
@@ -340,7 +339,7 @@ list_date_mistake4 <- isSurveyStartedBeforeTheAssessment(ds,
 
 ds <- list_date_mistake4[[1]]
 
-if(nrow(list_date_mistake4[[2]])>0){ 
+if(nrow(list_date_mistake4[[2]]) > 0){ 
 DT::datatable(list_date_mistake4[[2]], 
              caption = "Detected records with errors - records occured after the official beginning of data collection")
 } else {
@@ -361,7 +360,7 @@ list_site <- isInterviewInTheCorrectSite(adm,
                                  correct)
 ds <- list_site[[1]]
 
-if(nrow(list_site[[2]])>0){ 
+if(nrow(list_site[[2]]) > 0){ 
 DT::datatable(list_site[[2]], 
              caption = "Detected records with errors - location name not matching with GPS")
 } else {
@@ -381,7 +380,7 @@ list_sitept <- isInterviewAtTheSamplePoint(ds,
                                 delete)
 ds <- list_sitept[[1]]
 
-if(nrow(list_sitept[[2]])>0){ 
+if(nrow(list_sitept[[2]]) > 0){ 
 DT::datatable(list_sitept[[2]], 
              caption = "Detected records with errors - recorded location too far from sampling points")
 } else {
@@ -401,7 +400,7 @@ list_duration_Xmin <- isInterviewTooShort(ds,
                                      TRUE)
 ds <- list_duration_Xmin[[1]]
 
-if(nrow(list_duration_Xmin[[2]])>0){ 
+if(nrow(list_duration_Xmin[[2]]) > 0){ 
 DT::datatable(list_duration_Xmin[[2]], 
              caption = paste0("Detected records with errors - Interviews duration shorter than ", minduration))
 } else {
@@ -445,9 +444,6 @@ Outliers: Are some respondents reporting values drastically higher or lower than
 #### Check the duration of consent and other modules by the enumerator
 
 
-
-
-
 #### Durations of Interviews
 
 Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
@@ -484,7 +480,7 @@ reportlog_others_values <- surveyOtherValues(ds,
                                    otherpattern, 
                                    enumeratorID, 
                                    TRUE)
-if(nrow(reportlog_others_values[[2]])>0){ 
+if(nrow(reportlog_others_values[[2]]) > 0){ 
 DT::datatable(reportlog_others_values[[2]], 
              caption = paste0("Detected of other distinct values"))
 } 
@@ -500,7 +496,7 @@ reportlog_productivity <- assessmentProductivity(ds,
                                  surveydate, 
                                  dateformat, 
                                  survey_consent)
-if(nrow(reportlog_productivity[[2]])>0){ 
+if(nrow(reportlog_productivity[[2]]) > 0){ 
 DT::datatable(reportlog_productivity[[2]], 
              caption = paste0("Completed interview per day"))
 } 
@@ -521,7 +517,7 @@ reportlog_nb_status <- assessmentDailyValidSurveys(ds,
                               surveydate, 
                               dateformat, 
                               survey_consent)
-if(nrow(reportlog_nb_status[[2]])>0){ 
+if(nrow(reportlog_nb_status[[2]]) > 0){ 
 DT::datatable(reportlog_nb_status[[2]], 
              caption = paste0("attempted interview per day and obtained consent"))
 } 
@@ -533,7 +529,7 @@ DT::datatable(reportlog_nb_status[[2]],
 reportlog_refusal <- enumeratorSurveysConsent(ds, 
                            survey_consent, 
                            enumeratorID)
-if(nrow(reportlog_refusal[[2]])>0){ 
+if(nrow(reportlog_refusal[[2]]) > 0){ 
 DT::datatable(reportlog_refusal[[2]], 
              caption = paste0("Percentage of survey per consent status by enumerator"))
 } 
@@ -545,7 +541,7 @@ DT::datatable(reportlog_refusal[[2]],
 reportlog_duration <- enumeratorSurveysDuration(ds, 
                             dates, 
                             enumeratorID)
-if(nrow(reportlog_others_values[[2]])>0){ 
+if(nrow(reportlog_others_values[[2]]) > 0){ 
 DT::datatable(reportlog_duration[[2]], 
              caption = paste0("Average interview duration by enumerator"))
 } 
@@ -557,7 +553,7 @@ DT::datatable(reportlog_duration[[2]],
 reportlog_nb_survey <- enumeratorProductivity(ds, 
                              surveydate, 
                              enumeratorID)
-if(nrow(reportlog_nb_survey[[2]])>0){ 
+if(nrow(reportlog_nb_survey[[2]]) > 0){ 
 DT::datatable(reportlog_nb_survey[[2]], 
              caption = paste0("Number of surveys per day by enumerator"))
 } 
@@ -571,7 +567,7 @@ reportlog_productivity <- enumeratorProductivityOutliers(ds,
                                 enumeratorID, 
                                 surveydate, 
                                 sdvalue)
-if(nrow(reportlog_productivity[[2]])>0){ 
+if(nrow(reportlog_productivity[[2]]) > 0){ 
 DT::datatable(reportlog_productivity[[2]], 
              caption = paste0("Enumerators with productivity significantly different from the average"))
 } 

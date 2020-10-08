@@ -119,10 +119,12 @@ ReportWrapper <- function(ds=NULL,
                            enumeratorcheck=FALSE){
 
 wdir <- getwd()
+
 #file <- "form.xlsx"
 #repstr <- openxlsx::read.xlsx(paste0(wdir,file), 1)
 
 reportRMD  <- paste0(wdir,"vignettes/HighFrequencyCheckReport.Rmd")
+
 ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
 if (file.exists(reportRMD)) file.remove(reportRMD)
 
