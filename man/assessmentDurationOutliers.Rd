@@ -33,8 +33,8 @@ dates <- c("survey_start","end_survey")
 sdval <- 5
 reportingcol <- c("enumerator_id","X_uuid")
 
-log <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
-head(log,10)
+list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
+head(ret_log,10)
 }
 }
 \author{

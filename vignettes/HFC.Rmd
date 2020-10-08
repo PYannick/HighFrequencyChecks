@@ -15,7 +15,7 @@ vignette: >
 geometry: margin=0.5in
 fontsize: 10pt
 editor_options: 
-  chunk_output_type: inline 
+  chunk_output_type: inline
 ---
 
 Supervising the quality of data collection is not straightforward. Survey questionnaires are often quite long and have systematic control is worth automatizing.
@@ -58,7 +58,7 @@ library(gsubfn)
 library(dplyr)
 library(data.table)
 library(HighFrequencyChecks)
-library(kableExtra)
+# library(kableExtra)
 library(DT)
 library(ggplot2)
 library(plotly)

@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: 
     c(person(given = "Yannick",
              family = "Pascaud",
@@ -12,14 +12,8 @@ Authors@R:
              role = "ctb",
              email = "legoupil@unhcr.org"))
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
-Depends: R (>= 2.10)
-Description: During the data collection, a series of automatic check, aka: High Frequency checks, are required. The functions shared here are useful during the data collection process to check  periodicallyxfor possible errors, and will provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports. This work is an adaptation of a Stata Package from [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
-URL: https://unhcr.github.io/HighFrequencyChecks/docs/
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
-Imports:
-    dplyr,
+Depends: R (>= 2.10), 
+    dplyr,     
     sp,
     rgdal,
     rgeos,
@@ -35,6 +29,11 @@ Imports:
     DT,
     ggplot2,
     openxlsx
+Description: During the data collection, a series of automatic check, aka: High Frequency checks, are required. The functions shared here are useful during the data collection process to check  periodicallyxfor possible errors, and will provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports. This work is an adaptation of a Stata Package from [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
+URL: https://unhcr.github.io/HighFrequencyChecks/docs/
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

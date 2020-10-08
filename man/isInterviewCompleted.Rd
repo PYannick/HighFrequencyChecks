@@ -41,8 +41,8 @@ dates <- c("survey_start","end_survey")
 reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
-list_iscompled <- isInterviewCompleted(ds, survey_consent, dt, reportingcol, delete)
-head(list_iscompled[[2]],10)
+list[dst,ret_log,var,graph] <- isInterviewCompleted(ds, survey_consent, dates, reportingcol, delete)
+head(ret_log,10)
 }
 
 }
