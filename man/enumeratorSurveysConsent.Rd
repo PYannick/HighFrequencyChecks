@@ -25,8 +25,8 @@ ds <- HighFrequencyChecks::sample_dataset
 sc <- "survey_consent"
 enumeratorID <- "enumerator_id"
 
-log <- enumeratorSurveysConsent(ds, sc, enumeratorID)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds, sc, enumeratorID)
+head(ret_log,10)
 }
 }
 \author{

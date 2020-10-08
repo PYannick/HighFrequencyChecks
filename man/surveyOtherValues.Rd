@@ -34,8 +34,8 @@ otherpattern <- "_other$"
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
-head(log,10)
+list[dst,ret_log,var,graph] <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{

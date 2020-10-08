@@ -24,8 +24,8 @@
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- FALSE
 #'
-#' list_iscompled <- isInterviewCompleted(ds, survey_consent, dt, reportingcol, delete)
-#' head(list_iscompled[[2]],10)
+#' list[dst,ret_log,var,graph] <- isInterviewCompleted(ds, survey_consent, dates, reportingcol, delete)
+#' head(ret_log,10)
 #'}
 #'
 #' @export isInterviewCompleted
@@ -82,8 +82,8 @@ isInterviewCompleted <- function(ds=NULL,
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- TRUE
 #'
-#' list_withconsent <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
-#' head(list_withconsent[[2]]),10)
+#' list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
+#' head(ret_log,10)
 #'}
 #' @export isInterviewWithConsent
 
@@ -147,8 +147,8 @@ isInterviewWithConsent <- function(ds=NULL,
 #'   reportingcol <- c("enumerator_id","X_uuid")
 #'   correct <- FALSE
 #'
-#'   list_site <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
-#'   head(list_site[[2]], 10)
+#'   list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+#'   head(ret_log, 10)
 #'}
 #' @export isInterviewInTheCorrectSite
 #'
@@ -246,8 +246,8 @@ isInterviewInTheCorrectSite <- function(adm=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_sitept  <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
-#' head(list_sitept[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isInterviewAtTheSamplePoint
 #'
@@ -353,8 +353,8 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_missing_id <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
-#' head(list_missing_id[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isUniqueIDMissing
 
@@ -419,8 +419,8 @@ isUniqueIDMissing <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_unique_id <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
-#' head(list_unique_id[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isUniqueIDDuplicated
 
@@ -482,8 +482,8 @@ isUniqueIDDuplicated <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
-#' head(list_date_mistake[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isSurveyOnMoreThanADay
 
@@ -509,11 +509,13 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")!= stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")]<-"deleted"
+    # ds[,survey_consent][stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")!= stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!=stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
   }
 
-
-  errors <- subset(ds, stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd") != stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")) %>%
+  # errors <- subset(ds, stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd") != stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  errors <- subset(ds,stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!=stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1], survey_end=dates[2])
   return(list(ds,errors,NULL,NULL))
 }
@@ -544,8 +546,8 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake2 <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
-#' head(list_date_mistake2[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isSurveyEndBeforeItStarts
 
@@ -571,12 +573,13 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))]<-"deleted"
+    # ds[,survey_consent][readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))]<-"deleted"
+    ds[,survey_consent][strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")]<-"deleted"
   }
 
-
-
-  errors <- subset(ds, readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))) %>%
+  # errors <- subset(ds, readr::parse_datetime(as.character(ds[,dates[1]])) > readr::parse_datetime(as.character(ds[,dates[2]]))) %>%
+  #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
+  errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
     select(reportingcol, survey_start=dates[1], survey_end=dates[2])
   return(list(ds,errors,NULL,NULL))
 
@@ -611,8 +614,8 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake3 <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
-#' head(list_date_mistake3[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isSurveyStartedBeforeTheAssessment
 
@@ -643,11 +646,13 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
   }
 
   if(delete){
-    ds[,survey_consent][start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
+    # ds[,survey_consent][start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][start_collection>stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
   }
 
-
-  errors <- subset(ds,start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+  # errors <- subset(ds,start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1])
+  errors <- subset(ds,start_collection>stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1])
   return(list(ds,errors,NULL,NULL))
 
@@ -680,8 +685,8 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake4 <- isSurveyMadeInTheFuture(ds, uuid, survey_consent,reportingcol, delete)
-#' head(list_date_mistake4[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds, survey_consent, dates, reportingcol, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isSurveyMadeInTheFuture
 
@@ -708,12 +713,15 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
   }
 
   if(delete){
-    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
+    # ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")]<-"deleted"
+    ds[,survey_consent][Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deleted"
   }
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
 
-  errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+  # errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+  #   select(reportingcol, survey_start=dates[1])
+  errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(reportingcol, survey_start=dates[1])
   return(list(ds,errors,NULL,NULL))
 
@@ -739,8 +747,8 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
+#' head(ret_log,10)
 #'}
 #' @export surveyMissingValues
 
@@ -786,8 +794,8 @@ surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALS
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
+#' head(ret_log,10)
 #'}
 #' @export surveyDistinctValues
 
@@ -837,8 +845,8 @@ surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+#' head(ret_log,10)
 #'}
 #' @export surveyOtherValues
 
@@ -864,7 +872,7 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
   } else {
     tmp <- data.frame(ds[,c(enumeratorID,colnames(ds[,colnames(ds) %like% otherpattern]))], stringsAsFactors = FALSE)
     tmp <- data.frame(tmp[1], utils::stack(tmp[2:ncol(tmp)]))
-    logf <- subset(tmp, values!="") %>% group_by_(field=colnames(tmp[3]), enumeratorID, colnames(tmp[2])) %>% summarize(nb=n())
+    logf <- subset(tmp, values!="") %>% group_by(field=.data[[ colnames(tmp[3]) ]], .data[[ enumeratorID ]], .data[[ colnames(tmp[2]) ]]) %>% summarize(nb=n())
   }
   return(list(NULL,logf,NULL,NULL))
 }
@@ -894,8 +902,8 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' head(ret_log,10)
 #'}
 #' @export surveyOutliers
 
@@ -1011,8 +1019,8 @@ surveyOutliers <- function(ds=NULL,
 #' eid <- "enumerator_id"
 #' ec <- FALSE
 #'
-#' log <- surveyBigValues(df, qu, v, eid, ec)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- surveyBigValues(df, qu, v, eid, ec)
+#' head(ret_log,10)
 #'}
 #' @export surveyBigValues
 #'
@@ -1061,8 +1069,10 @@ surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NU
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' assessmentDuration(ds, dates)
-#'}
+#' list[dst,ret_log,var,graph] <- assessmentDuration(ds, dates)
+#' paste0("average time: ", var$avg)
+#' paste0("total time : ", var$tot)
+#'
 #' @export assessmentDuration
 
 assessmentDuration <- function(ds=NULL, dates=NULL){
@@ -1073,9 +1083,10 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
 
-  surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-                                       readr::parse_datetime(as.character(ds[,dates[1]]))),
-                                   units = "secs") / 60
+  # surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+  #                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
+  #                                  units = "secs") / 60
+  surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
 
   avg <- round(mean(surveytime), digits = 2)
   tot <- round(sum(surveytime), digits = 2)
@@ -1110,8 +1121,8 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
-#' head(list[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isInterviewTooShort
 
@@ -1140,10 +1151,12 @@ isInterviewTooShort <- function(ds=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  tmp <- data.frame(ds[reportingcol],
-                    SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-                                                          readr::parse_datetime(as.character(ds[,dates[1]]))),
-                                                      units = "secs") / 60)
+  # tmp <- data.frame(ds[reportingcol],
+  #                   SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+  #                                                         readr::parse_datetime(as.character(ds[,dates[1]]))),
+  #                                                     units = "secs") / 60)
+  tmp<-data.frame(ds[reportingcol], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+
 
   if(delete){
     ds[,survey_consent][tmp$SurveyLength<minduration] <- "deleted"
@@ -1183,8 +1196,8 @@ isInterviewTooShort <- function(ds=NULL,
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list_duration_Xmin <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
-#' head(list_duration_Xmin[[2]], 10)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+#' head(ret_log, 10)
 #'}
 #' @export isInterviewTooShortForTheHouseholdSize
 
@@ -1217,10 +1230,11 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize],
-                  SurveyLength=as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-                                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
-                                                  units = "secs") / 60)
+  # tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize],
+  #                 SurveyLength=as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+  #                                                     readr::parse_datetime(as.character(ds[,dates[1]]))),
+  #                                                 units = "secs") / 60)
+  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
 
   if(delete){
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
@@ -1250,8 +1264,8 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #' sdval <- 5
 #' reportingcol <- c("enumerator_id","X_uuid")
 #'
-#' log <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
+#' head(ret_log,10)
 #'}
 #' @export assessmentDurationOutliers
 
@@ -1272,9 +1286,10 @@ assessmentDurationOutliers <- function(ds=NULL,
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
 
-  surveytime <- data.frame(duration= as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-                                                            readr::parse_datetime(as.character(ds[,dates[1]]))),
-                                                        units = "secs") / 60)
+  # surveytime <- data.frame(duration= as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+  #                                                           readr::parse_datetime(as.character(ds[,dates[1]]))),
+  #                                                       units = "secs") / 60)
+  surveytime <- data.frame(duration=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
   duration_outliers <- data.frame(outliers::scores(surveytime, type = "z"))
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"
@@ -1302,8 +1317,8 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' sc <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- enumeratorSurveysConsent(ds, sc, enumeratorID)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds, sc, enumeratorID)
+#' head(ret_log,10)
 #'}
 #' @export enumeratorSurveysConsent
 
@@ -1348,8 +1363,8 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' dt <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- enumeratorSurveysDuration(ds, dt, enumeratorID)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds, dt, enumeratorID)
+#' head(ret_log,10)
 #'}
 #' @export enumeratorSurveysDuration
 
@@ -1393,8 +1408,8 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' surveydate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- enumeratorProductivity(ds, surveydate, enumeratorID)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds, surveydate, enumeratorID)
+#' head(ret_log,10)
 #'}
 #' @export enumeratorProductivity
 
@@ -1412,7 +1427,7 @@ enumeratorProductivity <- function(ds=NULL,
   }
 
   logf <- ds %>%
-    group_by_(enumeratorID) %>%
+    group_by(.data[[ enumeratorID ]]) %>%
     summarize_(days_worked = lazyeval::interp(~length(unique(var)),
                                               var = as.name(surveydate)),
                total_surveys_done = ~n()) %>%
@@ -1441,8 +1456,8 @@ enumeratorProductivity <- function(ds=NULL,
 #' surveydate <- "survey_date"
 #' sdval<-2
 #'
-#' log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
+#' head(ret_log,10)
 #'}
 #' @export enumeratorProductivityOutliers
 
@@ -1464,7 +1479,7 @@ enumeratorProductivityOutliers <- function(ds=NULL,
   }
 
   tmp <- ds %>%
-    group_by_(enumeratorID) %>%
+    group_by(.data[[ enumeratorID ]]) %>%
     summarize_(days_worked = lazyeval::interp(~length(unique(var)),
                                               var = as.name(surveydate)),
                total_surveys_done = ~n()) %>%
@@ -1503,8 +1518,8 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #'       "consent_received.child_protection.girl_risk[.]")
 #' mna <- 3
 #'
-#' log <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
+#' head(ret_log,10)
 #'}
 #' @export enumeratorIsLazy
 
@@ -1557,8 +1572,8 @@ enumeratorIsLazy <- function(ds=NULL,
 #' dtf <- "%m/%d/%Y"
 #' sc <- "survey_consent"
 #'
-#' log <- assessmentProductivity(df, sdte, dtf, sc)
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- assessmentProductivity(df, sdte, dtf, sc)
+#' head(ret_log,10)
 #'}
 #' @export assessmentProductivity
 
@@ -1577,7 +1592,8 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
   }
 
   tmp<-ds %>%
-    group_by(surveydate=surveydate) %>%
+    # group_by(surveydate=surveydate) %>%
+    group_by(surveydate=.data[[ surveydate ]]) %>%
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
@@ -1605,7 +1621,8 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
+#' list[dst,ret_log,var,graph] <- assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
+#' print(graph)
 #'}
 #' @export assessmentProductivityGraphical
 
@@ -1627,7 +1644,7 @@ assessmentProductivityGraphical <- function(ds = NULL,
   }
 
   tmp <- ds %>%
-    group_by_(surveydate=surveydate) %>%
+    group_by(surveydate=.data[[surveydate]]) %>%
     count(survey_consent)
 
   colnames(tmp)[2] <- "survey_consent"
@@ -1669,11 +1686,12 @@ assessmentProductivityGraphical <- function(ds = NULL,
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
-#' head(log,10)
+#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
+#' head(ret_log,10)
 #'}
 #'
 #' @export assessmentDailyValidSurveys
+#'
 
 assessmentDailyValidSurveys <- function(ds=NULL,
                              surveydate=NULL,
@@ -1692,7 +1710,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
+  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(survey_consent)
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
@@ -1736,7 +1754,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' colorder <- c("site","SS","Provisio","done","not_eligible",
 #'                  "no","deleted","yes","final","variance")
 #'
-#' log <- assessmentTrackingSheet(ds,
+#' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
 #'                         sf,
 #'                         dssite,
 #'                         sfsite,
@@ -1745,7 +1763,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #'                         sfnbpts,
 #'                         formul,
 #'                         colorder)
-#' head(log,10)
+#' head(ret_log,10)
 #'
 #'}
 #' @export assessmentTrackingSheet
@@ -1798,7 +1816,7 @@ assessmentTrackingSheet <- function(ds=NULL,
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
   ## survey_consent<-lazyeval::lazy(survey_consent)
-  df2 <- ds %>% group_by_(site=dssite, consent=survey_consent) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  df2 <- ds %>% group_by(site=.data[[ dssite ]], consent=.data[[ survey_consent ]]) %>% summarize(n=n()) %>% mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))

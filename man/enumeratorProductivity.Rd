@@ -25,8 +25,8 @@ ds <- HighFrequencyChecks::sample_dataset
 surveydate <- "survey_date"
 enumeratorID <- "enumerator_id"
 
-log <- enumeratorProductivity(ds, surveydate, enumeratorID)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorProductivity(ds, surveydate, enumeratorID)
+head(ret_log,10)
 }
 }
 \author{

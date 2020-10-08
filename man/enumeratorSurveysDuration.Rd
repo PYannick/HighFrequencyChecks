@@ -25,8 +25,8 @@ ds <- HighFrequencyChecks::sample_dataset
 dt <- c("survey_start","end_survey")
 enumeratorID <- "enumerator_id"
 
-log <- enumeratorSurveysDuration(ds, dt, enumeratorID)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds, dt, enumeratorID)
+head(ret_log,10)
 }
 }
 \author{

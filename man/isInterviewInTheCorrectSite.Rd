@@ -54,8 +54,8 @@ There is an option to automatically correct the site in the surveys whith the co
   reportingcol <- c("enumerator_id","X_uuid")
   correct <- FALSE
 
-  list_site <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
-  head(list_site[[2]], 10)
+  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+  head(ret_log, 10)
 }
 }
 \author{

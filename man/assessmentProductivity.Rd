@@ -33,8 +33,8 @@ sdte <- "survey_date"
 dtf <- "\%m/\%d/\%Y"
 sc <- "survey_consent"
 
-log <- assessmentProductivity(df, sdte, dtf, sc)
-head(log,10)
+list[dst,ret_log,var,graph] <- assessmentProductivity(df, sdte, dtf, sc)
+head(ret_log,10)
 }
 }
 \author{

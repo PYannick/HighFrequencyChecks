@@ -33,8 +33,8 @@ enumeratorID <- "enumerator_id"
 surveydate <- "survey_date"
 sdval<-2
 
-log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
-head(log,10)
+list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
+head(ret_log,10)
 }
 }
 \author{

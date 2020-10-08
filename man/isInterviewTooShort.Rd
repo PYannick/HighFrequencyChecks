@@ -45,8 +45,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 minduration <- 30
 delete <- FALSE
 
-list <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
-head(list[[2]], 10)
+list[dst,ret_log,var,graph] <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
+head(ret_log, 10)
 }
 }
 \author{

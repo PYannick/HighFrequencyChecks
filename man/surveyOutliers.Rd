@@ -39,8 +39,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
-head(log,10)
+list[dst,ret_log,var,graph] <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{
