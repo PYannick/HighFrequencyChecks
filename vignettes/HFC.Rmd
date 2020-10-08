@@ -53,11 +53,12 @@ Below are the required configuration and an illustration of those indicators bas
 ### loading the required R packages
 
 ```{r message=FALSE, warning=FALSE, include=TRUE, echo = TRUE}
+library(HighFrequencyChecks)
+
 library(knitr)
 library(gsubfn)
 library(dplyr)
 library(data.table)
-library(HighFrequencyChecks)
 library(kableExtra)
 library(DT)
 library(ggplot2)

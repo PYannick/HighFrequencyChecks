@@ -83,7 +83,7 @@ isInterviewCompleted <- function(ds=NULL,
 #' delete <- TRUE
 #'
 #' list_withconsent <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
-#' head(list_withconsent[[2]]),10)
+#' head(list_withconsent[[2]],10)
 #'}
 #' @export isInterviewWithConsent
 
@@ -138,29 +138,36 @@ isInterviewWithConsent <- function(ds=NULL,
 #'
 #' @examples
 #' {
+#'   ds <- HighFrequencyChecks::sample_dataset
 #'   admin <- HighFrequencyChecks::admin
-#'   df <- HighFrequencyChecks::sample_dataset
 #'   df_site <- "union_name"
 #'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 #'   admin_site <- "Union"
-#'   sc <- "survey_consent"
+#'   survey_consent <- "survey_consent"
 #'   reportingcol <- c("enumerator_id","X_uuid")
 #'   correct <- FALSE
 #'
-#'   list_site <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+#'   list_site <- isInterviewInTheCorrectSite(ds,
+#'                                            admin,
+#'                                            df_site,
+#'                                            df_coord,
+#'                                            admin_site,
+#'                                            survey_consent,
+#'                                            reportingcol,
+#'                                            correct)
 #'   head(list_site[[2]], 10)
 #'}
 #' @export isInterviewInTheCorrectSite
 #'
 
-isInterviewInTheCorrectSite <- function(adm=NULL,
-                            ds=NULL,
-                            ds_site=NULL,
-                            ds_coord=NULL,
-                            adm_site=NULL,
-                            survey_consent=NULL,
-                            reportingcol=NULL,
-                            correct=NULL){
+isInterviewInTheCorrectSite <- function(ds=NULL,
+                                        adm=NULL,
+                                        ds_site=NULL,
+                                        ds_coord=NULL,
+                                        adm_site=NULL,
+                                        survey_consent=NULL,
+                                        reportingcol=NULL,
+                                        correct=NULL){
   if(is.null(adm) | !isS4(adm) | nrow(adm)==0){
     stop("Please provide the spatial dataset of the boundaries shapefile")
   }
@@ -734,13 +741,13 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
 #' log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export surveyMissingValues
 
@@ -781,13 +788,13 @@ surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALS
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' df <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
 #' log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export surveyDistinctValues
 
@@ -831,14 +838,14 @@ surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' df <- HighFrequencyChecks::sample_dataset
 #' otherpattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
 #' log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export surveyOtherValues
 
@@ -887,7 +894,7 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' df <- HighFrequencyChecks::sample_dataset
 #' sdval <- 2
 #' reportingcol <- c("enumerator_id","X_uuid")
@@ -895,7 +902,7 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
 #' enumeratorcheck <- FALSE
 #'
 #' log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export surveyOutliers
 
@@ -990,9 +997,9 @@ surveyOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' df <- HighFrequencyChecks::sample_dataset
-#' qu <-c("consent_received.food_security.spend_food",
+#' questions <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
 #'       "consent_received.food_security.spend_fix_shelter",
@@ -1006,17 +1013,22 @@ surveyOutliers <- function(ds=NULL,
 #'       "consent_received.food_security.spend_rent",
 #'       "consent_received.food_security.spend_debts",
 #'       "consent_received.food_security.spend_other")
-#' v <- 25000
-#' rc <- c("enumerator_id","X_uuid")
-#' eid <- "enumerator_id"
-#' ec <- FALSE
+#' value <- 25000
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
 #'
-#' log <- surveyBigValues(df, qu, v, eid, ec)
-#' head(log,10)
+#' log <- surveyBigValues(df, qu, value,reportingcol, enumeratorID, enumeratorcheck)
+#' head(log[[2]],10)
 #'}
 #' @export surveyBigValues
 #'
-surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyBigValues <- function(ds=NULL,
+                            questions=NULL,
+                            value=NULL,
+                            reportingcol=NULL,
+                            enumeratorID=NULL,
+                            enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1251,7 +1263,7 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #' reportingcol <- c("enumerator_id","X_uuid")
 #'
 #' log <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export assessmentDurationOutliers
 
@@ -1297,13 +1309,13 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
+#' survey_consent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- enumeratorSurveysConsent(ds, sc, enumeratorID)
-#' head(log,10)
+#' log <- enumeratorSurveysConsent(ds, survey_consent, enumeratorID)
+#' head(log[[2]],10)
 #'}
 #' @export enumeratorSurveysConsent
 
@@ -1343,13 +1355,13 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' dt <- c("survey_start","end_survey")
+#' dates <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' log <- enumeratorSurveysDuration(ds, dt, enumeratorID)
-#' head(log,10)
+#' log <- enumeratorSurveysDuration(ds, dates, enumeratorID)
+#' head(log[[2]],10)
 #'}
 #' @export enumeratorSurveysDuration
 
@@ -1388,13 +1400,13 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' surveydate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
 #' log <- enumeratorProductivity(ds, surveydate, enumeratorID)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export enumeratorProductivity
 
@@ -1435,14 +1447,14 @@ enumeratorProductivity <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' surveydate <- "survey_date"
 #' sdval<-2
 #'
 #' log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #' @export enumeratorProductivityOutliers
 
@@ -1494,17 +1506,17 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' questions <- c("consent_received.shelter_nfi.non_food_items[.]",
 #'       "consent_received.food_security.main_income[.]",
 #'       "consent_received.child_protection.boy_risk[.]",
 #'       "consent_received.child_protection.girl_risk[.]")
-#' mna <- 3
+#' minnbanswers <- 3
 #'
-#' log <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
-#' head(log,10)
+#' log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
+#' head(log[[2]],10)
 #'}
 #' @export enumeratorIsLazy
 
@@ -1551,18 +1563,21 @@ enumeratorIsLazy <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "%m/%d/%Y"
-#' sc <- "survey_consent"
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' surveydate <- "survey_date"
+#' dateformat <- "%m/%d/%Y"
+#' survey_consent <- "survey_consent"
 #'
-#' log <- assessmentProductivity(df, sdte, dtf, sc)
-#' head(log,10)
+#' log <- assessmentProductivity(ds, surveydate, dateformat, survey_consent)
+#' head(log[[2]],10)
 #'}
 #' @export assessmentProductivity
 
-assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, survey_consent=NULL){
+assessmentProductivity <- function(ds=NULL,
+                                   surveydate=NULL,
+                                   dateformat=NULL,
+                                   survey_consent=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1670,7 +1685,7 @@ assessmentProductivityGraphical <- function(ds = NULL,
 #' survey_consent <- "survey_consent"
 #'
 #' log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
-#' head(log,10)
+#' head(log[[2]],10)
 #'}
 #'
 #' @export assessmentDailyValidSurveys
@@ -1723,7 +1738,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'                                         {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' sf <- HighFrequencyChecks::SampleSize
 #' dssite <- "union_name"
@@ -1745,7 +1760,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #'                         sfnbpts,
 #'                         formul,
 #'                         colorder)
-#' head(log,10)
+#' head(log[[2]],10)
 #'
 #'}
 #' @export assessmentTrackingSheet
@@ -1788,8 +1803,8 @@ assessmentTrackingSheet <- function(ds=NULL,
     stop("Please provide the order the colums have to be displayed in the result (C('col1','col2',...))")
   }
 
-  df1<-data.frame(sf[,sfsite], sf[,sftarget], sf[,sfnbpts])
-  colnames(df1)<-c("site",sftarget,sfnbpts)
+  df1 <- data.frame(sf[,sfsite], sf[,sftarget], sf[,sfnbpts])
+  colnames(df1) <- c("site",sftarget,sfnbpts)
   ## df2<-data.frame(ds, stringsAsFactors = FALSE) %>% group_by(dssite) %>% count(survey_consent) %>% mutate(done=sum(n))
   ## colnames(df2)[2]<-"site"
   #df2<-ds[,c(dssite,survey_consent)]
@@ -1802,7 +1817,7 @@ assessmentTrackingSheet <- function(ds=NULL,
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))
-  df2 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
+  df2 <- reshape2::dcast(df2,site + done ~ consent, value.var="n")
   df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
   df[is.na(df)] <- 0
 
@@ -1825,7 +1840,3 @@ assessmentTrackingSheet <- function(ds=NULL,
   logf <- df[colorder]
   return(list(NULL,logf,NULL,NULL))
 }
-
-
-
-

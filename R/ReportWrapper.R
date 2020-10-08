@@ -15,13 +15,100 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdval <- 2
+#' ds <- HighFrequencyChecks::sample_dataset
+#'
+#' survey_consent <- "survey_consent"#'
 #' reportingcol <- c("enumerator_id","X_uuid")
+#' UniqueID <- "X_uuid"
+#'
+#' ## Setting dates
+#' dates <- c("survey_start","end_survey")
+#' surveydate <- "survey_date"
+#' start_collection <- "2018-11-11"
+#' dateformat <- "%m/%d/%Y"
+#' minduration <- 30
+#' sdval <- 2
+#' HHSize <-"consent_received.respondent_info.hh_size"
+#'
+#'
+#' ## Setting action on dataset
+#' delete <- FALSE
+#' correct <- FALSE
+#'
+#' ## Setting enumerator
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
+#' otherpattern <- "_other$"
 #'
-#' ReportWrapper(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' ## Setting linked geodata
+#' admin <- HighFrequencyChecks::admin
+#' df_site <- "union_name"
+#' df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#' admin_site <- "Union"#' pts <- HighFrequencyChecks::SamplePts
+#' ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#' buff <- 10
+#'
+#' ## setting questions to check
+#' questions <-c("consent_received.food_security.spend_food",
+#'       "consent_received.food_security.spend_medication",
+#'       "consent_received.food_security.spend_education",
+#'       "consent_received.food_security.spend_fix_shelter",
+#'       "consent_received.food_security.spend_clothing",
+#'       "consent_received.food_security.spend_hygiene",
+#'       "consent_received.food_security.spend_fuel",
+#'       "consent_received.food_security.spend_hh_items",
+#'       "consent_received.food_security.spend_transport",
+#'       "consent_received.food_security.spend_communication",
+#'       "consent_received.food_security.spend_tobacco",
+#'       "consent_received.food_security.spend_rent",
+#'       "consent_received.food_security.spend_debts",
+#'       "consent_received.food_security.spend_other")
+#' value <- 25000
+#' minnbanswers <- 3
+#'
+#'
+#' ## setting sampling plan
+#' sf <- HighFrequencyChecks::SampleSize
+#' dssite <- "union_name"
+#' sfsite <- "Union"
+#' survey_consent <- "survey_consent"
+#' sftarget <- "SS"
+#' sfnbpts <- "TotPts"
+#' formul <- c("done-no-not_eligible-delete",
+#'                "done-no-not_eligible-deleted-SS")
+#' colorder <- c("site","SS","Provisio","done","not_eligible",
+#'                  "no","deleted","yes","final","variance")
+#'
+#' ReportWrapper(ds,
+#'               survey_consent,
+#'               reportingcol,
+#'               UniqueID,
+#'               dates,
+#'               surveydate,
+#'               start_collection,
+#'               dateformat,
+#'               minduration,
+#'               sdval,
+#'               HHSize,
+#'               delete,
+#'               correct,
+#'               enumeratorID,
+#'               enumeratorcheck,
+#'               otherpattern,
+#'               admin,
+#'               df_site,
+#'               df_coord,
+#'               admin_site,
+#'               ds_coord,
+#'               buff,
+#'               questions,
+#'               value,
+#'               minnbanswers,
+#'               sf, dssite,
+#'               sfsite,
+#'               sftarget,
+#'               sfnbpts,
+#'               formul,colorder)
 #'}
 #' @export ReportWrapper
 #'
@@ -32,11 +119,10 @@ ReportWrapper <- function(ds=NULL,
                            enumeratorcheck=FALSE){
 
 wdir <- getwd()
-file <- "form.xlsx"
+#file <- "form.xlsx"
+#repstr <- openxlsx::read.xlsx(paste0(wdir,file), 1)
 
-repstr <- openxlsx::read.xlsx(paste0(wdir,file), 1)
-
-reportRMD  <- paste0(wdir,"HFC.Rmd")
+reportRMD  <- paste0(wdir,"vignettes/HighFrequencyCheckReport.Rmd")
 ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
 if (file.exists(reportRMD)) file.remove(reportRMD)
 
@@ -44,7 +130,7 @@ if (file.exists(reportRMD)) file.remove(reportRMD)
 
 cat("---", file = reportRMD , sep = "\n", append = TRUE)
 cat("title: \"High Frequency Checks template\"", file = reportRMD , sep = "\n", append = TRUE)
-cat("author: \"Yannick Pascaud\"", file = reportRMD , sep = "\n", append = TRUE)
+cat("author: \"Your Name\"", file = reportRMD , sep = "\n", append = TRUE)
 cat("date: \"`r format(Sys.time(), '%d %B, %Y')`\"", file = reportRMD , sep = "\n", append = TRUE)
 cat("always_allow_html: yes", file = reportRMD , sep = "\n", append = TRUE)
 cat("output:",file = reportRMD , sep = "\n", append = TRUE)
