@@ -1607,7 +1607,8 @@ assessmentProductivity <- function(ds=NULL,
   }
 
   tmp<-ds %>%
-    group_by(surveydate=surveydate) %>%
+    # group_by(surveydate=surveydate) %>%
+    group_by(surveydate=.data[[ surveydate ]]) %>%
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
@@ -1657,7 +1658,8 @@ assessmentProductivityGraphical <- function(ds = NULL,
   }
 
   tmp <- ds %>%
-    group_by_(surveydate=surveydate) %>%
+    #group_by_(surveydate=surveydate) %>%
+    group_by(surveydate=.data[[surveydate]]) %>%
     count(survey_consent)
 
   colnames(tmp)[2] <- "survey_consent"
@@ -1722,7 +1724,8 @@ assessmentDailyValidSurveys <- function(ds=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
+  #tmp <- ds %>% group_by_(surveydate=surveydate) %>% count(survey_consent)
+  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(survey_consent)
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
@@ -1828,7 +1831,10 @@ assessmentTrackingSheet <- function(ds=NULL,
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
   ## survey_consent<-lazyeval::lazy(survey_consent)
-  df2 <- ds %>% group_by_(site=dssite, consent=survey_consent) %>% summarize(n=n()) %>% mutate(done=sum(n))
+
+  df2 <- ds %>% group_by(site=.data[[ dssite ]], consent=.data[[ survey_consent ]]) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  #df2 <- ds %>% group_by_(site=dssite, consent=survey_consent) %>% summarize(n=n()) %>% mutate(done=sum(n))
+
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))
