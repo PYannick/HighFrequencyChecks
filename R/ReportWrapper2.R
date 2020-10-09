@@ -1,5 +1,5 @@
-#' @name ReportWrapper
-#' @rdname ReportWrapper
+#' @name ReportWrapper1
+#' @rdname ReportWrapper1
 #' @title Create an Rmd file for the report
 #' @description Create an Rmd file for the report
 #'
@@ -141,9 +141,9 @@
 #'               formul,
 #'               colorder)
 #'}
-#' @export ReportWrapper
+#' @export ReportWrapper1
 #'
-ReportWrapper <- function(usexlsform=FALSE,
+ReportWrapper1 <- function(usexlsform=FALSE,
                           form=NULL,
                           ds=NULL,
                           survey_consent=NULL,
