@@ -37,8 +37,8 @@ survey_consent <- "survey_consent"
 reportingcol <- c("enumerator_id","X_uuid")
 delete <- TRUE
 
-list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
-head(ret_log,10)
+list_withconsent <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
+head(list_withconsent[[2]],10)
 }
 }
 \author{

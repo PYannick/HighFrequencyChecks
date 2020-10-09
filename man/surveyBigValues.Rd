@@ -33,9 +33,9 @@ logf  the report
 This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
 }
 \examples{
-\dontrun{
+                                        {
 df <- HighFrequencyChecks::sample_dataset
-qu <-c("consent_received.food_security.spend_food",
+questions <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
       "consent_received.food_security.spend_education",
       "consent_received.food_security.spend_fix_shelter",
@@ -49,13 +49,13 @@ qu <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_rent",
       "consent_received.food_security.spend_debts",
       "consent_received.food_security.spend_other")
-v <- 25000
-rc <- c("enumerator_id","X_uuid")
-eid <- "enumerator_id"
-ec <- FALSE
+value <- 25000
+reportingcol <- c("enumerator_id","X_uuid")
+enumeratorID <- "enumerator_id"
+enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyBigValues(df, qu, v, eid, ec)
-head(ret_log,10)
+log <- surveyBigValues(df, qu, value,reportingcol, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
 }
 }
 \author{

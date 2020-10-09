@@ -44,7 +44,7 @@ logf  the report
 This function display the overall tracking sheet.
 }
 \examples{
-\dontrun{
+{
 ds <- HighFrequencyChecks::sample_dataset
 sf <- HighFrequencyChecks::SampleSize
 dssite <- "union_name"
@@ -57,7 +57,7 @@ formul <- c("done-no-not_eligible-delete",
 colorder <- c("site","SS","Provisio","done","not_eligible",
                  "no","deleted","yes","final","variance")
 
-list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
+log <- assessmentTrackingSheet(ds,
                         sf,
                         dssite,
                         sfsite,
@@ -66,7 +66,7 @@ list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
                         sfnbpts,
                         formul,
                         colorder)
-head(ret_log,10)
+head(log[[2]],10)
 
 }
 }

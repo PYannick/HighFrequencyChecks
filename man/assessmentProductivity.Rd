@@ -27,14 +27,14 @@ logf  the report
 This function display the number of surveys conducted per day.
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
-sdte <- "survey_date"
-dtf <- "\%m/\%d/\%Y"
-sc <- "survey_consent"
+{
+ds <- HighFrequencyChecks::sample_dataset
+surveydate <- "survey_date"
+dateformat <- "\%m/\%d/\%Y"
+survey_consent <- "survey_consent"
 
-list[dst,ret_log,var,graph] <- assessmentProductivity(df, sdte, dtf, sc)
-head(ret_log,10)
+log <- assessmentProductivity(ds, surveydate, dateformat, survey_consent)
+head(log[[2]],10)
 }
 }
 \author{

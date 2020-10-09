@@ -54,8 +54,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
-head(ret_log, 10)
+list_sitept  <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
+head(list_sitept[[2]], 10)
 }
 }
 \author{

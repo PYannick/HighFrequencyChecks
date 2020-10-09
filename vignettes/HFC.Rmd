@@ -53,7 +53,6 @@ Below are the required configuration and an illustration of those indicators bas
 ### loading the required R packages
 
 ```{r message=FALSE, warning=FALSE, include=TRUE, echo = TRUE}
-library(HighFrequencyChecks)
 
 library(knitr)
 library(gsubfn)
@@ -62,6 +61,7 @@ library(data.table)
 library(DT)
 library(ggplot2)
 library(plotly)
+library(HighFrequencyChecks)
 ```
 
 ### Loading survey dataset (microdata)

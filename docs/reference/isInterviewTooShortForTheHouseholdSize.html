@@ -74,7 +74,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -186,20 +186,10 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 <span class='va'>minduration</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
 <span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='va'>list_duration_Xmin</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewTooShortForTheHouseholdSize</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>survey_consent</span>, <span class='va'>dates</span>, <span class='va'>HHSize</span>, <span class='va'>reportingcol</span>, <span class='va'>minduration</span>, <span class='va'>delete</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>list_duration_Xmin</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewTooShortForTheHouseholdSize</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>survey_consent</span>, <span class='va'>dates</span>, <span class='va'>HHSize</span>, <span class='va'>reportingcol</span>, <span class='va'>minduration</span>, <span class='va'>delete</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;    enumerator_id                               X_uuid HHSize SurveyLength
-#&gt; 1             52 4e05b9ee-2fb6-4276-ab73-7675e94f5011      4     64.03190
-#&gt; 2          10052 3c34b46b-96c4-46aa-9d4f-4147527f9042      7     46.09367
-#&gt; 3          10049 b404f0fa-d5ef-4fdf-a217-07509244c1f1      6     61.11355
-#&gt; 6             83 225f1521-c75d-4a4e-b394-0f02ac8e9d8a      8     52.15687
-#&gt; 9             43 a98f85bc-0752-437d-a513-cc729804c303      8     52.57200
-#&gt; 11            91 13d4e232-ba59-4be6-84b4-f5e7d103f549      4     40.36247
-#&gt; 12            52 d18cc342-3e4f-46a2-8ed1-cf4c2bb73ab9      6    107.46393
-#&gt; 13            45 3f0d915b-7fa6-4262-8783-8d2c477af2e3      6     53.24095
-#&gt; 14         30022 93ea674d-29c4-4750-bb48-ce2125a55094      7     58.11412
-#&gt; 16            16 67324a24-765c-4ed7-bff0-5c739643b21b     11     52.47767</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in list[dst, ret_log, var, graph] &lt;- isInterviewTooShortForTheHouseholdSize(ds,     survey_consent, dates, HHSize, reportingcol, minduration,     delete): object 'dst' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

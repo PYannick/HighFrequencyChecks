@@ -21,13 +21,13 @@ This function provide a report showing the percentage of missing values (NA) for
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-\dontrun{
+                                        {
 df <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
-head(ret_log,10)
+log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
 }
 }
 \author{

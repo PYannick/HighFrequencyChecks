@@ -41,8 +41,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
-head(ret_log, 10)
+list_unique_id <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
+head(list_unique_id[[2]], 10)
 }
 }
 \author{

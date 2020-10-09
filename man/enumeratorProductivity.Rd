@@ -20,13 +20,13 @@ logf  the report
 This function display the total number of survey made and the average per day per enumerator.
 }
 \examples{
-\dontrun{
+                                        {
 ds <- HighFrequencyChecks::sample_dataset
 surveydate <- "survey_date"
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorProductivity(ds, surveydate, enumeratorID)
-head(ret_log,10)
+log <- enumeratorProductivity(ds, surveydate, enumeratorID)
+head(log[[2]],10)
 }
 }
 \author{

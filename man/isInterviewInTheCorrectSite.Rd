@@ -5,8 +5,8 @@
 \title{GIS check surveys for site}
 \usage{
 isInterviewInTheCorrectSite(
-  adm = NULL,
   ds = NULL,
+  adm = NULL,
   ds_site = NULL,
   ds_coord = NULL,
   adm_site = NULL,
@@ -16,9 +16,9 @@ isInterviewInTheCorrectSite(
 )
 }
 \arguments{
-\item{adm}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
-
 \item{ds}{dataset as a data.frame object}
+
+\item{adm}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
 
 \item{ds_site}{name as a string of the field in the dataset where the site is stored}
 
@@ -45,17 +45,24 @@ There is an option to automatically correct the site in the surveys whith the co
 }
 \examples{
 {
-  admin <- HighFrequencyChecks::admin
-  df <- HighFrequencyChecks::sample_dataset
+  ds <- HighFrequencyChecks::sample_dataset
+  adm <- HighFrequencyChecks::admin
   df_site <- "union_name"
   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
   admin_site <- "Union"
-  sc <- "survey_consent"
+  survey_consent <- "survey_consent"
   reportingcol <- c("enumerator_id","X_uuid")
   correct <- FALSE
 
-  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
-  head(ret_log, 10)
+  list_site <- isInterviewInTheCorrectSite(ds,
+                                           adm,
+                                           df_site,
+                                           df_coord,
+                                           admin_site,
+                                           survey_consent,
+                                           reportingcol,
+                                           correct)
+  head(list_site[[2]], 10)
 }
 }
 \author{

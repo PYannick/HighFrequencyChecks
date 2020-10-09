@@ -41,8 +41,8 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
-head(ret_log, 10)
+list_date_mistake <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
+head(list_date_mistake[[2]], 10)
 }
 }
 \author{

@@ -24,8 +24,11 @@
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- FALSE
 #'
-#' list_iscompled <- isInterviewCompleted(ds, survey_consent, dt, reportingcol, delete)
-#' head(list_iscompled[[2]],10)
+#' list_iscompleted <- isInterviewCompleted(ds,
+#'                                         survey_consent,
+#'                                         dates,
+#'                                         reportingcol, delete)
+#' head(list_iscompleted[[2]],10)
 #'}
 #'
 #' @export isInterviewCompleted
@@ -139,19 +142,19 @@ isInterviewWithConsent <- function(ds=NULL,
 #' @examples
 #' {
 #'   ds <- HighFrequencyChecks::sample_dataset
-#'   admin <- HighFrequencyChecks::admin
-#'   df_site <- "union_name"
-#'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-#'   admin_site <- "Union"
+#'   adm <- HighFrequencyChecks::admin
+#'   ds_site <- "union_name"
+#'   ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#'   adm_site <- "Union"
 #'   survey_consent <- "survey_consent"
 #'   reportingcol <- c("enumerator_id","X_uuid")
 #'   correct <- FALSE
 #'
 #'   list_site <- isInterviewInTheCorrectSite(ds,
-#'                                            admin,
-#'                                            df_site,
-#'                                            df_coord,
-#'                                            admin_site,
+#'                                            adm,
+#'                                            ds_site,
+#'                                            ds_coord,
+#'                                            adm_site,
 #'                                            survey_consent,
 #'                                            reportingcol,
 #'                                            correct)
@@ -687,7 +690,11 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 #' delete <- FALSE
 #'
 #'
-#' list_date_mistake4 <- isSurveyMadeInTheFuture(ds, uuid, survey_consent,reportingcol, delete)
+#' list_date_mistake4 <- isSurveyMadeInTheFuture(ds,
+#'                                               survey_consent,
+#'                                               dates,
+#'                                               reportingcol,
+#'                                               delete)
 #' head(list_date_mistake4[[2]], 10)
 #'}
 #' @export isSurveyMadeInTheFuture
@@ -741,17 +748,19 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
-#' df <- HighFrequencyChecks::sample_dataset
+#'  {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
+#' log <- surveyMissingValues(ds, enumeratorID, enumeratorcheck)
 #' head(log[[2]],10)
 #'}
 #' @export surveyMissingValues
 
-surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyMissingValues <- function(ds=NULL,
+                                enumeratorID=NULL,
+                                enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -788,12 +797,12 @@ surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALS
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
-#' df <- HighFrequencyChecks::sample_dataset
+#'  {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
+#' log <- surveyDistinctValues(ds, enumeratorID, enumeratorcheck)
 #' head(log[[2]],10)
 #'}
 #' @export surveyDistinctValues
@@ -838,19 +847,25 @@ surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
-#' df <- HighFrequencyChecks::sample_dataset
+#'  {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' otherpattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+#' log <- surveyOtherValues(ds,
+#'                          otherpattern,
+#'                          enumeratorID,
+#'                          enumeratorcheck)
 #' head(log[[2]],10)
 #'}
 #' @export surveyOtherValues
 
 
-surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enumeratorcheck=FALSE){
+surveyOtherValues <- function(ds=NULL,
+                              otherpattern=NULL,
+                              enumeratorID=NULL,
+                              enumeratorcheck=FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -894,14 +909,14 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
-#' df <- HighFrequencyChecks::sample_dataset
+#'  {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' sdval <- 2
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' log <- surveyOutliers(ds, sdval, reportingcol, enumeratorID, enumeratorcheck)
 #' head(log[[2]],10)
 #'}
 #' @export surveyOutliers
@@ -997,8 +1012,8 @@ surveyOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
-#' df <- HighFrequencyChecks::sample_dataset
+#'  {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' questions <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
@@ -1018,7 +1033,7 @@ surveyOutliers <- function(ds=NULL,
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' log <- surveyBigValues(df, qu, value,reportingcol, enumeratorID, enumeratorcheck)
+#' log <- surveyBigValues(ds, questions, value,reportingcol, enumeratorID, enumeratorcheck)
 #' head(log[[2]],10)
 #'}
 #' @export surveyBigValues
@@ -1309,7 +1324,7 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' survey_consent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
@@ -1400,7 +1415,7 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
+#'  {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' surveydate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
@@ -1506,7 +1521,7 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'                                         {
+#' \dontrun{
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' questions <- c("consent_received.shelter_nfi.non_food_items[.]",

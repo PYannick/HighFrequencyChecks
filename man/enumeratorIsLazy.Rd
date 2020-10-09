@@ -28,17 +28,17 @@ This function display the surveyors who picked up less than a specified amount o
 This can be useful for select_multiple questions where respondent shall give at least 3 options for instance.
 }
 \examples{
-\dontrun{
+                                        {
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 questions <- c("consent_received.shelter_nfi.non_food_items[.]",
       "consent_received.food_security.main_income[.]",
       "consent_received.child_protection.boy_risk[.]",
       "consent_received.child_protection.girl_risk[.]")
-mna <- 3
+minnbanswers <- 3
 
-list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
-head(ret_log,10)
+log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
+head(log[[2]],10)
 }
 }
 \author{

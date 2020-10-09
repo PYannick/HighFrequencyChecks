@@ -28,14 +28,14 @@ This function provide a report showing all distinct other values and the number 
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-\dontrun{
+                                        {
 df <- HighFrequencyChecks::sample_dataset
 otherpattern <- "_other$"
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
-head(ret_log,10)
+log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
 }
 }
 \author{

@@ -27,14 +27,14 @@ logf  the report
 This function display the surveyors with very low or high productivity.
 }
 \examples{
-\dontrun{
+{
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 surveydate <- "survey_date"
 sdval<-2
 
-list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
-head(ret_log,10)
+log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
+head(log[[2]],10)
 }
 }
 \author{

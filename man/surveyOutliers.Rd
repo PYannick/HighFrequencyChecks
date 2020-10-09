@@ -32,15 +32,15 @@ The function will try to automatically determine the type of distribution (betwe
 based on the difference between mean and median between untransformed normalized and log transformed normalized distribution.
 }
 \examples{
-\dontrun{
+                                        {
 df <- HighFrequencyChecks::sample_dataset
 sdval <- 2
 reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
-head(ret_log,10)
+log <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+head(log[[2]],10)
 }
 }
 \author{

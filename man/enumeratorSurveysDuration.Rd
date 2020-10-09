@@ -20,13 +20,13 @@ logf  the report
 This function display the average interview duration per enumerator.
 }
 \examples{
-\dontrun{
+{
 ds <- HighFrequencyChecks::sample_dataset
-dt <- c("survey_start","end_survey")
+dates <- c("survey_start","end_survey")
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds, dt, enumeratorID)
-head(ret_log,10)
+log <- enumeratorSurveysDuration(ds, dates, enumeratorID)
+head(log[[2]],10)
 }
 }
 \author{
