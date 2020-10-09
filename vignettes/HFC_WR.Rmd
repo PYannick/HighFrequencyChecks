@@ -345,7 +345,7 @@ Please see the generated csv file: surveyDistinctValues.csv
 
 #### Number of other distinct values (for the questions with a possibility of other)
 ```{r eval=TRUE, echo=FALSE, results='asis'}
-tmp<-(stringi::stri_replace_all_fixed("lev1, otherpattern, enumid, TRUE",
+tmp<-(stringi::stri_replace_all_fixed("lev1, otherpattern, enumid, FALSE",
                                            names(dset)[stringi::stri_detect_fixed("lev1, otherpattern, enumid, FALSE", names(dset))],
                                            paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, otherpattern, enumid, FALSE", names(dset))], "']]"),
                                            vectorize_all=FALSE))

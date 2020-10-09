@@ -25,18 +25,19 @@
 #'}
 #' @export ReportWrapper
 #'
-ReportWrapper <- function(ds=NULL,
-                           sdval=NULL,
-                           reportingcol=NULL,
-                           enumeratorID=NULL,
-                           enumeratorcheck=FALSE){
+ReportWrapper <- function(working_directY=NULL,
+                           xlsform_name=NULL,
+                           xlsform_location=NULL,
+                           vignette_directory=NULL){
 
-wdir <- getwd()
-file <- "form.xlsx"
+# working_directY <- getwd()
+# xlsform_name <- "form.xlsx"
+# xlsform_location <- "/inst/demo/"
+# vignette_directory <- "/vignettes/HFC_WR.Rmd"
 
-repstr <- openxlsx::read.xlsx(paste0(wdir, "/inst/demo/", file), 1)
-
-reportRMD  <- paste0(wdir,"/vignettes/HFC_WR.Rmd")
+repstr <- openxlsx::read.xlsx(paste0(working_directY, xlsform_location, xlsform_name), 1)
+#
+reportRMD  <- paste0(working_directY,vignette_directory)
 ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
 if (file.exists(reportRMD)) file.remove(reportRMD)
 
