@@ -27,9 +27,9 @@ isInterviewTooShort(
 \item{delete}{delete action to be done as a boolean (TRUE/FALSE)}
 }
 \value{
-ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
 
-errors  list of the errors found
+ret_log  list of the errors found
 }
 \description{
 This function check that the duration of each interview is more than a specified threshold.
@@ -45,7 +45,12 @@ reportingcol <- c("enumerator_id","X_uuid")
 minduration <- 30
 delete <- FALSE
 
-list[dst,ret_log,var,graph] <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
+list[dst,ret_log,var,graph] <- isInterviewTooShort(ds,
+                                                   survey_consent,
+                                                   dates,
+                                                   reportingcol,
+                                                   minduration,
+                                                   delete)
 head(ret_log, 10)
 }
 }

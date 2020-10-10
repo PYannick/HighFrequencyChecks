@@ -21,20 +21,23 @@ surveyOtherValues(
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing all distinct other values and the number of occurrences for each fields "other".
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
+{
+ds <- HighFrequencyChecks::sample_dataset
 otherpattern <- "_other$"
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+list[dst,ret_log,var,graph] <- surveyOtherValues(ds,
+                         otherpattern,
+                         enumeratorID,
+                         enumeratorcheck)
 head(ret_log,10)
 }
 }

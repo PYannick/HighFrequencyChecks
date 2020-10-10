@@ -14,18 +14,20 @@ enumeratorSurveysConsent(ds = NULL, survey_consent = NULL, enumeratorID = NULL)
 \item{enumeratorID}{name as a string of the field in the dataset where the enumerator ID is stored}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the percentage of survey refusal per enumerator.
 }
 \examples{
-\dontrun{
+{
 ds <- HighFrequencyChecks::sample_dataset
-sc <- "survey_consent"
+survey_consent <- "survey_consent"
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds, sc, enumeratorID)
+list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
+                                                        survey_consent,
+                                                        enumeratorID)
 head(ret_log,10)
 }
 }

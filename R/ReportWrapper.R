@@ -3,11 +3,10 @@
 #' @title Create an Rmd file for the report
 #' @description Create an Rmd file for the report
 #'
-#' @param ds dataset as a data.frame object
-#' @param sdval number of standard deviation for which the data within is considered as acceptable
-#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
-#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
-#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#' @param working_directY the current working directory
+#' @param xlsform_name the name of the xlsform used to build the report
+#' @param xlsform_location the location of the xlsform from the working directory
+#' @param vignette_directory the directory where to generate the .Rmd from the working directory
 #'
 #' @return vignette file
 #'
@@ -15,13 +14,15 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdval <- 2
-#' reportingcol <- c("enumerator_id","X_uuid")
-#' enumeratorID <- "enumerator_id"
-#' enumeratorcheck <- FALSE
+#' working_directY <- getwd()
+#' xlsform_name <- "form.xlsx"
+#' xlsform_location <- "/inst/demo/"
+#' vignette_directory <- "/vignettes/HFC_WR.Rmd"
 #'
-#' ReportWrapper(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' ReportWrapper(working_directY,
+#'               xlsform_name,
+#'               xlsform_location,
+#'               vignette_directory)
 #'}
 #' @export ReportWrapper
 #'

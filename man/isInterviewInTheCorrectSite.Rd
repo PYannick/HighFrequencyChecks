@@ -33,9 +33,9 @@ isInterviewInTheCorrectSite(
 \item{correct}{correction action to be done as a boolean (TRUE/FALSE)}
 }
 \value{
-ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
 
-errors  list of the errors found
+ret_log  list of the errors found
 }
 \description{
 This function check that all interviews in the dataset were made in the correct site.
@@ -45,16 +45,23 @@ There is an option to automatically correct the site in the surveys whith the co
 }
 \examples{
 {
-  admin <- HighFrequencyChecks::admin
-  df <- HighFrequencyChecks::sample_dataset
-  df_site <- "union_name"
-  df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-  admin_site <- "Union"
-  sc <- "survey_consent"
+  ds <- HighFrequencyChecks::sample_dataset
+  adm <- HighFrequencyChecks::admin
+  ds_site <- "union_name"
+  ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+  adm_site <- "Union"
+  survey_consent <- "survey_consent"
   reportingcol <- c("enumerator_id","X_uuid")
   correct <- FALSE
 
-  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(adm,
+                                                             ds,
+                                                             ds_site,
+                                                             ds_coord,
+                                                             adm_site,
+                                                             survey_consent,
+                                                             reportingcol,
+                                                             correct)
   head(ret_log, 10)
 }
 }

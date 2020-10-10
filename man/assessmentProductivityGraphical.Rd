@@ -33,7 +33,10 @@ surveydate <- "survey_date"
 dateformat <- "\%m/\%d/\%Y"
 survey_consent <- "survey_consent"
 
-list[dst,ret_log,var,graph] <- assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
+list[dst,ret_log,var,graph] <- assessmentProductivityGraphical(ds,
+                                                               surveydate,
+                                                               dateformat,
+                                                               survey_consent)
 print(graph)
 }
 }

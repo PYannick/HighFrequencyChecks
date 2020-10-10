@@ -21,7 +21,7 @@ assessmentDurationOutliers(
 \item{reportingcol}{columns as a list of string name from the dataset you want in the result (c('col1','col2',...))}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function report the outlier durations for the surveys
@@ -33,7 +33,10 @@ dates <- c("survey_start","end_survey")
 sdval <- 5
 reportingcol <- c("enumerator_id","X_uuid")
 
-list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
+list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
+                                                          dates,
+                                                          sdval,
+                                                          reportingcol)
 head(ret_log,10)
 }
 }

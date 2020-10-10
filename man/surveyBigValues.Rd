@@ -27,15 +27,15 @@ surveyBigValues(
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
 }
 \examples{
-\dontrun{
-df <- HighFrequencyChecks::sample_dataset
-qu <-c("consent_received.food_security.spend_food",
+{
+ds <- HighFrequencyChecks::sample_dataset
+questions <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
       "consent_received.food_security.spend_education",
       "consent_received.food_security.spend_fix_shelter",
@@ -49,12 +49,17 @@ qu <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_rent",
       "consent_received.food_security.spend_debts",
       "consent_received.food_security.spend_other")
-v <- 25000
-rc <- c("enumerator_id","X_uuid")
-eid <- "enumerator_id"
-ec <- FALSE
+value <- 25000
+reportingcol <- c("enumerator_id","X_uuid")
+enumeratorID <- "enumerator_id"
+enumeratorcheck <- FALSE
 
-list[dst,ret_log,var,graph] <- surveyBigValues(df, qu, v, eid, ec)
+list[dst,ret_log,var,graph] <- surveyBigValues(ds,
+                                               questions,
+                                               value,
+                                               reportingcol,
+                                               enumeratorID,
+                                               enumeratorcheck)
 head(ret_log,10)
 }
 }

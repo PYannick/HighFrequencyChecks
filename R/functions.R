@@ -11,8 +11,8 @@
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -24,7 +24,10 @@
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewCompleted(ds, survey_consent, dates, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isInterviewCompleted(ds,
+#'                                         survey_consent,
+#'                                         dates,
+#'                                         reportingcol, delete)
 #' head(ret_log,10)
 #'}
 #'
@@ -70,8 +73,8 @@ isInterviewCompleted <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -82,7 +85,10 @@ isInterviewCompleted <- function(ds=NULL,
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' delete <- TRUE
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds, survey_consent, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds,
+#'                                                       survey_consent,
+#'                                                       reportingcol,
+#'                                                       delete)
 #' head(ret_log,10)
 #'}
 #' @export isInterviewWithConsent
@@ -131,23 +137,30 @@ isInterviewWithConsent <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param correct correction action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
 #' {
-#'   admin <- HighFrequencyChecks::admin
-#'   df <- HighFrequencyChecks::sample_dataset
-#'   df_site <- "union_name"
-#'   df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-#'   admin_site <- "Union"
-#'   sc <- "survey_consent"
+#'   ds <- HighFrequencyChecks::sample_dataset
+#'   adm <- HighFrequencyChecks::admin
+#'   ds_site <- "union_name"
+#'   ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+#'   adm_site <- "Union"
+#'   survey_consent <- "survey_consent"
 #'   reportingcol <- c("enumerator_id","X_uuid")
 #'   correct <- FALSE
 #'
-#'   list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(admin, df, df_site, df_coord, admin_site, sc, reportingcol, correct)
+#'   list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(adm,
+#'                                                              ds,
+#'                                                              ds_site,
+#'                                                              ds_coord,
+#'                                                              adm_site,
+#'                                                              survey_consent,
+#'                                                              reportingcol,
+#'                                                              correct)
 #'   head(ret_log, 10)
 #'}
 #' @export isInterviewInTheCorrectSite
@@ -230,8 +243,8 @@ isInterviewInTheCorrectSite <- function(adm=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -246,7 +259,13 @@ isInterviewInTheCorrectSite <- function(adm=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint( ds, pts, ds_coord, buff, survey_consent, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint(ds,
+#'                                                            pts,
+#'                                                            ds_coord,
+#'                                                            buff,
+#'                                                            survey_consent,
+#'                                                            reportingcol,
+#'                                                            delete)
 #' head(ret_log, 10)
 #'}
 #' @export isInterviewAtTheSamplePoint
@@ -339,8 +358,8 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -353,7 +372,11 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds, UniqueID, survey_consent, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds,
+#'                                                  UniqueID,
+#'                                                  survey_consent,
+#'                                                  reportingcol,
+#'                                                  delete)
 #' head(ret_log, 10)
 #'}
 #' @export isUniqueIDMissing
@@ -405,8 +428,8 @@ isUniqueIDMissing <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -419,7 +442,11 @@ isUniqueIDMissing <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds, UniqueID, survey_consent, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds,
+#'                                                     UniqueID,
+#'                                                     survey_consent,
+#'                                                     reportingcol,
+#'                                                     delete)
 #' head(ret_log, 10)
 #'}
 #' @export isUniqueIDDuplicated
@@ -468,8 +495,8 @@ isUniqueIDDuplicated <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -482,7 +509,11 @@ isUniqueIDDuplicated <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds, survey_consent,dates, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds,
+#'                                                       survey_consent,
+#'                                                       dates,
+#'                                                       reportingcol,
+#'                                                       delete)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyOnMoreThanADay
@@ -532,8 +563,8 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -546,7 +577,11 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds,
+#'                                                          survey_consent,
+#'                                                          dates,
+#'                                                          reportingcol,
+#'                                                          delete)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyEndBeforeItStarts
@@ -599,8 +634,8 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -614,7 +649,12 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds, dates, survey_consent,start_collection, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds,
+#'                                                                   dates,
+#'                                                                   survey_consent,
+#'                                                                   start_collection,
+#'                                                                   reportingcol,
+#'                                                                   delete)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyStartedBeforeTheAssessment
@@ -671,8 +711,8 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -685,7 +725,11 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 #' delete <- FALSE
 #'
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds, survey_consent, dates, reportingcol, delete)
+#' list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds,
+#'                                               survey_consent,
+#'                                               dates,
+#'                                               reportingcol,
+#'                                               delete)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyMadeInTheFuture
@@ -737,17 +781,19 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- surveyMissingValues(df, enumeratorID, enumeratorcheck)
+#' list[dst,ret_log,var,graph] <- surveyMissingValues(ds,
+#'                                                    enumeratorID,
+#'                                                    enumeratorcheck)
 #' head(ret_log,10)
 #'}
 #' @export surveyMissingValues
@@ -784,17 +830,19 @@ surveyMissingValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FALS
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
+#' list[dst,ret_log,var,graph] <- surveyDistinctValues(ds,
+#'                                                     enumeratorID,
+#'                                                     enumeratorcheck)
 #' head(ret_log,10)
 #'}
 #' @export surveyDistinctValues
@@ -818,7 +866,8 @@ surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
   } else {
     logf<-ds %>%
       group_by(ds[,enumeratorID]) %>%
-      summarise_all(funs(n_distinct_no_na(.)))
+      # summarise_all(funs(n_distinct_no_na(.)))
+      summarise_all(~ n_distinct_no_na(.))
   }
   return(list(NULL,t(logf),NULL,NULL))
 }
@@ -834,18 +883,21 @@ surveyDistinctValues <- function(ds=NULL, enumeratorID=NULL, enumeratorcheck=FAL
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' otherpattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+#' list[dst,ret_log,var,graph] <- surveyOtherValues(ds,
+#'                          otherpattern,
+#'                          enumeratorID,
+#'                          enumeratorcheck)
 #' head(ret_log,10)
 #'}
 #' @export surveyOtherValues
@@ -890,19 +942,23 @@ surveyOtherValues <- function(ds=NULL, otherpattern=NULL, enumeratorID=NULL, enu
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
 #' sdval <- 2
 #' reportingcol <- c("enumerator_id","X_uuid")
 #' enumeratorID <- "enumerator_id"
 #' enumeratorcheck <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- surveyOutliers(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' list[dst,ret_log,var,graph] <- surveyOutliers(ds,
+#'                                               sdval,
+#'                                               reportingcol,
+#'                                               enumeratorID,
+#'                                               enumeratorcheck)
 #' head(ret_log,10)
 #'}
 #' @export surveyOutliers
@@ -993,14 +1049,14 @@ surveyOutliers <- function(ds=NULL,
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' qu <-c("consent_received.food_security.spend_food",
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' questions <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
 #'       "consent_received.food_security.spend_fix_shelter",
@@ -1014,12 +1070,17 @@ surveyOutliers <- function(ds=NULL,
 #'       "consent_received.food_security.spend_rent",
 #'       "consent_received.food_security.spend_debts",
 #'       "consent_received.food_security.spend_other")
-#' v <- 25000
-#' rc <- c("enumerator_id","X_uuid")
-#' eid <- "enumerator_id"
-#' ec <- FALSE
+#' value <- 25000
+#' reportingcol <- c("enumerator_id","X_uuid")
+#' enumeratorID <- "enumerator_id"
+#' enumeratorcheck <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- surveyBigValues(df, qu, v, eid, ec)
+#' list[dst,ret_log,var,graph] <- surveyBigValues(ds,
+#'                                                questions,
+#'                                                value,
+#'                                                reportingcol,
+#'                                                enumeratorID,
+#'                                                enumeratorcheck)
 #' head(ret_log,10)
 #'}
 #' @export surveyBigValues
@@ -1059,8 +1120,8 @@ surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NU
 #' @param ds dataset as a data.frame object
 #' @param dates fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))
 #'
-#' @return avg  average time per survey
-#' @return tot total time
+#' @return var$avg  average time per survey
+#' @return var$tot total time
 #'
 #' @author Yannick Pascaud
 #'
@@ -1069,10 +1130,11 @@ surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NU
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDuration(ds, dates)
+#' list[dst,ret_log,var,graph] <- assessmentDuration(ds,
+#'                                                   dates)
 #' paste0("average time: ", var$avg)
 #' paste0("total time : ", var$tot)
-#'
+#'}
 #' @export assessmentDuration
 
 assessmentDuration <- function(ds=NULL, dates=NULL){
@@ -1107,8 +1169,8 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -1121,7 +1183,12 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewTooShort(ds, survey_consent, dates,  reportingcol, minduration, delete)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShort(ds,
+#'                                                    survey_consent,
+#'                                                    dates,
+#'                                                    reportingcol,
+#'                                                    minduration,
+#'                                                    delete)
 #' head(ret_log, 10)
 #'}
 #' @export isInterviewTooShort
@@ -1181,8 +1248,8 @@ isInterviewTooShort <- function(ds=NULL,
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #' @param delete delete action to be done as a boolean (TRUE/FALSE)
 #'
-#' @return  ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
-#' @return  errors  list of the errors found
+#' @return  dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+#' @return  ret_log  list of the errors found
 #'
 #' @author Yannick Pascaud
 #'
@@ -1196,7 +1263,13 @@ isInterviewTooShort <- function(ds=NULL,
 #' minduration <- 30
 #' delete <- FALSE
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds, survey_consent, dates, HHSize, reportingcol, minduration, delete)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds,
+#'                                                                       survey_consent,
+#'                                                                       dates,
+#'                                                                       HHSize,
+#'                                                                       reportingcol,
+#'                                                                       minduration,
+#'                                                                       delete)
 #' head(ret_log, 10)
 #'}
 #' @export isInterviewTooShortForTheHouseholdSize
@@ -1253,7 +1326,7 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #' @param sdval number of standard deviation for which the duration within is considered as acceptable
 #' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
@@ -1264,7 +1337,10 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #' sdval <- 5
 #' reportingcol <- c("enumerator_id","X_uuid")
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds, dates, sdval, reportingcol)
+#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
+#'                                                           dates,
+#'                                                           sdval,
+#'                                                           reportingcol)
 #' head(ret_log,10)
 #'}
 #' @export assessmentDurationOutliers
@@ -1307,17 +1383,19 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' sc <- "survey_consent"
+#' survey_consent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds, sc, enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
+#'                                                         survey_consent,
+#'                                                         enumeratorID)
 #' head(ret_log,10)
 #'}
 #' @export enumeratorSurveysConsent
@@ -1336,9 +1414,11 @@ enumeratorSurveysConsent <- function(ds=NULL,
     stop("Please provide the field where the enumerator ID is stored")
   }
 
-  tmp<-(ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% count_(survey_consent) %>% mutate(pct=round(100*n/sum(n), digits=2)))[-3]
+  tmp<-(ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>%
+          count(.data[[ survey_consent ]]) %>%
+          mutate(pct=round(100*n/sum(n), digits=2)))[-3]
   colnames(tmp)[2] <- "survey_consent"
-  logf <- data.table::dcast(tmp,enumeratorID ~ survey_consent, value.var = "pct")
+  logf <- reshape2::dcast(tmp,enumeratorID ~ survey_consent, value.var = "pct")
   logf[is.na(logf)] <- 0
   return(list(NULL,logf,NULL,NULL))
 }
@@ -1353,17 +1433,19 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #'
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' dt <- c("survey_start","end_survey")
+#' dates <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds, dt, enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds,
+#'                                                          dates,
+#'                                                          enumeratorID)
 #' head(ret_log,10)
 #'}
 #' @export enumeratorSurveysDuration
@@ -1398,17 +1480,19 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' @param surveydate name as a string of the field in the dataset where the date of the survey is stored
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#'  {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' surveydate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds, surveydate, enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
+#'                                                       surveydate,
+#'                                                       enumeratorID)
 #' head(ret_log,10)
 #'}
 #' @export enumeratorProductivity
@@ -1428,9 +1512,11 @@ enumeratorProductivity <- function(ds=NULL,
 
   logf <- ds %>%
     group_by(.data[[ enumeratorID ]]) %>%
-    summarize_(days_worked = lazyeval::interp(~length(unique(var)),
-                                              var = as.name(surveydate)),
-               total_surveys_done = ~n()) %>%
+    # summarize_(days_worked = lazyeval::interp(~length(unique(var)),
+    #                                           var = as.name(surveydate)),
+    #            total_surveys_done = ~n()) %>%
+    summarize(days_worked = length(unique(.data[[ surveydate ]])),
+               total_surveys_done = n()) %>%
     mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
   return(list(NULL,logf,NULL,NULL))
 }
@@ -1445,18 +1531,21 @@ enumeratorProductivity <- function(ds=NULL,
 #' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
 #' @param sdval number of standard deviation for which the duration within is considered as acceptable
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' surveydate <- "survey_date"
 #' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds,
+#'                                                               enumeratorID,
+#'                                                               surveydate,
+#'                                                               sdval)
 #' head(ret_log,10)
 #'}
 #' @export enumeratorProductivityOutliers
@@ -1480,9 +1569,11 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 
   tmp <- ds %>%
     group_by(.data[[ enumeratorID ]]) %>%
-    summarize_(days_worked = lazyeval::interp(~length(unique(var)),
-                                              var = as.name(surveydate)),
-               total_surveys_done = ~n()) %>%
+    # summarize_(days_worked = lazyeval::interp(~length(unique(var)),
+    #                                           var = as.name(surveydate)),
+    #            total_surveys_done = ~n()) %>%
+    summarize(days_worked = length(unique(.data[[ surveydate ]])),
+              total_surveys_done = n()) %>%
     mutate(daily_average = total_surveys_done / days_worked)
 
   survey_outliers <- outliers::scores(tmp$daily_average, type = "z")
@@ -1504,7 +1595,7 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #' @param questions columns as a list of string name from the dataset you want to check against (c('col1','col2',...))
 #' @param minnbanswers minimum number of answers expected per question
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
@@ -1516,9 +1607,12 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #'       "consent_received.food_security.main_income[.]",
 #'       "consent_received.child_protection.boy_risk[.]",
 #'       "consent_received.child_protection.girl_risk[.]")
-#' mna <- 3
+#' minnbanswers <- 3
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds, enumeratorID, questions, mna)
+#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds,
+#'                                                 enumeratorID,
+#'                                                 questions,
+#'                                                 minnbanswers)
 #' head(ret_log,10)
 #'}
 #' @export enumeratorIsLazy
@@ -1561,18 +1655,21 @@ enumeratorIsLazy <- function(ds=NULL,
 #' @param dateformat format as a string used for the date ('\%m/\%d/\%Y')
 #' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdte <- "survey_date"
-#' dtf <- "%m/%d/%Y"
-#' sc <- "survey_consent"
+#' {
+#' ds <- HighFrequencyChecks::sample_dataset
+#' surveydate <- "survey_date"
+#' dateformat <- "%m/%d/%Y"
+#' survey_consent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentProductivity(df, sdte, dtf, sc)
+#' list[dst,ret_log,var,graph] <- assessmentProductivity(ds,
+#'                                                       surveydate,
+#'                                                       dateformat,
+#'                                                       survey_consent)
 #' head(ret_log,10)
 #'}
 #' @export assessmentProductivity
@@ -1621,7 +1718,10 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
+#' list[dst,ret_log,var,graph] <- assessmentProductivityGraphical(ds,
+#'                                                                surveydate,
+#'                                                                dateformat,
+#'                                                                survey_consent)
 #' print(graph)
 #'}
 #' @export assessmentProductivityGraphical
@@ -1675,7 +1775,7 @@ assessmentProductivityGraphical <- function(ds = NULL,
 #' @param dateformat format as a string used for the date ('\%m/\%d/\%Y')
 #' @param survey_consent name as a string of the field in the dataset where the survey consent is stored
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
@@ -1686,7 +1786,10 @@ assessmentProductivityGraphical <- function(ds = NULL,
 #' dateformat <- "%m/%d/%Y"
 #' survey_consent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
+#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds,
+#'                                                            surveydate,
+#'                                                            dateformat,
+#'                                                            survey_consent)
 #' head(ret_log,10)
 #'}
 #'
@@ -1736,12 +1839,12 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' @param colorder  column names as a list of string to order the colums in the result (C('col1','col2',...)).
 #'  the columns available are: site, done, final, variance and the ones generated according the survey consent values (one per value)
 #'
-#' @return logf  the report
+#' @return ret_log  the report
 #'
 #' @author Yannick Pascaud
 #'
 #' @examples
-#' \dontrun{
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' sf <- HighFrequencyChecks::SampleSize
 #' dssite <- "union_name"
@@ -1749,10 +1852,11 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' survey_consent <- "survey_consent"
 #' sftarget <- "SS"
 #' sfnbpts <- "TotPts"
-#' formul <- c("done-no-not_eligible-delete",
-#'                "done-no-not_eligible-deleted-SS")
-#' colorder <- c("site","SS","Provisio","done","not_eligible",
-#'                  "no","deleted","yes","final","variance")
+#' #formul <- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
+#' #colorder <- c("site","SS","Provision","done","not_eligible","no","deleted",
+#' #              "yes","final","variance")
+#' formul=c("done-no-not_eligible","done-no-not_eligible-SS")
+#' colorder=c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
 #'
 #' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
 #'                         sf,
@@ -1764,7 +1868,6 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #'                         formul,
 #'                         colorder)
 #' head(ret_log,10)
-#'
 #'}
 #' @export assessmentTrackingSheet
 #'
