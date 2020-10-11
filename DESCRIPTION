@@ -13,7 +13,7 @@ Authors@R:
              email = "legoupil@unhcr.org"))
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10), 
-    dplyr,     
+    dplyr (>= 0.8.0),     
     sp,
     rgdal,
     rgeos,
@@ -21,7 +21,6 @@ Depends: R (>= 2.10),
     stringi,
     data.table,
     lazyeval,
-    plotly,
     outliers,
     gsubfn,
     magrittr,

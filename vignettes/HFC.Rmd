@@ -60,7 +60,7 @@ library(dplyr)
 library(data.table)
 library(DT)
 library(ggplot2)
-library(plotly)
+# library(plotly)
 library(HighFrequencyChecks)
 ```
 
@@ -502,7 +502,7 @@ DT::datatable(reportlog_productivity[[2]],
 } 
 ```
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
+```{r eval=FALSE, echo=TRUE, results='asis'}
 assessmentProductivityGraphical(ds, 
                                  surveydate, 
                                  dateformat, 
@@ -521,6 +521,9 @@ if(nrow(reportlog_nb_status[[2]]) > 0){
 DT::datatable(reportlog_nb_status[[2]], 
              caption = paste0("attempted interview per day and obtained consent"))
 } 
+if(!is.null(reportlog_nb_status[4])){
+  print(reportlog_nb_status[4])
+}
 ```
 
 #### Percentage of survey per consent status by enumerator
