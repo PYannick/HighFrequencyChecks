@@ -148,7 +148,7 @@ head(log[[2]],10)
 log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
 head(log[[2]],10)
 
-#log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
+log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
 head(log[[2]],10)
 
 log <- assessmentProductivity(ds, surveydate, dateformat, survey_consent)
@@ -157,7 +157,6 @@ head(log[[2]],10)
 assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
 
 log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
-
 head(log[[2]],10)
 
 log <- assessmentTrackingSheet(ds,

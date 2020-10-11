@@ -28,13 +28,16 @@ This function provide a report showing all distinct other values and the number 
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-                                        {
-df <- HighFrequencyChecks::sample_dataset
+ {
+ds <- HighFrequencyChecks::sample_dataset
 otherpattern <- "_other$"
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyOtherValues(df, otherpattern, enumeratorID, enumeratorcheck)
+log <- surveyOtherValues(ds,
+                         otherpattern,
+                         enumeratorID,
+                         enumeratorcheck)
 head(log[[2]],10)
 }
 }

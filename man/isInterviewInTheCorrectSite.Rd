@@ -47,18 +47,18 @@ There is an option to automatically correct the site in the surveys whith the co
 {
   ds <- HighFrequencyChecks::sample_dataset
   adm <- HighFrequencyChecks::admin
-  df_site <- "union_name"
-  df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
-  admin_site <- "Union"
+  ds_site <- "union_name"
+  ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+  adm_site <- "Union"
   survey_consent <- "survey_consent"
   reportingcol <- c("enumerator_id","X_uuid")
   correct <- FALSE
 
   list_site <- isInterviewInTheCorrectSite(ds,
                                            adm,
-                                           df_site,
-                                           df_coord,
-                                           admin_site,
+                                           ds_site,
+                                           ds_coord,
+                                           adm_site,
                                            survey_consent,
                                            reportingcol,
                                            correct)

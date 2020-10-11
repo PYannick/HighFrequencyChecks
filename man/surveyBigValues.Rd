@@ -33,8 +33,8 @@ logf  the report
 This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
 }
 \examples{
-                                        {
-df <- HighFrequencyChecks::sample_dataset
+ {
+ds <- HighFrequencyChecks::sample_dataset
 questions <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
       "consent_received.food_security.spend_education",
@@ -54,7 +54,7 @@ reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyBigValues(df, qu, value,reportingcol, enumeratorID, enumeratorcheck)
+log <- surveyBigValues(ds, questions, value,reportingcol, enumeratorID, enumeratorcheck)
 head(log[[2]],10)
 }
 }

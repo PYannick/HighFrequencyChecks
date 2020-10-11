@@ -13,23 +13,10 @@ Authors@R:
              email = "legoupil@unhcr.org"))
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10), 
-    dplyr,     
-    sp,
-    rgdal,
-    rgeos,
-    geosphere,
-    stringi,
-    data.table,
     lazyeval,
-    plotly,
-    outliers,
     gsubfn,
     magrittr,
-    reshape2,
-    DT,
-    ggplot2,
-    readr,
-    openxlsx
+    dplyr
 Description: During the data collection, a series of automatic check, aka: High Frequency checks, are required. The functions shared here are useful during the data collection process to check  periodicallyxfor possible errors, and will provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports. This work is an adaptation of a Stata Package from [Innovations for Poverty Action](https://github.com/PovertyAction/high-frequency-checks)
 URL: https://unhcr.github.io/HighFrequencyChecks/docs/
 License: MIT + file LICENSE

@@ -350,8 +350,8 @@ DT::datatable(list_date_mistake4[[2]],
 #### Recorded site name for each interview matches the name of the location
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-list_site <- isInterviewInTheCorrectSite(adm, 
-                                 ds, 
+list_site <- isInterviewInTheCorrectSite(ds, 
+                                 adm, 
                                  df_site, 
                                  ds_coord, 
                                  admin_site, 
