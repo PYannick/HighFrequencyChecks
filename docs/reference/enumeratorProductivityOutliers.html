@@ -163,8 +163,13 @@
 <span class='va'>surveydate</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
 <span class='va'>sdval</span><span class='op'>&lt;-</span><span class='fl'>2</span>
 
+<<<<<<< HEAD
 <span class='va'>log</span> <span class='op'>&lt;-</span> <span class='fu'>enumeratorProductivityOutliers</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>enumeratorID</span>, <span class='va'>surveydate</span>, <span class='va'>sdval</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>log</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>,<span class='fl'>10</span><span class='op'>)</span>
+=======
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>enumeratorProductivityOutliers</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>enumeratorID</span>, <span class='va'>surveydate</span>, <span class='va'>sdval</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
+>>>>>>> e6e056a1da2da2acc23d10123858c3183a4d3268
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span class='error'>Error in group_by_(., enumeratorID): could not find function "group_by_"</span></div></pre>
   </div>

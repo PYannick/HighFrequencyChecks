@@ -156,8 +156,12 @@ head(log[[2]],10)
 
 assessmentProductivityGraphical(ds, surveydate, dateformat, survey_consent)
 
+<<<<<<< HEAD
 log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
 
+=======
+#log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
+>>>>>>> e6e056a1da2da2acc23d10123858c3183a4d3268
 head(log[[2]],10)
 
 log <- assessmentTrackingSheet(ds,

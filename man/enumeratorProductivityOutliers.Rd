@@ -21,7 +21,7 @@ enumeratorProductivityOutliers(
 \item{sdval}{number of standard deviation for which the duration within is considered as acceptable}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the surveyors with very low or high productivity.
@@ -33,8 +33,11 @@ enumeratorID <- "enumerator_id"
 surveydate <- "survey_date"
 sdval<-2
 
-log <- enumeratorProductivityOutliers(ds, enumeratorID, surveydate, sdval)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds,
+                                                              enumeratorID,
+                                                              surveydate,
+                                                              sdval)
+head(ret_log,10)
 }
 }
 \author{

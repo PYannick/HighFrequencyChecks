@@ -21,7 +21,7 @@ assessmentDailyValidSurveys(
 \item{survey_consent}{name as a string of the field in the dataset where the survey consent is stored}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the number of surveys conducted per day per constent status.
@@ -33,8 +33,11 @@ surveydate <- "survey_date"
 dateformat <- "\%m/\%d/\%Y"
 survey_consent <- "survey_consent"
 
-log <- assessmentDailyValidSurveys(ds, surveydate, dateformat, survey_consent )
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds,
+                                                           surveydate,
+                                                           dateformat,
+                                                           survey_consent)
+head(ret_log,10)
 }
 
 }

@@ -24,7 +24,7 @@ surveyOutliers(
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing all outlier values for each numerical fields.
@@ -32,15 +32,19 @@ The function will try to automatically determine the type of distribution (betwe
 based on the difference between mean and median between untransformed normalized and log transformed normalized distribution.
 }
 \examples{
- {
+{
 ds <- HighFrequencyChecks::sample_dataset
 sdval <- 2
 reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyOutliers(ds, sdval, reportingcol, enumeratorID, enumeratorcheck)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- surveyOutliers(ds,
+                                              sdval,
+                                              reportingcol,
+                                              enumeratorID,
+                                              enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{

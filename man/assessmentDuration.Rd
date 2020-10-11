@@ -12,9 +12,9 @@ assessmentDuration(ds = NULL, dates = NULL)
 \item{dates}{fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))}
 }
 \value{
-avg  average time per survey
+var$avg  average time per survey
 
-tot total time
+var$tot total time
 }
 \description{
 This function compute the average and total time for the surveys
@@ -25,7 +25,10 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
 
-assessmentDuration(ds, dates)
+list[dst,ret_log,var,graph] <- assessmentDuration(ds,
+                                                  dates)
+paste0("average time: ", var$avg)
+paste0("total time : ", var$tot)
 }
 }
 \author{

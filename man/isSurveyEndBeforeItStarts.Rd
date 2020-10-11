@@ -24,9 +24,9 @@ isSurveyEndBeforeItStarts(
 \item{delete}{delete action to be done as a boolean (TRUE/FALSE)}
 }
 \value{
-ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
 
-errors  list of the errors found
+ret_log  list of the errors found
 }
 \description{
 This function check that all interviews in the dataset start before they end.
@@ -41,8 +41,12 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list_date_mistake2 <- isSurveyEndBeforeItStarts(ds, survey_consent,dates, reportingcol, delete)
-head(list_date_mistake2[[2]], 10)
+list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds,
+                                                         survey_consent,
+                                                         dates,
+                                                         reportingcol,
+                                                         delete)
+head(ret_log, 10)
 }
 }
 \author{

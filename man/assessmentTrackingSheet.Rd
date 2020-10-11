@@ -38,7 +38,7 @@ the values/fields available are: done and the ones generated according the surve
 the columns available are: site, done, final, variance and the ones generated according the survey consent values (one per value)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the overall tracking sheet.
@@ -52,12 +52,13 @@ sfsite <- "Union"
 survey_consent <- "survey_consent"
 sftarget <- "SS"
 sfnbpts <- "TotPts"
-formul <- c("done-no-not_eligible-delete",
-               "done-no-not_eligible-deleted-SS")
-colorder <- c("site","SS","Provisio","done","not_eligible",
-                 "no","deleted","yes","final","variance")
+#formul <- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")
+#colorder <- c("site","SS","Provision","done","not_eligible","no","deleted",
+#              "yes","final","variance")
+formul=c("done-no-not_eligible","done-no-not_eligible-SS")
+colorder=c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
 
-log <- assessmentTrackingSheet(ds,
+list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
                         sf,
                         dssite,
                         sfsite,
@@ -66,8 +67,7 @@ log <- assessmentTrackingSheet(ds,
                         sfnbpts,
                         formul,
                         colorder)
-head(log[[2]],10)
-
+head(ret_log,10)
 }
 }
 \author{

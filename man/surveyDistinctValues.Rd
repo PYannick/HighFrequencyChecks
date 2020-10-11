@@ -14,20 +14,22 @@ surveyDistinctValues(ds = NULL, enumeratorID = NULL, enumeratorcheck = FALSE)
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing the number of distinct values for each fields.
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
- {
+{
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyDistinctValues(ds, enumeratorID, enumeratorcheck)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- surveyDistinctValues(ds,
+                                                    enumeratorID,
+                                                    enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{

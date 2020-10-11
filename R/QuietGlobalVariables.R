@@ -26,4 +26,5 @@ if(getRversion() >= "2.15.1")
                            "left_join",
                            "mutate",
                            "summarize",
-                           "summarize_"))
+                           "summarize_",
+                           "Outside"))
