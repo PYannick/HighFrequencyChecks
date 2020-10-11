@@ -14,7 +14,7 @@ enumeratorProductivity(ds = NULL, surveydate = NULL, enumeratorID = NULL)
 \item{enumeratorID}{name as a string of the field in the dataset where the enumerator ID is stored}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the total number of survey made and the average per day per enumerator.
@@ -25,8 +25,10 @@ ds <- HighFrequencyChecks::sample_dataset
 surveydate <- "survey_date"
 enumeratorID <- "enumerator_id"
 
-log <- enumeratorProductivity(ds, surveydate, enumeratorID)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
+                                                      surveydate,
+                                                      enumeratorID)
+head(ret_log,10)
 }
 }
 \author{

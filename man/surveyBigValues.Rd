@@ -27,13 +27,13 @@ surveyBigValues(
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function provide a report showing all values which are greater than a certain threshold for a specified list of fields.
 }
 \examples{
- {
+{
 ds <- HighFrequencyChecks::sample_dataset
 questions <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
@@ -54,8 +54,13 @@ reportingcol <- c("enumerator_id","X_uuid")
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyBigValues(ds, questions, value,reportingcol, enumeratorID, enumeratorcheck)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- surveyBigValues(ds,
+                                               questions,
+                                               value,
+                                               reportingcol,
+                                               enumeratorID,
+                                               enumeratorcheck)
+head(ret_log,10)
 }
 }
 \author{

@@ -73,7 +73,7 @@ There is an option to automatically mark for deletion the surveys which have dif
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -158,8 +158,8 @@ There is an option to automatically mark for deletion the surveys which have dif
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
-<p>errors  list of the errors found</p>
+    <p>dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
+<p>ret_log  list of the errors found</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
@@ -170,30 +170,14 @@ There is an option to automatically mark for deletion the surveys which have dif
 <span class='no'>delete</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
 
 
-<span class='no'>list_date_mistake</span> <span class='kw'>&lt;-</span> <span class='fu'>isSurveyOnMoreThanADay</span>(<span class='no'>ds</span>, <span class='no'>survey_consent</span>,<span class='no'>dates</span>, <span class='no'>reportingcol</span>, <span class='no'>delete</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>list_date_mistake</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='fl'>10</span>)
-}</div><div class='output co'>#&gt;    enumerator_id                               X_uuid
-#&gt; 11            91 13d4e232-ba59-4be6-84b4-f5e7d103f549
-#&gt; 13            45 3f0d915b-7fa6-4262-8783-8d2c477af2e3
-#&gt; 14         30022 93ea674d-29c4-4750-bb48-ce2125a55094
-#&gt; 38         30019 8148d291-1918-43dd-b292-0932aea85f02
-#&gt; 45             3 2ab24867-db88-40f2-ba97-b5c7b6da8f1d
-#&gt; 46            76 0a3bcffb-0cba-4661-ac98-3c28b12b4ec8
-#&gt; 47         10021 5fb8b7e7-2692-47f3-8e83-98e4578ea3ce
-#&gt; 50            45 838d58ad-497b-4f4a-8392-b73c56a290c0
-#&gt; 54            93 7adab422-2c20-4552-beaf-16f1aa831b82
-#&gt; 57            65 7d6031c7-0dca-476b-89bc-2c5737f0e199
-#&gt;                     survey_start                    survey_end
-#&gt; 11    2018-11-17T10:54:27.159+06    2018-11-17T11:34:48.907+06
-#&gt; 13    2018-11-22T10:12:47.885+06    2018-11-22T11:06:02.342+06
-#&gt; 14    2018-11-17T10:32:06.261+06    2018-11-17T11:30:13.108+06
-#&gt; 38    2018-12-02T10:21:11.845+06    2018-12-02T11:19:50.998+06
-#&gt; 45    2018-11-29T10:07:44.092+06    2018-11-29T11:07:05.560+06
-#&gt; 46    2018-12-02T10:43:32.268+06    2018-12-02T11:08:19.101+06
-#&gt; 47    2018-12-01T10:59:07.195+06    2018-12-01T11:51:14.237+06
-#&gt; 50 2018-11-29T10:39:12.023+06:30 2018-11-29T11:32:37.263+06:30
-#&gt; 54    2018-11-29T10:08:12.488+06    2018-11-29T12:01:17.736+06
-#&gt; 57    2018-12-02T10:59:15.035+06    2018-12-02T11:32:11.290+06</div></pre>
+<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>isSurveyOnMoreThanADay</span>(<span class='no'>ds</span>,
+                                                      <span class='no'>survey_consent</span>,
+                                                      <span class='no'>dates</span>,
+                                                      <span class='no'>reportingcol</span>,
+                                                      <span class='no'>delete</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>, <span class='fl'>10</span>)
+}</div><div class='output co'>#&gt; [1] enumerator_id X_uuid        survey_start  survey_end   
+#&gt; &lt;0 rows&gt; (or 0-length row.names)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

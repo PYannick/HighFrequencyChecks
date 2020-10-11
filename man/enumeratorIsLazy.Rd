@@ -21,7 +21,7 @@ enumeratorIsLazy(
 \item{minnbanswers}{minimum number of answers expected per question}
 }
 \value{
-logf  the report
+ret_log  the report
 }
 \description{
 This function display the surveyors who picked up less than a specified amount of answers per specific question.
@@ -37,8 +37,11 @@ questions <- c("consent_received.shelter_nfi.non_food_items[.]",
       "consent_received.child_protection.girl_risk[.]")
 minnbanswers <- 3
 
-log <- enumeratorIsLazy(ds, enumeratorID, questions, minnbanswers)
-head(log[[2]],10)
+list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds,
+                                                enumeratorID,
+                                                questions,
+                                                minnbanswers)
+head(ret_log,10)
 }
 }
 \author{

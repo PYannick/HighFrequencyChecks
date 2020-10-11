@@ -3,11 +3,10 @@
 #' @title Create an Rmd file for the report
 #' @description Create an Rmd file for the report
 #'
-#' @param ds dataset as a data.frame object
-#' @param sdval number of standard deviation for which the data within is considered as acceptable
-#' @param reportingcol columns as a list of string name from the dataset you want in the result (c('col1','col2',...))
-#' @param enumeratorID name as a string of the field in the dataset where the enumerator ID is stored
-#' @param enumeratorcheck specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)
+#' @param working_directY the current working directory
+#' @param xlsform_name the name of the xlsform used to build the report
+#' @param xlsform_location the location of the xlsform from the working directory
+#' @param vignette_directory the directory where to generate the .Rmd from the working directory
 #'
 #' @return vignette file
 #'
@@ -15,59 +14,98 @@
 #'
 #' @examples
 #' \dontrun{
-#' df <- HighFrequencyChecks::sample_dataset
-#' sdval <- 2
-#' reportingcol <- c("enumerator_id","X_uuid")
-#' enumeratorID <- "enumerator_id"
-#' enumeratorcheck <- FALSE
+#' working_directY <- getwd()
+#' xlsform_name <- "form.xlsx"
+#' xlsform_location <- "/inst/demo/"
+#' vignette_directory <- "/vignettes/HFC_WR.Rmd"
 #'
-#' ReportWrapper(df, sdval, reportingcol, enumeratorID, enumeratorcheck)
+#' ReportWrapper(working_directY,
+#'               xlsform_name,
+#'               xlsform_location,
+#'               vignette_directory)
 #'}
 #' @export ReportWrapper
 #'
-ReportWrapper <- function(ds=NULL,
-                          sdval=NULL,
-                          reportingcol=NULL,
-                          enumeratorID=NULL,
-                          enumeratorcheck=FALSE){
 
-  wdir <- getwd()
-  file <- "form.xlsx"
+ReportWrapper <- function(working_directY=NULL,
+                           xlsform_name=NULL,
+                           xlsform_location=NULL,
+                           vignette_directory=NULL){
 
-  repstr <- openxlsx::read.xlsx(paste0(wdir, "/inst/demo/", file), 1)
+# working_directY <- getwd()
+# xlsform_name <- "form.xlsx"
+# xlsform_location <- "/inst/demo/"
+# vignette_directory <- "/vignettes/HFC_WR.Rmd"
 
-  reportRMD  <- paste0(wdir,"/vignettes/HFC_WR.Rmd")
-  ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
-  if (file.exists(reportRMD)) file.remove(reportRMD)
+repstr <- openxlsx::read.xlsx(paste0(working_directY, xlsform_location, xlsform_name), 1)
+#
+reportRMD  <- paste0(working_directY,vignette_directory)
+## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
+if (file.exists(reportRMD)) file.remove(reportRMD)
 
-  ## Start Building the report ##########
+## Start Building the report ##########
 
-  cat("---", file = reportRMD , sep = "\n", append = TRUE)
-  cat("title: \"High Frequency Checks template\"", file = reportRMD , sep = "\n", append = TRUE)
-  cat("author: \"Yannick Pascaud\"", file = reportRMD , sep = "\n", append = TRUE)
-  cat("date: \"`r format(Sys.time(), '%d %B, %Y')`\"", file = reportRMD , sep = "\n", append = TRUE)
-  cat("always_allow_html: yes", file = reportRMD , sep = "\n", append = TRUE)
-  cat("output:",file = reportRMD , sep = "\n", append = TRUE)
-  cat("  pdf_document:", file = reportRMD , sep = "\n", append = TRUE)
-  cat("    toc: true", file = reportRMD , sep = "\n", append = TRUE)
-  cat("    toc_depth: 3", file = reportRMD , sep = "\n", append = TRUE)
-  cat("  html_document: default", file = reportRMD , sep = "\n", append = TRUE)
-  cat("geometry: margin=0.5in", file = reportRMD , sep = "\n", append = TRUE)
-  cat("---", file = reportRMD , sep = "\n", append = TRUE)
+cat("---", file = reportRMD , sep = "\n", append = TRUE)
+cat("title: \"High Frequency Checks template\"", file = reportRMD , sep = "\n", append = TRUE)
+cat("author: \"Yannick Pascaud\"", file = reportRMD , sep = "\n", append = TRUE)
+cat("date: \"`r format(Sys.time(), '%d %B, %Y')`\"", file = reportRMD , sep = "\n", append = TRUE)
+cat("always_allow_html: yes", file = reportRMD , sep = "\n", append = TRUE)
+cat("output:",file = reportRMD , sep = "\n", append = TRUE)
+cat("  pdf_document:", file = reportRMD , sep = "\n", append = TRUE)
+cat("    toc: true", file = reportRMD , sep = "\n", append = TRUE)
+cat("    toc_depth: 3", file = reportRMD , sep = "\n", append = TRUE)
+cat("  html_document: default", file = reportRMD , sep = "\n", append = TRUE)
+cat("geometry: margin=0.5in", file = reportRMD , sep = "\n", append = TRUE)
+cat("---", file = reportRMD , sep = "\n", append = TRUE)
 
-  cat("\n", file = reportRMD , sep = "\n", append = TRUE)
-  cat("```{r setup, include=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-  cat("knitr::opts_chunk$set(echo = TRUE)", file = reportRMD , sep = "\n", append = TRUE)
+cat("\n", file = reportRMD , sep = "\n", append = TRUE)
+cat("```{r setup, include=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+cat("knitr::opts_chunk$set(echo = TRUE)", file = reportRMD , sep = "\n", append = TRUE)
 
-  cat("library(knitr)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("library(gsubfn)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("library(dplyr)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("library(data.table)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("library(HighFrequencyChecks)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("```", file = reportRMD , sep = "\n", append = TRUE)
+cat("library(knitr)", file = reportRMD , sep = "\n", append = TRUE)
+cat("library(gsubfn)", file = reportRMD , sep = "\n", append = TRUE)
+cat("library(dplyr)", file = reportRMD , sep = "\n", append = TRUE)
+cat("library(data.table)", file = reportRMD , sep = "\n", append = TRUE)
+cat("library(HighFrequencyChecks)", file = reportRMD , sep = "\n", append = TRUE)
+cat("```", file = reportRMD , sep = "\n", append = TRUE)
 
 
-  for(i in 1:length(repstr[,1])){
+for(i in 1:length(repstr[,1])){
+  if(repstr[i,1]=="begin_ds_struct"){
+    cat("```{r surveysDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+    cat("dset<-list()", file = reportRMD , sep = "\n", append = TRUE)
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    ds_struct<-TRUE
+  } else   if(repstr[i,1]=="begin_sample"){
+    cat("```{r sampleSizeDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    sple<-TRUE
+  } else   if(repstr[i,1]=="begin_shp"){
+    cat("```{r shapefiles, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    gis<-TRUE
+  } else if(repstr[i,1]=="begin_init_var"){
+    cat("```{r initializeVariables, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    init_var<-TRUE
+  } else if(repstr[i,1]=="free_code") {
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    free_code<-TRUE
+  } else if(repstr[i,1]=="begin_report") {
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+    report<-TRUE
+  } else if(repstr[i,1]=="end_ds_struct"|
+            repstr[i,1]=="end_sample" |
+            repstr[i,1]=="end_shp" |
+            repstr[i,1]=="end_init_var") {
+    cat("```", file = reportRMD , sep = "\n", append = TRUE)
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+  } else if(repstr[i,1]=="end_report") {
+    ds_struct=sple=gis=init_var=free_code=report=FALSE
+  }
+
+  if(ds_struct){
+
     if(repstr[i,1]=="begin_ds_struct"){
       cat("```{r surveysDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
       cat("dset<-list()", file = reportRMD , sep = "\n", append = TRUE)
@@ -175,5 +213,5 @@ ReportWrapper <- function(ds=NULL,
 
   }
 }
-
+}
 

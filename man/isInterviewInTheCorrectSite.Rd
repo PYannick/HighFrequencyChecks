@@ -5,8 +5,8 @@
 \title{GIS check surveys for site}
 \usage{
 isInterviewInTheCorrectSite(
-  ds = NULL,
   adm = NULL,
+  ds = NULL,
   ds_site = NULL,
   ds_coord = NULL,
   adm_site = NULL,
@@ -16,9 +16,9 @@ isInterviewInTheCorrectSite(
 )
 }
 \arguments{
-\item{ds}{dataset as a data.frame object}
-
 \item{adm}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
+
+\item{ds}{dataset as a data.frame object}
 
 \item{ds_site}{name as a string of the field in the dataset where the site is stored}
 
@@ -33,9 +33,9 @@ isInterviewInTheCorrectSite(
 \item{correct}{correction action to be done as a boolean (TRUE/FALSE)}
 }
 \value{
-ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
 
-errors  list of the errors found
+ret_log  list of the errors found
 }
 \description{
 This function check that all interviews in the dataset were made in the correct site.
@@ -54,15 +54,15 @@ There is an option to automatically correct the site in the surveys whith the co
   reportingcol <- c("enumerator_id","X_uuid")
   correct <- FALSE
 
-  list_site <- isInterviewInTheCorrectSite(ds,
-                                           adm,
-                                           ds_site,
-                                           ds_coord,
-                                           adm_site,
-                                           survey_consent,
-                                           reportingcol,
-                                           correct)
-  head(list_site[[2]], 10)
+  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(adm,
+                                                             ds,
+                                                             ds_site,
+                                                             ds_coord,
+                                                             adm_site,
+                                                             survey_consent,
+                                                             reportingcol,
+                                                             correct)
+  head(ret_log, 10)
 }
 }
 \author{

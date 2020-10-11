@@ -24,9 +24,9 @@ isInterviewCompleted(
 \item{delete}{delete action to be done as a boolean (TRUE/FALSE)}
 }
 \value{
-ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
+dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE
 
-errors  list of the errors found
+ret_log  list of the errors found
 }
 \description{
 This function check that all interviews in the dataset are completed,
@@ -41,11 +41,11 @@ dates <- c("survey_start","end_survey")
 reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
-list_iscompleted <- isInterviewCompleted(ds,
+list[dst,ret_log,var,graph] <- isInterviewCompleted(ds,
                                         survey_consent,
                                         dates,
                                         reportingcol, delete)
-head(list_iscompleted[[2]],10)
+head(ret_log,10)
 }
 
 }

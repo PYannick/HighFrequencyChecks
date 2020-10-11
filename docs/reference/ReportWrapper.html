@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -122,35 +122,30 @@
     </div>
 
     <pre class="usage"><span class='fu'>ReportWrapper</span>(
-  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sdval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>reportingcol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enumeratorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enumeratorcheck</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>working_directY</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>xlsform_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>xlsform_location</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vignette_directory</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <th>working_directY</th>
+      <td><p>the current working directory</p></td>
     </tr>
     <tr>
-      <th>sdval</th>
-      <td><p>number of standard deviation for which the data within is considered as acceptable</p></td>
+      <th>xlsform_name</th>
+      <td><p>the name of the xlsform used to build the report</p></td>
     </tr>
     <tr>
-      <th>reportingcol</th>
-      <td><p>columns as a list of string name from the dataset you want in the result (c('col1','col2',...))</p></td>
+      <th>xlsform_location</th>
+      <td><p>the location of the xlsform from the working directory</p></td>
     </tr>
     <tr>
-      <th>enumeratorID</th>
-      <td><p>name as a string of the field in the dataset where the enumerator ID is stored</p></td>
-    </tr>
-    <tr>
-      <th>enumeratorcheck</th>
-      <td><p>specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)</p></td>
+      <th>vignette_directory</th>
+      <td><p>the directory where to generate the .Rmd from the working directory</p></td>
     </tr>
     </table>
 
@@ -160,13 +155,15 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='no'>sdval</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
-<span class='no'>reportingcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-<span class='no'>enumeratorID</span> <span class='kw'>&lt;-</span> <span class='st'>"enumerator_id"</span>
-<span class='no'>enumeratorcheck</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='no'>working_directY</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>()
+<span class='no'>xlsform_name</span> <span class='kw'>&lt;-</span> <span class='st'>"form.xlsx"</span>
+<span class='no'>xlsform_location</span> <span class='kw'>&lt;-</span> <span class='st'>"/inst/demo/"</span>
+<span class='no'>vignette_directory</span> <span class='kw'>&lt;-</span> <span class='st'>"/vignettes/HFC_WR.Rmd"</span>
 
-<span class='fu'>ReportWrapper</span>(<span class='no'>df</span>, <span class='no'>sdval</span>, <span class='no'>reportingcol</span>, <span class='no'>enumeratorID</span>, <span class='no'>enumeratorcheck</span>)
+<span class='fu'>ReportWrapper</span>(<span class='no'>working_directY</span>,
+              <span class='no'>xlsform_name</span>,
+              <span class='no'>xlsform_location</span>,
+              <span class='no'>vignette_directory</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

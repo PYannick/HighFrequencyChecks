@@ -60,7 +60,7 @@ library(dplyr)
 library(data.table)
 library(DT)
 library(ggplot2)
-library(plotly)
+# library(plotly)
 library(HighFrequencyChecks)
 ```
 
@@ -350,8 +350,10 @@ DT::datatable(list_date_mistake4[[2]],
 #### Recorded site name for each interview matches the name of the location
 
 ```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
-list_site <- isInterviewInTheCorrectSite( ds, 
-                                 adm, df_site, 
+
+list_site <- isInterviewInTheCorrectSite(adm,
+                                         ds, 
+                                 df_site, 
                                  ds_coord, 
                                  admin_site, 
                                  survey_consent, 
@@ -501,7 +503,7 @@ DT::datatable(reportlog_productivity[[2]],
 } 
 ```
 
-```{r eval=TRUE, echo=TRUE, results='asis'}
+```{r eval=FALSE, echo=TRUE, results='asis'}
 assessmentProductivityGraphical(ds, 
                                  surveydate, 
                                  dateformat, 
@@ -520,6 +522,9 @@ if(nrow(reportlog_nb_status[[2]]) > 0){
 DT::datatable(reportlog_nb_status[[2]], 
              caption = paste0("attempted interview per day and obtained consent"))
 } 
+if(!is.null(reportlog_nb_status[4])){
+  print(reportlog_nb_status[4])
+}
 ```
 
 #### Percentage of survey per consent status by enumerator

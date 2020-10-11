@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
@@ -160,8 +160,11 @@
 <span class='no'>dateformat</span> <span class='kw'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
 <span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
-<span class='no'>log</span> <span class='kw'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span>(<span class='no'>ds</span>, <span class='no'>surveydate</span>, <span class='no'>dateformat</span>, <span class='no'>survey_consent</span> )
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>log</span><span class='kw'>[[</span><span class='fl'>2</span>]],<span class='fl'>10</span>)
+<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span>(<span class='no'>ds</span>,
+                                                           <span class='no'>surveydate</span>,
+                                                           <span class='no'>dateformat</span>,
+                                                           <span class='no'>survey_consent</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>,<span class='fl'>10</span>)
 }</div><div class='output co'>#&gt;    surveydate no not_eligible yes
 #&gt; 1  2018-11-11  0            2   6
 #&gt; 2  2018-11-12  2           15  18

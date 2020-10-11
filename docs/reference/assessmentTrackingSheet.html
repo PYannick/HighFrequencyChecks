@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -178,7 +178,7 @@ the columns available are: site, done, final, variance and the ones generated ac
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>{
@@ -189,12 +189,13 @@ the columns available are: site, done, final, variance and the ones generated ac
 <span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
 <span class='no'>sftarget</span> <span class='kw'>&lt;-</span> <span class='st'>"SS"</span>
 <span class='no'>sfnbpts</span> <span class='kw'>&lt;-</span> <span class='st'>"TotPts"</span>
-<span class='no'>formul</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"done-no-not_eligible-delete"</span>,
-               <span class='st'>"done-no-not_eligible-deleted-SS"</span>)
-<span class='no'>colorder</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
-                 <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span>)
+<span class='co'>#formul &lt;- c("done-no-not_eligible-deleted","done-no-not_eligible-deleted-SS")</span>
+<span class='co'>#colorder &lt;- c("site","SS","Provision","done","not_eligible","no","deleted",</span>
+<span class='co'>#              "yes","final","variance")</span>
+<span class='no'>formul</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"done-no-not_eligible"</span>,<span class='st'>"done-no-not_eligible-SS"</span>)
+<span class='no'>colorder</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"TotPts"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,<span class='st'>"no"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span>)
 
-<span class='no'>log</span> <span class='kw'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span>(<span class='no'>ds</span>,
+<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span>(<span class='no'>ds</span>,
                         <span class='no'>sf</span>,
                         <span class='no'>dssite</span>,
                         <span class='no'>sfsite</span>,
@@ -203,9 +204,18 @@ the columns available are: site, done, final, variance and the ones generated ac
                         <span class='no'>sfnbpts</span>,
                         <span class='no'>formul</span>,
                         <span class='no'>colorder</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>log</span><span class='kw'>[[</span><span class='fl'>2</span>]],<span class='fl'>10</span>)
-
-}</div><div class='output co'>#&gt; <span class='error'>Error in `[.data.frame`(df, , "delete"): undefined columns selected</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>,<span class='fl'>10</span>)
+}</div><div class='output co'>#&gt;                 site  SS TotPts done not_eligible no yes final variance
+#&gt; 1        baharchhara 253    317   19            7  0  12    12     -241
+#&gt; 2      haldia palong 260    325   27            5  1  21    21     -239
+#&gt; 3       jalia palong 259    324   19            5  1  13    13     -246
+#&gt; 4             nhilla 259    324   54            9  3  42    42     -217
+#&gt; 5       palong khali 255    319  115           36  7  72    72     -183
+#&gt; 6        raja palong 261    327   37            8  0  29    29     -232
+#&gt; 7       ratna palong 252    315   31           10  2  19    19     -233
+#&gt; 8            sabrang 260    325   20            8  1  11    11     -249
+#&gt; 9             teknaf 259    324   74           28  5  41    41     -218
+#&gt; 10 teknaf paurashava 253    317    4            1  0   3     3     -250</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -161,10 +161,10 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> {
+    <pre class="examples"><div class='input'>{
 <span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
 <span class='no'>questions</span> <span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"consent_received.food_security.spend_food"</span>,
       <span class='st'>"consent_received.food_security.spend_medication"</span>,
@@ -185,8 +185,13 @@
 <span class='no'>enumeratorID</span> <span class='kw'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 <span class='no'>enumeratorcheck</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
 
-<span class='no'>log</span> <span class='kw'>&lt;-</span> <span class='fu'>surveyBigValues</span>(<span class='no'>ds</span>, <span class='no'>questions</span>, <span class='no'>value</span>,<span class='no'>reportingcol</span>, <span class='no'>enumeratorID</span>, <span class='no'>enumeratorcheck</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>log</span><span class='kw'>[[</span><span class='fl'>2</span>]],<span class='fl'>10</span>)
+<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>surveyBigValues</span>(<span class='no'>ds</span>,
+                                               <span class='no'>questions</span>,
+                                               <span class='no'>value</span>,
+                                               <span class='no'>reportingcol</span>,
+                                               <span class='no'>enumeratorID</span>,
+                                               <span class='no'>enumeratorcheck</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>,<span class='fl'>10</span>)
 }</div><div class='output co'>#&gt;     enumerator_id                               X_uuid values
 #&gt; 9              43 a98f85bc-0752-437d-a513-cc729804c303  25000
 #&gt; 16             16 67324a24-765c-4ed7-bff0-5c739643b21b  25000
