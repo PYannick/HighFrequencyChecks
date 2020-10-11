@@ -57,7 +57,7 @@ isInterviewCompleted <- function(ds=NULL,
   if(delete){
     ds[,survey_consent][is.na(ds[,dates[2]])]<-"deleted"
   }
-
+ require(magrittr)
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(reportingcol, survey_end=dates[2])
   return(list(ds,errors,NULL,NULL))
 }
@@ -113,6 +113,7 @@ isInterviewWithConsent <- function(ds=NULL,
   }
 
 
+  require(magrittr)
   errors <- subset(ds,is.na(survey_consent)) %>% select(reportingcol, survey_consent=survey_consent)
   return(list(ds,errors,NULL,NULL))
 }
@@ -217,6 +218,7 @@ isInterviewInTheCorrectSite <- function(ds=NULL,
   }
 
 
+  require(magrittr)
   errors <- subset(fm,check=="NOk") %>% select(reportingcol, SiteRec=ds_site, SiteReal=adm_site)
   return(list(ds,errors,NULL,NULL))
 }
@@ -332,6 +334,7 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
   }
 
 
+  require(magrittr)
   errors <- subset(fm, Outside=="NOk") %>% select(reportingcol, Outside=Outside)
   return(list(ds,errors,NULL,NULL))
 }
@@ -397,6 +400,7 @@ isUniqueIDMissing <- function(ds=NULL,
 
   # TO BE BE CHANGED WITH DYNAMIC COLUMS
 
+  require(magrittr)
   errors <- subset(ds,is.na(ds[,UniqueID]) | ds[,UniqueID]=="") %>%
     dplyr::select(reportingcol, survey_consent=survey_consent)
   return(list(ds,errors,NULL,NULL))
