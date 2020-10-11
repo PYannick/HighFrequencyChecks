@@ -4,15 +4,6 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//index.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ReportWrapper.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
-  </url>
-  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/admin.html</loc>
   </url>
   <url>
@@ -91,6 +82,18 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDMissing.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ReportWrapper.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ReportWrapper1.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SamplePts.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/SampleSize.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/sample_dataset.html</loc>
   </url>
   <url>
@@ -110,8 +113,5 @@
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC_WR.html</loc>
   </url>
 </urlset>

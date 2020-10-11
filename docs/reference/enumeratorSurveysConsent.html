@@ -121,7 +121,7 @@
     <p>This function display the percentage of survey refusal per enumerator.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>enumeratorSurveysConsent</span><span class='op'>(</span>ds <span class='op'>=</span> <span class='cn'>NULL</span>, survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>, enumeratorID <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>enumeratorSurveysConsent</span>(<span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>survey_consent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>enumeratorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,20 +143,30 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>logf  the report</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>sc</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
+    <pre class="examples"><div class='input'>{
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='no'>enumeratorID</span> <span class='kw'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>enumeratorSurveysConsent</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>sc</span>, <span class='va'>enumeratorID</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+<span class='no'>log</span> <span class='kw'>&lt;-</span> <span class='fu'>enumeratorSurveysConsent</span>(<span class='no'>ds</span>, <span class='no'>survey_consent</span>, <span class='no'>enumeratorID</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>log</span><span class='kw'>[[</span><span class='fl'>2</span>]],<span class='fl'>10</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: `count_()` is deprecated as of dplyr 0.7.0.</span>
+#&gt; <span class='warning'>Please use `count()` instead.</span>
+#&gt; <span class='warning'>See vignette('programming') for more help</span>
+#&gt; <span class='warning'><span style='color: #555555;'>This warning is displayed once every 8 hours.</span><span></span>
+#&gt; <span class='warning'></span><span style='color: #555555;'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span><span></span></div><div class='output co'>#&gt; <span class='warning'>Warning: The dcast generic in data.table has been passed a grouped_df and will attempt to redirect to the reshape2::dcast; please note that reshape2 is deprecated, and this redirection is now deprecated as well. Please do this redirection yourself like reshape2::dcast(tmp). In the next version, this warning will become an error.</span></div><div class='output co'>#&gt;    enumeratorID    no not_eligible    yes
+#&gt; 1             1  0.00         0.00 100.00
+#&gt; 2             3  0.00         0.00 100.00
+#&gt; 3             6  0.00         0.00 100.00
+#&gt; 4            12  0.00        16.67  83.33
+#&gt; 5            13 16.67         0.00  83.33
+#&gt; 6            14  0.00        33.33  66.67
+#&gt; 7            16  0.00        33.33  66.67
+#&gt; 8            18  0.00         0.00 100.00
+#&gt; 9            19  0.00        33.33  66.67
+#&gt; 10           24  0.00        33.33  66.67</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -172,7 +182,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

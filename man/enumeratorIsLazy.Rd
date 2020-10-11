@@ -28,7 +28,7 @@ This function display the surveyors who picked up less than a specified amount o
 This can be useful for select_multiple questions where respondent shall give at least 3 options for instance.
 }
 \examples{
-                                        {
+\dontrun{
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 questions <- c("consent_received.shelter_nfi.non_food_items[.]",

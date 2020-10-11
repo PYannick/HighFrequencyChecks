@@ -20,7 +20,7 @@ logf  the report
 This function display the total number of survey made and the average per day per enumerator.
 }
 \examples{
-                                        {
+ {
 ds <- HighFrequencyChecks::sample_dataset
 surveydate <- "survey_date"
 enumeratorID <- "enumerator_id"

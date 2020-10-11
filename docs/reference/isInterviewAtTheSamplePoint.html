@@ -131,15 +131,15 @@ There is an option to automatically mark for deletion the surveys which are to f
 https://stackoverflow.com/users/5193830/valentin</p>
     </div>
 
-    <pre class="usage"><span class='fu'>isInterviewAtTheSamplePoint</span><span class='op'>(</span>
-  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pts <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ds_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
-  buff <span class='op'>=</span> <span class='fl'>10</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
-  delete <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>isInterviewAtTheSamplePoint</span>(
+  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ds_coord</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>buff</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>survey_consent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>reportingcol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>delete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,26 +178,31 @@ https://stackoverflow.com/users/5193830/valentin</p>
 
     <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
 <p>errors  list of the errors found</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='op'>{</span>
-<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>pts</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='SamplePts.html'>SamplePts</a></span>
-<span class='va'>ds_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span><span class='op'>)</span>
-<span class='va'>buff</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
-<span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+    <pre class="examples"><div class='input'> {
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='no'>pts</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='SamplePts.html'>SamplePts</a></span>
+<span class='no'>ds_coord</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span>)
+<span class='no'>buff</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
+<span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='no'>reportingcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='no'>delete</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
 
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewAtTheSamplePoint</span><span class='op'>(</span> <span class='va'>ds</span>, <span class='va'>pts</span>, <span class='va'>ds_coord</span>, <span class='va'>buff</span>, <span class='va'>survey_consent</span>, <span class='va'>reportingcol</span>, <span class='va'>delete</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: sp</span></div><div class='output co'>#&gt; <span class='warning'>Warning: rgeos: versions of GEOS runtime 3.8.1-CAPI-1.13.3</span>
-#&gt; <span class='warning'>and GEOS at installation 3.8.0-CAPI-1.13.1differ</span></div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has comment, which is lost in output</span></div><div class='output co'>#&gt; <span class='error'>Error in subset(fm, Outside == "NOk") %&gt;% select(reportingcol, Outside = Outside): could not find function "%&gt;%"</span></div></pre>
+<span class='no'>list_sitept</span>  <span class='kw'>&lt;-</span> <span class='fu'>isInterviewAtTheSamplePoint</span>( <span class='no'>ds</span>, <span class='no'>pts</span>, <span class='no'>ds_coord</span>, <span class='no'>buff</span>, <span class='no'>survey_consent</span>, <span class='no'>reportingcol</span>, <span class='no'>delete</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>list_sitept</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='fl'>10</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has comment, which is lost in output</span></div><div class='output co'>#&gt;     enumerator_id                               X_uuid Outside
+#&gt; 44             14 0636c440-1b81-4cf2-9f56-9e3b6d378047     NOk
+#&gt; 45              3 2ab24867-db88-40f2-ba97-b5c7b6da8f1d     NOk
+#&gt; 46             76 0a3bcffb-0cba-4661-ac98-3c28b12b4ec8     NOk
+#&gt; 65            102 8fd35129-6566-4200-a9b7-7e1a16825bc2     NOk
+#&gt; 112            16 f19a65d7-d78e-4887-8d87-6ac8d0b35ee5     NOk
+#&gt; 113            42                                          NOk
+#&gt; 114            80 ca219404-8ebe-4855-b391-4e6e3dd71eec     NOk
+#&gt; 115            83 13ece80f-f607-46a6-874d-99bf44c7a477     NOk
+#&gt; 116            80 7d9162ca-72bb-4c40-b908-5de3b0e768a5     NOk
+#&gt; 117           102 baceb291-a351-40a8-9587-150eb4312fe2     NOk</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -213,7 +218,7 @@ https://stackoverflow.com/users/5193830/valentin</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

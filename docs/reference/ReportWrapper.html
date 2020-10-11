@@ -121,13 +121,13 @@
     <p>Create an Rmd file for the report</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ReportWrapper</span><span class='op'>(</span>
-  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sdval <span class='op'>=</span> <span class='cn'>NULL</span>,
-  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
-  enumeratorID <span class='op'>=</span> <span class='cn'>NULL</span>,
-  enumeratorcheck <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ReportWrapper</span>(
+  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sdval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>reportingcol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enumeratorID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enumeratorcheck</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,21 +157,17 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>vignette file</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>sdval</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
-<span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
-<span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
-<span class='va'>enumeratorcheck</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='no'>sdval</span> <span class='kw'>&lt;-</span> <span class='fl'>2</span>
+<span class='no'>reportingcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
+<span class='no'>enumeratorID</span> <span class='kw'>&lt;-</span> <span class='st'>"enumerator_id"</span>
+<span class='no'>enumeratorcheck</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
 
-<span class='fu'>ReportWrapper</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>sdval</span>, <span class='va'>reportingcol</span>, <span class='va'>enumeratorID</span>, <span class='va'>enumeratorcheck</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+<span class='fu'>ReportWrapper</span>(<span class='no'>df</span>, <span class='no'>sdval</span>, <span class='no'>reportingcol</span>, <span class='no'>enumeratorID</span>, <span class='no'>enumeratorcheck</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -187,7 +183,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

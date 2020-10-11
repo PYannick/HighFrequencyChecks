@@ -121,17 +121,17 @@
     <p>This function display the overall tracking sheet.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assessmentTrackingSheet</span><span class='op'>(</span>
-  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sf <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dssite <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sfsite <span class='op'>=</span> <span class='cn'>NULL</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sftarget <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sfnbpts <span class='op'>=</span> <span class='cn'>NULL</span>,
-  formul <span class='op'>=</span> <span class='cn'>NULL</span>,
-  colorder <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>assessmentTrackingSheet</span>(
+  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sf</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dssite</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sfsite</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>survey_consent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sftarget</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>sfnbpts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>formul</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colorder</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,37 +179,33 @@ the columns available are: site, done, final, variance and the ones generated ac
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>logf  the report</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>sf</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='SampleSize.html'>SampleSize</a></span>
-<span class='va'>dssite</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
-<span class='va'>sfsite</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
-<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='va'>sftarget</span> <span class='op'>&lt;-</span> <span class='st'>"SS"</span>
-<span class='va'>sfnbpts</span> <span class='op'>&lt;-</span> <span class='st'>"TotPts"</span>
-<span class='va'>formul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"done-no-not_eligible-delete"</span>,
-               <span class='st'>"done-no-not_eligible-deleted-SS"</span><span class='op'>)</span>
-<span class='va'>colorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
-                 <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>{
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='no'>sf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='SampleSize.html'>SampleSize</a></span>
+<span class='no'>dssite</span> <span class='kw'>&lt;-</span> <span class='st'>"union_name"</span>
+<span class='no'>sfsite</span> <span class='kw'>&lt;-</span> <span class='st'>"Union"</span>
+<span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='no'>sftarget</span> <span class='kw'>&lt;-</span> <span class='st'>"SS"</span>
+<span class='no'>sfnbpts</span> <span class='kw'>&lt;-</span> <span class='st'>"TotPts"</span>
+<span class='no'>formul</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"done-no-not_eligible-delete"</span>,
+               <span class='st'>"done-no-not_eligible-deleted-SS"</span>)
+<span class='no'>colorder</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
+                 <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span>)
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span><span class='op'>(</span><span class='va'>ds</span>,
-                        <span class='va'>sf</span>,
-                        <span class='va'>dssite</span>,
-                        <span class='va'>sfsite</span>,
-                        <span class='va'>survey_consent</span>,
-                        <span class='va'>sftarget</span>,
-                        <span class='va'>sfnbpts</span>,
-                        <span class='va'>formul</span>,
-                        <span class='va'>colorder</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
+<span class='no'>log</span> <span class='kw'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span>(<span class='no'>ds</span>,
+                        <span class='no'>sf</span>,
+                        <span class='no'>dssite</span>,
+                        <span class='no'>sfsite</span>,
+                        <span class='no'>survey_consent</span>,
+                        <span class='no'>sftarget</span>,
+                        <span class='no'>sfnbpts</span>,
+                        <span class='no'>formul</span>,
+                        <span class='no'>colorder</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>log</span><span class='kw'>[[</span><span class='fl'>2</span>]],<span class='fl'>10</span>)
 
-<span class='op'>}</span>
-</div></pre>
+}</div><div class='output co'>#&gt; <span class='error'>Error in `[.data.frame`(df, , "delete"): undefined columns selected</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -225,7 +221,7 @@ the columns available are: site, done, final, variance and the ones generated ac
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

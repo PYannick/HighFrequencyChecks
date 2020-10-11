@@ -123,7 +123,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assessmentDuration</span><span class='op'>(</span>ds <span class='op'>=</span> <span class='cn'>NULL</span>, dates <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>assessmentDuration</span>(<span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,10 +142,30 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 
     <p>avg  average time per survey</p>
 <p>tot total time</p>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
-    <p>Yannick Pascaud</p>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>{
+<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='no'>dates</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
 
+<span class='fu'>assessmentDuration</span>(<span class='no'>ds</span>, <span class='no'>dates</span>)
+}</div><div class='output co'>#&gt; [[1]]
+#&gt; NULL
+#&gt; 
+#&gt; [[2]]
+#&gt; NULL
+#&gt; 
+#&gt; [[3]]
+#&gt; [[3]]$avg
+#&gt; [1] 35.89
+#&gt; 
+#&gt; [[3]]$tot
+#&gt; [1] 17872.7
+#&gt; 
+#&gt; 
+#&gt; [[4]]
+#&gt; NULL
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -161,7 +181,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

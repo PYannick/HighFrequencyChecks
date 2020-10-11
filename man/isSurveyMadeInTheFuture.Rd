@@ -41,7 +41,11 @@ reportingcol <- c("enumerator_id","X_uuid")
 delete <- FALSE
 
 
-list_date_mistake4 <- isSurveyMadeInTheFuture(ds, uuid, survey_consent,reportingcol, delete)
+list_date_mistake4 <- isSurveyMadeInTheFuture(ds,
+                                              survey_consent,
+                                              dates,
+                                              reportingcol,
+                                              delete)
 head(list_date_mistake4[[2]], 10)
 }
 }

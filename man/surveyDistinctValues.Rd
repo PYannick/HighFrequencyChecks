@@ -21,12 +21,12 @@ This function provide a report showing the number of distinct values for each fi
 This report can be global (all the surveys) or displayed for each enumerator ID
 }
 \examples{
-                                        {
-df <- HighFrequencyChecks::sample_dataset
+ {
+ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
-log <- surveyDistinctValues(df, enumeratorID, enumeratorcheck)
+log <- surveyDistinctValues(ds, enumeratorID, enumeratorcheck)
 head(log[[2]],10)
 }
 }

@@ -20,7 +20,7 @@ logf  the report
 This function display the percentage of survey refusal per enumerator.
 }
 \examples{
-                                        {
+{
 ds <- HighFrequencyChecks::sample_dataset
 survey_consent <- "survey_consent"
 enumeratorID <- "enumerator_id"
