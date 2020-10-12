@@ -121,12 +121,12 @@
     <p>This function display the number of surveys conducted per day per constent status.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>assessmentDailyValidSurveys</span>(
-  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>surveydate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dateformat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>survey_consent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span>
+  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveydate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dateformat <span class='op'>=</span> <span class='cn'>NULL</span>,
+  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,20 +152,24 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>ret_log  the report</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
-<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='no'>surveydate</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_date"</span>
-<span class='no'>dateformat</span> <span class='kw'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
-<span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='va'>surveydate</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
+<span class='va'>dateformat</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
+<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
-<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span>(<span class='no'>ds</span>,
-                                                           <span class='no'>surveydate</span>,
-                                                           <span class='no'>dateformat</span>,
-                                                           <span class='no'>survey_consent</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>,<span class='fl'>10</span>)
-}</div><div class='output co'>#&gt;    surveydate no not_eligible yes
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                           <span class='va'>surveydate</span>,
+                                                           <span class='va'>dateformat</span>,
+                                                           <span class='va'>survey_consent</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;    surveydate no not_eligible yes
 #&gt; 1  2018-11-11  0            2   6
 #&gt; 2  2018-11-12  2           15  18
 #&gt; 3  2018-11-13  1            6   7
@@ -192,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

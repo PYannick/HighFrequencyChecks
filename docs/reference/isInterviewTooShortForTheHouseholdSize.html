@@ -125,15 +125,15 @@ There is an option to automatically mark for deletion the surveys which are unde
 Warning: If there are uncorrected mistakes in the survey dates, it can lead to have the length of the survey in seconds and this check will not performed well</p>
     </div>
 
-    <pre class="usage"><span class='fu'>isInterviewTooShortForTheHouseholdSize</span>(
-  <span class='kw'>ds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>survey_consent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>HHSize</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>reportingcol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>minduration</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>delete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>isInterviewTooShortForTheHouseholdSize</span><span class='op'>(</span>
+  ds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  HHSize <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
+  minduration <span class='op'>=</span> <span class='fl'>10</span>,
+  delete <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,26 +172,30 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 
     <p>dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
 <p>ret_log  list of the errors found</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>{
-<span class='no'>ds</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>HighFrequencyChecks</span><span class='kw ns'>::</span><span class='no'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='no'>survey_consent</span> <span class='kw'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='no'>HHSize</span> <span class='kw'>&lt;-</span><span class='st'>"consent_received.respondent_info.hh_size"</span>
-<span class='no'>dates</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span>)
-<span class='no'>reportingcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span>)
-<span class='no'>minduration</span> <span class='kw'>&lt;-</span> <span class='fl'>30</span>
-<span class='no'>delete</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>HHSize</span> <span class='op'>&lt;-</span><span class='st'>"consent_received.respondent_info.hh_size"</span>
+<span class='va'>dates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"survey_start"</span>,<span class='st'>"end_survey"</span><span class='op'>)</span>
+<span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
+<span class='va'>minduration</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
+<span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='no'>list</span>[<span class='no'>dst</span>,<span class='no'>ret_log</span>,<span class='no'>var</span>,<span class='no'>graph</span>] <span class='kw'>&lt;-</span> <span class='fu'>isInterviewTooShortForTheHouseholdSize</span>(<span class='no'>ds</span>,
-                                                                      <span class='no'>survey_consent</span>,
-                                                                      <span class='no'>dates</span>,
-                                                                      <span class='no'>HHSize</span>,
-                                                                      <span class='no'>reportingcol</span>,
-                                                                      <span class='no'>minduration</span>,
-                                                                      <span class='no'>delete</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ret_log</span>, <span class='fl'>10</span>)
-}</div><div class='output co'>#&gt;    enumerator_id                               X_uuid HHSize SurveyLength
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewTooShortForTheHouseholdSize</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                                      <span class='va'>survey_consent</span>,
+                                                                      <span class='va'>dates</span>,
+                                                                      <span class='va'>HHSize</span>,
+                                                                      <span class='va'>reportingcol</span>,
+                                                                      <span class='va'>minduration</span>,
+                                                                      <span class='va'>delete</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;    enumerator_id                               X_uuid HHSize SurveyLength
 #&gt; 1             52 4e05b9ee-2fb6-4276-ab73-7675e94f5011      4           64
 #&gt; 2          10052 3c34b46b-96c4-46aa-9d4f-4147527f9042      7           46
 #&gt; 3          10049 b404f0fa-d5ef-4fdf-a217-07509244c1f1      6           61
@@ -217,7 +221,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
