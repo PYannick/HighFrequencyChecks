@@ -74,7 +74,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -165,8 +165,8 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ds same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
-<p>errors  list of the errors found</p>
+    <p>dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
+<p>ret_log  list of the errors found</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -180,10 +180,25 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 <span class='va'>minduration</span> <span class='op'>&lt;-</span> <span class='fl'>30</span>
 <span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewTooShort</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>survey_consent</span>, <span class='va'>dates</span>,  <span class='va'>reportingcol</span>, <span class='va'>minduration</span>, <span class='va'>delete</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewTooShort</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                   <span class='va'>survey_consent</span>,
+                                                   <span class='va'>dates</span>,
+                                                   <span class='va'>reportingcol</span>,
+                                                   <span class='va'>minduration</span>,
+                                                   <span class='va'>delete</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in list[dst, ret_log, var, graph] &lt;- isInterviewTooShort(ds, survey_consent,     dates, reportingcol, minduration, delete): object 'dst' not found</span></div></pre>
+</div><div class='output co'>#&gt;    enumerator_id                               X_uuid SurveyLength
+#&gt; 4          10046 b1634db9-9108-486d-a8f1-5706290b5f7d            1
+#&gt; 7             54 06b1df42-600d-4b51-90c0-1ec06b9c2d13            1
+#&gt; 8          30022 89af7eaf-efa4-4f05-89eb-cae03133258a            1
+#&gt; 10         10046 5222a1b0-75a8-4b99-9ce2-138128f88b73            0
+#&gt; 15            45 92375644-2a47-4e00-963b-5b33cdf12a6b            1
+#&gt; 17            96 28b89222-1869-433d-95c5-47ab81c4c28c            1
+#&gt; 19            73 46fc2ca2-995a-4e8f-a15f-d34e4f674446            0
+#&gt; 21            47 288afd76-f646-4696-b40c-f1d6a6e79c5f            1
+#&gt; 28         30024 30eccbea-4e29-4d32-84a1-1925c4cb3d9a            2
+#&gt; 33         10011 05ac6aaa-675c-4cef-b051-df370c876287            0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -34,10 +34,10 @@
 #' @export isInterviewCompleted
 
 isInterviewCompleted <- function(ds=NULL,
-                                      survey_consent=NULL,
-                                      dates=NULL,
-                                      reportingcol=NULL,
-                                      delete=NULL){
+                                 survey_consent=NULL,
+                                 dates=NULL,
+                                 reportingcol=NULL,
+                                 delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -94,10 +94,10 @@ isInterviewCompleted <- function(ds=NULL,
 #' @export isInterviewWithConsent
 
 isInterviewWithConsent <- function(ds=NULL,
-                                 survey_consent=NULL,
-                                 reportingcol=NULL,
-                                 delete=NULL)
-  {
+                                   survey_consent=NULL,
+                                   reportingcol=NULL,
+                                   delete=NULL)
+{
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -167,13 +167,13 @@ isInterviewWithConsent <- function(ds=NULL,
 #'
 
 isInterviewInTheCorrectSite <- function(adm=NULL,
-                            ds=NULL,
-                            ds_site=NULL,
-                            ds_coord=NULL,
-                            adm_site=NULL,
-                            survey_consent=NULL,
-                            reportingcol=NULL,
-                            correct=NULL){
+                                        ds=NULL,
+                                        ds_site=NULL,
+                                        ds_coord=NULL,
+                                        adm_site=NULL,
+                                        survey_consent=NULL,
+                                        reportingcol=NULL,
+                                        correct=NULL){
   if(is.null(adm) | !isS4(adm) | nrow(adm)==0){
     stop("Please provide the spatial dataset of the boundaries shapefile")
   }
@@ -271,12 +271,12 @@ isInterviewInTheCorrectSite <- function(adm=NULL,
 #' @export isInterviewAtTheSamplePoint
 #'
 isInterviewAtTheSamplePoint <- function(ds=NULL,
-                           pts=NULL,
-                           ds_coord=NULL,
-                           buff=10,
-                           survey_consent=NULL,
-                           reportingcol=NULL,
-                           delete=NULL){
+                                        pts=NULL,
+                                        ds_coord=NULL,
+                                        buff=10,
+                                        survey_consent=NULL,
+                                        reportingcol=NULL,
+                                        delete=NULL){
   if(is.null(pts) | !isS4(pts) | nrow(pts)==0){
     stop("Please provide the spatial dataset of the sample points shapefile")
   }
@@ -383,10 +383,10 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
 
 
 isUniqueIDMissing <- function(ds=NULL,
-                             UniqueID=NULL,
-                             survey_consent=NULL,
-                             reportingcol=NULL,
-                             delete=NULL)
+                              UniqueID=NULL,
+                              survey_consent=NULL,
+                              reportingcol=NULL,
+                              delete=NULL)
 {
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
@@ -452,10 +452,10 @@ isUniqueIDMissing <- function(ds=NULL,
 #' @export isUniqueIDDuplicated
 
 isUniqueIDDuplicated <- function(ds=NULL,
-                            UniqueID=NULL,
-                            survey_consent=NULL,
-                            reportingcol=NULL,
-                            delete=NULL){
+                                 UniqueID=NULL,
+                                 survey_consent=NULL,
+                                 reportingcol=NULL,
+                                 delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -519,10 +519,10 @@ isUniqueIDDuplicated <- function(ds=NULL,
 #' @export isSurveyOnMoreThanADay
 
 isSurveyOnMoreThanADay <- function(ds=NULL,
-                               survey_consent=NULL,
-                               dates=NULL,
-                               reportingcol=NULL,
-                               delete=NULL){
+                                   survey_consent=NULL,
+                                   dates=NULL,
+                                   reportingcol=NULL,
+                                   delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -587,10 +587,10 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 #' @export isSurveyEndBeforeItStarts
 
 isSurveyEndBeforeItStarts <- function(ds=NULL,
-                               survey_consent=NULL,
-                               dates=NULL,
-                               reportingcol=NULL,
-                               delete=NULL){
+                                      survey_consent=NULL,
+                                      dates=NULL,
+                                      reportingcol=NULL,
+                                      delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -661,11 +661,11 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
 
 
 isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
-                               dates = NULL,
-                               survey_consent = NULL,
-                               start_collection = NULL,
-                               reportingcol = NULL,
-                               delete = NULL){
+                                               dates = NULL,
+                                               survey_consent = NULL,
+                                               start_collection = NULL,
+                                               reportingcol = NULL,
+                                               delete = NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -736,10 +736,10 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 
 
 isSurveyMadeInTheFuture <- function(ds=NULL,
-                               survey_consent=NULL,
-                               dates=NULL,
-                               reportingcol=NULL,
-                               delete=NULL){
+                                    survey_consent=NULL,
+                                    dates=NULL,
+                                    reportingcol=NULL,
+                                    delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1275,12 +1275,12 @@ isInterviewTooShort <- function(ds=NULL,
 #' @export isInterviewTooShortForTheHouseholdSize
 
 isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
-                                       survey_consent=NULL,
-                                       dates=NULL,
-                                       HHSize=NULL,
-                                       reportingcol=NULL,
-                                       minduration=10,
-                                       delete=NULL){
+                                                   survey_consent=NULL,
+                                                   dates=NULL,
+                                                   HHSize=NULL,
+                                                   reportingcol=NULL,
+                                                   minduration=10,
+                                                   delete=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1346,9 +1346,9 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #' @export assessmentDurationOutliers
 
 assessmentDurationOutliers <- function(ds=NULL,
-                                    dates=NULL,
-                                    sdval=NULL,
-                                    reportingcol=NULL){
+                                       dates=NULL,
+                                       sdval=NULL,
+                                       reportingcol=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1402,8 +1402,8 @@ assessmentDurationOutliers <- function(ds=NULL,
 
 
 enumeratorSurveysConsent <- function(ds=NULL,
-                          survey_consent=NULL,
-                          enumeratorID=NULL){
+                                     survey_consent=NULL,
+                                     enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1451,8 +1451,8 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' @export enumeratorSurveysDuration
 
 enumeratorSurveysDuration <- function(ds=NULL,
-                           dates=NULL,
-                           enumeratorID=NULL){
+                                      dates=NULL,
+                                      enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1498,8 +1498,8 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' @export enumeratorProductivity
 
 enumeratorProductivity <- function(ds=NULL,
-                            surveydate=NULL,
-                            enumeratorID=NULL){
+                                   surveydate=NULL,
+                                   enumeratorID=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1516,7 +1516,7 @@ enumeratorProductivity <- function(ds=NULL,
     #                                           var = as.name(surveydate)),
     #            total_surveys_done = ~n()) %>%
     summarize(days_worked = length(unique(.data[[ surveydate ]])),
-               total_surveys_done = n()) %>%
+              total_surveys_done = n()) %>%
     mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
   return(list(NULL,logf,NULL,NULL))
 }
@@ -1551,9 +1551,9 @@ enumeratorProductivity <- function(ds=NULL,
 #' @export enumeratorProductivityOutliers
 
 enumeratorProductivityOutliers <- function(ds=NULL,
-                               enumeratorID=NULL,
-                               surveydate=NULL,
-                               sdval=NULL){
+                                           enumeratorID=NULL,
+                                           surveydate=NULL,
+                                           sdval=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1618,9 +1618,9 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #' @export enumeratorIsLazy
 
 enumeratorIsLazy <- function(ds=NULL,
-                                          enumeratorID=NULL,
-                                          questions=NULL,
-                                          minnbanswers=NULL){
+                             enumeratorID=NULL,
+                             questions=NULL,
+                             minnbanswers=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1729,9 +1729,9 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
 #'
 
 assessmentDailyValidSurveys <- function(ds=NULL,
-                             surveydate=NULL,
-                             dateformat=NULL,
-                             survey_consent=NULL){
+                                        surveydate=NULL,
+                                        dateformat=NULL,
+                                        survey_consent=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -1806,14 +1806,14 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #'
 
 assessmentTrackingSheet <- function(ds=NULL,
-                             sf=NULL,
-                             dssite=NULL,
-                             sfsite=NULL,
-                             survey_consent=NULL,
-                             sftarget=NULL,
-                             sfnbpts=NULL,
-                             formul=NULL,
-                             colorder=NULL){
+                                    sf=NULL,
+                                    dssite=NULL,
+                                    sfsite=NULL,
+                                    survey_consent=NULL,
+                                    sftarget=NULL,
+                                    sfnbpts=NULL,
+                                    formul=NULL,
+                                    colorder=NULL){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }

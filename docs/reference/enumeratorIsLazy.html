@@ -73,7 +73,7 @@ This can be useful for select_multiple questions where respondent shall give at 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -153,7 +153,7 @@ This can be useful for select_multiple questions where respondent shall give at 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -166,9 +166,12 @@ This can be useful for select_multiple questions where respondent shall give at 
       <span class='st'>"consent_received.food_security.main_income[.]"</span>,
       <span class='st'>"consent_received.child_protection.boy_risk[.]"</span>,
       <span class='st'>"consent_received.child_protection.girl_risk[.]"</span><span class='op'>)</span>
-<span class='va'>mna</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
+<span class='va'>minnbanswers</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>enumeratorIsLazy</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>enumeratorID</span>, <span class='va'>questions</span>, <span class='va'>mna</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>enumeratorIsLazy</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                <span class='va'>enumeratorID</span>,
+                                                <span class='va'>questions</span>,
+                                                <span class='va'>minnbanswers</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>

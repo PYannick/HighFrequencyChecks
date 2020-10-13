@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -163,10 +163,23 @@
 <span class='va'>dateformat</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
 <span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span><span class='va'>ds</span>, <span class='va'>surveydate</span>, <span class='va'>dateformat</span>, <span class='va'>survey_consent</span> <span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                           <span class='va'>surveydate</span>,
+                                                           <span class='va'>dateformat</span>,
+                                                           <span class='va'>survey_consent</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in ds %&gt;% group_by_(surveydate = surveydate) %&gt;% count(survey_consent): could not find function "%&gt;%"</span></div><div class='input'>
+</div><div class='output co'>#&gt;    surveydate no not_eligible yes
+#&gt; 1  2018-11-11  0            2   6
+#&gt; 2  2018-11-12  2           15  18
+#&gt; 3  2018-11-13  1            6   7
+#&gt; 4  2018-11-14  2           15  54
+#&gt; 5  2018-11-15  2            9  25
+#&gt; 6  2018-11-17  0            7  13
+#&gt; 7  2018-11-18  4            7  30
+#&gt; 8  2018-11-19  0            0  10
+#&gt; 9  2018-11-20  2            6  17
+#&gt; 10 2018-11-22  0            5   4</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

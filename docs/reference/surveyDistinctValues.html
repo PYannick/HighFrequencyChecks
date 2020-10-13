@@ -73,7 +73,7 @@ This report can be global (all the surveys) or displayed for each enumerator ID"
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -144,21 +144,1702 @@ This report can be global (all the surveys) or displayed for each enumerator ID<
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>logf  the report</p>
+    <p>ret_log  the report</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
+    <pre class="examples"><div class='input'><span class='op'>{</span>
+<span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
 <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 <span class='va'>enumeratorcheck</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyDistinctValues</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>enumeratorID</span>, <span class='va'>enumeratorcheck</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyDistinctValues</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                    <span class='va'>enumeratorID</span>,
+                                                    <span class='va'>enumeratorcheck</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div></pre>
+</div><div class='output co'>#&gt;           X.5   instance_name   survey_date   survey_start   enumerator_org  
+#&gt; variables "X.5" "instance_name" "survey_date" "survey_start" "enumerator_org"
+#&gt; nb        "498" "498"           " 18"         "498"          "  2"           
+#&gt;           enumerator_id   upazilla_name   union_name   informed_consent  
+#&gt; variables "enumerator_id" "upazilla_name" "union_name" "informed_consent"
+#&gt; nb        " 65"           "  2"           " 11"        "  0"             
+#&gt;           survey_consent   consent_received.respondent_info.respondent_age  
+#&gt; variables "survey_consent" "consent_received.respondent_info.respondent_age"
+#&gt; nb        "  3"            " 43"                                            
+#&gt;           consent_received.respondent_info.respondent_gender  
+#&gt; variables "consent_received.respondent_info.respondent_gender"
+#&gt; nb        "  3"                                               
+#&gt;           consent_received.respondent_info.hh_head  
+#&gt; variables "consent_received.respondent_info.hh_head"
+#&gt; nb        "  3"                                     
+#&gt;           consent_received.respondent_info.hh_gender  
+#&gt; variables "consent_received.respondent_info.hh_gender"
+#&gt; nb        "  3"                                       
+#&gt;           consent_received.respondent_info.hh_size  
+#&gt; variables "consent_received.respondent_info.hh_size"
+#&gt; nb        " 14"                                     
+#&gt;           consent_received.individual_information.repeat_introduction  
+#&gt; variables "consent_received.individual_information.repeat_introduction"
+#&gt; nb        "  0"                                                        
+#&gt;           consent_received.individual_information.inividual_info_count  
+#&gt; variables "consent_received.individual_information.inividual_info_count"
+#&gt; nb        " 14"                                                         
+#&gt;           consent_received.individual_information.adult_female_count  
+#&gt; variables "consent_received.individual_information.adult_female_count"
+#&gt; nb        "  6"                                                       
+#&gt;           consent_received.individual_information.boy_6_11_count  
+#&gt; variables "consent_received.individual_information.boy_6_11_count"
+#&gt; nb        "  4"                                                   
+#&gt;           consent_received.individual_information.girl_6_11_count  
+#&gt; variables "consent_received.individual_information.girl_6_11_count"
+#&gt; nb        "  4"                                                    
+#&gt;           consent_received.individual_information.boy_12_18_count  
+#&gt; variables "consent_received.individual_information.boy_12_18_count"
+#&gt; nb        "  5"                                                    
+#&gt;           consent_received.individual_information.girl_12_18_count  
+#&gt; variables "consent_received.individual_information.girl_12_18_count"
+#&gt; nb        "  4"                                                     
+#&gt;           consent_received.individual_information.individual_edu_aid_count  
+#&gt; variables "consent_received.individual_information.individual_edu_aid_count"
+#&gt; nb        "  9"                                                             
+#&gt;           consent_received.individual_information.hh_head_number_count  
+#&gt; variables "consent_received.individual_information.hh_head_number_count"
+#&gt; nb        "  3"                                                         
+#&gt;           consent_received.individual_information.hhead_warning  
+#&gt; variables "consent_received.individual_information.hhead_warning"
+#&gt; nb        "  0"                                                  
+#&gt;           consent_received.individual_information.individual_group_end  
+#&gt; variables "consent_received.individual_information.individual_group_end"
+#&gt; nb        "  0"                                                         
+#&gt;           consent_received.wash.primary_watsource  
+#&gt; variables "consent_received.wash.primary_watsource"
+#&gt; nb        "  8"                                    
+#&gt;           consent_received.wash.primary_watsource_other  
+#&gt; variables "consent_received.wash.primary_watsource_other"
+#&gt; nb        "  0"                                          
+#&gt;           consent_received.wash.improved_water_access  
+#&gt; variables "consent_received.wash.improved_water_access"
+#&gt; nb        "  4"                                        
+#&gt;           consent_received.wash.improved_water_access_other  
+#&gt; variables "consent_received.wash.improved_water_access_other"
+#&gt; nb        "  0"                                              
+#&gt;           consent_received.wash.enough_water  
+#&gt; variables "consent_received.wash.enough_water"
+#&gt; nb        "  3"                               
+#&gt;           consent_received.wash.hh_water_problem  
+#&gt; variables "consent_received.wash.hh_water_problem"
+#&gt; nb        "  3"                                   
+#&gt;           consent_received.wash.water_collection_problem  
+#&gt; variables "consent_received.wash.water_collection_problem"
+#&gt; nb        " 37"                                           
+#&gt;           consent_received.wash.water_collection_problem.too_far  
+#&gt; variables "consent_received.wash.water_collection_problem.too_far"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.wash.water_collection_problem.too_steep  
+#&gt; variables "consent_received.wash.water_collection_problem.too_steep"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.wash.water_collection_problem.available_sometime  
+#&gt; variables "consent_received.wash.water_collection_problem.available_sometime"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.wash.water_collection_problem.dangerous  
+#&gt; variables "consent_received.wash.water_collection_problem.dangerous"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.wash.water_collection_problem.tastes_bad  
+#&gt; variables "consent_received.wash.water_collection_problem.tastes_bad"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.wash.water_collection_problem.water_badsmell  
+#&gt; variables "consent_received.wash.water_collection_problem.water_badsmell"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.wash.water_collection_problem.water_notclean  
+#&gt; variables "consent_received.wash.water_collection_problem.water_notclean"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.wash.water_collection_problem.dont_know  
+#&gt; variables "consent_received.wash.water_collection_problem.dont_know"
+#&gt; nb        "  1"                                                     
+#&gt;           consent_received.wash.water_collection_problem.other  
+#&gt; variables "consent_received.wash.water_collection_problem.other"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.wash.water_collection_problem_other  
+#&gt; variables "consent_received.wash.water_collection_problem_other"
+#&gt; nb        "  3"                                                 
+#&gt;           consent_received.wash.water_source_time  
+#&gt; variables "consent_received.wash.water_source_time"
+#&gt; nb        "  7"                                    
+#&gt;           consent_received.wash.water_collection_time  
+#&gt; variables "consent_received.wash.water_collection_time"
+#&gt; nb        "  7"                                        
+#&gt;           consent_received.wash.water_treatment  
+#&gt; variables "consent_received.wash.water_treatment"
+#&gt; nb        "  3"                                  
+#&gt;           consent_received.wash.water_treatment_time  
+#&gt; variables "consent_received.wash.water_treatment_time"
+#&gt; nb        "  4"                                       
+#&gt;           consent_received.wash.water_treatment_method  
+#&gt; variables "consent_received.wash.water_treatment_method"
+#&gt; nb        "  8"                                         
+#&gt;           consent_received.wash.water_treatment_method.aquatabs  
+#&gt; variables "consent_received.wash.water_treatment_method.aquatabs"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.wash.water_treatment_method.pur_sachets  
+#&gt; variables "consent_received.wash.water_treatment_method.pur_sachets"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.wash.water_treatment_method.boiling  
+#&gt; variables "consent_received.wash.water_treatment_method.boiling"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.wash.water_treatment_method.cloth_filters  
+#&gt; variables "consent_received.wash.water_treatment_method.cloth_filters"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.wash.water_treatment_method.household_filters  
+#&gt; variables "consent_received.wash.water_treatment_method.household_filters"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.wash.water_treatment_method.solar_disinfection  
+#&gt; variables "consent_received.wash.water_treatment_method.solar_disinfection"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.wash.water_treatment_method.other  
+#&gt; variables "consent_received.wash.water_treatment_method.other"
+#&gt; nb        "  1"                                               
+#&gt;           consent_received.wash.water_treatment_method_other  
+#&gt; variables "consent_received.wash.water_treatment_method_other"
+#&gt; nb        "  0"                                               
+#&gt;           consent_received.wash.soap_handwash  
+#&gt; variables "consent_received.wash.soap_handwash"
+#&gt; nb        "  4"                                
+#&gt;           consent_received.wash.hh_defecation  
+#&gt; variables "consent_received.wash.hh_defecation"
+#&gt; nb        "  4"                                
+#&gt;           consent_received.wash.hh_defecation_other  
+#&gt; variables "consent_received.wash.hh_defecation_other"
+#&gt; nb        "  0"                                      
+#&gt;           consent_received.wash.latrine_access  
+#&gt; variables "consent_received.wash.latrine_access"
+#&gt; nb        "  3"                                 
+#&gt;           consent_received.wash.latrine_access_problems  
+#&gt; variables "consent_received.wash.latrine_access_problems"
+#&gt; nb        " 77"                                          
+#&gt;           consent_received.wash.latrine_access_problems.latrine_too_far  
+#&gt; variables "consent_received.wash.latrine_access_problems.latrine_too_far"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.wash.latrine_access_problems.too_many_using  
+#&gt; variables "consent_received.wash.latrine_access_problems.too_many_using"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.wash.latrine_access_problems.latrine_notclean  
+#&gt; variables "consent_received.wash.latrine_access_problems.latrine_notclean"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.wash.latrine_access_problems.insufficient_water  
+#&gt; variables "consent_received.wash.latrine_access_problems.insufficient_water"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.wash.latrine_access_problems.bad_smell  
+#&gt; variables "consent_received.wash.latrine_access_problems.bad_smell"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.wash.latrine_access_problems.open_defecation_near_lat  
+#&gt; variables "consent_received.wash.latrine_access_problems.open_defecation_near_lat"
+#&gt; nb        "  2"                                                                   
+#&gt;           consent_received.wash.latrine_access_problems.not_private  
+#&gt; variables "consent_received.wash.latrine_access_problems.not_private"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.wash.latrine_access_problems.no_separation  
+#&gt; variables "consent_received.wash.latrine_access_problems.no_separation"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.wash.latrine_access_problems.route_not_safe  
+#&gt; variables "consent_received.wash.latrine_access_problems.route_not_safe"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.wash.latrine_access_problems.latrine_not_safe  
+#&gt; variables "consent_received.wash.latrine_access_problems.latrine_not_safe"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.wash.latrine_access_problems.no_lighting  
+#&gt; variables "consent_received.wash.latrine_access_problems.no_lighting"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.wash.latrine_access_problems.dont_know  
+#&gt; variables "consent_received.wash.latrine_access_problems.dont_know"
+#&gt; nb        "  1"                                                    
+#&gt;           consent_received.wash.latrine_access_problems.other  
+#&gt; variables "consent_received.wash.latrine_access_problems.other"
+#&gt; nb        "  1"                                                
+#&gt;           consent_received.wash.latrine_access_problems_other  
+#&gt; variables "consent_received.wash.latrine_access_problems_other"
+#&gt; nb        "  0"                                                
+#&gt;           consent_received.wash.handwash_times  
+#&gt; variables "consent_received.wash.handwash_times"
+#&gt; nb        "187"                                 
+#&gt;           consent_received.wash.handwash_times.before_eating  
+#&gt; variables "consent_received.wash.handwash_times.before_eating"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.wash.handwash_times.before_cooking  
+#&gt; variables "consent_received.wash.handwash_times.before_cooking"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.wash.handwash_times.after_defecation  
+#&gt; variables "consent_received.wash.handwash_times.after_defecation"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.wash.handwash_times.before_breastfeeding  
+#&gt; variables "consent_received.wash.handwash_times.before_breastfeeding"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.wash.handwash_times.before_feeding_chid  
+#&gt; variables "consent_received.wash.handwash_times.before_feeding_chid"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.wash.handwash_times.after_child_bottom  
+#&gt; variables "consent_received.wash.handwash_times.after_child_bottom"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.wash.handwash_times.before_prayer  
+#&gt; variables "consent_received.wash.handwash_times.before_prayer"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.wash.handwash_times.hands_look_dirty  
+#&gt; variables "consent_received.wash.handwash_times.hands_look_dirty"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.wash.handwash_times.hands_feel_dirty  
+#&gt; variables "consent_received.wash.handwash_times.hands_feel_dirty"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.wash.handwash_times.other  
+#&gt; variables "consent_received.wash.handwash_times.other"
+#&gt; nb        "  1"                                       
+#&gt;           consent_received.wash.handwash_times.dntknow_prefer  
+#&gt; variables "consent_received.wash.handwash_times.dntknow_prefer"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.wash.handwash_times.after_eating  
+#&gt; variables "consent_received.wash.handwash_times.after_eating"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.wash.handwash_times_other  
+#&gt; variables "consent_received.wash.handwash_times_other"
+#&gt; nb        "  0"                                       
+#&gt;           consent_received.wash.visible_trash  
+#&gt; variables "consent_received.wash.visible_trash"
+#&gt; nb        "  3"                                
+#&gt;           consent_received.wash.visible_faeces  
+#&gt; variables "consent_received.wash.visible_faeces"
+#&gt; nb        "  4"                                 
+#&gt;           consent_received.wash.visible_waste  
+#&gt; variables "consent_received.wash.visible_waste"
+#&gt; nb        "  3"                                
+#&gt;           consent_received.shelter_nfi.hh_roof_material  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material"
+#&gt; nb        " 36"                                          
+#&gt;           consent_received.shelter_nfi.hh_roof_material.tin  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.tin"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.shelter_nfi.hh_roof_material.tarpaulin  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.tarpaulin"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.shelter_nfi.hh_roof_material.hay  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.hay"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.shelter_nfi.hh_roof_material.brick_cemen  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.brick_cemen"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.shelter_nfi.hh_roof_material.bamboo  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.bamboo"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.hh_roof_material.wood  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.wood"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.shelter_nfi.hh_roof_material.other  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material.other"
+#&gt; nb        "  1"                                                
+#&gt;           consent_received.shelter_nfi.hh_roof_material_other  
+#&gt; variables "consent_received.shelter_nfi.hh_roof_material_other"
+#&gt; nb        "  0"                                                
+#&gt;           consent_received.shelter_nfi.hh_wall_material  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material"
+#&gt; nb        " 30"                                          
+#&gt;           consent_received.shelter_nfi.hh_wall_material.bricks  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.bricks"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.hh_wall_material.clay  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.clay"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.shelter_nfi.hh_wall_material.bamboo  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.bamboo"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.hh_wall_material.cement  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.cement"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.hh_wall_material.tarpaulin  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.tarpaulin"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.shelter_nfi.hh_wall_material.wood  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.wood"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.shelter_nfi.hh_wall_material.tin  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.tin"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.shelter_nfi.hh_wall_material.other  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material.other"
+#&gt; nb        "  1"                                                
+#&gt;           consent_received.shelter_nfi.hh_wall_material_other  
+#&gt; variables "consent_received.shelter_nfi.hh_wall_material_other"
+#&gt; nb        "  0"                                                
+#&gt;           consent_received.shelter_nfi.hh_floor_material  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material"
+#&gt; nb        " 11"                                           
+#&gt;           consent_received.shelter_nfi.hh_floor_material.bricks  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material.bricks"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.shelter_nfi.hh_floor_material.cement  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material.cement"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.shelter_nfi.hh_floor_material.wood  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material.wood"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.shelter_nfi.hh_floor_material.dirt  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material.dirt"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.shelter_nfi.hh_floor_material.other  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material.other"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.shelter_nfi.hh_floor_material_other  
+#&gt; variables "consent_received.shelter_nfi.hh_floor_material_other"
+#&gt; nb        "  0"                                                 
+#&gt;           consent_received.shelter_nfi.solar_light  
+#&gt; variables "consent_received.shelter_nfi.solar_light"
+#&gt; nb        "  3"                                     
+#&gt;           consent_received.shelter_nfi.electricity_grid  
+#&gt; variables "consent_received.shelter_nfi.electricity_grid"
+#&gt; nb        "  3"                                          
+#&gt;           consent_received.shelter_nfi.hh_electricity_access  
+#&gt; variables "consent_received.shelter_nfi.hh_electricity_access"
+#&gt; nb        "  3"                                               
+#&gt;           consent_received.shelter_nfi.hh_cyclone_training  
+#&gt; variables "consent_received.shelter_nfi.hh_cyclone_training"
+#&gt; nb        "  3"                                             
+#&gt;           consent_received.shelter_nfi.hh_flood_training  
+#&gt; variables "consent_received.shelter_nfi.hh_flood_training"
+#&gt; nb        "  3"                                           
+#&gt;           consent_received.shelter_nfi.non_food_items  
+#&gt; variables "consent_received.shelter_nfi.non_food_items"
+#&gt; nb        "172"                                        
+#&gt;           consent_received.shelter_nfi.non_food_items.solar_lamp  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.solar_lamp"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.shelter_nfi.non_food_items.portable_torch  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.portable_torch"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.shelter_nfi.non_food_items.kitchen_set  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.kitchen_set"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.shelter_nfi.non_food_items.floor_mat  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.floor_mat"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.shelter_nfi.non_food_items.cooking_stove  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.cooking_stove"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.shelter_nfi.non_food_items.blanket  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.blanket"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.shelter_nfi.non_food_items.mosquito_net  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.mosquito_net"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.shelter_nfi.non_food_items.children_clothes  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.children_clothes"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.shelter_nfi.non_food_items.male_clothes  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.male_clothes"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.shelter_nfi.non_food_items.female_clothes  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.female_clothes"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.shelter_nfi.non_food_items.radio  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.radio"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.shelter_nfi.non_food_items.umbrella  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.umbrella"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.non_food_items.fuel  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.fuel"
+#&gt; nb        "  2"                                             
+#&gt;           consent_received.shelter_nfi.non_food_items.other  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.other"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.shelter_nfi.non_food_items.latrine_bathroom  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.latrine_bathroom"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.shelter_nfi.non_food_items.tubewell  
+#&gt; variables "consent_received.shelter_nfi.non_food_items.tubewell"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.shelter_nfi.non_food_items_other  
+#&gt; variables "consent_received.shelter_nfi.non_food_items_other"
+#&gt; nb        " 29"                                              
+#&gt;           consent_received.shelter_nfi.cooking_fuel  
+#&gt; variables "consent_received.shelter_nfi.cooking_fuel"
+#&gt; nb        "  5"                                      
+#&gt;           consent_received.shelter_nfi.cooking_fuel_other  
+#&gt; variables "consent_received.shelter_nfi.cooking_fuel_other"
+#&gt; nb        "  0"                                            
+#&gt;           consent_received.shelter_nfi.house_land_ownership  
+#&gt; variables "consent_received.shelter_nfi.house_land_ownership"
+#&gt; nb        "  4"                                              
+#&gt;           consent_received.shelter_nfi.house_land_ownership_other  
+#&gt; variables "consent_received.shelter_nfi.house_land_ownership_other"
+#&gt; nb        "  0"                                                    
+#&gt;           consent_received.shelter_nfi.land_house_deed  
+#&gt; variables "consent_received.shelter_nfi.land_house_deed"
+#&gt; nb        "  4"                                         
+#&gt;           consent_received.shelter_nfi.rent_hosted  
+#&gt; variables "consent_received.shelter_nfi.rent_hosted"
+#&gt; nb        "  3"                                     
+#&gt;           consent_received.shelter_nfi.hh_agreement  
+#&gt; variables "consent_received.shelter_nfi.hh_agreement"
+#&gt; nb        "  3"                                      
+#&gt;           consent_received.shelter_nfi.eviction  
+#&gt; variables "consent_received.shelter_nfi.eviction"
+#&gt; nb        "  3"                                  
+#&gt;           consent_received.ppi.hh_rooms   consent_received.ppi.hh_television  
+#&gt; variables "consent_received.ppi.hh_rooms" "consent_received.ppi.hh_television"
+#&gt; nb        "  4"                           "  3"                               
+#&gt;           consent_received.ppi.hh_fans   consent_received.ppi.hh_phones  
+#&gt; variables "consent_received.ppi.hh_fans" "consent_received.ppi.hh_phones"
+#&gt; nb        "  4"                          "  4"                           
+#&gt;           consent_received.ppi.hh_vehicle   consent_received.ppi.hh_agri_land  
+#&gt; variables "consent_received.ppi.hh_vehicle" "consent_received.ppi.hh_agri_land"
+#&gt; nb        "  3"                             "  3"                              
+#&gt;           consent_received.food_security.food_crisis  
+#&gt; variables "consent_received.food_security.food_crisis"
+#&gt; nb        "  0"                                       
+#&gt;           consent_received.food_security.less_preferred_expensive  
+#&gt; variables "consent_received.food_security.less_preferred_expensive"
+#&gt; nb        "  8"                                                    
+#&gt;           consent_received.food_security.borrowed_food  
+#&gt; variables "consent_received.food_security.borrowed_food"
+#&gt; nb        "  8"                                         
+#&gt;           consent_received.food_security.limit_portion_size  
+#&gt; variables "consent_received.food_security.limit_portion_size"
+#&gt; nb        "  8"                                              
+#&gt;           consent_received.food_security.restrict_consumption  
+#&gt; variables "consent_received.food_security.restrict_consumption"
+#&gt; nb        "  8"                                                
+#&gt;           consent_received.food_security.reduce_meal_numbers  
+#&gt; variables "consent_received.food_security.reduce_meal_numbers"
+#&gt; nb        "  7"                                               
+#&gt;           consent_received.food_security.eat_elsewhere  
+#&gt; variables "consent_received.food_security.eat_elsewhere"
+#&gt; nb        "  7"                                         
+#&gt;           consent_received.food_security.women_eat_less  
+#&gt; variables "consent_received.food_security.women_eat_less"
+#&gt; nb        "  8"                                          
+#&gt;           consent_received.food_security.men_eat_less  
+#&gt; variables "consent_received.food_security.men_eat_less"
+#&gt; nb        "  8"                                        
+#&gt;           consent_received.food_security.nofood_wholeday  
+#&gt; variables "consent_received.food_security.nofood_wholeday"
+#&gt; nb        "  4"                                           
+#&gt;           consent_received.food_security.food_list  
+#&gt; variables "consent_received.food_security.food_list"
+#&gt; nb        "  0"                                     
+#&gt;           consent_received.food_security.cereals_tubers  
+#&gt; variables "consent_received.food_security.cereals_tubers"
+#&gt; nb        "  8"                                          
+#&gt;           consent_received.food_security.pulses_nuts_seeds  
+#&gt; variables "consent_received.food_security.pulses_nuts_seeds"
+#&gt; nb        "  8"                                             
+#&gt;           consent_received.food_security.vegetables  
+#&gt; variables "consent_received.food_security.vegetables"
+#&gt; nb        "  8"                                      
+#&gt;           consent_received.food_security.fruits  
+#&gt; variables "consent_received.food_security.fruits"
+#&gt; nb        "  8"                                  
+#&gt;           consent_received.food_security.dairy  
+#&gt; variables "consent_received.food_security.dairy"
+#&gt; nb        "  8"                                 
+#&gt;           consent_received.food_security.meat_fish  
+#&gt; variables "consent_received.food_security.meat_fish"
+#&gt; nb        "  8"                                     
+#&gt;           consent_received.food_security.oil_fats  
+#&gt; variables "consent_received.food_security.oil_fats"
+#&gt; nb        "  8"                                    
+#&gt;           consent_received.food_security.sweets  
+#&gt; variables "consent_received.food_security.sweets"
+#&gt; nb        "  8"                                  
+#&gt;           consent_received.food_security.spices_condiments  
+#&gt; variables "consent_received.food_security.spices_condiments"
+#&gt; nb        "  8"                                             
+#&gt;           consent_received.food_security.market_access  
+#&gt; variables "consent_received.food_security.market_access"
+#&gt; nb        "  3"                                         
+#&gt;           consent_received.food_security.market_travel_time  
+#&gt; variables "consent_received.food_security.market_travel_time"
+#&gt; nb        "  5"                                              
+#&gt;           consent_received.food_security.main_source_food  
+#&gt; variables "consent_received.food_security.main_source_food"
+#&gt; nb        "  6"                                            
+#&gt;           consent_received.food_security.main_source_food_other  
+#&gt; variables "consent_received.food_security.main_source_food_other"
+#&gt; nb        "  0"                                                  
+#&gt;           consent_received.food_security.food_hh_sustain  
+#&gt; variables "consent_received.food_security.food_hh_sustain"
+#&gt; nb        "  6"                                           
+#&gt;           consent_received.food_security.main_income  
+#&gt; variables "consent_received.food_security.main_income"
+#&gt; nb        "122"                                       
+#&gt;           consent_received.food_security.main_income.non_agricultural  
+#&gt; variables "consent_received.food_security.main_income.non_agricultural"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.food_security.main_income.agricultural  
+#&gt; variables "consent_received.food_security.main_income.agricultural"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.food_security.main_income.domestic  
+#&gt; variables "consent_received.food_security.main_income.domestic"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.food_security.main_income.petty_trade  
+#&gt; variables "consent_received.food_security.main_income.petty_trade"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.food_security.main_income.small_business  
+#&gt; variables "consent_received.food_security.main_income.small_business"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.food_security.main_income.large_business  
+#&gt; variables "consent_received.food_security.main_income.large_business"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.food_security.main_income.skilled_labour  
+#&gt; variables "consent_received.food_security.main_income.skilled_labour"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.food_security.main_income.fishing  
+#&gt; variables "consent_received.food_security.main_income.fishing"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.food_security.main_income.remittances  
+#&gt; variables "consent_received.food_security.main_income.remittances"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.food_security.main_income.handicrafts  
+#&gt; variables "consent_received.food_security.main_income.handicrafts"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.food_security.main_income.agricultural_production_sale  
+#&gt; variables "consent_received.food_security.main_income.agricultural_production_sale"
+#&gt; nb        "  2"                                                                    
+#&gt;           consent_received.food_security.main_income.livestock_rearing  
+#&gt; variables "consent_received.food_security.main_income.livestock_rearing"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.food_security.main_income.savings  
+#&gt; variables "consent_received.food_security.main_income.savings"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.food_security.main_income.begging  
+#&gt; variables "consent_received.food_security.main_income.begging"
+#&gt; nb        "  1"                                               
+#&gt;           consent_received.food_security.main_income.food  
+#&gt; variables "consent_received.food_security.main_income.food"
+#&gt; nb        "  1"                                            
+#&gt;           consent_received.food_security.main_income.other_cash_assistance  
+#&gt; variables "consent_received.food_security.main_income.other_cash_assistance"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.food_security.main_income.sale_assistance  
+#&gt; variables "consent_received.food_security.main_income.sale_assistance"
+#&gt; nb        "  1"                                                       
+#&gt;           consent_received.food_security.main_income.assistance_relative_friends  
+#&gt; variables "consent_received.food_security.main_income.assistance_relative_friends"
+#&gt; nb        "  2"                                                                   
+#&gt;           consent_received.food_security.main_income.gather_sell_firewood  
+#&gt; variables "consent_received.food_security.main_income.gather_sell_firewood"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.food_security.main_income.zakat  
+#&gt; variables "consent_received.food_security.main_income.zakat"
+#&gt; nb        "  1"                                             
+#&gt;           consent_received.food_security.main_income.other  
+#&gt; variables "consent_received.food_security.main_income.other"
+#&gt; nb        "  1"                                             
+#&gt;           consent_received.food_security.main_income.none  
+#&gt; variables "consent_received.food_security.main_income.none"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.food_security.main_income_other  
+#&gt; variables "consent_received.food_security.main_income_other"
+#&gt; nb        "  0"                                             
+#&gt;           consent_received.food_security.hh_econ_status  
+#&gt; variables "consent_received.food_security.hh_econ_status"
+#&gt; nb        "  6"                                          
+#&gt;           consent_received.food_security.hh_living_standard  
+#&gt; variables "consent_received.food_security.hh_living_standard"
+#&gt; nb        "  6"                                              
+#&gt;           consent_received.food_security.hh_spending  
+#&gt; variables "consent_received.food_security.hh_spending"
+#&gt; nb        "  0"                                       
+#&gt;           consent_received.food_security.spend_food  
+#&gt; variables "consent_received.food_security.spend_food"
+#&gt; nb        " 27"                                      
+#&gt;           consent_received.food_security.spend_medication  
+#&gt; variables "consent_received.food_security.spend_medication"
+#&gt; nb        " 42"                                            
+#&gt;           consent_received.food_security.spend_education  
+#&gt; variables "consent_received.food_security.spend_education"
+#&gt; nb        " 36"                                           
+#&gt;           consent_received.food_security.spend_fix_shelter  
+#&gt; variables "consent_received.food_security.spend_fix_shelter"
+#&gt; nb        " 21"                                             
+#&gt;           consent_received.food_security.spend_clothing  
+#&gt; variables "consent_received.food_security.spend_clothing"
+#&gt; nb        " 35"                                          
+#&gt;           consent_received.food_security.spend_hygiene  
+#&gt; variables "consent_received.food_security.spend_hygiene"
+#&gt; nb        " 24"                                         
+#&gt;           consent_received.food_security.spend_fuel  
+#&gt; variables "consent_received.food_security.spend_fuel"
+#&gt; nb        " 32"                                      
+#&gt;           consent_received.food_security.spend_hh_items  
+#&gt; variables "consent_received.food_security.spend_hh_items"
+#&gt; nb        " 23"                                          
+#&gt;           consent_received.food_security.spend_transport  
+#&gt; variables "consent_received.food_security.spend_transport"
+#&gt; nb        " 34"                                           
+#&gt;           consent_received.food_security.spend_communication  
+#&gt; variables "consent_received.food_security.spend_communication"
+#&gt; nb        " 27"                                               
+#&gt;           consent_received.food_security.spend_tobacco  
+#&gt; variables "consent_received.food_security.spend_tobacco"
+#&gt; nb        " 26"                                         
+#&gt;           consent_received.food_security.spend_rent  
+#&gt; variables "consent_received.food_security.spend_rent"
+#&gt; nb        "  7"                                      
+#&gt;           consent_received.food_security.spend_debts  
+#&gt; variables "consent_received.food_security.spend_debts"
+#&gt; nb        " 27"                                       
+#&gt;           consent_received.food_security.spend_other  
+#&gt; variables "consent_received.food_security.spend_other"
+#&gt; nb        " 23"                                       
+#&gt;           consent_received.food_security.work_outside_country  
+#&gt; variables "consent_received.food_security.work_outside_country"
+#&gt; nb        "  4"                                                
+#&gt;           consent_received.food_security.study_outside_country  
+#&gt; variables "consent_received.food_security.study_outside_country"
+#&gt; nb        "  4"                                                 
+#&gt;           consent_received.food_security.marry_outside_country  
+#&gt; variables "consent_received.food_security.marry_outside_country"
+#&gt; nb        "  4"                                                 
+#&gt;           consent_received.food_security.return_outside_country  
+#&gt; variables "consent_received.food_security.return_outside_country"
+#&gt; nb        "  4"                                                  
+#&gt;           consent_received.food_security.forced_work_outside_country  
+#&gt; variables "consent_received.food_security.forced_work_outside_country"
+#&gt; nb        "  4"                                                       
+#&gt;           consent_received.food_security.never_heard_back  
+#&gt; variables "consent_received.food_security.never_heard_back"
+#&gt; nb        "  4"                                            
+#&gt;           consent_received.health.health_access  
+#&gt; variables "consent_received.health.health_access"
+#&gt; nb        "  3"                                  
+#&gt;           consent_received.health.health_access_barriers  
+#&gt; variables "consent_received.health.health_access_barriers"
+#&gt; nb        " 42"                                           
+#&gt;           consent_received.health.health_access_barriers.health_facility_too_far  
+#&gt; variables "consent_received.health.health_access_barriers.health_facility_too_far"
+#&gt; nb        "  2"                                                                   
+#&gt;           consent_received.health.health_access_barriers.infrequent_services  
+#&gt; variables "consent_received.health.health_access_barriers.infrequent_services"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.health.health_access_barriers.treatment_unavailable  
+#&gt; variables "consent_received.health.health_access_barriers.treatment_unavailable"
+#&gt; nb        "  2"                                                                 
+#&gt;           consent_received.health.health_access_barriers.overcrowded_services  
+#&gt; variables "consent_received.health.health_access_barriers.overcrowded_services"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.health.health_access_barriers.insufficient_poorquality_staff  
+#&gt; variables "consent_received.health.health_access_barriers.insufficient_poorquality_staff"
+#&gt; nb        "  2"                                                                          
+#&gt;           consent_received.health.health_access_barriers.not_adequate_material  
+#&gt; variables "consent_received.health.health_access_barriers.not_adequate_material"
+#&gt; nb        "  2"                                                                 
+#&gt;           consent_received.health.health_access_barriers.dont_know_to_go  
+#&gt; variables "consent_received.health.health_access_barriers.dont_know_to_go"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.health.health_access_barriers.safety_concerns  
+#&gt; variables "consent_received.health.health_access_barriers.safety_concerns"
+#&gt; nb        "  1"                                                           
+#&gt;           consent_received.health.health_access_barriers.too_expensive  
+#&gt; variables "consent_received.health.health_access_barriers.too_expensive"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.health.health_access_barriers.dont_trust_doctors  
+#&gt; variables "consent_received.health.health_access_barriers.dont_trust_doctors"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.health.health_access_barriers.face_discrimination  
+#&gt; variables "consent_received.health.health_access_barriers.face_discrimination"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.health.health_access_barriers.other  
+#&gt; variables "consent_received.health.health_access_barriers.other"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.health.health_access_barriers_other  
+#&gt; variables "consent_received.health.health_access_barriers_other"
+#&gt; nb        "  0"                                                 
+#&gt;           consent_received.health.new_health_facility  
+#&gt; variables "consent_received.health.new_health_facility"
+#&gt; nb        "  4"                                        
+#&gt;           consent_received.health.no_access_new_facility  
+#&gt; variables "consent_received.health.no_access_new_facility"
+#&gt; nb        " 20"                                           
+#&gt;           consent_received.health.no_access_new_facility.dont_know_about_services  
+#&gt; variables "consent_received.health.no_access_new_facility.dont_know_about_services"
+#&gt; nb        "  2"                                                                    
+#&gt;           consent_received.health.no_access_new_facility.services_too_far  
+#&gt; variables "consent_received.health.no_access_new_facility.services_too_far"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.health.no_access_new_facility.servicesare_not_for_hc  
+#&gt; variables "consent_received.health.no_access_new_facility.servicesare_not_for_hc"
+#&gt; nb        "  2"                                                                  
+#&gt;           consent_received.health.no_access_new_facility.prefer_services_already_exist  
+#&gt; variables "consent_received.health.no_access_new_facility.prefer_services_already_exist"
+#&gt; nb        "  2"                                                                         
+#&gt;           consent_received.health.no_access_new_facility.other  
+#&gt; variables "consent_received.health.no_access_new_facility.other"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.health.no_access_new_facility_other  
+#&gt; variables "consent_received.health.no_access_new_facility_other"
+#&gt; nb        "  0"                                                 
+#&gt;           consent_received.health.comm_health_worker  
+#&gt; variables "consent_received.health.comm_health_worker"
+#&gt; nb        "  4"                                       
+#&gt;           consent_received.health.lactating_women  
+#&gt; variables "consent_received.health.lactating_women"
+#&gt; nb        "  3"                                    
+#&gt;           consent_received.health.pregnant_women  
+#&gt; variables "consent_received.health.pregnant_women"
+#&gt; nb        "  2"                                   
+#&gt;           consent_received.health.clinic_visit_pregnancy  
+#&gt; variables "consent_received.health.clinic_visit_pregnancy"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.health.hh_marriage_person  
+#&gt; variables "consent_received.health.hh_marriage_person"
+#&gt; nb        "  3"                                       
+#&gt;           consent_received.health.women_breastfeed_problem  
+#&gt; variables "consent_received.health.women_breastfeed_problem"
+#&gt; nb        " 27"                                             
+#&gt;           consent_received.health.women_breastfeed_problem.doctors  
+#&gt; variables "consent_received.health.women_breastfeed_problem.doctors"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.health.women_breastfeed_problem.midwife_nurse  
+#&gt; variables "consent_received.health.women_breastfeed_problem.midwife_nurse"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.health.women_breastfeed_problem.older_relatives  
+#&gt; variables "consent_received.health.women_breastfeed_problem.older_relatives"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.health.women_breastfeed_problem.traditional_healer  
+#&gt; variables "consent_received.health.women_breastfeed_problem.traditional_healer"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.health.women_breastfeed_problem.other_mothers  
+#&gt; variables "consent_received.health.women_breastfeed_problem.other_mothers"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.health.women_breastfeed_problem.friends  
+#&gt; variables "consent_received.health.women_breastfeed_problem.friends"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.health.women_breastfeed_problem.others  
+#&gt; variables "consent_received.health.women_breastfeed_problem.others"
+#&gt; nb        "  1"                                                    
+#&gt;           consent_received.health.women_breastfeed_problem.wouldnt_seek_help  
+#&gt; variables "consent_received.health.women_breastfeed_problem.wouldnt_seek_help"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.health.women_breastfeed_problem.not_applicable  
+#&gt; variables "consent_received.health.women_breastfeed_problem.not_applicable"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.health.women_breastfeed_problem.dont_know  
+#&gt; variables "consent_received.health.women_breastfeed_problem.dont_know"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.health.women_breastfeed_problem_other  
+#&gt; variables "consent_received.health.women_breastfeed_problem_other"
+#&gt; nb        "  0"                                                   
+#&gt;           consent_received.education.boy_prim_edu_barrier  
+#&gt; variables "consent_received.education.boy_prim_edu_barrier"
+#&gt; nb        "  3"                                            
+#&gt;           consent_received.education.boy_edu_barrier  
+#&gt; variables "consent_received.education.boy_edu_barrier"
+#&gt; nb        "  8"                                       
+#&gt;           consent_received.education.boy_edu_barrier.facillities_too_far  
+#&gt; variables "consent_received.education.boy_edu_barrier.facillities_too_far"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.education.boy_edu_barrier.safety_concerns_way_facilities  
+#&gt; variables "consent_received.education.boy_edu_barrier.safety_concerns_way_facilities"
+#&gt; nb        "  2"                                                                      
+#&gt;           consent_received.education.boy_edu_barrier.services_too_expensive  
+#&gt; variables "consent_received.education.boy_edu_barrier.services_too_expensive"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.education.boy_edu_barrier.services_too_crowded  
+#&gt; variables "consent_received.education.boy_edu_barrier.services_too_crowded"
+#&gt; nb        "  1"                                                            
+#&gt;           consent_received.education.boy_edu_barrier.insufficient_poorquality_staff  
+#&gt; variables "consent_received.education.boy_edu_barrier.insufficient_poorquality_staff"
+#&gt; nb        "  1"                                                                      
+#&gt;           consent_received.education.boy_edu_barrier.school_not_adequate_infra  
+#&gt; variables "consent_received.education.boy_edu_barrier.school_not_adequate_infra"
+#&gt; nb        "  1"                                                                 
+#&gt;           consent_received.education.boy_edu_barrier.school_not_adequate_material  
+#&gt; variables "consent_received.education.boy_edu_barrier.school_not_adequate_material"
+#&gt; nb        "  2"                                                                    
+#&gt;           consent_received.education.boy_edu_barrier.face_discrimination  
+#&gt; variables "consent_received.education.boy_edu_barrier.face_discrimination"
+#&gt; nb        "  1"                                                           
+#&gt;           consent_received.education.boy_edu_barrier.children_support_family  
+#&gt; variables "consent_received.education.boy_edu_barrier.children_support_family"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.education.boy_edu_barrier.parents_think_not_appropriate  
+#&gt; variables "consent_received.education.boy_edu_barrier.parents_think_not_appropriate"
+#&gt; nb        "  1"                                                                     
+#&gt;           consent_received.education.boy_edu_barrier.other  
+#&gt; variables "consent_received.education.boy_edu_barrier.other"
+#&gt; nb        "  1"                                             
+#&gt;           consent_received.education.boy_edu_barrier.dont_know  
+#&gt; variables "consent_received.education.boy_edu_barrier.dont_know"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.education.boy_edu_barrier_other  
+#&gt; variables "consent_received.education.boy_edu_barrier_other"
+#&gt; nb        "  0"                                             
+#&gt;           consent_received.education.girl_prim_edu_barrier  
+#&gt; variables "consent_received.education.girl_prim_edu_barrier"
+#&gt; nb        "  3"                                             
+#&gt;           consent_received.education.girl_edu_barrier  
+#&gt; variables "consent_received.education.girl_edu_barrier"
+#&gt; nb        "  9"                                        
+#&gt;           consent_received.education.girl_edu_barrier.facillities_too_far  
+#&gt; variables "consent_received.education.girl_edu_barrier.facillities_too_far"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.education.girl_edu_barrier.safety_concerns_way_facilities  
+#&gt; variables "consent_received.education.girl_edu_barrier.safety_concerns_way_facilities"
+#&gt; nb        "  2"                                                                       
+#&gt;           consent_received.education.girl_edu_barrier.services_too_expensive  
+#&gt; variables "consent_received.education.girl_edu_barrier.services_too_expensive"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.education.girl_edu_barrier.services_too_crowded  
+#&gt; variables "consent_received.education.girl_edu_barrier.services_too_crowded"
+#&gt; nb        "  1"                                                             
+#&gt;           consent_received.education.girl_edu_barrier.insufficient_poorquality_staff  
+#&gt; variables "consent_received.education.girl_edu_barrier.insufficient_poorquality_staff"
+#&gt; nb        "  1"                                                                       
+#&gt;           consent_received.education.girl_edu_barrier.school_not_adequate_infra  
+#&gt; variables "consent_received.education.girl_edu_barrier.school_not_adequate_infra"
+#&gt; nb        "  1"                                                                  
+#&gt;           consent_received.education.girl_edu_barrier.school_not_adequate_material  
+#&gt; variables "consent_received.education.girl_edu_barrier.school_not_adequate_material"
+#&gt; nb        "  2"                                                                     
+#&gt;           consent_received.education.girl_edu_barrier.face_discrimination  
+#&gt; variables "consent_received.education.girl_edu_barrier.face_discrimination"
+#&gt; nb        "  1"                                                            
+#&gt;           consent_received.education.girl_edu_barrier.children_support_family  
+#&gt; variables "consent_received.education.girl_edu_barrier.children_support_family"
+#&gt; nb        "  1"                                                                
+#&gt;           consent_received.education.girl_edu_barrier.parents_think_not_appropriate  
+#&gt; variables "consent_received.education.girl_edu_barrier.parents_think_not_appropriate"
+#&gt; nb        "  2"                                                                      
+#&gt;           consent_received.education.girl_edu_barrier.other  
+#&gt; variables "consent_received.education.girl_edu_barrier.other"
+#&gt; nb        "  1"                                              
+#&gt;           consent_received.education.girl_edu_barrier.dont_know  
+#&gt; variables "consent_received.education.girl_edu_barrier.dont_know"
+#&gt; nb        "  1"                                                  
+#&gt;           consent_received.education.girl_edu_barrier_other  
+#&gt; variables "consent_received.education.girl_edu_barrier_other"
+#&gt; nb        "  0"                                              
+#&gt;           consent_received.education.boy_second_edu_barrier  
+#&gt; variables "consent_received.education.boy_second_edu_barrier"
+#&gt; nb        "  3"                                              
+#&gt;           consent_received.education.boy_edu_barrier_1  
+#&gt; variables "consent_received.education.boy_edu_barrier_1"
+#&gt; nb        " 12"                                         
+#&gt;           consent_received.education.boy_edu_barrier_1.facillities_too_far  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.facillities_too_far"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.education.boy_edu_barrier_1.safety_concerns_way_facilities  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.safety_concerns_way_facilities"
+#&gt; nb        "  2"                                                                        
+#&gt;           consent_received.education.boy_edu_barrier_1.services_too_expensive  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.services_too_expensive"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.education.boy_edu_barrier_1.services_too_crowded  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.services_too_crowded"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.education.boy_edu_barrier_1.insufficient_poorquality_staff  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.insufficient_poorquality_staff"
+#&gt; nb        "  1"                                                                        
+#&gt;           consent_received.education.boy_edu_barrier_1.school_not_adequate_infra  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.school_not_adequate_infra"
+#&gt; nb        "  2"                                                                   
+#&gt;           consent_received.education.boy_edu_barrier_1.school_not_adequate_material  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.school_not_adequate_material"
+#&gt; nb        "  2"                                                                      
+#&gt;           consent_received.education.boy_edu_barrier_1.face_discrimination  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.face_discrimination"
+#&gt; nb        "  1"                                                             
+#&gt;           consent_received.education.boy_edu_barrier_1.children_support_family  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.children_support_family"
+#&gt; nb        "  2"                                                                 
+#&gt;           consent_received.education.boy_edu_barrier_1.parents_think_not_appropriate  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.parents_think_not_appropriate"
+#&gt; nb        "  1"                                                                       
+#&gt;           consent_received.education.boy_edu_barrier_1.other  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.other"
+#&gt; nb        "  1"                                               
+#&gt;           consent_received.education.boy_edu_barrier_1.dont_know  
+#&gt; variables "consent_received.education.boy_edu_barrier_1.dont_know"
+#&gt; nb        "  1"                                                   
+#&gt;           consent_received.education.boy_edu_barrier_1_other  
+#&gt; variables "consent_received.education.boy_edu_barrier_1_other"
+#&gt; nb        "  0"                                               
+#&gt;           consent_received.education.girl_second_edu_barrier  
+#&gt; variables "consent_received.education.girl_second_edu_barrier"
+#&gt; nb        "  3"                                               
+#&gt;           consent_received.education.girl_edu_barrier_1  
+#&gt; variables "consent_received.education.girl_edu_barrier_1"
+#&gt; nb        " 14"                                          
+#&gt;           consent_received.education.girl_edu_barrier_1.facillities_too_far  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.facillities_too_far"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.education.girl_edu_barrier_1.safety_concerns_way_facilities  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.safety_concerns_way_facilities"
+#&gt; nb        "  2"                                                                         
+#&gt;           consent_received.education.girl_edu_barrier_1.services_too_expensive  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.services_too_expensive"
+#&gt; nb        "  2"                                                                 
+#&gt;           consent_received.education.girl_edu_barrier_1.services_too_crowded  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.services_too_crowded"
+#&gt; nb        "  1"                                                               
+#&gt;           consent_received.education.girl_edu_barrier_1.insufficient_poorquality_staff  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.insufficient_poorquality_staff"
+#&gt; nb        "  1"                                                                         
+#&gt;           consent_received.education.girl_edu_barrier_1.school_not_adequate_infra  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.school_not_adequate_infra"
+#&gt; nb        "  1"                                                                    
+#&gt;           consent_received.education.girl_edu_barrier_1.school_not_adequate_material  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.school_not_adequate_material"
+#&gt; nb        "  2"                                                                       
+#&gt;           consent_received.education.girl_edu_barrier_1.face_discrimination  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.face_discrimination"
+#&gt; nb        "  1"                                                              
+#&gt;           consent_received.education.girl_edu_barrier_1.children_support_family  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.children_support_family"
+#&gt; nb        "  1"                                                                  
+#&gt;           consent_received.education.girl_edu_barrier_1.parents_think_not_appropriate  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.parents_think_not_appropriate"
+#&gt; nb        "  2"                                                                        
+#&gt;           consent_received.education.girl_edu_barrier_1.other  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.other"
+#&gt; nb        "  1"                                                
+#&gt;           consent_received.education.girl_edu_barrier_1.dont_know  
+#&gt; variables "consent_received.education.girl_edu_barrier_1.dont_know"
+#&gt; nb        "  1"                                                    
+#&gt;           consent_received.education.girl_edu_barrier_1_other  
+#&gt; variables "consent_received.education.girl_edu_barrier_1_other"
+#&gt; nb        "  0"                                                
+#&gt;           consent_received.education.child_rights  
+#&gt; variables "consent_received.education.child_rights"
+#&gt; nb        "  4"                                    
+#&gt;           consent_received.education.child_education  
+#&gt; variables "consent_received.education.child_education"
+#&gt; nb        "  4"                                       
+#&gt;           consent_received.education.edu_aid_material  
+#&gt; variables "consent_received.education.edu_aid_material"
+#&gt; nb        "  3"                                        
+#&gt;           consent_received.education.edu_aid_kind  
+#&gt; variables "consent_received.education.edu_aid_kind"
+#&gt; nb        "  8"                                    
+#&gt;           consent_received.education.edu_aid_kind.health_hygiene_kit  
+#&gt; variables "consent_received.education.edu_aid_kind.health_hygiene_kit"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.education.edu_aid_kind.winterization_kit  
+#&gt; variables "consent_received.education.edu_aid_kind.winterization_kit"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.education.edu_aid_kind.school_supply  
+#&gt; variables "consent_received.education.edu_aid_kind.school_supply"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.education.edu_aid_kind.other  
+#&gt; variables "consent_received.education.edu_aid_kind.other"
+#&gt; nb        "  2"                                          
+#&gt;           consent_received.education.edu_aid_kind.none  
+#&gt; variables "consent_received.education.edu_aid_kind.none"
+#&gt; nb        "  1"                                         
+#&gt;           consent_received.education.edu_aid_kind.dont_know  
+#&gt; variables "consent_received.education.edu_aid_kind.dont_know"
+#&gt; nb        "  1"                                              
+#&gt;           consent_received.education.edu_aid_kind_other  
+#&gt; variables "consent_received.education.edu_aid_kind_other"
+#&gt; nb        "  2"                                          
+#&gt;           consent_received.child_protection.missing_child  
+#&gt; variables "consent_received.child_protection.missing_child"
+#&gt; nb        "  4"                                            
+#&gt;           consent_received.child_protection.boy_risk  
+#&gt; variables "consent_received.child_protection.boy_risk"
+#&gt; nb        "122"                                       
+#&gt;           consent_received.child_protection.boy_risk.violence_home  
+#&gt; variables "consent_received.child_protection.boy_risk.violence_home"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.child_protection.boy_risk.violence_community  
+#&gt; variables "consent_received.child_protection.boy_risk.violence_community"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.child_protection.boy_risk.child_labour  
+#&gt; variables "consent_received.child_protection.boy_risk.child_labour"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.child_protection.boy_risk.child_marriage  
+#&gt; variables "consent_received.child_protection.boy_risk.child_marriage"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.child_protection.boy_risk.recruitment_armed_group  
+#&gt; variables "consent_received.child_protection.boy_risk.recruitment_armed_group"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.child_protection.boy_risk.kidnapping  
+#&gt; variables "consent_received.child_protection.boy_risk.kidnapping"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.child_protection.boy_risk.detention  
+#&gt; variables "consent_received.child_protection.boy_risk.detention"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.child_protection.boy_risk.sexual_abuse  
+#&gt; variables "consent_received.child_protection.boy_risk.sexual_abuse"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.child_protection.boy_risk.psychological_trauma  
+#&gt; variables "consent_received.child_protection.boy_risk.psychological_trauma"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.child_protection.boy_risk.no_registration_newborn  
+#&gt; variables "consent_received.child_protection.boy_risk.no_registration_newborn"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.child_protection.boy_risk.natural_hazards  
+#&gt; variables "consent_received.child_protection.boy_risk.natural_hazards"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.child_protection.boy_risk.dntknow_no_answer  
+#&gt; variables "consent_received.child_protection.boy_risk.dntknow_no_answer"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.child_protection.boy_risk.other  
+#&gt; variables "consent_received.child_protection.boy_risk.other"
+#&gt; nb        "  2"                                             
+#&gt;           consent_received.child_protection.boy_risk_other  
+#&gt; variables "consent_received.child_protection.boy_risk_other"
+#&gt; nb        "  5"                                             
+#&gt;           consent_received.child_protection.girl_risk  
+#&gt; variables "consent_received.child_protection.girl_risk"
+#&gt; nb        " 89"                                        
+#&gt;           consent_received.child_protection.girl_risk.violence_home  
+#&gt; variables "consent_received.child_protection.girl_risk.violence_home"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.child_protection.girl_risk.violence_community  
+#&gt; variables "consent_received.child_protection.girl_risk.violence_community"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.child_protection.girl_risk.child_labour  
+#&gt; variables "consent_received.child_protection.girl_risk.child_labour"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.child_protection.girl_risk.child_marriage  
+#&gt; variables "consent_received.child_protection.girl_risk.child_marriage"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.child_protection.girl_risk.recruitment_armed_group  
+#&gt; variables "consent_received.child_protection.girl_risk.recruitment_armed_group"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.girl_risk.kidnapping  
+#&gt; variables "consent_received.child_protection.girl_risk.kidnapping"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.child_protection.girl_risk.detention  
+#&gt; variables "consent_received.child_protection.girl_risk.detention"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.child_protection.girl_risk.sexual_abuse  
+#&gt; variables "consent_received.child_protection.girl_risk.sexual_abuse"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.child_protection.girl_risk.psychological_trauma  
+#&gt; variables "consent_received.child_protection.girl_risk.psychological_trauma"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.child_protection.girl_risk.no_registration_newborn  
+#&gt; variables "consent_received.child_protection.girl_risk.no_registration_newborn"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.girl_risk.natural_hazards  
+#&gt; variables "consent_received.child_protection.girl_risk.natural_hazards"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.child_protection.girl_risk.dntknow_no_answer  
+#&gt; variables "consent_received.child_protection.girl_risk.dntknow_no_answer"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.child_protection.girl_risk.other  
+#&gt; variables "consent_received.child_protection.girl_risk.other"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.child_protection.girl_risk_other  
+#&gt; variables "consent_received.child_protection.girl_risk_other"
+#&gt; nb        "  5"                                              
+#&gt;           consent_received.child_protection.child_distress  
+#&gt; variables "consent_received.child_protection.child_distress"
+#&gt; nb        " 84"                                             
+#&gt;           consent_received.child_protection.child_distress.withdrawn_family_friends  
+#&gt; variables "consent_received.child_protection.child_distress.withdrawn_family_friends"
+#&gt; nb        "  2"                                                                      
+#&gt;           consent_received.child_protection.child_distress.aggressive_outbursts  
+#&gt; variables "consent_received.child_protection.child_distress.aggressive_outbursts"
+#&gt; nb        "  2"                                                                  
+#&gt;           consent_received.child_protection.child_distress.changes_appetite_eating_habits  
+#&gt; variables "consent_received.child_protection.child_distress.changes_appetite_eating_habits"
+#&gt; nb        "  2"                                                                            
+#&gt;           consent_received.child_protection.child_distress.headaches  
+#&gt; variables "consent_received.child_protection.child_distress.headaches"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.child_protection.child_distress.recurrent_bedwetting  
+#&gt; variables "consent_received.child_protection.child_distress.recurrent_bedwetting"
+#&gt; nb        "  2"                                                                  
+#&gt;           consent_received.child_protection.child_distress.sleep_disturbances  
+#&gt; variables "consent_received.child_protection.child_distress.sleep_disturbances"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.child_distress.upset_stomach_pain  
+#&gt; variables "consent_received.child_protection.child_distress.upset_stomach_pain"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.child_distress.new_recurring_fear  
+#&gt; variables "consent_received.child_protection.child_distress.new_recurring_fear"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.child_distress.clinging  
+#&gt; variables "consent_received.child_protection.child_distress.clinging"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.child_protection.child_distress.excessive_crying  
+#&gt; variables "consent_received.child_protection.child_distress.excessive_crying"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.child_protection.child_distress.behave_younger  
+#&gt; variables "consent_received.child_protection.child_distress.behave_younger"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.child_protection.child_distress.startle_easily  
+#&gt; variables "consent_received.child_protection.child_distress.startle_easily"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.child_protection.child_distress.substance_abuse  
+#&gt; variables "consent_received.child_protection.child_distress.substance_abuse"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.child_protection.child_distress.none  
+#&gt; variables "consent_received.child_protection.child_distress.none"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.child_protection.rohingya_interact  
+#&gt; variables "consent_received.child_protection.rohingya_interact"
+#&gt; nb        "  5"                                                
+#&gt;           consent_received.child_protection.past_interaction_rohingya  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya"
+#&gt; nb        " 47"                                                        
+#&gt;           consent_received.child_protection.past_interaction_rohingya.social_interactions  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.social_interactions"
+#&gt; nb        "  2"                                                                            
+#&gt;           consent_received.child_protection.past_interaction_rohingya.buying_goods_services  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.buying_goods_services"
+#&gt; nb        "  2"                                                                              
+#&gt;           consent_received.child_protection.past_interaction_rohingya.selling_goods_services  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.selling_goods_services"
+#&gt; nb        "  2"                                                                               
+#&gt;           consent_received.child_protection.past_interaction_rohingya.working_for_rohingya  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.working_for_rohingya"
+#&gt; nb        "  2"                                                                             
+#&gt;           consent_received.child_protection.past_interaction_rohingya.hiring_rohingya_work  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.hiring_rohingya_work"
+#&gt; nb        "  2"                                                                             
+#&gt;           consent_received.child_protection.past_interaction_rohingya.renting_to_rohingya  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.renting_to_rohingya"
+#&gt; nb        "  2"                                                                            
+#&gt;           consent_received.child_protection.past_interaction_rohingya.casual_interactions  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.casual_interactions"
+#&gt; nb        "  2"                                                                            
+#&gt;           consent_received.child_protection.past_interaction_rohingya.other  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.other"
+#&gt; nb        "  1"                                                              
+#&gt;           consent_received.child_protection.past_interaction_rohingya.none  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.none"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.child_protection.past_interaction_rohingya.prefer_not_answer  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya.prefer_not_answer"
+#&gt; nb        "  1"                                                                          
+#&gt;           consent_received.child_protection.past_interaction_rohingya_other  
+#&gt; variables "consent_received.child_protection.past_interaction_rohingya_other"
+#&gt; nb        "  0"                                                              
+#&gt;           consent_received.child_protection.rohingya_comm_relation  
+#&gt; variables "consent_received.child_protection.rohingya_comm_relation"
+#&gt; nb        "  7"                                                     
+#&gt;           consent_received.child_protection.opinion_rohingya  
+#&gt; variables "consent_received.child_protection.opinion_rohingya"
+#&gt; nb        "  6"                                               
+#&gt;           consent_received.child_protection.rohingya_feel  
+#&gt; variables "consent_received.child_protection.rohingya_feel"
+#&gt; nb        " 88"                                            
+#&gt;           consent_received.child_protection.rohingya_feel.competition_services  
+#&gt; variables "consent_received.child_protection.rohingya_feel.competition_services"
+#&gt; nb        "  2"                                                                 
+#&gt;           consent_received.child_protection.rohingya_feel.cultural_difference  
+#&gt; variables "consent_received.child_protection.rohingya_feel.cultural_difference"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.rohingya_feel.unfair_distribution  
+#&gt; variables "consent_received.child_protection.rohingya_feel.unfair_distribution"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.rohingya_feel.competition_resources  
+#&gt; variables "consent_received.child_protection.rohingya_feel.competition_resources"
+#&gt; nb        "  2"                                                                  
+#&gt;           consent_received.child_protection.rohingya_feel.competition_jobs  
+#&gt; variables "consent_received.child_protection.rohingya_feel.competition_jobs"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.child_protection.rohingya_feel.threat_crime  
+#&gt; variables "consent_received.child_protection.rohingya_feel.threat_crime"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.child_protection.rohingya_feel.other  
+#&gt; variables "consent_received.child_protection.rohingya_feel.other"
+#&gt; nb        "  1"                                                  
+#&gt;           consent_received.child_protection.rohingya_feel.dont_know  
+#&gt; variables "consent_received.child_protection.rohingya_feel.dont_know"
+#&gt; nb        "  1"                                                      
+#&gt;           consent_received.child_protection.rohingya_feel.prefer_not_answer  
+#&gt; variables "consent_received.child_protection.rohingya_feel.prefer_not_answer"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.child_protection.rohingya_feel_other  
+#&gt; variables "consent_received.child_protection.rohingya_feel_other"
+#&gt; nb        "  0"                                                  
+#&gt;           consent_received.child_protection.community_groups  
+#&gt; variables "consent_received.child_protection.community_groups"
+#&gt; nb        " 45"                                               
+#&gt;           consent_received.child_protection.community_groups.health  
+#&gt; variables "consent_received.child_protection.community_groups.health"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.child_protection.community_groups.education  
+#&gt; variables "consent_received.child_protection.community_groups.education"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.child_protection.community_groups.safety_security  
+#&gt; variables "consent_received.child_protection.community_groups.safety_security"
+#&gt; nb        "  2"                                                               
+#&gt;           consent_received.child_protection.community_groups.respond_natural_disaster  
+#&gt; variables "consent_received.child_protection.community_groups.respond_natural_disaster"
+#&gt; nb        "  2"                                                                        
+#&gt;           consent_received.child_protection.community_groups.support_disabilities  
+#&gt; variables "consent_received.child_protection.community_groups.support_disabilities"
+#&gt; nb        "  2"                                                                    
+#&gt;           consent_received.child_protection.community_groups.protect_children  
+#&gt; variables "consent_received.child_protection.community_groups.protect_children"
+#&gt; nb        "  2"                                                                
+#&gt;           consent_received.child_protection.community_groups.none  
+#&gt; variables "consent_received.child_protection.community_groups.none"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.child_protection.community_groups.other  
+#&gt; variables "consent_received.child_protection.community_groups.other"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.child_protection.community_groups_other  
+#&gt; variables "consent_received.child_protection.community_groups_other"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.child_protection.hh_safe  
+#&gt; variables "consent_received.child_protection.hh_safe"
+#&gt; nb        "  4"                                      
+#&gt;           consent_received.gender_section.women_question  
+#&gt; variables "consent_received.gender_section.women_question"
+#&gt; nb        "  3"                                           
+#&gt;           consent_received.gender_section.women_question_consent.menst_material_access  
+#&gt; variables "consent_received.gender_section.women_question_consent.menst_material_access"
+#&gt; nb        "  3"                                                                         
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge"
+#&gt; nb        " 13"                                                                       
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.not_available_market  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.not_available_market"
+#&gt; nb        "  2"                                                                                            
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.preferred_type_not_available  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.preferred_type_not_available"
+#&gt; nb        "  2"                                                                                                    
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.too_expensive  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.too_expensive"
+#&gt; nb        "  2"                                                                                     
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.other_needs_prioritized  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.other_needs_prioritized"
+#&gt; nb        "  2"                                                                                               
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.other  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.other"
+#&gt; nb        "  2"                                                                             
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge.dntknow_prefer  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge.dntknow_prefer"
+#&gt; nb        "  1"                                                                                      
+#&gt;           consent_received.gender_section.women_question_consent.menstrual_challenge_other  
+#&gt; variables "consent_received.gender_section.women_question_consent.menstrual_challenge_other"
+#&gt; nb        "  2"                                                                             
+#&gt;           consent_received.gender_section.women_question_consent.gvb_questions_female  
+#&gt; variables "consent_received.gender_section.women_question_consent.gvb_questions_female"
+#&gt; nb        "  0"                                                                        
+#&gt;           consent_received.gender_section.women_question_consent.female_family_decision  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_family_decision"
+#&gt; nb        "  7"                                                                          
+#&gt;           consent_received.gender_section.women_question_consent.contraception_decision  
+#&gt; variables "consent_received.gender_section.women_question_consent.contraception_decision"
+#&gt; nb        "  6"                                                                          
+#&gt;           consent_received.gender_section.women_question_consent.female_movement  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_movement"
+#&gt; nb        "  0"                                                                   
+#&gt;           consent_received.gender_section.women_question_consent.female_market  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_market"
+#&gt; nb        "  4"                                                                 
+#&gt;           consent_received.gender_section.women_question_consent.female_health_center  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_health_center"
+#&gt; nb        "  4"                                                                        
+#&gt;           consent_received.gender_section.women_question_consent.female_neighborhood  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_neighborhood"
+#&gt; nb        "  4"                                                                       
+#&gt;           consent_received.gender_section.women_question_consent.female_religious_space  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_religious_space"
+#&gt; nb        "  4"                                                                          
+#&gt;           consent_received.gender_section.women_question_consent.control_money  
+#&gt; variables "consent_received.gender_section.women_question_consent.control_money"
+#&gt; nb        "  0"                                                                 
+#&gt;           consent_received.gender_section.women_question_consent.buy_vegetables_fruits  
+#&gt; variables "consent_received.gender_section.women_question_consent.buy_vegetables_fruits"
+#&gt; nb        "  4"                                                                         
+#&gt;           consent_received.gender_section.women_question_consent.buy_clothes  
+#&gt; variables "consent_received.gender_section.women_question_consent.buy_clothes"
+#&gt; nb        "  4"                                                               
+#&gt;           consent_received.gender_section.women_question_consent.buy_medicine  
+#&gt; variables "consent_received.gender_section.women_question_consent.buy_medicine"
+#&gt; nb        "  4"                                                                
+#&gt;           consent_received.gender_section.women_question_consent.buy_toiletries  
+#&gt; variables "consent_received.gender_section.women_question_consent.buy_toiletries"
+#&gt; nb        "  4"                                                                  
+#&gt;           consent_received.gender_section.women_question_consent.female_need_help  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_need_help"
+#&gt; nb        "  0"                                                                    
+#&gt;           consent_received.gender_section.women_question_consent.female_shelter  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_shelter"
+#&gt; nb        "  4"                                                                  
+#&gt;           consent_received.gender_section.women_question_consent.female_financial_support  
+#&gt; variables "consent_received.gender_section.women_question_consent.female_financial_support"
+#&gt; nb        "  3"                                                                            
+#&gt;           consent_received.gender_section_1.male_question  
+#&gt; variables "consent_received.gender_section_1.male_question"
+#&gt; nb        "  3"                                            
+#&gt;           consent_received.gender_section_1.male_question_consent.gbv_questions_male  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.gbv_questions_male"
+#&gt; nb        "  0"                                                                       
+#&gt;           consent_received.gender_section_1.male_question_consent.family_decision_male  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.family_decision_male"
+#&gt; nb        "  4"                                                                         
+#&gt;           consent_received.gender_section_1.male_question_consent.hh_chores_male  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.hh_chores_male"
+#&gt; nb        "  4"                                                                   
+#&gt;           consent_received.gender_section_1.male_question_consent.married_women_work  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.married_women_work"
+#&gt; nb        "  4"                                                                       
+#&gt;           consent_received.gender_section_1.male_question_consent.right_to_express  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.right_to_express"
+#&gt; nb        "  4"                                                                     
+#&gt;           consent_received.gender_section_1.male_question_consent.wife_beaten  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.wife_beaten"
+#&gt; nb        "  4"                                                                
+#&gt;           consent_received.gender_section_1.male_question_consent.son_daughter_school  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.son_daughter_school"
+#&gt; nb        "  4"                                                                        
+#&gt;           consent_received.gender_section_1.male_question_consent.community_decision  
+#&gt; variables "consent_received.gender_section_1.male_question_consent.community_decision"
+#&gt; nb        "  4"                                                                       
+#&gt;           consent_received.cwc.thing_to_know  
+#&gt; variables "consent_received.cwc.thing_to_know"
+#&gt; nb        "218"                               
+#&gt;           consent_received.cwc.thing_to_know.finding_miss_people  
+#&gt; variables "consent_received.cwc.thing_to_know.finding_miss_people"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.thing_to_know.security_situation  
+#&gt; variables "consent_received.cwc.thing_to_know.security_situation"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.thing_to_know.regiter_aid  
+#&gt; variables "consent_received.cwc.thing_to_know.regiter_aid"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.thing_to_know.get_water  
+#&gt; variables "consent_received.cwc.thing_to_know.get_water"
+#&gt; nb        "  2"                                         
+#&gt;           consent_received.cwc.thing_to_know.get_food  
+#&gt; variables "consent_received.cwc.thing_to_know.get_food"
+#&gt; nb        "  2"                                        
+#&gt;           consent_received.cwc.thing_to_know.get_shelter  
+#&gt; variables "consent_received.cwc.thing_to_know.get_shelter"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.thing_to_know.nutrition_information  
+#&gt; variables "consent_received.cwc.thing_to_know.nutrition_information"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.cwc.thing_to_know.food_prices  
+#&gt; variables "consent_received.cwc.thing_to_know.food_prices"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.thing_to_know.crop_livestock_prices  
+#&gt; variables "consent_received.cwc.thing_to_know.crop_livestock_prices"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.cwc.thing_to_know.get_fuel  
+#&gt; variables "consent_received.cwc.thing_to_know.get_fuel"
+#&gt; nb        "  2"                                        
+#&gt;           consent_received.cwc.thing_to_know.weather_natural_hazards  
+#&gt; variables "consent_received.cwc.thing_to_know.weather_natural_hazards"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.cwc.thing_to_know.get_health_care  
+#&gt; variables "consent_received.cwc.thing_to_know.get_health_care"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.cwc.thing_to_know.get_help  
+#&gt; variables "consent_received.cwc.thing_to_know.get_help"
+#&gt; nb        "  2"                                        
+#&gt;           consent_received.cwc.thing_to_know.prevent_attack  
+#&gt; variables "consent_received.cwc.thing_to_know.prevent_attack"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.thing_to_know.replace_personal_documentation  
+#&gt; variables "consent_received.cwc.thing_to_know.replace_personal_documentation"
+#&gt; nb        "  2"                                                              
+#&gt;           consent_received.cwc.thing_to_know.get_access_education  
+#&gt; variables "consent_received.cwc.thing_to_know.get_access_education"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.cwc.thing_to_know.find_work  
+#&gt; variables "consent_received.cwc.thing_to_know.find_work"
+#&gt; nb        "  2"                                         
+#&gt;           consent_received.cwc.thing_to_know.get_transport  
+#&gt; variables "consent_received.cwc.thing_to_know.get_transport"
+#&gt; nb        "  2"                                             
+#&gt;           consent_received.cwc.thing_to_know.get_financial_support  
+#&gt; variables "consent_received.cwc.thing_to_know.get_financial_support"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.cwc.thing_to_know.about_rohingya  
+#&gt; variables "consent_received.cwc.thing_to_know.about_rohingya"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.thing_to_know.info_aid_agencies  
+#&gt; variables "consent_received.cwc.thing_to_know.info_aid_agencies"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.thing_to_know.aid_complain  
+#&gt; variables "consent_received.cwc.thing_to_know.aid_complain"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.cwc.thing_to_know.bad_behaviour_aidworker  
+#&gt; variables "consent_received.cwc.thing_to_know.bad_behaviour_aidworker"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.cwc.thing_to_know.expected_aidworker_behaviour  
+#&gt; variables "consent_received.cwc.thing_to_know.expected_aidworker_behaviour"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.cwc.thing_to_know.other  
+#&gt; variables "consent_received.cwc.thing_to_know.other"
+#&gt; nb        "  2"                                     
+#&gt;           consent_received.cwc.thing_to_know.none  
+#&gt; variables "consent_received.cwc.thing_to_know.none"
+#&gt; nb        "  2"                                    
+#&gt;           consent_received.cwc.thing_to_know.dntknow_no_answer  
+#&gt; variables "consent_received.cwc.thing_to_know.dntknow_no_answer"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.thing_to_know_other  
+#&gt; variables "consent_received.cwc.thing_to_know_other"
+#&gt; nb        "  4"                                     
+#&gt;           consent_received.cwc.information_sources  
+#&gt; variables "consent_received.cwc.information_sources"
+#&gt; nb        "115"                                     
+#&gt;           consent_received.cwc.information_sources.tv  
+#&gt; variables "consent_received.cwc.information_sources.tv"
+#&gt; nb        "  2"                                        
+#&gt;           consent_received.cwc.information_sources.face_to_face  
+#&gt; variables "consent_received.cwc.information_sources.face_to_face"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.information_sources.newspaper  
+#&gt; variables "consent_received.cwc.information_sources.newspaper"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.cwc.information_sources.radio  
+#&gt; variables "consent_received.cwc.information_sources.radio"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.information_sources.internet  
+#&gt; variables "consent_received.cwc.information_sources.internet"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.information_sources.facebook  
+#&gt; variables "consent_received.cwc.information_sources.facebook"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.information_sources.whatsapp  
+#&gt; variables "consent_received.cwc.information_sources.whatsapp"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.information_sources.sms  
+#&gt; variables "consent_received.cwc.information_sources.sms"
+#&gt; nb        "  2"                                         
+#&gt;           consent_received.cwc.information_sources.call  
+#&gt; variables "consent_received.cwc.information_sources.call"
+#&gt; nb        "  2"                                          
+#&gt;           consent_received.cwc.information_sources.loudspeaker  
+#&gt; variables "consent_received.cwc.information_sources.loudspeaker"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.information_sources.community_leaders  
+#&gt; variables "consent_received.cwc.information_sources.community_leaders"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.cwc.information_sources.religious_leaders  
+#&gt; variables "consent_received.cwc.information_sources.religious_leaders"
+#&gt; nb        "  2"                                                       
+#&gt;           consent_received.cwc.information_sources.govt_official  
+#&gt; variables "consent_received.cwc.information_sources.govt_official"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.information_sources.police_army  
+#&gt; variables "consent_received.cwc.information_sources.police_army"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.information_sources.aid_worker  
+#&gt; variables "consent_received.cwc.information_sources.aid_worker"
+#&gt; nb        "  1"                                                
+#&gt;           consent_received.cwc.information_sources.community_meetings  
+#&gt; variables "consent_received.cwc.information_sources.community_meetings"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.cwc.information_sources.other  
+#&gt; variables "consent_received.cwc.information_sources.other"
+#&gt; nb        "  1"                                           
+#&gt;           consent_received.cwc.information_sources.dntknow_prefer  
+#&gt; variables "consent_received.cwc.information_sources.dntknow_prefer"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.cwc.information_sources_other  
+#&gt; variables "consent_received.cwc.information_sources_other"
+#&gt; nb        "  0"                                           
+#&gt;           consent_received.cwc.accurate_information  
+#&gt; variables "consent_received.cwc.accurate_information"
+#&gt; nb        "113"                                      
+#&gt;           consent_received.cwc.accurate_information.tv  
+#&gt; variables "consent_received.cwc.accurate_information.tv"
+#&gt; nb        "  2"                                         
+#&gt;           consent_received.cwc.accurate_information.face_to_face  
+#&gt; variables "consent_received.cwc.accurate_information.face_to_face"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.accurate_information.newspaper  
+#&gt; variables "consent_received.cwc.accurate_information.newspaper"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.cwc.accurate_information.radio  
+#&gt; variables "consent_received.cwc.accurate_information.radio"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.cwc.accurate_information.internet  
+#&gt; variables "consent_received.cwc.accurate_information.internet"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.cwc.accurate_information.facebook  
+#&gt; variables "consent_received.cwc.accurate_information.facebook"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.cwc.accurate_information.whatsapp  
+#&gt; variables "consent_received.cwc.accurate_information.whatsapp"
+#&gt; nb        "  1"                                               
+#&gt;           consent_received.cwc.accurate_information.sms  
+#&gt; variables "consent_received.cwc.accurate_information.sms"
+#&gt; nb        "  2"                                          
+#&gt;           consent_received.cwc.accurate_information.call  
+#&gt; variables "consent_received.cwc.accurate_information.call"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.accurate_information.loudspeaker  
+#&gt; variables "consent_received.cwc.accurate_information.loudspeaker"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.accurate_information.community_leaders  
+#&gt; variables "consent_received.cwc.accurate_information.community_leaders"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.cwc.accurate_information.religious_leaders  
+#&gt; variables "consent_received.cwc.accurate_information.religious_leaders"
+#&gt; nb        "  2"                                                        
+#&gt;           consent_received.cwc.accurate_information.govt_official  
+#&gt; variables "consent_received.cwc.accurate_information.govt_official"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.cwc.accurate_information.police_army  
+#&gt; variables "consent_received.cwc.accurate_information.police_army"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.accurate_information.aid_worker  
+#&gt; variables "consent_received.cwc.accurate_information.aid_worker"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.cwc.accurate_information.community_meetings  
+#&gt; variables "consent_received.cwc.accurate_information.community_meetings"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.cwc.accurate_information.other  
+#&gt; variables "consent_received.cwc.accurate_information.other"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.cwc.accurate_information.dntknow_prefer  
+#&gt; variables "consent_received.cwc.accurate_information.dntknow_prefer"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.cwc.accurate_information_other  
+#&gt; variables "consent_received.cwc.accurate_information_other"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.cwc.provide_feedback  
+#&gt; variables "consent_received.cwc.provide_feedback"
+#&gt; nb        " 29"                                  
+#&gt;           consent_received.cwc.provide_feedback.speak_service_provider  
+#&gt; variables "consent_received.cwc.provide_feedback.speak_service_provider"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.cwc.provide_feedback.speak_community_leader  
+#&gt; variables "consent_received.cwc.provide_feedback.speak_community_leader"
+#&gt; nb        "  2"                                                         
+#&gt;           consent_received.cwc.provide_feedback.comm_meetings  
+#&gt; variables "consent_received.cwc.provide_feedback.comm_meetings"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.cwc.provide_feedback.helpline  
+#&gt; variables "consent_received.cwc.provide_feedback.helpline"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.provide_feedback.complaint_form  
+#&gt; variables "consent_received.cwc.provide_feedback.complaint_form"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.provide_feedback.suggestion_box  
+#&gt; variables "consent_received.cwc.provide_feedback.suggestion_box"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.provide_feedback.social_media  
+#&gt; variables "consent_received.cwc.provide_feedback.social_media"
+#&gt; nb        "  2"                                               
+#&gt;           consent_received.cwc.provide_feedback.send_sms  
+#&gt; variables "consent_received.cwc.provide_feedback.send_sms"
+#&gt; nb        "  2"                                           
+#&gt;           consent_received.cwc.provide_feedback.send_email  
+#&gt; variables "consent_received.cwc.provide_feedback.send_email"
+#&gt; nb        "  1"                                             
+#&gt;           consent_received.cwc.provide_feedback.send_letter  
+#&gt; variables "consent_received.cwc.provide_feedback.send_letter"
+#&gt; nb        "  1"                                              
+#&gt;           consent_received.cwc.provide_feedback.other  
+#&gt; variables "consent_received.cwc.provide_feedback.other"
+#&gt; nb        "  2"                                        
+#&gt;           consent_received.cwc.provide_feedback.dont_know  
+#&gt; variables "consent_received.cwc.provide_feedback.dont_know"
+#&gt; nb        "  2"                                            
+#&gt;           consent_received.cwc.provide_feedback_other  
+#&gt; variables "consent_received.cwc.provide_feedback_other"
+#&gt; nb        "  4"                                        
+#&gt;           consent_received.cwc.warning_message  
+#&gt; variables "consent_received.cwc.warning_message"
+#&gt; nb        "  3"                                 
+#&gt;           consent_received.cwc.receive_early_warning  
+#&gt; variables "consent_received.cwc.receive_early_warning"
+#&gt; nb        " 59"                                       
+#&gt;           consent_received.cwc.receive_early_warning.cyclone_preparedness  
+#&gt; variables "consent_received.cwc.receive_early_warning.cyclone_preparedness"
+#&gt; nb        "  2"                                                            
+#&gt;           consent_received.cwc.receive_early_warning.mosque_loudspeaker  
+#&gt; variables "consent_received.cwc.receive_early_warning.mosque_loudspeaker"
+#&gt; nb        "  2"                                                          
+#&gt;           consent_received.cwc.receive_early_warning.signal_flag  
+#&gt; variables "consent_received.cwc.receive_early_warning.signal_flag"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.receive_early_warning.radio  
+#&gt; variables "consent_received.cwc.receive_early_warning.radio"
+#&gt; nb        "  2"                                             
+#&gt;           consent_received.cwc.receive_early_warning.television  
+#&gt; variables "consent_received.cwc.receive_early_warning.television"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.receive_early_warning.newspaper  
+#&gt; variables "consent_received.cwc.receive_early_warning.newspaper"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.receive_early_warning.internet  
+#&gt; variables "consent_received.cwc.receive_early_warning.internet"
+#&gt; nb        "  2"                                                
+#&gt;           consent_received.cwc.receive_early_warning.word_of_mouth  
+#&gt; variables "consent_received.cwc.receive_early_warning.word_of_mouth"
+#&gt; nb        "  2"                                                     
+#&gt;           consent_received.cwc.receive_early_warning.other  
+#&gt; variables "consent_received.cwc.receive_early_warning.other"
+#&gt; nb        "  1"                                             
+#&gt;           consent_received.cwc.receive_early_warning.dont_know  
+#&gt; variables "consent_received.cwc.receive_early_warning.dont_know"
+#&gt; nb        "  1"                                                 
+#&gt;           consent_received.cwc.receive_early_warning.loudspeaker  
+#&gt; variables "consent_received.cwc.receive_early_warning.loudspeaker"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.receive_early_warning_other  
+#&gt; variables "consent_received.cwc.receive_early_warning_other"
+#&gt; nb        "  0"                                             
+#&gt;           consent_received.cwc.receive_message_future  
+#&gt; variables "consent_received.cwc.receive_message_future"
+#&gt; nb        "119"                                        
+#&gt;           consent_received.cwc.receive_message_future.cyclone_preparedness  
+#&gt; variables "consent_received.cwc.receive_message_future.cyclone_preparedness"
+#&gt; nb        "  2"                                                             
+#&gt;           consent_received.cwc.receive_message_future.mosque_loudspeaker  
+#&gt; variables "consent_received.cwc.receive_message_future.mosque_loudspeaker"
+#&gt; nb        "  2"                                                           
+#&gt;           consent_received.cwc.receive_message_future.signal_flag  
+#&gt; variables "consent_received.cwc.receive_message_future.signal_flag"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.cwc.receive_message_future.radio  
+#&gt; variables "consent_received.cwc.receive_message_future.radio"
+#&gt; nb        "  2"                                              
+#&gt;           consent_received.cwc.receive_message_future.television  
+#&gt; variables "consent_received.cwc.receive_message_future.television"
+#&gt; nb        "  2"                                                   
+#&gt;           consent_received.cwc.receive_message_future.newspaper  
+#&gt; variables "consent_received.cwc.receive_message_future.newspaper"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.receive_message_future.internet  
+#&gt; variables "consent_received.cwc.receive_message_future.internet"
+#&gt; nb        "  2"                                                 
+#&gt;           consent_received.cwc.receive_message_future.word_of_mouth  
+#&gt; variables "consent_received.cwc.receive_message_future.word_of_mouth"
+#&gt; nb        "  2"                                                      
+#&gt;           consent_received.cwc.receive_message_future.other  
+#&gt; variables "consent_received.cwc.receive_message_future.other"
+#&gt; nb        "  1"                                              
+#&gt;           consent_received.cwc.receive_message_future.dont_know  
+#&gt; variables "consent_received.cwc.receive_message_future.dont_know"
+#&gt; nb        "  2"                                                  
+#&gt;           consent_received.cwc.receive_message_future.loudspeaker  
+#&gt; variables "consent_received.cwc.receive_message_future.loudspeaker"
+#&gt; nb        "  2"                                                    
+#&gt;           consent_received.cwc.receive_message_future_other   end_survey  
+#&gt; variables "consent_received.cwc.receive_message_future_other" "end_survey"
+#&gt; nb        "  0"                                               "498"       
+#&gt;           end_note   gps_reading   X_gps_reading_latitude  
+#&gt; variables "end_note" "gps_reading" "X_gps_reading_latitude"
+#&gt; nb        "  0"      "498"         "498"                   
+#&gt;           X_gps_reading_longitude   X_gps_reading_altitude  
+#&gt; variables "X_gps_reading_longitude" "X_gps_reading_altitude"
+#&gt; nb        "498"                     "498"                   
+#&gt;           X_gps_reading_precision   meta.instanceID   X_id   X_uuid  
+#&gt; variables "X_gps_reading_precision" "meta.instanceID" "X_id" "X_uuid"
+#&gt; nb        "  7"                     "497"             "496"  "497"   
+#&gt;           X_submission_time   X_index   X_parent_table_name   X_parent_index  
+#&gt; variables "X_submission_time" "X_index" "X_parent_table_name" "X_parent_index"
+#&gt; nb        "496"               "485"     "  0"                 "  3"           
+#&gt;           X_tags   X_notes   X     X.1   X.2   X.3   X.4  
+#&gt; variables "X_tags" "X_notes" "X"   "X.1" "X.2" "X.3" "X.4"
+#&gt; nb        "  2"    "  3"     "  3" "  2" "  2" "  2" "  1"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
