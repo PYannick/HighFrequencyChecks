@@ -68,6 +68,7 @@ list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
                         formul,
                         colorder)
 head(ret_log,10)
+print(graph)
 }
 }
 \author{

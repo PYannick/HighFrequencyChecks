@@ -38,6 +38,7 @@ list[dst,ret_log,var,graph] <- assessmentProductivity(ds,
                                                       dateformat,
                                                       survey_consent)
 head(ret_log,10)
+print(graph)
 }
 }
 \author{

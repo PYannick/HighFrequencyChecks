@@ -29,6 +29,7 @@ list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
                                                         survey_consent,
                                                         enumeratorID)
 head(ret_log,10)
+print(graph)
 }
 }
 \author{

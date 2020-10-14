@@ -46,6 +46,7 @@ list[dst,ret_log,var,graph] <- isInterviewCompleted(ds,
                                         dates,
                                         reportingcol, delete)
 head(ret_log,10)
+print(graph)
 }
 
 }

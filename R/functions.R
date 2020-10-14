@@ -1,3 +1,22 @@
+#' @name piechart
+#' @rdname piechart
+#' @title Create a pie chart with ggplot
+#' @description This function allow to create a pie chart with ggplot.
+#'
+#' @param data dataset as a data.frame object
+#' @param mapping aes paramters
+#'
+#' @return  a ggplot object
+#'
+#' @author https://ggplot2-book.org/programming.html
+piechart <- function(data, mapping) {
+  ggplot2::ggplot(data, mapping) +
+    ggplot2::geom_bar(width = 1) +
+    ggplot2::coord_polar(theta = "y") +
+    ggplot2::xlab(NULL) +
+    ggplot2::ylab(NULL)
+}
+
 #' @name isInterviewCompleted
 #' @rdname isInterviewCompleted
 #' @title Check that all interviews were completed
@@ -29,6 +48,7 @@
 #'                                         dates,
 #'                                         reportingcol, delete)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #'
 #' @export isInterviewCompleted
@@ -59,7 +79,8 @@ isInterviewCompleted <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(reportingcol, survey_end=dates[2])
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), ggplot2::aes(factor(1), fill=check))
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isInterviewWithConsent
@@ -90,6 +111,7 @@ isInterviewCompleted <- function(ds=NULL,
 #'                                                       reportingcol,
 #'                                                       delete)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export isInterviewWithConsent
 
@@ -115,9 +137,9 @@ isInterviewWithConsent <- function(ds=NULL,
     ds[,survey_consent][is.na(ds[,survey_consent])] <- "deleted"
   }
 
-
   errors <- subset(ds,is.na(survey_consent)) %>% select(reportingcol, survey_consent=survey_consent)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(check=is.na(ds[,survey_consent])), ggplot2::aes(factor(1), fill=check))
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isInterviewInTheCorrectSite
@@ -210,15 +232,10 @@ isInterviewInTheCorrectSite <- function(adm=NULL,
   fm <- data.frame(ds,dfsp_over_adm, stringsAsFactors = FALSE)
   fm[,adm_site][is.na(fm[,adm_site])] <- ""
 
-  # Should not be kept if the site in the kobo form is the same than the one in the shapefile
-  #fm[,adm_site]<-tolower(as.character(gsub(" ", "_", fm[,adm_site])))
-  #fm[,ds_site]<-tolower(as.character(gsub(" ", "_", fm[,ds_site])))
-
   fm$check <- ifelse(fm[,ds_site] != fm[,adm_site],"NOk","Ok")
   if(correct){
     ds[,ds_site][fm$check=="NOk"] <- fm[,adm_site][fm$check=="NOk"]
   }
-
 
   errors <- subset(fm,check=="NOk") %>% select(reportingcol, SiteRec=ds_site, SiteReal=adm_site)
   return(list(ds,errors,NULL,NULL))
@@ -339,7 +356,6 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
   if(delete){
     ds[,survey_consent][fm$Outside=="NOk"]<-"deleted"
   }
-
 
   errors <- subset(fm, Outside=="NOk") %>% select(reportingcol, Outside=Outside)
   return(list(ds,errors,NULL,NULL))
@@ -1190,6 +1206,7 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
 #'                                                    minduration,
 #'                                                    delete)
 #' head(ret_log, 10)
+#' print(graph)
 #'}
 #' @export isInterviewTooShort
 
@@ -1224,12 +1241,12 @@ isInterviewTooShort <- function(ds=NULL,
   #                                                     units = "secs") / 60)
   tmp<-data.frame(ds[reportingcol], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
 
-
   if(delete){
     ds[,survey_consent][tmp$SurveyLength<minduration] <- "deleted"
   }
   errors <- subset(tmp, SurveyLength<minduration)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(check=tmp$SurveyLength<minduration), ggplot2::aes(factor(1), fill=check))
+  return(list(ds,errors,NULL,graph))
 }
 
 
@@ -1271,6 +1288,7 @@ isInterviewTooShort <- function(ds=NULL,
 #'                                                                       minduration,
 #'                                                                       delete)
 #' head(ret_log, 10)
+#' print(graph)
 #'}
 #' @export isInterviewTooShortForTheHouseholdSize
 
@@ -1313,7 +1331,8 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minduration)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(check=(tmp$SurveyLength/tmp$HHSize)<minduration), ggplot2::aes(factor(1), fill=check))
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name assessmentDurationOutliers
@@ -1342,6 +1361,7 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
 #'                                                           sdval,
 #'                                                           reportingcol)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export assessmentDurationOutliers
 
@@ -1370,7 +1390,14 @@ assessmentDurationOutliers <- function(ds=NULL,
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"
   logf <- subset(tmp, abs(Zscore)>sdval)
-  return(list(NULL,logf,NULL,NULL))
+  graph <- ggplot2::ggplot(surveytime) + ggplot2::geom_boxplot(ggplot2::aes(duration), outlier.colour = "red") +
+    ggplot2::theme_light() +
+    ggplot2::theme(axis.text.y=element_blank(),
+          axis.line.y=element_blank(),
+          axis.ticks.y=element_blank(),
+          panel.grid.major.y=element_blank(),
+          panel.grid.minor.y=element_blank())
+  return(list(NULL,logf,NULL,graph))
 }
 
 
@@ -1397,6 +1424,7 @@ assessmentDurationOutliers <- function(ds=NULL,
 #'                                                         survey_consent,
 #'                                                         enumeratorID)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export enumeratorSurveysConsent
 
@@ -1420,7 +1448,8 @@ enumeratorSurveysConsent <- function(ds=NULL,
   colnames(tmp)[2] <- "survey_consent"
   logf <- reshape2::dcast(tmp,enumeratorID ~ survey_consent, value.var = "pct")
   logf[is.na(logf)] <- 0
-  return(list(NULL,logf,NULL,NULL))
+  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=as.character(enumeratorID), y=pct, fill=survey_consent)) + ggplot2::coord_flip()
+  return(list(NULL,logf,NULL,graph))
 }
 
 #' @name enumeratorSurveysDuration
@@ -1447,6 +1476,7 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #'                                                          dates,
 #'                                                          enumeratorID)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export enumeratorSurveysDuration
 
@@ -1465,10 +1495,20 @@ enumeratorSurveysDuration <- function(ds=NULL,
 
   ds$surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
   overall_avg_duration <- round(mean(ds$surveytime), digits=2)
-  logf<-ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% summarize(duration_mean = round(mean(surveytime), digits=2),
+  logf <- ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% summarize(duration_mean = round(mean(surveytime), digits=2),
                                                                       overall_avg_duration,
                                                                       perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
-  return(list(NULL,logf,NULL,NULL))
+  # graph <- ggplot(logf) + geom_boxplot(aes(duration_mean), outlier.colour = "red") +
+  #   theme_light() +
+  #   theme(axis.text.y=element_blank(),
+  #         axis.line.y=element_blank(),
+  #         axis.ticks.y=element_blank(),
+  #         panel.grid.major.y=element_blank(),
+  #         panel.grid.minor.y=element_blank())
+  # x<-enquo(surveytime)
+  # y<-enquo(as.character(enumeratorID))
+  eval(parse(text=paste0("graph <- ggplot2::ggplot(ds) + ggplot2::geom_boxplot(ggplot2::aes(surveytime, as.character(", enumeratorID, ")), outlier.colour = 'red') + ggplot2::theme_light()")))
+  return(list(NULL,logf,NULL,graph))
 }
 
 #' @name enumeratorProductivity
@@ -1494,6 +1534,7 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #'                                                       surveydate,
 #'                                                       enumeratorID)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export enumeratorProductivity
 
@@ -1518,7 +1559,8 @@ enumeratorProductivity <- function(ds=NULL,
     summarize(days_worked = length(unique(.data[[ surveydate ]])),
               total_surveys_done = n()) %>%
     mutate(daily_average = round(total_surveys_done / days_worked, digits = 2))
-  return(list(NULL,logf,NULL,NULL))
+  eval(parse(text=paste0("graph <- ggplot2::ggplot(logf) + ggplot2::geom_col(ggplot2::aes(x=as.character(", enumeratorID, "), y=daily_average)) + ggplot2::coord_flip()")))
+  return(list(NULL,logf,NULL,graph))
 }
 
 #' @name enumeratorProductivityOutliers
@@ -1547,6 +1589,7 @@ enumeratorProductivity <- function(ds=NULL,
 #'                                                               surveydate,
 #'                                                               sdval)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export enumeratorProductivityOutliers
 
@@ -1579,8 +1622,14 @@ enumeratorProductivityOutliers <- function(ds=NULL,
   survey_outliers <- outliers::scores(tmp$daily_average, type = "z")
   tmp <- data.frame(tmp,survey_outliers)
   logf <- subset(tmp, abs(survey_outliers) > sdval)
-
-  return(list(NULL,logf,NULL,NULL))
+  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_boxplot(ggplot2::aes(daily_average), outlier.colour = "red") +
+    ggplot2::theme_light() +
+    ggplot2::theme(axis.text.y=element_blank(),
+          axis.line.y=element_blank(),
+          axis.ticks.y=element_blank(),
+          panel.grid.major.y=element_blank(),
+          panel.grid.minor.y=element_blank())
+  return(list(NULL,logf,NULL,graph))
 }
 
 
@@ -1671,6 +1720,7 @@ enumeratorIsLazy <- function(ds=NULL,
 #'                                                       dateformat,
 #'                                                       survey_consent)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export assessmentProductivity
 
@@ -1694,7 +1744,8 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateformat)
   logf<-tmp[with(tmp, order(surveydate)), ]
-  return(list(NULL,logf,NULL,NULL))
+  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=NbSurvey))
+  return(list(NULL,logf,NULL,graph))
 }
 
 #' @name assessmentDailyValidSurveys
@@ -1723,6 +1774,7 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
 #'                                                            dateformat,
 #'                                                            survey_consent)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #'
 #' @export assessmentDailyValidSurveys
@@ -1751,8 +1803,8 @@ assessmentDailyValidSurveys <- function(ds=NULL,
   tmp <- tmp[with(tmp, order(surveydate)), ]
   logf <- reshape2::dcast(tmp,surveydate ~ survey_consent, value.var="n")
   logf[is.na(logf)] <- 0
-  g <- ggplot(tmp) + geom_col(aes(x=surveydate, y=n, fill=survey_consent))
-  return(list(NULL,logf,NULL,g))
+  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=n, fill=survey_consent))
+  return(list(NULL,logf,NULL,graph))
 }
 
 #' @name assessmentTrackingSheet
@@ -1801,6 +1853,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #'                         formul,
 #'                         colorder)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #' @export assessmentTrackingSheet
 #'
@@ -1855,6 +1908,11 @@ assessmentTrackingSheet <- function(ds=NULL,
   df2 <- ds %>% group_by(site=.data[[ dssite ]], consent=.data[[ survey_consent ]]) %>% summarize(n=n()) %>% mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
+  tmp <- merge(df1[c("site", "SS")], df2[df2$consent=="yes",c('site', "n")], by=c("site"))
+  tmp$r <- tmp$SS-tmp$n
+  colnames(tmp) <- c("Site", "SampleSize", "Done", "Remaining")
+  tmp <- melt(tmp[-2], id="Site")
+
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))
   df2 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
   df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
@@ -1877,7 +1935,8 @@ assessmentTrackingSheet <- function(ds=NULL,
   df$variance <- eval(parse(text=formul[2]))
 
   logf <- df[colorder]
-  return(list(NULL,logf,NULL,NULL))
+  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=Site, y=value, fill=variable), position = ggplot2::position_stack(reverse = TRUE)) + ggplot2::coord_flip()
+  return(list(NULL,logf,NULL,graph))
 }
 
 
