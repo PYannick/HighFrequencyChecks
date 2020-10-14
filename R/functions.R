@@ -1723,6 +1723,7 @@ assessmentProductivity <- function(ds=NULL, surveydate=NULL, dateformat=NULL, su
 #'                                                            dateformat,
 #'                                                            survey_consent)
 #' head(ret_log,10)
+#' print(graph)
 #'}
 #'
 #' @export assessmentDailyValidSurveys
