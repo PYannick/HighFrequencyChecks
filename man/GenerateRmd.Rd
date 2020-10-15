@@ -151,19 +151,19 @@ buff <- 10
 
 ## setting questions to check
 questions <-c("consent_received.food_security.spend_food",
-      "consent_received.food_security.spend_medication",
-      "consent_received.food_security.spend_education",
-      "consent_received.food_security.spend_fix_shelter",
-      "consent_received.food_security.spend_clothing",
-      "consent_received.food_security.spend_hygiene",
-      "consent_received.food_security.spend_fuel",
-      "consent_received.food_security.spend_hh_items",
-      "consent_received.food_security.spend_transport",
-      "consent_received.food_security.spend_communication",
-      "consent_received.food_security.spend_tobacco",
-      "consent_received.food_security.spend_rent",
-      "consent_received.food_security.spend_debts",
-      "consent_received.food_security.spend_other")
+  "consent_received.food_security.spend_medication",
+  "consent_received.food_security.spend_education",
+  "consent_received.food_security.spend_fix_shelter",
+  "consent_received.food_security.spend_clothing",
+  "consent_received.food_security.spend_hygiene",
+  "consent_received.food_security.spend_fuel",
+  "consent_received.food_security.spend_hh_items",
+  "consent_received.food_security.spend_transport",
+  "consent_received.food_security.spend_communication",
+  "consent_received.food_security.spend_tobacco",
+  "consent_received.food_security.spend_rent",
+  "consent_received.food_security.spend_debts",
+  "consent_received.food_security.spend_other")
 value <- 25000
 minnbanswers <- 3
 
@@ -176,41 +176,41 @@ survey_consent <- "survey_consent"
 sftarget <- "SS"
 sfnbpts <- "TotPts"
 formul <- c("done-no-not_eligible-delete",
-               "done-no-not_eligible-deleted-SS")
+"done-no-not_eligible-deleted-SS")
 colorder <- c("site","SS","Provisio","done","not_eligible",
-                 "no","deleted","yes","final","variance")
+ "no","deleted","yes","final","variance")
 
 GenerateRmd(ds,
-              survey_consent,
-              reportingcol,
-              UniqueID,
-              dates,
-              surveydate,
-              start_collection,
-              dateformat,
-              minduration,
-              sdval,
-              HHSize,
-              delete,
-              correct,
-              enumeratorID,
-              enumeratorcheck,
-              otherpattern,
-              adm,
-              ds_site,
-              ds_coord,
-              adm_site,
-              pts,
-              buff,
-              questions,
-              value,
-              minnbanswers,
-              sf, dssite,
-              sfsite,
-              sftarget,
-              sfnbpts,
-              formul,
-              colorder)
+  survey_consent,
+  reportingcol,
+  UniqueID,
+  dates,
+  surveydate,
+  start_collection,
+  dateformat,
+  minduration,
+  sdval,
+  HHSize,
+  delete,
+  correct,
+  enumeratorID,
+  enumeratorcheck,
+  otherpattern,
+  adm,
+  ds_site,
+  ds_coord,
+  adm_site,
+  pts,
+  buff,
+  questions,
+  value,
+  minnbanswers,
+  sf, dssite,
+  sfsite,
+  sftarget,
+  sfnbpts,
+  formul,
+  colorder)
 }
 }
 \author{

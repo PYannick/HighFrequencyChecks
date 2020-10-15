@@ -24,24 +24,6 @@ The package [vignette](articles/HFC.html) offers introduce the main functions in
 
 Install from github with `devtools::install_github("unhcr/HighFrequencyChecks")`.
 
-> This package is part of `unhcrverse`, a set of packages to ease the production of statistical evidence and data stories. You can install them all with the following:
-
-```r
-## Use UNHCR Open data
-remotes::install_github('unhcr/unhcrdatapackage')
-
-## Use API to connect to licensed / internal data source
-remotes::install_github('unhcr-web/hcrdata')
-
-## Perform High Frequency Check during data collection
-remotes::install_github('unhcr-web/HighFrequencyChecks')
-
-## Process data crunching for survey dataset
-remotes::install_github('unhcr/koboloadeR')
-
-## Use UNHCR template for reporting and writing stories
-remotes::install_github('unhcr-web/unhcRstyle')
-```
 
 You can then create a new Rstudio project and run the following
 ``` r
@@ -65,3 +47,24 @@ You can then follow the instructions in the `R/run-check.R` script.
 
 
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/unhcr/HighFrequencyChecks/issues). 
+
+
+
+> This package is part of `unhcrverse`, a set of packages to ease the production of statistical evidence and data stories. You can install them all with the following:
+
+```r
+## Use UNHCR Open data  - https://unhcr.github.io/unhcrdatapackage/docs/
+remotes::install_github('unhcr/unhcrdatapackage’)
+
+## API to connect to internal data source - https://unhcr-web.github.io/hcrdata/docs/
+remotes::install_github('unhcr-web/hcrdata’)
+
+## Perform High Frequency Check https://unhcr.github.io/HighFrequencyChecks/docs/
+remotes::install_github('unhcr-web/HighFrequencyChecks’)
+
+## Process data crunching for survey dataset - https://unhcr.github.io/koboloadeR/docs/
+remotes::install_github('unhcr/koboloadeR’)
+
+## Use UNHCR graphical template- https://unhcr-web.github.io/unhcRstyle/docs/
+remotes::install_github('unhcr-web/unhcRstyle')
+```
