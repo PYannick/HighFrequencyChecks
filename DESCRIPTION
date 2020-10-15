@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.3.3
+Version: 0.3.4
 Authors@R: 
     c(person(given = "Yannick",
              family = "Pascaud",
@@ -13,7 +13,7 @@ Authors@R:
              email = "legoupil@unhcr.org"))
 Maintainer: Yannick Pascaud <yannick.pascaud@free.fr>
 Depends: R (>= 2.10), 
-    dplyr (>= 0.8.0),     
+    dplyr (>= 1.0.0),     
     sp,
     rgdal,
     rgeos,

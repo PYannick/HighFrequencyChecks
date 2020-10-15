@@ -38,6 +38,7 @@ list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
                                                           sdval,
                                                           reportingcol)
 head(ret_log,10)
+print(graph)
 }
 }
 \author{

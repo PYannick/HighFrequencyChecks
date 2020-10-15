@@ -57,6 +57,7 @@ list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds,
                                                                       minduration,
                                                                       delete)
 head(ret_log, 10)
+print(graph)
 }
 }
 \author{
