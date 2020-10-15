@@ -29,6 +29,7 @@ list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
                                                       surveydate,
                                                       enumeratorID)
 head(ret_log,10)
+print(graph)
 }
 }
 \author{

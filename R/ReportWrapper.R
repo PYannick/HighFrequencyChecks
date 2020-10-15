@@ -26,86 +26,50 @@
 #'}
 #' @export ReportWrapper
 #'
-
 ReportWrapper <- function(working_directY=NULL,
-                           xlsform_name=NULL,
-                           xlsform_location=NULL,
-                           vignette_directory=NULL){
+                          xlsform_name=NULL,
+                          xlsform_location=NULL,
+                          vignette_directory=NULL){
 
-# working_directY <- getwd()
-# xlsform_name <- "form.xlsx"
-# xlsform_location <- "/inst/demo/"
-# vignette_directory <- "/vignettes/HFC_WR.Rmd"
+  # working_directY <- getwd()
+  # xlsform_name <- "form.xlsx"
+  # xlsform_location <- "/inst/demo/"
+  # vignette_directory <- "/vignettes/HFC_WR.Rmd"
 
-repstr <- openxlsx::read.xlsx(paste0(working_directY, xlsform_location, xlsform_name), 1)
-#
-reportRMD  <- paste0(working_directY,vignette_directory)
-## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
-if (file.exists(reportRMD)) file.remove(reportRMD)
+  repstr <- openxlsx::read.xlsx(paste0(working_directY, xlsform_location, xlsform_name), 1)
+  #
+  reportRMD  <- paste0(working_directY,vignette_directory)
+  ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
+  if (file.exists(reportRMD)) file.remove(reportRMD)
 
-## Start Building the report ##########
+  ## Start Building the report ##########
 
-cat("---", file = reportRMD , sep = "\n", append = TRUE)
-cat("title: \"High Frequency Checks template\"", file = reportRMD , sep = "\n", append = TRUE)
-cat("author: \"Yannick Pascaud\"", file = reportRMD , sep = "\n", append = TRUE)
-cat("date: \"`r format(Sys.time(), '%d %B, %Y')`\"", file = reportRMD , sep = "\n", append = TRUE)
-cat("always_allow_html: yes", file = reportRMD , sep = "\n", append = TRUE)
-cat("output:",file = reportRMD , sep = "\n", append = TRUE)
-cat("  pdf_document:", file = reportRMD , sep = "\n", append = TRUE)
-cat("    toc: true", file = reportRMD , sep = "\n", append = TRUE)
-cat("    toc_depth: 3", file = reportRMD , sep = "\n", append = TRUE)
-cat("  html_document: default", file = reportRMD , sep = "\n", append = TRUE)
-cat("geometry: margin=0.5in", file = reportRMD , sep = "\n", append = TRUE)
-cat("---", file = reportRMD , sep = "\n", append = TRUE)
+  cat("---", file = reportRMD , sep = "\n", append = TRUE)
+  cat("title: \"High Frequency Checks template\"", file = reportRMD , sep = "\n", append = TRUE)
+  cat("author: \"Yannick Pascaud\"", file = reportRMD , sep = "\n", append = TRUE)
+  cat("date: \"`r format(Sys.time(), '%d %B, %Y')`\"", file = reportRMD , sep = "\n", append = TRUE)
+  cat("always_allow_html: yes", file = reportRMD , sep = "\n", append = TRUE)
+  cat("output:",file = reportRMD , sep = "\n", append = TRUE)
+  cat("  pdf_document:", file = reportRMD , sep = "\n", append = TRUE)
+  cat("    toc: true", file = reportRMD , sep = "\n", append = TRUE)
+  cat("    toc_depth: 3", file = reportRMD , sep = "\n", append = TRUE)
+  cat("  html_document: default", file = reportRMD , sep = "\n", append = TRUE)
+  cat("geometry: margin=0.5in", file = reportRMD , sep = "\n", append = TRUE)
+  cat("---", file = reportRMD , sep = "\n", append = TRUE)
 
-cat("\n", file = reportRMD , sep = "\n", append = TRUE)
-cat("```{r setup, include=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-cat("knitr::opts_chunk$set(echo = TRUE)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("\n", file = reportRMD , sep = "\n", append = TRUE)
+  cat("```{r setup, include=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
+  cat("knitr::opts_chunk$set(echo = TRUE)", file = reportRMD , sep = "\n", append = TRUE)
 
-cat("library(knitr)", file = reportRMD , sep = "\n", append = TRUE)
-cat("library(gsubfn)", file = reportRMD , sep = "\n", append = TRUE)
-cat("library(dplyr)", file = reportRMD , sep = "\n", append = TRUE)
-cat("library(data.table)", file = reportRMD , sep = "\n", append = TRUE)
-cat("library(HighFrequencyChecks)", file = reportRMD , sep = "\n", append = TRUE)
-cat("```", file = reportRMD , sep = "\n", append = TRUE)
+  cat("library(knitr)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("library(gsubfn)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("library(dplyr)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("library(data.table)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("library(HighFrequencyChecks)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("```", file = reportRMD , sep = "\n", append = TRUE)
 
 
-for(i in 1:length(repstr[,1])){
-  if(repstr[i,1]=="begin_ds_struct"){
-    cat("```{r surveysDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-    cat("dset<-list()", file = reportRMD , sep = "\n", append = TRUE)
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    ds_struct<-TRUE
-  } else   if(repstr[i,1]=="begin_sample"){
-    cat("```{r sampleSizeDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    sple<-TRUE
-  } else   if(repstr[i,1]=="begin_shp"){
-    cat("```{r shapefiles, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    gis<-TRUE
-  } else if(repstr[i,1]=="begin_init_var"){
-    cat("```{r initializeVariables, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    init_var<-TRUE
-  } else if(repstr[i,1]=="free_code") {
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    free_code<-TRUE
-  } else if(repstr[i,1]=="begin_report") {
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-    report<-TRUE
-  } else if(repstr[i,1]=="end_ds_struct"|
-            repstr[i,1]=="end_sample" |
-            repstr[i,1]=="end_shp" |
-            repstr[i,1]=="end_init_var") {
-    cat("```", file = reportRMD , sep = "\n", append = TRUE)
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-  } else if(repstr[i,1]=="end_report") {
-    ds_struct=sple=gis=init_var=free_code=report=FALSE
-  }
-
-  if(ds_struct){
-
+  for(i in 1:length(repstr[,1])){
     if(repstr[i,1]=="begin_ds_struct"){
       cat("```{r surveysDataset, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
       cat("dset<-list()", file = reportRMD , sep = "\n", append = TRUE)
@@ -203,6 +167,14 @@ for(i in 1:length(repstr[,1])){
           cat("```", file = reportRMD , sep = "\n", append = TRUE)
         }
 
+        cat("```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}", file = reportRMD , sep = "\n", append = TRUE)
+        cat("if(!is.null(var4)){", file = reportRMD , sep = "\n", append = TRUE)
+        # cat("  Header<-var1", file = reportRMD , sep = "\n", append = TRUE)
+        cat("  print(var4)\n", file = reportRMD , sep = "", append = TRUE)
+        ##
+        cat("}", file = reportRMD , sep = "\n", append = TRUE)
+        cat("```", file = reportRMD , sep = "\n", append = TRUE)
+
       } else {
         # ignore
       }
@@ -213,5 +185,5 @@ for(i in 1:length(repstr[,1])){
 
   }
 }
-}
+
 
