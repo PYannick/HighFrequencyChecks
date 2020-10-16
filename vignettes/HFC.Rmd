@@ -197,15 +197,15 @@ sf <- HighFrequencyChecks::SampleSize
 # correction for uppercase/lowercase in the site name 
 sf$Union <- tolower(sf$Union)
 
-# name as a string of the field where the number of points
-# generated is stored in the sampling frame
-sfnbpts <- "TotPts"
-
 # name as a string of the field in the sampling frame where the site is stored
 sfsite <- "Union"
 
 # name as a string of the field in the dataset where the site is stored
 dssite <- "union_name"
+
+# name as a string of the field where the number of points
+# generated is stored in the sampling frame
+sfnbpts <- "TotPts"
 
 # name as a string of the field in the sampling frame where the site is stored
 sftarget <- "SS"
@@ -495,7 +495,7 @@ Test for target number: since surveys are submitted in daily waves, keep track o
 if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
     cat("You have not provided a sampling plan.")
   } else {
-       list[dst,ret_log,var,graph] <-  HighFrequencyChecks::assessmentTrackingSheet(ds,
+       list <-  assessmentTrackingSheet(ds,
                                           sf,
                                            dssite,
                                            sfsite,
@@ -504,9 +504,27 @@ if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
                                            sfnbpts,
                                            formul,
                                            colorder)
-      DT::datatable(ret_log,
+      DT::datatable(list[[2]],
                     caption = "trackingSheet")
-      print(graph)
+      #print(list[[4]])
+}
+```
+
+```{r fig.height=6, fig.width=8}
+if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
+    cat("You have not provided a sampling plan.")
+  } else {
+       list <-  assessmentTrackingSheet(ds,
+                                          sf,
+                                           dssite,
+                                           sfsite,
+                                           survey_consent,
+                                           sftarget,
+                                           sfnbpts,
+                                           formul,
+                                           colorder)
+
+      print(list[[4]])
 }
 ```
 
@@ -524,10 +542,10 @@ These are designed to check if data shared by any particular enumerator is signi
 Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
 
 ```{r }
-list_dur <- HighFrequencyChecks::assessmentDuration(ds, 
-                                dates)
-# ds <- dts
-cat("> The total time of data collection is ", list_dur[[1]], " minutes and the average time per survey is ", list_dur[[2]], " minutes")
+list <- assessmentDuration(ds, dates)
+
+cat(paste0("> Average time per interview is ", list[[1]], " minutes and total interview time ", list[[2]], " minutes."))
+
 ```
 
 #### Responses with outliers

@@ -25,10 +25,9 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
 
-list[dst,ret_log,var,graph] <- assessmentDuration(ds,
-                                                  dates)
-paste0("average time: ", var$avg)
-paste0("total time : ", var$tot)
+list[dst,ret_log,var,graph] <- assessmentDuration(ds, dates)
+paste0("Average time per interview is ", var$avg,
+" minutes and total interview time ", var$tot, " minutes.")
 }
 }
 \author{
