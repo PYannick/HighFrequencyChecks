@@ -35,7 +35,7 @@ This function provide a report showing all values which are greater than a certa
 \examples{
 {
 ds <- HighFrequencyChecks::sample_dataset
-questions <-c("consent_received.food_security.spend_food",
+questions_num <-c("consent_received.food_security.spend_food",
       "consent_received.food_security.spend_medication",
       "consent_received.food_security.spend_education",
       "consent_received.food_security.spend_fix_shelter",
@@ -55,7 +55,7 @@ enumeratorID <- "enumerator_id"
 enumeratorcheck <- FALSE
 
 list[dst,ret_log,var,graph] <- surveyBigValues(ds,
-                                               questions,
+                                               questions_num,
                                                value,
                                                reportingcol,
                                                enumeratorID,

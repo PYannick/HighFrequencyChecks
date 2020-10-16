@@ -1072,7 +1072,7 @@ surveyOutliers <- function(ds=NULL,
 #' @examples
 #' {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' questions <-c("consent_received.food_security.spend_food",
+#' questions_num <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
 #'       "consent_received.food_security.spend_fix_shelter",
@@ -1092,7 +1092,7 @@ surveyOutliers <- function(ds=NULL,
 #' enumeratorcheck <- FALSE
 #'
 #' list[dst,ret_log,var,graph] <- surveyBigValues(ds,
-#'                                                questions,
+#'                                                questions_num,
 #'                                                value,
 #'                                                reportingcol,
 #'                                                enumeratorID,
@@ -1797,7 +1797,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(survey_consent)
+  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(.data[[survey_consent]])
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
