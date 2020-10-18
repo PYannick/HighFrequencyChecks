@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -337,19 +337,19 @@ the columns available are: site, done, final, variance and the ones generated ac
 
 <span class='co'>## setting questions to check</span>
 <span class='va'>questions</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"consent_received.food_security.spend_food"</span>,
-      <span class='st'>"consent_received.food_security.spend_medication"</span>,
-      <span class='st'>"consent_received.food_security.spend_education"</span>,
-      <span class='st'>"consent_received.food_security.spend_fix_shelter"</span>,
-      <span class='st'>"consent_received.food_security.spend_clothing"</span>,
-      <span class='st'>"consent_received.food_security.spend_hygiene"</span>,
-      <span class='st'>"consent_received.food_security.spend_fuel"</span>,
-      <span class='st'>"consent_received.food_security.spend_hh_items"</span>,
-      <span class='st'>"consent_received.food_security.spend_transport"</span>,
-      <span class='st'>"consent_received.food_security.spend_communication"</span>,
-      <span class='st'>"consent_received.food_security.spend_tobacco"</span>,
-      <span class='st'>"consent_received.food_security.spend_rent"</span>,
-      <span class='st'>"consent_received.food_security.spend_debts"</span>,
-      <span class='st'>"consent_received.food_security.spend_other"</span><span class='op'>)</span>
+  <span class='st'>"consent_received.food_security.spend_medication"</span>,
+  <span class='st'>"consent_received.food_security.spend_education"</span>,
+  <span class='st'>"consent_received.food_security.spend_fix_shelter"</span>,
+  <span class='st'>"consent_received.food_security.spend_clothing"</span>,
+  <span class='st'>"consent_received.food_security.spend_hygiene"</span>,
+  <span class='st'>"consent_received.food_security.spend_fuel"</span>,
+  <span class='st'>"consent_received.food_security.spend_hh_items"</span>,
+  <span class='st'>"consent_received.food_security.spend_transport"</span>,
+  <span class='st'>"consent_received.food_security.spend_communication"</span>,
+  <span class='st'>"consent_received.food_security.spend_tobacco"</span>,
+  <span class='st'>"consent_received.food_security.spend_rent"</span>,
+  <span class='st'>"consent_received.food_security.spend_debts"</span>,
+  <span class='st'>"consent_received.food_security.spend_other"</span><span class='op'>)</span>
 <span class='va'>value</span> <span class='op'>&lt;-</span> <span class='fl'>25000</span>
 <span class='va'>minnbanswers</span> <span class='op'>&lt;-</span> <span class='fl'>3</span>
 
@@ -362,41 +362,41 @@ the columns available are: site, done, final, variance and the ones generated ac
 <span class='va'>sftarget</span> <span class='op'>&lt;-</span> <span class='st'>"SS"</span>
 <span class='va'>sfnbpts</span> <span class='op'>&lt;-</span> <span class='st'>"TotPts"</span>
 <span class='va'>formul</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"done-no-not_eligible-delete"</span>,
-               <span class='st'>"done-no-not_eligible-deleted-SS"</span><span class='op'>)</span>
+<span class='st'>"done-no-not_eligible-deleted-SS"</span><span class='op'>)</span>
 <span class='va'>colorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"site"</span>,<span class='st'>"SS"</span>,<span class='st'>"Provisio"</span>,<span class='st'>"done"</span>,<span class='st'>"not_eligible"</span>,
-                 <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span><span class='op'>)</span>
+ <span class='st'>"no"</span>,<span class='st'>"deleted"</span>,<span class='st'>"yes"</span>,<span class='st'>"final"</span>,<span class='st'>"variance"</span><span class='op'>)</span>
 
 <span class='fu'>GenerateRmd</span><span class='op'>(</span><span class='va'>ds</span>,
-              <span class='va'>survey_consent</span>,
-              <span class='va'>reportingcol</span>,
-              <span class='va'>UniqueID</span>,
-              <span class='va'>dates</span>,
-              <span class='va'>surveydate</span>,
-              <span class='va'>start_collection</span>,
-              <span class='va'>dateformat</span>,
-              <span class='va'>minduration</span>,
-              <span class='va'>sdval</span>,
-              <span class='va'>HHSize</span>,
-              <span class='va'>delete</span>,
-              <span class='va'>correct</span>,
-              <span class='va'>enumeratorID</span>,
-              <span class='va'>enumeratorcheck</span>,
-              <span class='va'>otherpattern</span>,
-              <span class='va'>adm</span>,
-              <span class='va'>ds_site</span>,
-              <span class='va'>ds_coord</span>,
-              <span class='va'>adm_site</span>,
-              <span class='va'>pts</span>,
-              <span class='va'>buff</span>,
-              <span class='va'>questions</span>,
-              <span class='va'>value</span>,
-              <span class='va'>minnbanswers</span>,
-              <span class='va'>sf</span>, <span class='va'>dssite</span>,
-              <span class='va'>sfsite</span>,
-              <span class='va'>sftarget</span>,
-              <span class='va'>sfnbpts</span>,
-              <span class='va'>formul</span>,
-              <span class='va'>colorder</span><span class='op'>)</span>
+  <span class='va'>survey_consent</span>,
+  <span class='va'>reportingcol</span>,
+  <span class='va'>UniqueID</span>,
+  <span class='va'>dates</span>,
+  <span class='va'>surveydate</span>,
+  <span class='va'>start_collection</span>,
+  <span class='va'>dateformat</span>,
+  <span class='va'>minduration</span>,
+  <span class='va'>sdval</span>,
+  <span class='va'>HHSize</span>,
+  <span class='va'>delete</span>,
+  <span class='va'>correct</span>,
+  <span class='va'>enumeratorID</span>,
+  <span class='va'>enumeratorcheck</span>,
+  <span class='va'>otherpattern</span>,
+  <span class='va'>adm</span>,
+  <span class='va'>ds_site</span>,
+  <span class='va'>ds_coord</span>,
+  <span class='va'>adm_site</span>,
+  <span class='va'>pts</span>,
+  <span class='va'>buff</span>,
+  <span class='va'>questions</span>,
+  <span class='va'>value</span>,
+  <span class='va'>minnbanswers</span>,
+  <span class='va'>sf</span>, <span class='va'>dssite</span>,
+  <span class='va'>sfsite</span>,
+  <span class='va'>sftarget</span>,
+  <span class='va'>sfnbpts</span>,
+  <span class='va'>formul</span>,
+  <span class='va'>colorder</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

@@ -1072,7 +1072,7 @@ surveyOutliers <- function(ds=NULL,
 #' @examples
 #' {
 #' ds <- HighFrequencyChecks::sample_dataset
-#' questions <-c("consent_received.food_security.spend_food",
+#' questions_num <-c("consent_received.food_security.spend_food",
 #'       "consent_received.food_security.spend_medication",
 #'       "consent_received.food_security.spend_education",
 #'       "consent_received.food_security.spend_fix_shelter",
@@ -1092,7 +1092,7 @@ surveyOutliers <- function(ds=NULL,
 #' enumeratorcheck <- FALSE
 #'
 #' list[dst,ret_log,var,graph] <- surveyBigValues(ds,
-#'                                                questions,
+#'                                                questions_num,
 #'                                                value,
 #'                                                reportingcol,
 #'                                                enumeratorID,
@@ -1146,10 +1146,9 @@ surveyBigValues <- function(ds=NULL, questions=NULL, value=NULL, reportingcol=NU
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDuration(ds,
-#'                                                   dates)
-#' paste0("average time: ", var$avg)
-#' paste0("total time : ", var$tot)
+#' list <- assessmentDuration(ds, dates)
+#' paste0("Average time per interview is ", list[[1]],
+#' " minutes and total interview time ", list[[2]], " minutes.")
 #'}
 #' @export assessmentDuration
 
@@ -1161,14 +1160,14 @@ assessmentDuration <- function(ds=NULL, dates=NULL){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
 
-  # surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-  #                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
-  #                                  units = "secs") / 60
-  surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
+  surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                       readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                   units = "secs") / 60
+  #surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
 
   avg <- round(mean(surveytime), digits = 2)
   tot <- round(sum(surveytime), digits = 2)
-  return(list(NULL,NULL,list(avg=avg,tot=tot),NULL))
+  return(list(avg=avg,tot=tot))
 }
 
 #' @name isInterviewTooShort
@@ -1235,11 +1234,11 @@ isInterviewTooShort <- function(ds=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  # tmp <- data.frame(ds[reportingcol],
-  #                   SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-  #                                                         readr::parse_datetime(as.character(ds[,dates[1]]))),
-  #                                                     units = "secs") / 60)
-  tmp<-data.frame(ds[reportingcol], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  tmp <- data.frame(ds[reportingcol],
+                    SurveyLength = as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                          readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                      units = "secs") / 60)
+  #tmp<-data.frame(ds[reportingcol], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
 
   if(delete){
     ds[,survey_consent][tmp$SurveyLength<minduration] <- "deleted"
@@ -1321,11 +1320,11 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  # tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize],
-  #                 SurveyLength=as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-  #                                                     readr::parse_datetime(as.character(ds[,dates[1]]))),
-  #                                                 units = "secs") / 60)
-  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize],
+                  SurveyLength=as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                      readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                  units = "secs") / 60)
+  #tmp<-data.frame(ds[reportingcol], HHSize=ds[,HHSize], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
 
   if(delete){
     ds[,survey_consent][(tmp$SurveyLength/tmp$HHSize)<minduration]<-"deleted"
@@ -1382,10 +1381,10 @@ assessmentDurationOutliers <- function(ds=NULL,
     stop("Please provide the columns you want in the result (include the enumerator id column if you want to check by enumerator)")
   }
 
-  # surveytime <- data.frame(duration= as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
-  #                                                           readr::parse_datetime(as.character(ds[,dates[1]]))),
-  #                                                       units = "secs") / 60)
-  surveytime <- data.frame(duration=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
+  surveytime <- data.frame(duration= as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                                            readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                                        units = "secs") / 60)
+  #surveytime <- data.frame(duration=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
   duration_outliers <- data.frame(outliers::scores(surveytime, type = "z"))
   tmp <- data.frame(ds[,reportingcol],surveytime,duration_outliers)
   colnames(tmp)[length(tmp)] <- "Zscore"
@@ -1492,12 +1491,16 @@ enumeratorSurveysDuration <- function(ds=NULL,
   if(is.null(enumeratorID) | !is.character(enumeratorID)){
     stop("Please provide the field where the enumerator ID is stored")
   }
-
-  ds$surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
+  ds$surveytime <- as.double.difftime(( readr::parse_datetime(as.character(ds[,dates[2]])) -
+                                          readr::parse_datetime(as.character(ds[,dates[1]]))),
+                                      units = "secs") / 60
+  #ds$surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
   overall_avg_duration <- round(mean(ds$surveytime), digits=2)
-  logf <- ds %>% group_by(enumeratorID=ds[,enumeratorID]) %>% summarize(duration_mean = round(mean(surveytime), digits=2),
-                                                                      overall_avg_duration,
-                                                                      perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
+  logf <- ds %>%
+          group_by(enumeratorID=ds[,enumeratorID]) %>%
+          summarize(duration_mean = round(mean(surveytime), digits=2),
+                    overall_avg_duration,
+                    perc_diff_avg = round(((duration_mean - overall_avg_duration) / overall_avg_duration) * 100, digits=2))
   # graph <- ggplot(logf) + geom_boxplot(aes(duration_mean), outlier.colour = "red") +
   #   theme_light() +
   #   theme(axis.text.y=element_blank(),
@@ -1797,7 +1800,7 @@ assessmentDailyValidSurveys <- function(ds=NULL,
     stop("Please provide the field where the survey consent is stored")
   }
 
-  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(survey_consent)
+  tmp <- ds %>% group_by(surveydate=.data[[surveydate]]) %>% count(.data[[survey_consent]])
   colnames(tmp)[2] <- "survey_consent"
   tmp$surveydate <- as.Date(tmp$surveydate, dateformat)
   tmp <- tmp[with(tmp, order(surveydate)), ]
@@ -1905,38 +1908,86 @@ assessmentTrackingSheet <- function(ds=NULL,
   #df2$consent<-as.character(df2$consent)
   ## dssite<-lazyeval::lazy(dssite)
   ## survey_consent<-lazyeval::lazy(survey_consent)
-  df2 <- ds %>% group_by(site=.data[[ dssite ]], consent=.data[[ survey_consent ]]) %>% summarize(n=n()) %>% mutate(done=sum(n))
+  df2 <- ds %>%
+         group_by(site=.data[[ dssite ]],
+                  consent=.data[[ survey_consent ]]) %>%
+         summarize(n=n()) %>%
+         mutate(done=sum(n))
   ##df2<-ds %>% group_by(.dots=list(site,consent)) # %>% summarize_(n=n()) %>% mutate(done=sum(n))
 
-  tmp <- merge(df1[c("site", "SS")], df2[df2$consent=="yes",c('site', "n")], by=c("site"))
-  tmp$r <- tmp$SS-tmp$n
-  colnames(tmp) <- c("Site", "SampleSize", "Done", "Remaining")
-  tmp <- melt(tmp[-2], id="Site")
+  #tmp <- merge(df1[c("site", "SS")], df2[df2$consent=="yes",c('site', "n")], by=c("site"))
+  tmp <- merge(x= df1,
+               y = df2[,c("site", "consent", "n"), df2$consent=="yes"],
+               by=c("site"))
+  tmp$r <- tmp[,sfnbpts]-tmp$n
+  tmp$r2 <- tmp[,sftarget]-tmp$n
+  # names(tmp)
+  colnames(tmp) <- c("Site",
+                     "MinSampleSize",
+                     "MidSampleSize",
+                     "consent",
+                     "Done",
+                     "Remaining.ideal",
+                     "Remaining.min")
+  tmp2 <- melt(tmp[-2], id="Site")
+  tmp22 <- melt(tmp[], id="Site")
+
+
+  #levels(as.factor(as.character(tmp22$variable)))
+  test <- tmp22 %>%
+    filter(!(variable %in% c("consent","Remaining.ideal","MinSampleSize" )),
+           value>0)
+  # filter(!(variable %in% c("consent", "MidSampleSize","Remaining.min")) )
+  #str(test)
+
+  test$value <- as.integer(test$value)
+
+  #levels(as.factor(as.character(test$variable)))
+  test$variable <- factor(test$variable, levels =c( "MidSampleSize","Remaining.min", "Done"))
+  #test$variable <- factor(test$variable, levels =c( "MidSampleSize","MinSampleSize", "Done"))
+
+
+
+
 
   #df2<-ds %>% group_by_(site=dssite) %>% count_(survey_consent) %>% mutate(done=sum(n))
-  df2 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
-  df <- merge(df1,df2, by.x=c("site"), by.y=c("site"), all.x=TRUE)
-  df[is.na(df)] <- 0
+  df3 <-reshape2::dcast(df2,site + done ~ consent, value.var="n")
+  df <- merge(df1,df3, by.x=c("site"), by.y=c("site"), all.x=TRUE)
+  # df[is.na(df)] <- 0
+  #
+  # formul[1] <- paste0("df[,'",
+  #                     stringi::stri_replace_all_fixed(formul[1],
+  #                                                     c("+","-","/","*"),
+  #                                                     c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
+  #                                                     vectorize_all=FALSE),
+  #                     "']")
+  # df$final <- eval(parse(text=formul[1]))
+  #
+  # formul[2] <- paste0("df[,'",
+  #                     stringi::stri_replace_all_fixed(formul[2],
+  #                                                     c("+","-","/","*"),
+  #                                                     c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
+  #                                                     vectorize_all=FALSE),
+  #                     "']")
+  # df$variance <- eval(parse(text=formul[2]))
+  #
+  # logf <- df[colorder]
+  logf <- tmp
 
-  formul[1] <- paste0("df[,'",
-                      stringi::stri_replace_all_fixed(formul[1],
-                                                      c("+","-","/","*"),
-                                                      c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
-                                                      vectorize_all=FALSE),
-                      "']")
-  df$final <- eval(parse(text=formul[1]))
+  graph <- ggplot2::ggplot(tmp) +
+           ggplot2::geom_col(ggplot2::aes(x="Site", y="done", fill="consent"),
+                             position = ggplot2::position_stack(reverse = TRUE)) +
+           ggplot2::coord_flip()
+  graph2 <-   ggplot2::ggplot(test) +
+    ggplot2::aes(x = Site, fill = variable, y = value) +
+    ggplot2::geom_bar(stat = "identity") +
+    ggplot2::scale_fill_viridis_d(option = "viridis") +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "left") +
+                  coord_flip()
 
-  formul[2] <- paste0("df[,'",
-                      stringi::stri_replace_all_fixed(formul[2],
-                                                      c("+","-","/","*"),
-                                                      c("'] + df[,'","'] - df[,'","'] / df[,'","'] * df[,'"),
-                                                      vectorize_all=FALSE),
-                      "']")
-  df$variance <- eval(parse(text=formul[2]))
-
-  logf <- df[colorder]
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=Site, y=value, fill=variable), position = ggplot2::position_stack(reverse = TRUE)) + ggplot2::coord_flip()
-  return(list(NULL,logf,NULL,graph))
+  #return(list(NULL,logf,NULL,graph))
+  return(list(NULL,logf,NULL,graph2))
 }
 
 
