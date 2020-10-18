@@ -101,34 +101,33 @@ Configuring dates variable...
 
 ```{r}
 dates <- c("survey_start","end_survey")
-surveydate <- "survey_date"
+surveyDate <- "survey_date"
 ## Official date for start of data collection
-start_collection <- "11/11/2018"
-dateformat <- "%m/%d/%Y"
-start_collection <- "2020-10-05"
-
+startDataCollection <- "11/11/2018"
+dateFormat <- "%m/%d/%Y"
+# start_collection <- "2020-10-05"
 # What is the minimum survey duration in minutes (when using all skip logic)?
-minduration <- 10
+minimumSurveyDuration <- 30
+minimumSurveyDurationByIndividual <- 10
 # Standard value
-sdval <- 2
-
+# sdval <- 2
 ## Related actions...
-delete_completed <- FALSE
-delete_dateMoreThanADay <- FALSE
-delete_dateBeforeItStarts <- FALSE
-delete_dateBeforeTheAssessment <- FALSE
-delete_InTheFuture <- FALSE
-delete_InterviewTooShort <- FALSE
+deleteIsInterviewCompleted <- FALSE
+deleteIsSurveyOnMoreThanADay <- FALSE
+deleteIsSurveyEndBeforeItStarts <- FALSE
+deleteIsSurveyStartedBeforeTheAssessment <- FALSE
+deleteIsSurveyMadeInTheFuture <- FALSE
+deleteIsInterviewTooShort <- FALSE
+deleteIsInterviewTooShortForTheHouseholdSize <- FALSE
 ```
 
 Configuring unique ID...
 
 ```{r}
-UniqueID <- "X_uuid"
-
+uniqueID <- "X_uuid"
 ## Related actions
-delete_missing_id <- FALSE
-delete_unique_id <- FALSE
+deleteIsUniqueIDMissing <- FALSE
+deleteIsUniqueIDDuplicated <- FALSE
 ```
 
 Configuring Enumerator
@@ -136,7 +135,6 @@ Configuring Enumerator
 ```{r}
 # Variable used to record enumerator identifiers
 enumeratorID <- "enumerator_id"
-
 ## Related action
 enumeratorcheck <- TRUE
 ```
@@ -145,47 +143,54 @@ Configuring Consent
 
 ```{r}
 # Variable recording initial consent
-survey_consent <- "survey_consent"
-
+surveyConsent <- "survey_consent"
 ## Related action
-delete_withconsent <- FALSE
+deleteIsInterviewWithConsent <- FALSE
 ```
-
 
 ### Configuring numeric questions
 
 ```{r}
 ## Check on numeric variables ####
-questions_num <-c("consent_received.food_security.spend_food",
-       "consent_received.food_security.spend_medication",
-       "consent_received.food_security.spend_education",
-       "consent_received.food_security.spend_fix_shelter",
-       "consent_received.food_security.spend_clothing",
-       "consent_received.food_security.spend_hygiene",
-       "consent_received.food_security.spend_fuel",
-       "consent_received.food_security.spend_hh_items",
-       "consent_received.food_security.spend_transport",
-       "consent_received.food_security.spend_communication",
-       "consent_received.food_security.spend_tobacco",
-       "consent_received.food_security.spend_rent",
-       "consent_received.food_security.spend_debts",
-       "consent_received.food_security.spend_other")
-
-## Max numeric value
-value <- 25000
+questionsSurveySmallValues <-c(consent_received.food_security.spend_food=25000,
+                              consent_received.food_security.spend_medication=25000,
+                              consent_received.food_security.spend_education=25000,
+                              consent_received.food_security.spend_fix_shelter=25000,
+                              consent_received.food_security.spend_clothing=25000,
+                              consent_received.food_security.spend_hygiene=25000,
+                              consent_received.food_security.spend_fuel=25000,
+                              consent_received.food_security.spend_hh_items=25000,
+                              consent_received.food_security.spend_transport=25000,
+                              consent_received.food_security.spend_communication=25000,
+                              consent_received.food_security.spend_tobacco=25000,
+                              consent_received.food_security.spend_rent=25000,
+                              consent_received.food_security.spend_debts=25000,
+                              consent_received.food_security.spend_other=25000)
+questionsSurveyBigValues <-c(consent_received.food_security.spend_food=25000,
+                              consent_received.food_security.spend_medication=25000,
+                              consent_received.food_security.spend_education=25000,
+                              consent_received.food_security.spend_fix_shelter=25000,
+                              consent_received.food_security.spend_clothing=25000,
+                              consent_received.food_security.spend_hygiene=25000,
+                              consent_received.food_security.spend_fuel=25000,
+                              consent_received.food_security.spend_hh_items=25000,
+                              consent_received.food_security.spend_transport=25000,
+                              consent_received.food_security.spend_communication=25000,
+                              consent_received.food_security.spend_tobacco=25000,
+                              consent_received.food_security.spend_rent=25000,
+                              consent_received.food_security.spend_debts=25000,
+                              consent_received.food_security.spend_other=25000)
 ```
 
 ### Configuring categoric questions
 
 ```{r}
-otherpattern <- "_other$"
+otherPattern <- "_other$"
 # Variable recording multiples screening questions
-questions_cat <- c("consent_received.shelter_nfi.non_food_items[.]",
-             "consent_received.food_security.main_income[.]",
-             "consent_received.child_protection.boy_risk[.]",
-             "consent_received.child_protection.girl_risk[.]")
-# minans answers per specific questions
-minans <- 3
+questionsEnumeratorIsLazy <- c(consent_received.shelter_nfi.non_food_items=3,
+                                consent_received.food_security.main_income=3,
+                                consent_received.child_protection.boy_risk=3,
+                                consent_received.child_protection.girl_risk=3)
 ```
 
 ### Configuring sampling plan
@@ -193,25 +198,19 @@ minans <- 3
 The sampling plan is defined through the sampling strategy. It includes for each enumerator the sufficient details for the enumerator to reach out to respondent satisfying the sampling target definition (i.e. name, location, phone number)
 
 ```{r}
-sf <- HighFrequencyChecks::SampleSize
+sampleSizeTable <- HighFrequencyChecks::SampleSize
 # correction for uppercase/lowercase in the site name 
-sf$Union <- tolower(sf$Union)
-
+sampleSizeTable$Union <- tolower(sampleSizeTable$Union)
 # name as a string of the field in the sampling frame where the site is stored
-sfsite <- "Union"
-
+sampleSizeTableSite ="Union"
 # name as a string of the field in the dataset where the site is stored
-dssite <- "union_name"
-
+dsSite <- "union_name"
 # name as a string of the field where the number of points
 # generated is stored in the sampling frame
-sfnbpts <- "TotPts"
-
+sampleSizeTableAvailable ="TotPts"
 # name as a string of the field in the sampling frame where the site is stored
-sftarget <- "SS"
+sampleSizeTableTarget ="SS"
 ```
-
-
 
 ### Configuring geodata for the surveyed area
 
@@ -220,49 +219,44 @@ Often sampling strategy includes a geographic coverage.
 ```{r}
 #This can be overview through either:
 ## a defined polygon, aka area or admin unit
-adm <- HighFrequencyChecks::admin
+adminBoundaries <- HighFrequencyChecks::admin
 # correction for uppercase/lowercase in the site name 
 ds$union_name <- tolower(ds$union_name)
 # Unique key with the survey dataset is changed 
 # to all small cap for further join
-adm$Union <- tolower(adm$Union)
-
+adminBoundaries$Union <- tolower(adminBoundaries$Union)
 # OR a sampling point, around which enumerators are supposed to randomly interview persons.
-pts <- HighFrequencyChecks::SamplePts
+sampledPoints <- HighFrequencyChecks::SamplePts
 # Name of variables for geographic coordinates as recorded by data collection device GPS
-ds_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+dsCoordinates <- c("X_gps_reading_longitude","X_gps_reading_latitude")
 # Name of location (__matching external geodata__)
-df_site <- "union_name"
+dsSite <- "union_name"
 #Name of unique key in polygon file
-admin_site <- "Union"
+adminBoundariesSite <- "Union"
 #Size of the buffer in meters around the assigned data collection location points
-buff <- 10
+buffer <- 10
 ## related cleaning actions
-delete_sitept <- FALSE
-correct_site <- FALSE
-
+deleteIsInterviewAtTheSamplePoint <- FALSE
+correctIsInterviewInTheCorrectSite <- FALSE
 ```
-
 
 ### Report Configuration
 
 ```{r}
 # Variable to be checked
-reportingcol <- c("enumerator_id","X_uuid")
-
+# reportingcol <- c("enumerator_id","X_uuid")
 # formulas as a list of string used to compute the final number 
 # of eligible surveys  and the variance from the target
 # (C('formula1','formula2')).
 # the values/fields available are: done and the ones generated 
 # according the survey consent values (one per value)
-formul = c("done-no-not_eligible","done-no-not_eligible-SS")
-
+# formul = c("done-no-not_eligible","done-no-not_eligible-SS")
 # column names as a list of string to order the colums in the result
 # the columns available are: site, done, final, variance and 
 # the ones generated according the survey consent values (one per value)
-colorder = c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
+# colorder = c("site","SS","TotPts","done","not_eligible","no","yes","final","variance")
+consentForValidSurvey <- "yes" 
 ```
-
 
 ## Corrective actions
 
@@ -276,17 +270,14 @@ Missing data: Are some questions skipped more than others? Are there questions t
 
  *   Too many similar responses: Is there a question where all respondents answer in the same way?
 
-
-
 #### Respondent ID
 
-Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent. 
+Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent.
 
-```{r }
-list_unique_id <- HighFrequencyChecks::isUniqueIDDuplicated(ds, UniqueID, 
-                                                            survey_consent, 
-                                                            reportingcol, 
-                                                            delete_unique_id)
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_unique_id <- HighFrequencyChecks::isUniqueIDDuplicated(ds,
+                                                            uniqueID,
+                                                            surveyConsent)
 ds <- list_unique_id[[1]]
 
 if(nrow(list_unique_id[[2]]) > 0){ 
@@ -298,12 +289,10 @@ DT::datatable(list_unique_id[[2]],
 
 ```
 
-```{r }
-list_missing_id <- HighFrequencyChecks::isUniqueIDMissing(ds, 
-                                                          UniqueID, 
-                                                          survey_consent, 
-                                                          reportingcol, 
-                                                          delete_missing_id)
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_missing_id <- HighFrequencyChecks::isUniqueIDMissing(ds,
+                                                  uniqueID,
+                                                  surveyConsent)
 ds <- list_missing_id[[1]] 
 
 if(nrow(list_missing_id[[2]] ) > 0){ 
@@ -319,16 +308,14 @@ DT::datatable(list_missing_id[[2]],
 
  * Checking record for which interview that do not end on the same day as they started
 
-```{r }
-list_dateMoreThanADay <- HighFrequencyChecks::isSurveyOnMoreThanADay(ds, 
-                                                              survey_consent, 
-                                                              dates, 
-                                                              reportingcol, 
-                                                              delete_dateMoreThanADay)
-ds <- list_dateMoreThanADay[[1]]
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake <- HighFrequencyChecks::isSurveyOnMoreThanADay(ds,
+                                                       surveyConsent,
+                                                       dates)
+ds <- list_date_mistake[[1]]
 
-if(nrow(list_dateMoreThanADay[[2]]) > 0){ 
-DT::datatable(list_dateMoreThanADay[[2]], 
+if(nrow(list_date_mistake[[2]]) > 0){ 
+DT::datatable(list_date_mistake[[2]], 
              caption = "Detected records with errors")
 } else {
   
@@ -338,16 +325,14 @@ DT::datatable(list_dateMoreThanADay[[2]],
 
  * Checking record for which interview ended before they start
 
-```{r }
-list_dateBeforeItStarts <- HighFrequencyChecks::isSurveyEndBeforeItStarts(ds, 
-                                                                survey_consent, 
-                                                                dates, 
-                                                                reportingcol, 
-                                                                delete_dateBeforeItStarts)
-#ds <- list_dateBeforeItStarts[[1]]
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake2 <- HighFrequencyChecks::isSurveyEndBeforeItStarts(ds,
+                                                          surveyConsent,
+                                                          dates)
+#ds <- list_date_mistake2[[1]]
 
-if(nrow(list_dateBeforeItStarts[[2]]) > 0){ 
-DT::datatable(list_dateBeforeItStarts[[2]], 
+if(nrow(list_date_mistake2[[2]]) > 0){ 
+DT::datatable(list_date_mistake2[[2]], 
              caption = "Detected records with errors: interviews ended before they start")
 } else {
   cat(">__No errors__: All interviews ended before they start")
@@ -356,22 +341,19 @@ DT::datatable(list_dateBeforeItStarts[[2]],
 
  * Checking record for which interview tagged in the future
 
-```{r }
-list_InTheFuture <- HighFrequencyChecks::isSurveyMadeInTheFuture(ds, 
-                                                                survey_consent, 
-                                                                dates, 
-                                                                reportingcol, 
-                                                                delete_InTheFuture)
-#ds <- list_InTheFuture[[1]]
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake3 <- HighFrequencyChecks::isSurveyMadeInTheFuture(ds,
+                                                        surveyConsent,
+                                                        dates)
+#ds <- list_date_mistake3[[1]]
 
-if(nrow(list_InTheFuture[[2]]) > 0){ 
-DT::datatable(list_InTheFuture[[2]], 
+if(nrow(list_date_mistake3[[2]]) > 0){ 
+DT::datatable(list_date_mistake3[[2]], 
              caption = "Detected records with errors - date are not in the future")
 } else {
   cat(">__No errors__: records date are not in the future")
 }
 ```
-
 
 ### Data collected according the plan
 
@@ -379,13 +361,9 @@ DT::datatable(list_InTheFuture[[2]],
 
 ```{r }
 list_dateInterviewCompleted <- HighFrequencyChecks::isInterviewCompleted(ds,
-                                         survey_consent,
-                                         dates,
-                                         reportingcol,
-                                         delete_completed)
-
+                                         surveyConsent,
+                                         dates)
 ds <- list_dateInterviewCompleted[[1]]
-
 if(nrow(list_dateInterviewCompleted[[2]]) > 0){ 
 DT::datatable(list_dateInterviewCompleted[[2]], 
              caption = "Detected records with errors - records withtout end date")
@@ -396,58 +374,50 @@ DT::datatable(list_dateInterviewCompleted[[2]],
 
 #### Interviews made before the first day of data collection
 
-```{r }
-list_dateBeforeTheAssessment <- HighFrequencyChecks::isSurveyStartedBeforeTheAssessment(ds, 
-                                                dates,
-                                                survey_consent,  
-                                                start_collection, 
-                                                reportingcol, 
-                                                delete_dateBeforeTheAssessment)
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake4 <- HighFrequencyChecks::isSurveyStartedBeforeTheAssessment(ds,
+                                                                   dates,
+                                                                   surveyConsent,
+                                                                   startDataCollection)
 
-ds <- list_dateBeforeTheAssessment[[1]]
+ds <- list_date_mistake4[[1]]
 
-if(nrow(list_dateBeforeTheAssessment[[2]]) > 0){ 
-DT::datatable(list_dateBeforeTheAssessment[[2]], 
+if(nrow(list_date_mistake4[[2]]) > 0){ 
+DT::datatable(list_date_mistake4[[2]], 
              caption = "Detected records with errors - records occured after the official beginning of data collection")
 } else {
-  cat(paste0(">__No errors__: all records occured after the official beginning of data collection on ", start_collection))
+  cat(paste0(">__No errors__: all records occured after the official beginning of data collection on ", startDataCollection))
 }
 ```
 
-#### Enumerators who made a survey below **`r minduration`** minutes
+#### Enumerators who made a survey below **`r minimumSurveyDuration`** minutes
 
-```{r }
-list_InterviewTooShort <- HighFrequencyChecks::isInterviewTooShort(ds, 
-                                     survey_consent, 
-                                     dates, 
-                                     reportingcol, 
-                                     minduration, 
-                                     delete_InterviewTooShort)
-ds <- list_InterviewTooShort[[1]]
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_duration_Xmin <- HighFrequencyChecks::isInterviewTooShort(ds,
+                                                    surveyConsent,
+                                                    dates,
+                                                    minimumSurveyDuration)
+ds <- list_duration_Xmin[[1]]
 
-if(nrow(list_InterviewTooShort[[2]]) > 0){ 
-DT::datatable(list_InterviewTooShort[[2]], 
-             caption = paste0("Detected records with errors - Interviews duration shorter than ", minduration))
+if(nrow(list_duration_Xmin[[2]]) > 0){ 
+DT::datatable(list_duration_Xmin[[2]], 
+             caption = paste0("Detected records with errors - Interviews duration shorter than ", minimumSurveyDuration))
 } else {
-  cat(paste0(">__No errors__: No interviews duration shorter than ", minduration, " minutes."))
+  cat(paste0(">__No errors__: No interviews duration shorter than ", minimumSurveyDuration))
 }
 
 ```
 
 #### Recorded site name for each interview matches the name of the location
 
-```{r  }
- if(is.null(adm) | !isS4(adm) | nrow(adm)==0){
-    cat("No spatial dataset of the boundaries shapefile")
-  } else {
-list_site <- HighFrequencyChecks::isInterviewInTheCorrectSite(adm,
-                                                               ds, 
-                                                               df_site, 
-                                                               ds_coord, 
-                                                               admin_site, 
-                                                               survey_consent, 
-                                                               reportingcol, 
-                                                               correct_site)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+
+list_site <- HighFrequencyChecks::isInterviewInTheCorrectSite(ds,
+                                                              dsSite,
+                                                              dsCoordinates,
+                                                              adminBoundaries,
+                                                              adminBoundariesSite,
+                                                              surveyConsent)
 ds <- list_site[[1]]
 
 if(nrow(list_site[[2]]) > 0){ 
@@ -456,75 +426,60 @@ DT::datatable(list_site[[2]],
 } else {
   cat(">__No errors__: all records location name not matching with GPS")
 }
-}
 ```
 
-#### Recorded locations for each interview within a **`r buff`** meters buffer from a sample point
+#### Recorded locations for each interview within a **`r buffer`** meters buffer from a sample point
 
-```{r  }
-if(is.null(pts) | !isS4(pts) | nrow(pts)==0){
-    cat("No spatial dataset of the sample points shapefile")
-  } else {
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+list_sitept <- HighFrequencyChecks::isInterviewAtTheSamplePoint(ds,
+                                                            dsCoordinates,
+                                                            sampledPoints,
+                                                            buffer,
+                                                            surveyConsent)
+ds <- list_sitept[[1]]
 
-    list_sitept <- HighFrequencyChecks::isInterviewAtTheSamplePoint(ds, 
-                                    pts, 
-                                    ds_coord, 
-                                    buff, 
-                                    survey_consent, 
-                                    reportingcol, 
-                                    delete_sitept)
-    ds <- list_sitept[[1]]
-    
-    if(nrow(list_sitept[[2]]) > 0){ 
-    DT::datatable(list_sitept[[2]], 
-                 caption = "Detected records with errors - recorded location too far from sampling points")
-    } else {
-      cat(">__No errors__: all records location in accpetable distance from sampling points")
-    }
+if(nrow(list_sitept[[2]]) > 0){ 
+DT::datatable(list_sitept[[2]], 
+             caption = "Detected records with errors - recorded location too far from sampling points")
+} else {
+  cat(">__No errors__: all records location in accpetable distance from sampling points")
 }
 ```
-
-
-
 
 #### Tracking sheet per site
 
 Test for target number: since surveys are submitted in daily waves, keep track of the numbers of surveys submitted and the target number of surveys needed for an area to be completed.
 
-```{r  }
-if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+if(is.null(sampleSizeTable) | nrow(sampleSizeTable)==0 | !is.data.frame(sampleSizeTable)){
     cat("You have not provided a sampling plan.")
   } else {
-       list <-  assessmentTrackingSheet(ds,
-                                          sf,
-                                           dssite,
-                                           sfsite,
-                                           survey_consent,
-                                           sftarget,
-                                           sfnbpts,
-                                           formul,
-                                           colorder)
-      DT::datatable(list[[2]],
-                    caption = "trackingSheet")
-      #print(list[[4]])
-}
+    trackingSheet <- HighFrequencyChecks::assessmentTrackingSheet(ds,
+                                                        dsSite,
+                                                        sampleSizeTable,
+                                                        sampleSizeTableSite,
+                                                        sampleSizeTableTarget,
+                                                        sampleSizeTableAvailable,
+                                                        surveyConsent,
+                                                        consentForValidSurvey)
+    DT::datatable(trackingSheet[[2]], 
+             caption = "trackingSheet")
+  }
 ```
 
 ```{r fig.height=6, fig.width=8}
-if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
+if(is.null(sampleSizeTable) | nrow(sampleSizeTable)==0 | !is.data.frame(sampleSizeTable)){
     cat("You have not provided a sampling plan.")
   } else {
-       list <-  assessmentTrackingSheet(ds,
-                                          sf,
-                                           dssite,
-                                           sfsite,
-                                           survey_consent,
-                                           sftarget,
-                                           sfnbpts,
-                                           formul,
-                                           colorder)
-
-      print(list[[4]])
+    trackingSheet <- HighFrequencyChecks::assessmentTrackingSheet(ds,
+                                                        dsSite,
+                                                        sampleSizeTable,
+                                                        sampleSizeTableSite,
+                                                        sampleSizeTableTarget,
+                                                        sampleSizeTableAvailable,
+                                                        surveyConsent,
+                                                        consentForValidSurvey)
+      print(trackingSheet[[4]])
 }
 ```
 
@@ -534,18 +489,15 @@ if(is.null(sf) | nrow(sf)==0 | !is.data.frame(sf)){
 
 These are designed to check if data shared by any particular enumerator is significantly different from the data shared by other enumerators. Some parameters to check enumerator performance include percentage of "Don't know" responses, or average interview duration. In the first case, there might be a need to re-draft the questions, while in the second case, there might be a need to re-train enumerators.
 
-
-
-
 #### Durations of Interviews
 
 Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
 
-```{r }
-list <- assessmentDuration(ds, dates)
-
-cat(paste0("> Average time per interview is ", list[[1]], " minutes and total interview time ", list[[2]], " minutes."))
-
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_dur <- HighFrequencyChecks::assessmentDuration(ds,
+                                                   dates)
+# ds <- dts
+cat("> The total time of data collection is ", list_dur[[1]], " minutes and the average time per survey is ", list_dur[[2]], " minutes")
 ```
 
 #### Responses with outliers
@@ -554,10 +506,8 @@ Outliers can be observed when some respondents reporting values drastically high
 
 ```{r }
 log_outlier <- HighFrequencyChecks::surveyOutliers(ds, 
-                                                sdval, 
-                                                reportingcol, 
                                                 enumeratorID, 
-                                                enumeratorcheck)
+                                                enumeratorCheck=enumeratorcheck)
 if(nrow(as.data.frame(log_outlier[[2]])) > 0 ){ 
 DT::datatable(log_outlier[[2]], 
              caption = paste0("Detected records with errors - Answers with outliers"))
@@ -566,54 +516,50 @@ DT::datatable(log_outlier[[2]],
 
 #### Numeric value above a certain threshold
 
-
 ```{r }
-if(is.null(questions_num) ){
+if(is.null(questionsSurveyBigValues) ){
     cat("You have not indicated the numeric variables to look at")
   } else {
     
     reportlog_big <- HighFrequencyChecks::surveyBigValues(ds,
-                                                    questions_num,
-                                                    value,
-                                                    reportingcol,
+                                                    questionsSurveyBigValues,
                                                     enumeratorID,
-                                                    enumeratorcheck)
+                                                    enumeratorCheck=enumeratorcheck)
     
     if(nrow(as.data.frame(reportlog_big[[2]])) > 0 ){ 
     DT::datatable(reportlog_big[[2]], 
-                 caption = paste0("Detected records with errors - Numeric values above threshold", value))
+                 caption = paste0("Detected records with errors - Numeric values above threshold"))
     } 
 }
 ```
 
+#### Enumerators who pick up less than a predifined number of answers per specific questions:
 
-#### Enumerators who pick up less than **`r minans`** answers per specific questions
+```{r eval=TRUE, echo=TRUE, results='asis'}
+DT::datatable(data.frame(minimumAnswers=questionsEnumeratorIsLazy))
+```
 
-```{r }
-if(is.null(questions_cat) ){
-    cat("You have not indicated the categoric variables to look at")
-  } else {
-    reportlog_less_X_answers <- HighFrequencyChecks::enumeratorIsLazy(ds, 
-                                               enumeratorID, 
-                                               questions_cat, 
-                                               minans)
-    
-    if(nrow(as.data.frame(reportlog_less_X_answers[[2]])) > 0 ){ 
-    DT::datatable(reportlog_less_X_answers[[2]], 
-                 caption = paste0("Detected records with errors - Enumerators who pick up less than ",minans, " answers per specific questions"))
-    } 
-}
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_less_X_answers <- HighFrequencyChecks::enumeratorIsLazy(ds,
+                                                 enumeratorID,
+                                                 questionsEnumeratorIsLazy)
+
+if(nrow(as.data.frame(reportlog_less_X_answers[[2]])) > 0 ){ 
+DT::datatable(reportlog_less_X_answers[[2]], 
+             caption = paste0("Detected records with errors - Enumerators who pick up less than a predifined number of answers per specific questions"))
+} 
+
 ```
 
 #### Check percentage of “don’t know” and refusal responses by the enumerator. 
 
 #### Number of other distinct values (for the questions with a possibility of other)
 
-```{r  }
-reportlog_others_values <- HighFrequencyChecks::surveyOtherValues(ds, 
-                                   otherpattern, 
-                                   enumeratorID, 
-                                   enumeratorcheck)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_others_values <- HighFrequencyChecks::surveyOtherValues(ds,
+                                                  otherPattern,
+                                                  enumeratorID,
+                                                  TRUE)
 if(nrow(reportlog_others_values[[2]]) > 0){ 
 DT::datatable(reportlog_others_values[[2]], 
              caption = paste0("Detected of other distinct values"))
@@ -625,41 +571,39 @@ DT::datatable(reportlog_others_values[[2]],
 
 #### How many completed interview per day?
 
-```{r }
-reportlog_productivity <- HighFrequencyChecks::assessmentProductivity(ds, 
-                                 surveydate, 
-                                 dateformat, 
-                                 survey_consent)
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_productivity <- HighFrequencyChecks::assessmentProductivity(ds,
+                                                       surveyDate,
+                                                       dateFormat,
+                                                       surveyConsent)
 if(nrow(reportlog_productivity[[2]]) > 0){ 
 DT::datatable(reportlog_productivity[[2]], 
              caption = paste0("Completed interview per day"))
 } 
 ```
 
-
-
 #### How many attempted interview per day and obtained consent?
 
-```{r  }
-reportlog_nb_status <- HighFrequencyChecks::assessmentDailyValidSurveys(ds, 
-                                                                  surveydate, 
-                                                                  dateformat, 
-                                                                  survey_consent)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_nb_status <- HighFrequencyChecks::assessmentDailyValidSurveys(ds,
+                                                            surveyDate,
+                                                            dateFormat,
+                                                            surveyConsent)
 if(nrow(reportlog_nb_status[[2]]) > 0){ 
 DT::datatable(reportlog_nb_status[[2]], 
              caption = paste0("attempted interview per day and obtained consent"))
 } 
 if(!is.null(reportlog_nb_status[4])){
-  print(reportlog_nb_status[4])
+  print(reportlog_nb_status[[4]])
 }
 ```
 
 #### Percentage of survey per consent status by enumerator
 
-```{r  }
-reportlog_refusal <- HighFrequencyChecks::enumeratorSurveysConsent(ds, 
-                                                                 survey_consent, 
-                                                                 enumeratorID)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_refusal <- HighFrequencyChecks::enumeratorSurveysConsent(ds,
+                                                         surveyConsent,
+                                                         enumeratorID)
 if(nrow(reportlog_refusal[[2]]) > 0){ 
 DT::datatable(reportlog_refusal[[2]], 
              caption = paste0("Percentage of survey per consent status by enumerator"))
@@ -668,10 +612,10 @@ DT::datatable(reportlog_refusal[[2]],
 
 #### Average interview duration by enumerator
 
-```{r }
-reportlog_duration <- HighFrequencyChecks::enumeratorSurveysDuration(ds, 
-                                                                  dates, 
-                                                                  enumeratorID)
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_duration <- HighFrequencyChecks::enumeratorSurveysDuration(ds,
+                                                          dates,
+                                                          enumeratorID)
 if(nrow(reportlog_duration[[2]]) > 0){ 
 DT::datatable(reportlog_duration[[2]], 
              caption = paste0("Average interview duration by enumerator"))
@@ -680,10 +624,10 @@ DT::datatable(reportlog_duration[[2]],
 
 #### Number of surveys per day by enumerator
 
-```{r  }
-reportlog_nb_survey <- HighFrequencyChecks::enumeratorProductivity(ds, 
-                                                                 surveydate, 
-                                                                 enumeratorID)
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_nb_survey <- HighFrequencyChecks::enumeratorProductivity(ds,
+                                                       surveyDate,
+                                                       enumeratorID)
 if(nrow(reportlog_nb_survey[[2]]) > 0){ 
 DT::datatable(reportlog_nb_survey[[2]], 
              caption = paste0("Number of surveys per day by enumerator"))
@@ -692,12 +636,11 @@ DT::datatable(reportlog_nb_survey[[2]],
 
 #### Enumerators with productivity significantly different from the average (low or high)
 
-```{r }
+```{r eval=TRUE, echo=TRUE, results='asis'}
 
-reportlog_productivity <- HighFrequencyChecks::enumeratorProductivityOutliers(ds, 
-                                                                    enumeratorID, 
-                                                                    surveydate, 
-                                                                    sdval)
+reportlog_productivity <- HighFrequencyChecks::enumeratorProductivityOutliers(ds,
+                                                               enumeratorID,
+                                                               surveyDate)
 if(nrow(reportlog_productivity[[2]]) > 0){ 
 DT::datatable(reportlog_productivity[[2]], 
              caption = paste0("Enumerators with productivity significantly different from the average"))
