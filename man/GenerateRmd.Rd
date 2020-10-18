@@ -8,105 +8,134 @@ GenerateRmd(
   usexlsform = FALSE,
   form = NULL,
   ds = NULL,
-  survey_consent = NULL,
-  reportingcol = NULL,
-  UniqueID = NULL,
+  surveyConsent = NULL,
+  reportingColumns = NULL,
+  uniqueID = NULL,
   dates = NULL,
-  surveydate = NULL,
-  start_collection = NULL,
-  dateformat = NULL,
-  minduration = NULL,
+  surveyDate = NULL,
+  startDataCollection = NULL,
+  dateFormat = NULL,
+  minimumSurveyDuration = NULL,
+  minimumSurveyDurationByIndividual = NULL,
   sdval = NULL,
-  HHSize = NULL,
-  delete = FALSE,
-  correct = FALSE,
+  HouseholdSize = NULL,
+  deleteIsInterviewCompleted = NULL,
+  deleteIsInterviewWithConsent = NULL,
+  correctIsInterviewInTheCorrectSite = NULL,
+  deleteIsInterviewAtTheSamplePoint = NULL,
+  deleteIsUniqueIDMissing = NULL,
+  deleteIsUniqueIDDuplicated = NULL,
+  deleteIsSurveyOnMoreThanADay = NULL,
+  deleteIsSurveyEndBeforeItStarts = NULL,
+  deleteIsSurveyStartedBeforeTheAssessment = NULL,
+  deleteIsSurveyMadeInTheFuture = NULL,
+  deleteIsInterviewTooShort = NULL,
+  deleteIsInterviewTooShortForTheHouseholdSize = NULL,
   enumeratorID = NULL,
   enumeratorcheck = FALSE,
-  otherpattern = NULL,
-  adm = NULL,
-  ds_site = NULL,
-  ds_coord = NULL,
-  adm_site = NULL,
-  pts = NULL,
-  buff = NULL,
-  questions = NULL,
-  value = NULL,
-  minnbanswers = NULL,
-  sf = NULL,
-  dssite = NULL,
-  sfsite = NULL,
-  sftarget = NULL,
-  sfnbpts = NULL,
-  formul = NULL,
-  colorder = NULL
+  otherPattern = NULL,
+  adminBoundaries = NULL,
+  dsSite = NULL,
+  dsCoordinates = NULL,
+  adminBoundariesSite = NULL,
+  sampledPoints = NULL,
+  buffer = NULL,
+  questionsSurveyBigValues = NULL,
+  questionsSurveySmallValues = NULL,
+  questionsEnumeratorIsLazy = NULL,
+  sampleSizeTable = NULL,
+  sampleSizeTableSite = NULL,
+  sampleSizeTableTarget = NULL,
+  sampleSizeTableAvailable = NULL,
+  consentForValidSurvey = NULL
 )
 }
 \arguments{
+\item{usexlsform}{do not know but have to be documented}
+
+\item{form}{do not know but have to be documented}
+
 \item{ds}{dataset as a data.frame object}
 
-\item{survey_consent}{name as a string of the field in the dataset where the survey consent is stored}
+\item{surveyConsent}{name as a string of the field in the dataset where the survey consent is stored}
 
-\item{reportingcol}{columns as a list of string name from the dataset you want in the result (c('col1','col2',...))}
+\item{reportingColumns}{columns as a list of string name from the dataset you want in the result (c('col1','col2',...))}
 
-\item{UniqueID}{name as a string of the field in the dataset where the unique ID is stored}
+\item{uniqueID}{name as a string of the field in the dataset where the unique ID is stored}
 
 \item{dates}{fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))}
 
-\item{surveydate}{name as a string of the field in the dataset where the date of the survey is stored}
+\item{surveyDate}{name as a string of the field in the dataset where the date of the survey is stored}
 
-\item{start_collection}{date as a string of the first day of data collection ('yyyy-mm-dd')}
+\item{startDataCollection}{date as a string of the first day of data collection ('yyyy-mm-dd')}
 
-\item{dateformat}{format as a string used for the date ('\%m/\%d/\%Y')}
+\item{dateFormat}{format as a string used for the date ('\%m/\%d/\%Y')}
 
-\item{minduration}{minimum acceptable survey duration as integer in minutes}
+\item{minimumSurveyDuration}{minimum acceptable survey duration as integer in minutes}
+
+\item{minimumSurveyDurationByIndividual}{minimum acceptable survey duration for one indifidual as integer in minutes}
 
 \item{sdval}{number of standard deviation for which the data within is considered as acceptable}
 
-\item{HHSize}{name as a string of the field in the dataset where the household size is stored}
+\item{HouseholdSize}{name as a string of the field in the dataset where the household size is stored}
 
-\item{delete}{delete action to be done as a boolean (TRUE/FALSE)}
+\item{deleteIsInterviewCompleted}{delete action to be done as a boolean (TRUE/FALSE) for isInterviewCompleted function}
 
-\item{correct}{correction action to be done as a boolean (TRUE/FALSE)}
+\item{deleteIsInterviewWithConsent}{delete action to be done as a boolean (TRUE/FALSE) for isInterviewWithConsent function}
+
+\item{correctIsInterviewInTheCorrectSite}{correction action to be done as a boolean (TRUE/FALSE) for isInterviewInTheCorrectSite function}
+
+\item{deleteIsInterviewAtTheSamplePoint}{delete action to be done as a boolean (TRUE/FALSE) for isInterviewAtTheSamplePoint function}
+
+\item{deleteIsUniqueIDMissing}{delete action to be done as a boolean (TRUE/FALSE) for isUniqueIDMissing function}
+
+\item{deleteIsUniqueIDDuplicated}{delete action to be done as a boolean (TRUE/FALSE) for isUniqueIDDuplicated function}
+
+\item{deleteIsSurveyOnMoreThanADay}{delete action to be done as a boolean (TRUE/FALSE) for isSurveyOnMoreThanADay function}
+
+\item{deleteIsSurveyEndBeforeItStarts}{delete action to be done as a boolean (TRUE/FALSE) for isSurveyEndBeforeItStarts function}
+
+\item{deleteIsSurveyStartedBeforeTheAssessment}{delete action to be done as a boolean (TRUE/FALSE) for isSurveyStartedBeforeTheAssessment function}
+
+\item{deleteIsSurveyMadeInTheFuture}{delete action to be done as a boolean (TRUE/FALSE) for isSurveyMadeInTheFuture function}
+
+\item{deleteIsInterviewTooShort}{delete action to be done as a boolean (TRUE/FALSE) for isInterviewTooShort function}
+
+\item{deleteIsInterviewTooShortForTheHouseholdSize}{delete action to be done as a boolean (TRUE/FALSE) for isInterviewTooShortForTheHouseholdSize function}
 
 \item{enumeratorID}{name as a string of the field in the dataset where the enumerator ID is stored}
 
 \item{enumeratorcheck}{specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)}
 
-\item{otherpattern}{pattern as string to identify the fields containing others values ('_other$')}
+\item{otherPattern}{pattern as string to identify the fields containing others values ('_other$')}
 
-\item{adm}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
+\item{adminBoundaries}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
 
-\item{ds_site}{name as a string of the field in the dataset where the site is stored}
+\item{dsSite}{name as a string of the field in the dataset where the site is stored}
 
-\item{ds_coord}{columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))}
+\item{dsCoordinates}{columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))}
 
-\item{adm_site}{name as a string of the field in the shapefile where the site is stored}
+\item{adminBoundariesSite}{name as a string of the field in the shapefile where the site is stored}
 
-\item{pts}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
+\item{sampledPoints}{dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84}
 
-\item{buff}{value as an integer in meter to determine the buffer from a sampled point which is acceptable}
+\item{buffer}{value as an integer in meter to determine the buffer from a sampled point which is acceptable}
 
-\item{questions}{columns as a list of string name from the dataset you want to check against (c('col1','col2',...))}
+\item{questionsSurveyBigValues}{columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))}
 
-\item{value}{Maximum acceptable value as integer for the checked fields}
+\item{questionsSurveySmallValues}{columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))}
 
-\item{minnbanswers}{minimum number of answers expected per question}
+\item{questionsEnumeratorIsLazy}{columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))}
 
-\item{sf}{sampling frame as a data.frame object}
+\item{sampleSizeTable}{sampling frame as a data.frame object}
 
-\item{dssite}{name as a string of the field in the dataset where the site is stored}
+\item{sampleSizeTableSite}{name as a string of the field in the sampling frame where the site is stored}
 
-\item{sfsite}{name as a string of the field in the sampling frame where the site is stored}
+\item{sampleSizeTableTarget}{name as a string of the field where the target number of survey is stored in the sampling frame}
 
-\item{sftarget}{name as a string of the field where the target number of survey is stored in the sampling frame}
+\item{sampleSizeTableAvailable}{name as a string of the field where the number of points generated is stored in the sampling frame}
 
-\item{sfnbpts}{name as a string of the field where the number of points generated is stored in the sampling frame}
-
-\item{formul}{formulas as a list of string used to compute the final number of eligible surveys and the variance from the target (C('formula1','formula2')).
-the values/fields available are: done and the ones generated according the survey consent values (one per value)}
-
-\item{colorder}{column names as a list of string to order the colums in the result (C('col1','col2',...)).
-the columns available are: site, done, final, variance and the ones generated according the survey consent values (one per value)}
+\item{consentForValidSurvey}{consent value for the valid surveys as string}
 }
 \value{
 vignette file

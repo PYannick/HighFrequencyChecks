@@ -13,4 +13,5 @@
 #' @import DT
 #' @import ggplot2
 #' @import openxlsx
+#' @import readr
 NULL
