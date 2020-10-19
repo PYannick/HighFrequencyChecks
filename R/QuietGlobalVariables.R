@@ -26,4 +26,7 @@ if(getRversion() >= "2.15.1")
                            "value",
                            "values",
                            "variable",
-                           "x"))
+                           "x",
+                           "Enumerator",
+                           "Error",
+                           "Nb"))

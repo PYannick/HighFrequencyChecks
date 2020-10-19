@@ -254,7 +254,7 @@ isInterviewInTheCorrectSite <- function(ds=NULL,
 #' @author Yannick Pascaud
 #'
 #' @examples
-#'  {
+#' {
 #' ds <- HighFrequencyChecks::sample_dataset
 #' sampledPoints <- HighFrequencyChecks::SamplePts
 #' dsCoordinates <- c("X_gps_reading_longitude","X_gps_reading_latitude")
@@ -269,7 +269,7 @@ isInterviewInTheCorrectSite <- function(ds=NULL,
 #'                                                            buffer,
 #'                                                            surveyConsent)
 #' head(ret_log, 10)
-#'}
+#' }
 #' @export isInterviewAtTheSamplePoint
 isInterviewAtTheSamplePoint <- function(ds=NULL,
                                         dsCoordinates=NULL,

@@ -52,7 +52,7 @@ One internal function "make_GeodesicBuffer" used to create the buffers is create
 https://stackoverflow.com/users/5193830/valentin
 }
 \examples{
- {
+{
 ds <- HighFrequencyChecks::sample_dataset
 sampledPoints <- HighFrequencyChecks::SamplePts
 dsCoordinates <- c("X_gps_reading_longitude","X_gps_reading_latitude")
