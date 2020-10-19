@@ -62,7 +62,7 @@ isInterviewCompleted <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(all_of(reportingColumns), survey_end=dates[2])
-  graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), ggplot2::aes(factor(1), fill=check))
+  graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), "isInterviewCompleted")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -121,7 +121,7 @@ isInterviewWithConsent <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(surveyConsent)) %>% select(all_of(reportingColumns), survey_consent=all_of(surveyConsent))
-  graph <- piechart(data.frame(check=is.na(ds[,surveyConsent])), ggplot2::aes(factor(1), fill=check))
+  graph <- piechart(data.frame(check=is.na(ds[,surveyConsent])), "isInterviewWithConsent")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -833,7 +833,7 @@ isInterviewTooShort <- function(ds=NULL,
     ds[,surveyConsent][tmp$SurveyLength<minimumSurveyDuration] <- "deletedIsInterviewTooShort"
   }
   errors <- subset(tmp, SurveyLength<minimumSurveyDuration)
-  graph <- piechart(data.frame(check=tmp$SurveyLength<minimumSurveyDuration), ggplot2::aes(factor(1), fill=check))
+  graph <- piechart(data.frame(check=tmp$SurveyLength<minimumSurveyDuration), "isInterviewTooShort")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -897,7 +897,7 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
   if(is.null(dates) | !is.character(dates) | length(dates)!=2){
     stop("Please provide the fields where the survey start and end date is stored (c('start_date','end_date'))")
   }
-  if(is.null(HouseholdSize) | !is.character(HouseholdSize)){
+  if(is.null(householdSize) | !is.character(householdSize)){
     stop("Please provide the field where the HH size is stored")
   }
   if(is.null(reportingColumns) | !is.character(reportingColumns)){
@@ -910,16 +910,16 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     stop("Please provide the delete action to be done (TRUE/FALSE)")
   }
 
-  tmp<-data.frame(ds[reportingColumns], HHSize=ds[,HouseholdSize],
+  tmp<-data.frame(ds[reportingColumns], HHSize=ds[,householdSize],
                   SurveyLength=as.double.difftime((readr::parse_datetime(as.character(ds[,dates[2]])) -
                                                    readr::parse_datetime(as.character(ds[,dates[1]]))),
                                                    units = "secs") / 60)
   # tmp<-data.frame(ds[reportingColumns], HHSize=ds[,HouseholdSize], SurveyLength=as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60)
 
   if(deleteIsInterviewTooShortForTheHouseholdSize){
-    ds[,surveyConsent][(tmp$SurveyLength/tmp$HouseholdSize)<minimumSurveyDurationByIndividual]<-"deletedIsInterviewTooShortForTheHouseholdSize"
+    ds[,surveyConsent][(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual] <- "deletedIsInterviewTooShortForTheHouseholdSize"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minimumSurveyDurationByIndividual)
-  graph <- piechart(data.frame(check=(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual), ggplot2::aes(factor(1), fill=check))
+  graph <- piechart(data.frame(check=(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual), "isInterviewTooShortForTheHouseholdSize")
   return(list(ds,errors,NULL,graph))
 }
