@@ -62,7 +62,11 @@ isInterviewCompleted <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(all_of(reportingColumns), survey_end=dates[2])
-  graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), "isInterviewCompleted")
+  # graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), "isInterviewCompleted")
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewCompleted")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -121,7 +125,11 @@ isInterviewWithConsent <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(surveyConsent)) %>% select(all_of(reportingColumns), survey_consent=all_of(surveyConsent))
-  graph <- piechart(data.frame(check=is.na(ds[,surveyConsent])), "isInterviewWithConsent")
+  # graph <- piechart(data.frame(check=is.na(ds[,surveyConsent])), "isInterviewWithConsent")
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewWithConsent")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -222,7 +230,11 @@ isInterviewInTheCorrectSite <- function(ds=NULL,
   }
 
   errors <- subset(fm,check=="NOk") %>% select(all_of(reportingColumns), SiteRec=all_of(dsSite), SiteReal=all_of(adminBoundariesSite))
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewInTheCorrectSite")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isInterviewAtTheSamplePoint
@@ -340,7 +352,11 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
   }
 
   errors <- subset(fm, Outside=="NOk") %>% select(all_of(reportingColumns), Outside=Outside)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewAtTheSamplePoint")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isUniqueIDMissing
@@ -406,7 +422,11 @@ isUniqueIDMissing <- function(ds=NULL,
 
   errors <- subset(ds,is.na(ds[,uniqueID]) | ds[,uniqueID]=="") %>%
     dplyr::select(all_of(reportingColumns), survey_consent=surveyConsent)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isUniqueIDMissing")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isUniqueIDDuplicated
@@ -471,7 +491,11 @@ isUniqueIDDuplicated <- function(ds=NULL,
 
   errors <- subset(ds,duplicated(ds[,uniqueID])) %>%
     dplyr::select(all_of(reportingColumns), survey_consent=surveyConsent)
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isUniqueIDDuplicated")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isSurveyOnMoreThanADay
@@ -540,7 +564,11 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
   #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
   errors <- subset(ds,stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!=stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(all_of(reportingColumns), survey_start=dates[1], survey_end=dates[2])
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isSurveyOnMoreThanADay")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isSurveyEndBeforeItStarts
@@ -608,7 +636,11 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
   #   select(reportingcol, survey_start=dates[1], survey_end=dates[2])
   errors <- subset(ds,strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS")>strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS")) %>%
     select(all_of(reportingColumns), survey_start=dates[1], survey_end=dates[2])
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isSurveyEndBeforeItStarts")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isSurveyStartedBeforeTheAssessment
@@ -680,11 +712,13 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
     ds[,surveyConsent][startDataCollection>stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deletedIsSurveyStartedBeforeTheAssessment"
   }
 
-  # errors <- subset(ds,start_collection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
-  #   select(reportingcol, survey_start=dates[1])
-  errors <- subset(ds,startDataCollection>stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
-    select(all_of(reportingColumns), survey_start=dates[1])
-  return(list(ds,errors,NULL,NULL))
+  errors <- subset(ds,startDataCollection > stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")) %>%
+    select(reportingColumns, survey_start=dates[1])
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isSurveyStartedBeforeTheAssessment")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isSurveyMadeInTheFuture
@@ -755,7 +789,11 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
   #   select(reportingcol, survey_start=dates[1])
   errors <- subset(ds,Sys.Date() < stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")) %>%
     select(all_of(reportingColumns), survey_start=dates[1])
-  return(list(ds,errors,NULL,NULL))
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isSurveyMadeInTheFuture")
+  return(list(ds,errors,NULL,graph))
 }
 
 #' @name isInterviewTooShort
@@ -833,7 +871,16 @@ isInterviewTooShort <- function(ds=NULL,
     ds[,surveyConsent][tmp$SurveyLength<minimumSurveyDuration] <- "deletedIsInterviewTooShort"
   }
   errors <- subset(tmp, SurveyLength<minimumSurveyDuration)
-  graph <- piechart(data.frame(check=tmp$SurveyLength<minimumSurveyDuration), "isInterviewTooShort")
+  # graph <- piechart(data.frame(check=tmp$SurveyLength<minimumSurveyDuration), "isInterviewTooShort")
+  # graph <- piechart(data.frame(categories=c("OK", "NOK", "NA"),
+  #                              Nb=c(sum((tmp$SurveyLength<minimumSurveyDuration)==FALSE, na.rm = TRUE),
+  #                                   sum((tmp$SurveyLength<minimumSurveyDuration)==TRUE, na.rm=TRUE),
+  #                                   sum(is.na((tmp$SurveyLength<minimumSurveyDuration))))),
+  #                   "isInterviewTooShort")
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewTooShort")
   return(list(ds,errors,NULL,graph))
 }
 
@@ -920,6 +967,14 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     ds[,surveyConsent][(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual] <- "deletedIsInterviewTooShortForTheHouseholdSize"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minimumSurveyDurationByIndividual)
-  graph <- piechart(data.frame(check=(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual), "isInterviewTooShortForTheHouseholdSize")
+  # graph <- piechart(data.frame(categories=c("OK", "NOK", "NA"),
+  #                              Nb=c(sum(((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)==FALSE, na.rm = TRUE),
+  #                                   sum(((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)==TRUE, na.rm=TRUE),
+  #                                   sum(is.na((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)))),
+  #                   "isInterviewTooShortForTheHouseholdSize")
+  graph <- piechart(data.frame(categories=c("OK", "NOK"),
+                               Nb=c(length(ds[,1])-length(errors[,1]),
+                                    length(errors[,1]))),
+                    "isInterviewTooShortForTheHouseholdSize")
   return(list(ds,errors,NULL,graph))
 }

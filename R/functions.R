@@ -16,8 +16,7 @@
 #     ggplot2::ylab(NULL)
 # }
 piechart <- function(data, graphTitle){
-  print(c(sum(data$check==FALSE), sum(data$check==TRUE)))
-  t1 <- data.frame(categories=c("OK", "NOK"), Nb=c(sum(data$check==FALSE), sum(data$check==TRUE)))
+  t1<-data
   t1$fraction = t1$Nb / sum(t1$Nb)
   t1 = t1[order(t1$fraction), ]
   t1$ymax = cumsum(t1$fraction)
