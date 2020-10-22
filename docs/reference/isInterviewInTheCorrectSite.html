@@ -75,7 +75,7 @@ There is an option to automatically correct the site in the surveys whith the co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -128,57 +128,67 @@ There is an option to automatically correct the site in the surveys whith the co
     </div>
 
     <pre class="usage"><span class='fu'>isInterviewInTheCorrectSite</span><span class='op'>(</span>
-  adm <span class='op'>=</span> <span class='cn'>NULL</span>,
   ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ds_site <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ds_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
-  adm_site <span class='op'>=</span> <span class='cn'>NULL</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
-  correct <span class='op'>=</span> <span class='cn'>NULL</span>
+  dsSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dsCoordinates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  adminBoundaries <span class='op'>=</span> <span class='cn'>NULL</span>,
+  adminBoundariesSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveyConsent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingColumns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>enumeratorID</span>, <span class='va'>uniqueID</span><span class='op'>)</span>,
+  correctIsInterviewInTheCorrectSite <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>adm</th>
-      <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
-    </tr>
-    <tr>
       <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <td><p>dataset containing the survey (from kobo): data.frame</p></td>
     </tr>
     <tr>
-      <th>ds_site</th>
-      <td><p>name as a string of the field in the dataset where the site is stored</p></td>
+      <th>dsSite</th>
+      <td><p>name of the field in the dataset where the site is stored: string</p></td>
     </tr>
     <tr>
-      <th>ds_coord</th>
-      <td><p>columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))</p></td>
+      <th>dsCoordinates</th>
+      <td><p>name of the fields from the dataset where the information about the GPS coordinates are stored: list of string (c('Long','Lat'))</p></td>
     </tr>
     <tr>
-      <th>adm_site</th>
-      <td><p>name as a string of the field in the shapefile where the site is stored</p></td>
+      <th>adminBoundaries</th>
+      <td><p>dataset containing the shapefile of the site boundaries - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
     </tr>
     <tr>
-      <th>survey_consent</th>
-      <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
+      <th>adminBoundariesSite</th>
+      <td><p>name of the field in the shapefile where the site is stored: string</p></td>
     </tr>
     <tr>
-      <th>reportingcol</th>
-      <td><p>columns as a list of string name from the dataset you want in the result (c('col1','col2',...))</p></td>
+      <th>surveyConsent</th>
+      <td><p>name of the field in the dataset where the survey consent is stored: string</p></td>
     </tr>
     <tr>
-      <th>correct</th>
-      <td><p>correction action to be done as a boolean (TRUE/FALSE)</p></td>
+      <th>reportingColumns</th>
+      <td><p>(Optional, by default it is built from the enumeratorID and the UniqueID) name of the columns from the dataset you want in the result: list of string (c('col1','col2',...))</p></td>
+    </tr>
+    <tr>
+      <th>correctIsInterviewInTheCorrectSite</th>
+      <td><p>(Optional, by default set as FALSE) if TRUE, the site in the survey which is wrong will be replaced by the real one: boolean (TRUE/FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>uniqueID</th>
+      <td><p>name of the field where the survey unique ID is stored: string</p></td>
+    </tr>
+    <tr>
+      <th>enumeratorID</th>
+      <td><p>name of the field where the enumerator ID is stored: string</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
-<p>ret_log  list of the errors found</p>
+    <p>dst      same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE (or NULL)</p>
+<p>ret_log  list of the errors found (or NULL)</p>
+<p>var      a list of value (or NULL)</p>
+<p>graph    graphical representation of the results (or NULL)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -186,35 +196,23 @@ There is an option to automatically correct the site in the surveys whith the co
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='op'>{</span>
   <span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-  <span class='va'>adm</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='admin.html'>admin</a></span>
-  <span class='va'>ds_site</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
-  <span class='va'>ds_coord</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span><span class='op'>)</span>
-  <span class='va'>adm_site</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
-  <span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-  <span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
-  <span class='va'>correct</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+  <span class='va'>dsSite</span> <span class='op'>&lt;-</span> <span class='st'>"union_name"</span>
+  <span class='va'>dsCoordinates</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"X_gps_reading_longitude"</span>,<span class='st'>"X_gps_reading_latitude"</span><span class='op'>)</span>
+  <span class='va'>adminBoundaries</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='admin.html'>admin</a></span>
+  <span class='va'>adminBoundariesSite</span> <span class='op'>&lt;-</span> <span class='st'>"Union"</span>
+  <span class='va'>surveyConsent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+  <span class='va'>uniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
+  <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 
-  <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewInTheCorrectSite</span><span class='op'>(</span><span class='va'>adm</span>,
-                                                             <span class='va'>ds</span>,
-                                                             <span class='va'>ds_site</span>,
-                                                             <span class='va'>ds_coord</span>,
-                                                             <span class='va'>adm_site</span>,
-                                                             <span class='va'>survey_consent</span>,
-                                                             <span class='va'>reportingcol</span>,
-                                                             <span class='va'>correct</span><span class='op'>)</span>
+  <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewInTheCorrectSite</span><span class='op'>(</span><span class='va'>ds</span>,
+                                                             <span class='va'>dsSite</span>,
+                                                             <span class='va'>dsCoordinates</span>,
+                                                             <span class='va'>adminBoundaries</span>,
+                                                             <span class='va'>adminBoundariesSite</span>,
+                                                             <span class='va'>surveyConsent</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: CRS object has no comment</span></div><div class='output co'>#&gt;    enumerator_id                               X_uuid     SiteRec    SiteReal
-#&gt; 1             52 4e05b9ee-2fb6-4276-ab73-7675e94f5011 baharchhara Baharchhara
-#&gt; 2          10052 3c34b46b-96c4-46aa-9d4f-4147527f9042 baharchhara Baharchhara
-#&gt; 3          10049 b404f0fa-d5ef-4fdf-a217-07509244c1f1 baharchhara Baharchhara
-#&gt; 4          10046 b1634db9-9108-486d-a8f1-5706290b5f7d baharchhara Baharchhara
-#&gt; 5             18 3e5ede43-369c-40f6-b59b-c73a5525a81d baharchhara Baharchhara
-#&gt; 6             83 225f1521-c75d-4a4e-b394-0f02ac8e9d8a baharchhara Baharchhara
-#&gt; 7             54 06b1df42-600d-4b51-90c0-1ec06b9c2d13 baharchhara Baharchhara
-#&gt; 8          30022 89af7eaf-efa4-4f05-89eb-cae03133258a baharchhara Baharchhara
-#&gt; 9             43 a98f85bc-0752-437d-a513-cc729804c303 baharchhara Baharchhara
-#&gt; 10         10046 5222a1b0-75a8-4b99-9ce2-138128f88b73 baharchhara Baharchhara</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in isInterviewInTheCorrectSite(ds, dsSite, dsCoordinates, adminBoundaries,     adminBoundariesSite, surveyConsent): object 'enumeratorID' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

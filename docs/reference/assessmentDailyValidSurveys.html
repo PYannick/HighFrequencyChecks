@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -123,9 +123,9 @@
 
     <pre class="usage"><span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span>
   ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  surveydate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dateformat <span class='op'>=</span> <span class='cn'>NULL</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>
+  surveyDate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dateFormat <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveyConsent <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -133,25 +133,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <td><p>dataset containing the survey (from kobo): data.frame</p></td>
     </tr>
     <tr>
-      <th>surveydate</th>
-      <td><p>name as a string of the field in the dataset where the date of the survey is stored</p></td>
+      <th>surveyDate</th>
+      <td><p>name of the field in the dataset where the date of the survey is stored: string</p></td>
     </tr>
     <tr>
-      <th>dateformat</th>
-      <td><p>format as a string used for the date ('%m/%d/%Y')</p></td>
+      <th>dateFormat</th>
+      <td><p>format used for the date: string ('%m/%d/%Y')</p></td>
     </tr>
     <tr>
-      <th>survey_consent</th>
-      <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
+      <th>surveyConsent</th>
+      <td><p>name of the field in the dataset where the survey consent is stored: string</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ret_log  the report</p>
+    <p>dst      same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE (or NULL)</p>
+<p>ret_log  list of the errors found (or NULL)</p>
+<p>var      a list of value (or NULL)</p>
+<p>graph    graphical representation of the results (or NULL)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -159,19 +162,18 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>surveydate</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
-<span class='va'>dateformat</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
-<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>surveyDate</span> <span class='op'>&lt;-</span> <span class='st'>"survey_date"</span>
+<span class='va'>dateFormat</span> <span class='op'>&lt;-</span> <span class='st'>"%m/%d/%Y"</span>
+<span class='va'>surveyConsent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 
 <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentDailyValidSurveys</span><span class='op'>(</span><span class='va'>ds</span>,
-                                                           <span class='va'>surveydate</span>,
-                                                           <span class='va'>dateformat</span>,
-                                                           <span class='va'>survey_consent</span><span class='op'>)</span>
+                                                           <span class='va'>surveyDate</span>,
+                                                           <span class='va'>dateFormat</span>,
+                                                           <span class='va'>surveyConsent</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>graph</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='img'><img src='assessmentDailyValidSurveys-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+</div><div class='img'><img src='assessmentDailyValidSurveys-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

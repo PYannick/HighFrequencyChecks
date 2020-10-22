@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -128,21 +128,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <td><p>dataset containing the survey (from kobo): data.frame</p></td>
     </tr>
     <tr>
       <th>dates</th>
-      <td><p>fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))</p></td>
+      <td><p>name of the fields where the information about the start and end date of the survey is stored: list of string (c('start_date','end_date'))</p></td>
     </tr>
     <tr>
       <th>enumeratorID</th>
-      <td><p>name as a string of the field in the dataset where the enumerator ID is stored</p></td>
+      <td><p>name of the field where the enumerator ID is stored: string</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ret_log  the report</p>
+    <p>dst      same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE (or NULL)</p>
+<p>ret_log  list of the errors found (or NULL)</p>
+<p>var      a list of value (or NULL)</p>
+<p>graph    graphical representation of the results (or NULL)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>

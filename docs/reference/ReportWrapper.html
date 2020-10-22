@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -125,7 +125,8 @@
   working_directY <span class='op'>=</span> <span class='cn'>NULL</span>,
   xlsform_name <span class='op'>=</span> <span class='cn'>NULL</span>,
   xlsform_location <span class='op'>=</span> <span class='cn'>NULL</span>,
-  vignette_directory <span class='op'>=</span> <span class='cn'>NULL</span>
+  vignette_directory <span class='op'>=</span> <span class='cn'>NULL</span>,
+  output <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,6 +148,10 @@
       <th>vignette_directory</th>
       <td><p>the directory where to generate the .Rmd from the working directory</p></td>
     </tr>
+    <tr>
+      <th>output</th>
+      <td><p>type of document generated ("html", "pdf")</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -162,11 +167,13 @@
 <span class='va'>xlsform_name</span> <span class='op'>&lt;-</span> <span class='st'>"form.xlsx"</span>
 <span class='va'>xlsform_location</span> <span class='op'>&lt;-</span> <span class='st'>"/inst/demo/"</span>
 <span class='va'>vignette_directory</span> <span class='op'>&lt;-</span> <span class='st'>"/vignettes/HFC_WR.Rmd"</span>
+<span class='va'>output</span> <span class='op'>&lt;-</span> <span class='st'>"pdf"</span>
 
 <span class='fu'>ReportWrapper</span><span class='op'>(</span><span class='va'>working_directY</span>,
               <span class='va'>xlsform_name</span>,
               <span class='va'>xlsform_location</span>,
-              <span class='va'>vignette_directory</span><span class='op'>)</span>
+              <span class='va'>vignette_directory</span>,
+              <span class='va'>output</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
