@@ -8,7 +8,8 @@ ReportWrapper(
   working_directY = NULL,
   xlsform_name = NULL,
   xlsform_location = NULL,
-  vignette_directory = NULL
+  vignette_directory = NULL,
+  output = NULL
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ ReportWrapper(
 \item{xlsform_location}{the location of the xlsform from the working directory}
 
 \item{vignette_directory}{the directory where to generate the .Rmd from the working directory}
+
+\item{output}{type of document generated ("html", "pdf")}
 }
 \value{
 vignette file
@@ -32,11 +35,13 @@ working_directY <- getwd()
 xlsform_name <- "form.xlsx"
 xlsform_location <- "/inst/demo/"
 vignette_directory <- "/vignettes/HFC_WR.Rmd"
+output <- "pdf"
 
 ReportWrapper(working_directY,
               xlsform_name,
               xlsform_location,
-              vignette_directory)
+              vignette_directory,
+              output)
 }
 }
 \author{

@@ -131,8 +131,6 @@ surveyDistinctValues <- function(ds=NULL,
 #' head(ret_log,10)
 #'}
 #' @export surveyOtherValues
-
-
 surveyOtherValues <- function(ds=NULL,
                               otherPattern=NULL,
                               enumeratorID=NULL,
