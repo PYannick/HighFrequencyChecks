@@ -73,7 +73,7 @@ This report can be global (all the surveys) or displayed for each enumerator ID"
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -125,9 +125,9 @@ This report can be global (all the surveys) or displayed for each enumerator ID<
 
     <pre class="usage"><span class='fu'>surveyOtherValues</span><span class='op'>(</span>
   ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  otherpattern <span class='op'>=</span> <span class='cn'>NULL</span>,
+  otherPattern <span class='op'>=</span> <span class='cn'>NULL</span>,
   enumeratorID <span class='op'>=</span> <span class='cn'>NULL</span>,
-  enumeratorcheck <span class='op'>=</span> <span class='cn'>FALSE</span>
+  enumeratorCheck <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -135,25 +135,28 @@ This report can be global (all the surveys) or displayed for each enumerator ID<
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <td><p>dataset containing the survey (from kobo): data.frame</p></td>
     </tr>
     <tr>
-      <th>otherpattern</th>
-      <td><p>pattern as string to identify the fields containing others values ('_other$')</p></td>
+      <th>otherPattern</th>
+      <td><p>patternto identify the fields containing others values (eg: '_other$'): string</p></td>
     </tr>
     <tr>
       <th>enumeratorID</th>
-      <td><p>name as a string of the field in the dataset where the enumerator ID is stored</p></td>
+      <td><p>name of the field where the enumerator ID is stored: string</p></td>
     </tr>
     <tr>
-      <th>enumeratorcheck</th>
-      <td><p>specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)</p></td>
+      <th>enumeratorCheck</th>
+      <td><p>(Optional, by default set to FALSE) specify if the report has to be displayed for each enumerator or not: boolean (TRUE/FALSE)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ret_log  the report</p>
+    <p>dst      same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE (or NULL)</p>
+<p>ret_log  list of the errors found (or NULL)</p>
+<p>var      a list of value (or NULL)</p>
+<p>graph    graphical representation of the results (or NULL)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -161,14 +164,12 @@ This report can be global (all the surveys) or displayed for each enumerator ID<
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>otherpattern</span> <span class='op'>&lt;-</span> <span class='st'>"_other$"</span>
+<span class='va'>otherPattern</span> <span class='op'>&lt;-</span> <span class='st'>"_other$"</span>
 <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
-<span class='va'>enumeratorcheck</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
 
 <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyOtherValues</span><span class='op'>(</span><span class='va'>ds</span>,
-                         <span class='va'>otherpattern</span>,
-                         <span class='va'>enumeratorID</span>,
-                         <span class='va'>enumeratorcheck</span><span class='op'>)</span>
+                                                 <span class='va'>otherPattern</span>,
+                                                 <span class='va'>enumeratorID</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 3</span><span>

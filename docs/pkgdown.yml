@@ -3,7 +3,8 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   HFC: HFC.html
-last_built: 2020-10-16T13:15Z
+  HFC_TAF: HFC_TAF.html
+last_built: 2020-10-22T18:21Z
 urls:
   reference: https://unhcr.github.io/HighFrequencyChecks/docs//reference
   article: https://unhcr.github.io/HighFrequencyChecks/docs//articles

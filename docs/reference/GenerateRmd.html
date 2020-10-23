@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -125,56 +125,73 @@
   usexlsform <span class='op'>=</span> <span class='cn'>FALSE</span>,
   form <span class='op'>=</span> <span class='cn'>NULL</span>,
   ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
-  UniqueID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveyConsent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingColumns <span class='op'>=</span> <span class='cn'>NULL</span>,
+  uniqueID <span class='op'>=</span> <span class='cn'>NULL</span>,
   dates <span class='op'>=</span> <span class='cn'>NULL</span>,
-  surveydate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  start_collection <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dateformat <span class='op'>=</span> <span class='cn'>NULL</span>,
-  minduration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveyDate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  startDataCollection <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dateFormat <span class='op'>=</span> <span class='cn'>NULL</span>,
+  minimumSurveyDuration <span class='op'>=</span> <span class='cn'>NULL</span>,
+  minimumSurveyDurationByIndividual <span class='op'>=</span> <span class='cn'>NULL</span>,
   sdval <span class='op'>=</span> <span class='cn'>NULL</span>,
-  HHSize <span class='op'>=</span> <span class='cn'>NULL</span>,
-  delete <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  correct <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  HouseholdSize <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsInterviewCompleted <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsInterviewWithConsent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  correctIsInterviewInTheCorrectSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsInterviewAtTheSamplePoint <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsUniqueIDMissing <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsUniqueIDDuplicated <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsSurveyOnMoreThanADay <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsSurveyEndBeforeItStarts <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsSurveyStartedBeforeTheAssessment <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsSurveyMadeInTheFuture <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsInterviewTooShort <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deleteIsInterviewTooShortForTheHouseholdSize <span class='op'>=</span> <span class='cn'>NULL</span>,
   enumeratorID <span class='op'>=</span> <span class='cn'>NULL</span>,
   enumeratorcheck <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  otherpattern <span class='op'>=</span> <span class='cn'>NULL</span>,
-  adm <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ds_site <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ds_coord <span class='op'>=</span> <span class='cn'>NULL</span>,
-  adm_site <span class='op'>=</span> <span class='cn'>NULL</span>,
-  pts <span class='op'>=</span> <span class='cn'>NULL</span>,
-  buff <span class='op'>=</span> <span class='cn'>NULL</span>,
-  questions <span class='op'>=</span> <span class='cn'>NULL</span>,
-  value <span class='op'>=</span> <span class='cn'>NULL</span>,
-  minnbanswers <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sf <span class='op'>=</span> <span class='cn'>NULL</span>,
-  dssite <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sfsite <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sftarget <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sfnbpts <span class='op'>=</span> <span class='cn'>NULL</span>,
-  formul <span class='op'>=</span> <span class='cn'>NULL</span>,
-  colorder <span class='op'>=</span> <span class='cn'>NULL</span>
+  otherPattern <span class='op'>=</span> <span class='cn'>NULL</span>,
+  adminBoundaries <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dsSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dsCoordinates <span class='op'>=</span> <span class='cn'>NULL</span>,
+  adminBoundariesSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampledPoints <span class='op'>=</span> <span class='cn'>NULL</span>,
+  buffer <span class='op'>=</span> <span class='cn'>NULL</span>,
+  questionsSurveyBigValues <span class='op'>=</span> <span class='cn'>NULL</span>,
+  questionsSurveySmallValues <span class='op'>=</span> <span class='cn'>NULL</span>,
+  questionsEnumeratorIsLazy <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleSizeTable <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleSizeTableSite <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleSizeTableTarget <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sampleSizeTableAvailable <span class='op'>=</span> <span class='cn'>NULL</span>,
+  consentForValidSurvey <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>usexlsform</th>
+      <td><p>do not know but have to be documented</p></td>
+    </tr>
+    <tr>
+      <th>form</th>
+      <td><p>do not know but have to be documented</p></td>
+    </tr>
+    <tr>
       <th>ds</th>
       <td><p>dataset as a data.frame object</p></td>
     </tr>
     <tr>
-      <th>survey_consent</th>
+      <th>surveyConsent</th>
       <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
     </tr>
     <tr>
-      <th>reportingcol</th>
+      <th>reportingColumns</th>
       <td><p>columns as a list of string name from the dataset you want in the result (c('col1','col2',...))</p></td>
     </tr>
     <tr>
-      <th>UniqueID</th>
+      <th>uniqueID</th>
       <td><p>name as a string of the field in the dataset where the unique ID is stored</p></td>
     </tr>
     <tr>
@@ -182,36 +199,80 @@
       <td><p>fields as a list of string where the survey start and end date is stored (c('start_date','end_date'))</p></td>
     </tr>
     <tr>
-      <th>surveydate</th>
+      <th>surveyDate</th>
       <td><p>name as a string of the field in the dataset where the date of the survey is stored</p></td>
     </tr>
     <tr>
-      <th>start_collection</th>
+      <th>startDataCollection</th>
       <td><p>date as a string of the first day of data collection ('yyyy-mm-dd')</p></td>
     </tr>
     <tr>
-      <th>dateformat</th>
+      <th>dateFormat</th>
       <td><p>format as a string used for the date ('%m/%d/%Y')</p></td>
     </tr>
     <tr>
-      <th>minduration</th>
+      <th>minimumSurveyDuration</th>
       <td><p>minimum acceptable survey duration as integer in minutes</p></td>
+    </tr>
+    <tr>
+      <th>minimumSurveyDurationByIndividual</th>
+      <td><p>minimum acceptable survey duration for one indifidual as integer in minutes</p></td>
     </tr>
     <tr>
       <th>sdval</th>
       <td><p>number of standard deviation for which the data within is considered as acceptable</p></td>
     </tr>
     <tr>
-      <th>HHSize</th>
+      <th>HouseholdSize</th>
       <td><p>name as a string of the field in the dataset where the household size is stored</p></td>
     </tr>
     <tr>
-      <th>delete</th>
-      <td><p>delete action to be done as a boolean (TRUE/FALSE)</p></td>
+      <th>deleteIsInterviewCompleted</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isInterviewCompleted function</p></td>
     </tr>
     <tr>
-      <th>correct</th>
-      <td><p>correction action to be done as a boolean (TRUE/FALSE)</p></td>
+      <th>deleteIsInterviewWithConsent</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isInterviewWithConsent function</p></td>
+    </tr>
+    <tr>
+      <th>correctIsInterviewInTheCorrectSite</th>
+      <td><p>correction action to be done as a boolean (TRUE/FALSE) for isInterviewInTheCorrectSite function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsInterviewAtTheSamplePoint</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isInterviewAtTheSamplePoint function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsUniqueIDMissing</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isUniqueIDMissing function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsUniqueIDDuplicated</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isUniqueIDDuplicated function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsSurveyOnMoreThanADay</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isSurveyOnMoreThanADay function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsSurveyEndBeforeItStarts</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isSurveyEndBeforeItStarts function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsSurveyStartedBeforeTheAssessment</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isSurveyStartedBeforeTheAssessment function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsSurveyMadeInTheFuture</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isSurveyMadeInTheFuture function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsInterviewTooShort</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isInterviewTooShort function</p></td>
+    </tr>
+    <tr>
+      <th>deleteIsInterviewTooShortForTheHouseholdSize</th>
+      <td><p>delete action to be done as a boolean (TRUE/FALSE) for isInterviewTooShortForTheHouseholdSize function</p></td>
     </tr>
     <tr>
       <th>enumeratorID</th>
@@ -222,74 +283,64 @@
       <td><p>specify if the report has to be displayed for each enumerator or not as a boolean (TRUE/FALSE)</p></td>
     </tr>
     <tr>
-      <th>otherpattern</th>
+      <th>otherPattern</th>
       <td><p>pattern as string to identify the fields containing others values ('_other$')</p></td>
     </tr>
     <tr>
-      <th>adm</th>
+      <th>adminBoundaries</th>
       <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
     </tr>
     <tr>
-      <th>ds_site</th>
+      <th>dsSite</th>
       <td><p>name as a string of the field in the dataset where the site is stored</p></td>
     </tr>
     <tr>
-      <th>ds_coord</th>
+      <th>dsCoordinates</th>
       <td><p>columns as a list of string name from the dataset where the GPS coordinates are stored (c('Long','Lat'))</p></td>
     </tr>
     <tr>
-      <th>adm_site</th>
+      <th>adminBoundariesSite</th>
       <td><p>name as a string of the field in the shapefile where the site is stored</p></td>
     </tr>
     <tr>
-      <th>pts</th>
+      <th>sampledPoints</th>
       <td><p>dataset containing the shapefile - Regardless the projection used for the shapefile, it is transformed to WGS84</p></td>
     </tr>
     <tr>
-      <th>buff</th>
+      <th>buffer</th>
       <td><p>value as an integer in meter to determine the buffer from a sampled point which is acceptable</p></td>
     </tr>
     <tr>
-      <th>questions</th>
-      <td><p>columns as a list of string name from the dataset you want to check against (c('col1','col2',...))</p></td>
+      <th>questionsSurveyBigValues</th>
+      <td><p>columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))</p></td>
     </tr>
     <tr>
-      <th>value</th>
-      <td><p>Maximum acceptable value as integer for the checked fields</p></td>
+      <th>questionsSurveySmallValues</th>
+      <td><p>columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))</p></td>
     </tr>
     <tr>
-      <th>minnbanswers</th>
-      <td><p>minimum number of answers expected per question</p></td>
+      <th>questionsEnumeratorIsLazy</th>
+      <td><p>columns as a list of string name from the dataset you want to check against (c(col1=x,col2=x,...))</p></td>
     </tr>
     <tr>
-      <th>sf</th>
+      <th>sampleSizeTable</th>
       <td><p>sampling frame as a data.frame object</p></td>
     </tr>
     <tr>
-      <th>dssite</th>
-      <td><p>name as a string of the field in the dataset where the site is stored</p></td>
-    </tr>
-    <tr>
-      <th>sfsite</th>
+      <th>sampleSizeTableSite</th>
       <td><p>name as a string of the field in the sampling frame where the site is stored</p></td>
     </tr>
     <tr>
-      <th>sftarget</th>
+      <th>sampleSizeTableTarget</th>
       <td><p>name as a string of the field where the target number of survey is stored in the sampling frame</p></td>
     </tr>
     <tr>
-      <th>sfnbpts</th>
+      <th>sampleSizeTableAvailable</th>
       <td><p>name as a string of the field where the number of points generated is stored in the sampling frame</p></td>
     </tr>
     <tr>
-      <th>formul</th>
-      <td><p>formulas as a list of string used to compute the final number of eligible surveys and the variance from the target (C('formula1','formula2')).
-the values/fields available are: done and the ones generated according the survey consent values (one per value)</p></td>
-    </tr>
-    <tr>
-      <th>colorder</th>
-      <td><p>column names as a list of string to order the colums in the result (C('col1','col2',...)).
-the columns available are: site, done, final, variance and the ones generated according the survey consent values (one per value)</p></td>
+      <th>consentForValidSurvey</th>
+      <td><p>consent value for the valid surveys as string</p></td>
     </tr>
     </table>
 

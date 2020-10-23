@@ -34,6 +34,9 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentTrackingSheet.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorErrorsDashboard.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorIsLazy.html</loc>
   </url>
   <url>
@@ -112,6 +115,12 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveyOutliers.html</loc>
   </url>
   <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveySmallValues.html</loc>
+  </url>
+  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC_TAF.html</loc>
   </url>
 </urlset>

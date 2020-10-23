@@ -52,7 +52,7 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 ds <- HighFrequencyChecks::sample_dataset
 surveyConsent <- "survey_consent"
 dates <- c("survey_start","end_survey")
-HouseholdSize <-"consent_received.respondent_info.hh_size"
+householdSize <-"consent_received.respondent_info.hh_size"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
 minimumSurveyDurationByIndividual <- 10

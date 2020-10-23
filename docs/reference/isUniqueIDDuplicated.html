@@ -73,7 +73,7 @@ There is an option to automatically mark for deletion the surveys which have a d
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
       </span>
     </div>
 
@@ -125,10 +125,10 @@ There is an option to automatically mark for deletion the surveys which have a d
 
     <pre class="usage"><span class='fu'>isUniqueIDDuplicated</span><span class='op'>(</span>
   ds <span class='op'>=</span> <span class='cn'>NULL</span>,
-  UniqueID <span class='op'>=</span> <span class='cn'>NULL</span>,
-  survey_consent <span class='op'>=</span> <span class='cn'>NULL</span>,
-  reportingcol <span class='op'>=</span> <span class='cn'>NULL</span>,
-  delete <span class='op'>=</span> <span class='cn'>NULL</span>
+  uniqueID <span class='op'>=</span> <span class='cn'>NULL</span>,
+  surveyConsent <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reportingColumns <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>enumeratorID</span>, <span class='va'>uniqueID</span><span class='op'>)</span>,
+  deleteIsUniqueIDDuplicated <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -136,30 +136,36 @@ There is an option to automatically mark for deletion the surveys which have a d
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ds</th>
-      <td><p>dataset as a data.frame object</p></td>
+      <td><p>dataset containing the survey (from kobo): data.frame</p></td>
     </tr>
     <tr>
-      <th>UniqueID</th>
-      <td><p>name as a string of the field in the dataset where the unique ID is stored</p></td>
+      <th>uniqueID</th>
+      <td><p>name of the field where the survey unique ID is stored: string</p></td>
     </tr>
     <tr>
-      <th>survey_consent</th>
-      <td><p>name as a string of the field in the dataset where the survey consent is stored</p></td>
+      <th>surveyConsent</th>
+      <td><p>name of the field in the dataset where the survey consent is stored: string</p></td>
     </tr>
     <tr>
-      <th>reportingcol</th>
-      <td><p>columns as a list of string name from the dataset you want in the result (c('col1','col2',...))</p></td>
+      <th>reportingColumns</th>
+      <td><p>(Optional, by default it is built from the enumeratorID and the UniqueID) name of the columns from the dataset you want in the result: list of string (c('col1','col2',...))</p></td>
     </tr>
     <tr>
-      <th>delete</th>
-      <td><p>delete action to be done as a boolean (TRUE/FALSE)</p></td>
+      <th>deleteIsUniqueIDDuplicated</th>
+      <td><p>(Optional, by default set as FALSE) if TRUE, the survey in error will be marked as 'deletedIsUniqueIDDuplicated': boolean (TRUE/FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>enumeratorID</th>
+      <td><p>name of the field where the enumerator ID is stored: string</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>dst same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE</p>
-<p>ret_log  list of the errors found</p>
+    <p>dst      same dataset as the inputed one but with survey marked for deletion if errors are found and delete=TRUE (or NULL)</p>
+<p>ret_log  list of the errors found (or NULL)</p>
+<p>var      a list of value (or NULL)</p>
+<p>graph    graphical representation of the results (or NULL)</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Yannick Pascaud</p>
@@ -167,21 +173,16 @@ There is an option to automatically mark for deletion the surveys which have a d
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='op'>{</span>
 <span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
-<span class='va'>UniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
-<span class='va'>survey_consent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
-<span class='va'>reportingcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"enumerator_id"</span>,<span class='st'>"X_uuid"</span><span class='op'>)</span>
-<span class='va'>delete</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
-
+<span class='va'>uniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
+<span class='va'>surveyConsent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
+<span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 
 <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isUniqueIDDuplicated</span><span class='op'>(</span><span class='va'>ds</span>,
-                                                    <span class='va'>UniqueID</span>,
-                                                    <span class='va'>survey_consent</span>,
-                                                    <span class='va'>reportingcol</span>,
-                                                    <span class='va'>delete</span><span class='op'>)</span>
+                                                    <span class='va'>uniqueID</span>,
+                                                    <span class='va'>surveyConsent</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;     enumerator_id X_uuid survey_consent
-#&gt; 194            46                   yes</div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in isUniqueIDDuplicated(ds, uniqueID, surveyConsent): object 'enumeratorID' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -1,15 +1,23 @@
 ---
 title: "High Frequency Checks template"
-author: "Yannick Pascaud"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 always_allow_html: yes
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
-  html_document: default
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{High Frequency Checks template}
+  %\VignetteEngine{knitr::rmarkdown}
 geometry: margin=0.5in
+fontsize: 10pt
+editor_options: 
+  chunk_output_type: inline
 ---
+
 
 
 ```{r setup, include=FALSE}
@@ -42,7 +50,7 @@ dates<-c("survey_start","end_survey")
 dsCoordinates<-c("X_gps_reading_longitude","X_gps_reading_latitude")
 dsSite<-"union_name"
 enumeratorID<-"enumerator_id"
-HouseholdSize<-"consent_received.respondent_info.hh_size"
+householdSize<-"consent_received.respondent_info.hh_size"
 minimumSurveyDuration<-30
 minimumSurveyDurationByIndividual<-10
 otherPattern<-"_other$"
