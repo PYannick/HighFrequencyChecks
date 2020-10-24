@@ -557,7 +557,7 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 
   if(deleteIsSurveyOnMoreThanADay){
     # ds[,survey_consent][stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd")!= stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")]<-"deleted"
-    ds[,survey_consent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!=stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deletedIsSurveyOnMoreThanADay"
+    ds[,surveyConsent][stringi::stri_datetime_format(strptime(ds[,dates[1]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")!=stringi::stri_datetime_format(strptime(ds[,dates[2]], "%Y-%m-%dT%H:%M:%OS"),"uuuu-MM-dd")]<-"deletedIsSurveyOnMoreThanADay"
   }
 
   # errors <- subset(ds, stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[1]])),"uuuu-MM-dd") != stringi::stri_datetime_format(readr::parse_datetime(as.character(ds[,dates[2]])),"uuuu-MM-dd")) %>%

@@ -40,9 +40,11 @@ assessmentDuration <- function(ds=NULL,
                                     units = "secs") / 60
   # surveytime <- as.double.difftime((strptime(ds[,dates[2]],"%Y-%m-%dT%R") - strptime(ds[,dates[1]],"%Y-%m-%dT%R")), units = "secs")/60
 
-  avg <- round(mean(surveytime), digits = 2)
-  tot <- round(sum(surveytime), digits = 2)
-  return(list(NULL,NULL,list(avg=avg,tot=tot),NULL))
+  # avg <- round(mean(surveytime), digits = 2)
+  # tot <- round(sum(surveytime), digits = 2)
+  msg<-paste0("The total time of data collection is ", round(mean(surveytime), digits = 2),
+         " minutes and the average time per survey is ", round(sum(surveytime), digits = 2), " minutes")
+  return(list(NULL,NULL,msg,NULL))
 }
 
 #' @name assessmentDurationOutliers
@@ -307,14 +309,14 @@ assessmentTrackingSheet <- function(ds=NULL,
     stop("Please provide either the value for in the consent for the valid surveys")
   }
 
-  df1<-data.frame(sampleSizeTable[,sampleSizeTableSite], sampleSizeTable[,sampleSizeTableTarget], sampleSizeTable[,sampleSizeTableAvailable])
+  df1<-data.frame(sampleSizeTable[,sampleSizeTableSite], sampleSizeTable[,sampleSizeTableTarget], sampleSizeTable[,sampleSizeTableAvailable], stringsAsFactors = FALSE)
   colnames(df1)<-c("site",sampleSizeTableTarget,sampleSizeTableAvailable)
   ds[,surveyConsent][ds$survey_consent!=consentForValidSurvey]<-"no"
-  df2 <- ds %>%
+  df2 <- data.frame(ds %>%
          group_by(site=.data[[ dsSite ]],
                   consent=.data[[ surveyConsent ]]) %>%
          summarize(n=n()) %>%
-         mutate(done=sum(n))
+         mutate(done=sum(n)), stringsAsFactors = FALSE)
 
   tmp <- merge(df1[c("site",sampleSizeTableTarget,sampleSizeTableAvailable)],
                df2[df2$consent==consentForValidSurvey,c('site', "n", "done")],
@@ -328,7 +330,7 @@ assessmentTrackingSheet <- function(ds=NULL,
   alertText <- "there is not enough points available to reach the sample size for:"
   alertTextToBeDisplayed <- FALSE
   for(i in 1:length(tmp[,1])){
-    if(tmp[i,]$RemainingPoints - tmp[i,]$ToDo < 0){
+    if(((tmp[i,]$RemainingPoints - tmp[i,]$ToDo) < 0)){
       alertText <- paste(alertText, tmp[i,1], sep = " ")
       alertTextToBeDisplayed <- TRUE
     }
