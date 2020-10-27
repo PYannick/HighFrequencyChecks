@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{piechart}
 \alias{piechart}
-\title{Create a pie chart with ggplot}
+\title{Create a donut chart with ggplot}
 \usage{
 piechart(data, graphTitle)
 }
@@ -15,5 +15,5 @@ piechart(data, graphTitle)
 a ggplot object
 }
 \description{
-This function allow to create a pie chart with ggplot.
+This function allow to create a donut chart with ggplot.
 }

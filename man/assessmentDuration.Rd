@@ -31,9 +31,7 @@ dates <- c("survey_start","end_survey")
 
 list[dst,ret_log,var,graph] <- assessmentDuration(ds,
                                                   dates)
-paste0("Average time per interview is ", var$avg,
-       "minutes and total interview time is ", var$tot,
-       "minutes")
+print(var)
 }
 }
 \author{

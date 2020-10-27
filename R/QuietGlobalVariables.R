@@ -29,4 +29,11 @@ if(getRversion() >= "2.15.1")
                            "x",
                            "Enumerator",
                            "Error",
-                           "Nb"))
+                           "Nb",
+                           "functionsConfig",
+                           "variablesOptional",
+                           "variablesNecessary",
+                           "variablesDatasets",
+                           "categories",
+                           "ymax",
+                           "ymin"))

@@ -25,7 +25,7 @@
 
 hfcApp <- function(maxRequestSize=50, debug=FALSE, theme="yeti", ..., shiny.server = FALSE) {
   if(!shiny.server)
-    runApp(hfcApp(maxRequestSize, debug, theme, ..., shiny.server = TRUE))
+    shiny::runApp(hfcApp(maxRequestSize, debug, theme, ..., shiny.server = TRUE))
 
   if (!is.numeric(maxRequestSize)) {
     stop("argument 'maxRequestSize' must be numeric!\n")
@@ -42,21 +42,21 @@ hfcApp <- function(maxRequestSize=50, debug=FALSE, theme="yeti", ..., shiny.serv
   options(shiny.trace=debug)
 
   #.GlobalEnv$.startdir <- getwd()
-  shinyOptions(.startdir = getwd())
-  shinyOptions(.appDir = appDir)
+  shiny::shinyOptions(.startdir = getwd())
+  shiny::shinyOptions(.appDir = appDir)
 
   if (!theme %in% c("yeti","flatly")) {
     stop("Invalid value for argument 'theme'\n")
   }
 
   if (theme=="yeti") {
-    shinyOptions(.guitheme = "bootswatch_yeti.css")
-    shinyOptions(.guijsfile = NULL)
+    shiny::shinyOptions(.guitheme = "bootswatch_yeti.css")
+    shiny::shinyOptions(.guijsfile = NULL)
   }
 
   if (theme=="flatly") {
-    shinyOptions(.guitheme = "bootswatch_flatly.css")
-    shinyOptions(.guijsfile = NULL)
+    shiny::shinyOptions(.guitheme = "bootswatch_flatly.css")
+    shiny::shinyOptions(.guijsfile = NULL)
   }
 
 
@@ -64,9 +64,9 @@ hfcApp <- function(maxRequestSize=50, debug=FALSE, theme="yeti", ..., shiny.serv
     source(file.path(appDir, filename), local = parent.frame(), chdir = TRUE)$value
   }
 
-  shinyOptions(hfcAppInvoked = TRUE)
-  source_from_appdir("global.R")
-  shinyOptions(hfcAppInvoked = NULL)
+  shiny::shinyOptions(hfcAppInvoked = TRUE)
+  # source_from_appdir("global.R")     # le fichier n'esxiste pas et je ne sais pas trop ce qu'il doit contenir
+  shiny::shinyOptions(hfcAppInvoked = NULL)
 
   shiny::shinyApp(
     ui = source_from_appdir("ui.R"),
