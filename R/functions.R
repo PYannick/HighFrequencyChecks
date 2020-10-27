@@ -51,7 +51,11 @@ booleanSum <- function(x){
 #' @rdname ni
 #' @title Not in
 #' @description This function create the not in function
-'%ni%' <- Negate('%in%')
+#'
+#' @param x vector or NULL: the values to be matched. Long vectors are supported.
+#' @param table vector or NULL: the values to be matched against. Long vectors are not supported.
+#'
+'%ni%' <- function(x, table) !(match(x, table, nomatch = 0) > 0)
 
 #' @name mapFunctions
 #' @rdname mapFunctions

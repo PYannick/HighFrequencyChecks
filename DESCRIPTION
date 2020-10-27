@@ -34,7 +34,7 @@ URL: https://unhcr.github.io/HighFrequencyChecks/docs/
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, shiny
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 

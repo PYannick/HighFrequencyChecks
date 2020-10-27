@@ -5,7 +5,12 @@
 \alias{\%ni\%}
 \title{Not in}
 \usage{
-... \%ni\% NA
+x \%ni\% table
+}
+\arguments{
+\item{x}{vector or NULL: the values to be matched. Long vectors are supported.}
+
+\item{table}{vector or NULL: the values to be matched against. Long vectors are not supported.}
 }
 \description{
 This function create the not in function
