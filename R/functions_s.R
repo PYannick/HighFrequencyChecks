@@ -20,8 +20,9 @@
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- surveyMissingValues(ds,
-#'                                                    enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveyMissingValues(ds=ds,
+#'                                                    enumeratorID=enumeratorID,
+#'                                                    enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveyMissingValues
@@ -70,8 +71,9 @@ surveyMissingValues <- function(ds=NULL,
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- surveyDistinctValues(ds,
-#'                                                     enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveyDistinctValues(ds=ds,
+#'                                                     enumeratorID=enumeratorID,
+#'                                                     enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveyDistinctValues
@@ -125,9 +127,10 @@ surveyDistinctValues <- function(ds=NULL,
 #' otherPattern <- "_other$"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- surveyOtherValues(ds,
-#'                                                  otherPattern,
-#'                                                  enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveyOtherValues(ds=ds,
+#'                                                  otherPattern=otherPattern,
+#'                                                  enumeratorID=enumeratorID,
+#'                                                  enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveyOtherValues
@@ -186,9 +189,14 @@ surveyOtherValues <- function(ds=NULL,
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' uniqueID <- "X_uuid"
+#' reportingColumns <- c(enumeratorID, uniqueID)
+#' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- surveyOutliers(ds,
-#'                                               enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveyOutliers(ds=ds,
+#'                                               enumeratorID=enumeratorID,
+#'                                               sdval=sdval,
+#'                                               reportingColumns=reportingColumns,
+#'                                               enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveyOutliers
@@ -301,10 +309,13 @@ surveyOutliers <- function(ds=NULL,
 #'                              consent_received.food_security.spend_other=25000)
 #' enumeratorID <- "enumerator_id"
 #' uniqueID <- "X_uuid"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- surveyBigValues(ds,
-#'                                                questionsSurveyBigValues,
-#'                                                enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveyBigValues(ds=ds,
+#'                                                questionsSurveyBigValues=questionsSurveyBigValues,
+#'                                                enumeratorID=enumeratorID,
+#'                                                reportingColumns=reportingColumns,
+#'                                                enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveyBigValues
@@ -376,10 +387,13 @@ surveyBigValues <- function(ds=NULL,
 #'                              consent_received.food_security.spend_other=25000)
 #' enumeratorID <- "enumerator_id"
 #' uniqueID <- "X_uuid"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- surveySmallValues(ds,
-#'                                                questionsSurveySmallValues,
-#'                                                enumeratorID)
+#' list[dst,ret_log,var,graph] <- surveySmallValues(ds=ds,
+#'                                        questionsSurveySmallValues=questionsSurveySmallValues,
+#'                                        enumeratorID=enumeratorID,
+#'                                        reportingColumns=reportingColumns,
+#'                                        enumeratorCheck=FALSE)
 #' head(ret_log,10)
 #'}
 #' @export surveySmallValues

@@ -44,9 +44,14 @@ based on the difference between mean and median between untransformed normalized
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 uniqueID <- "X_uuid"
+reportingColumns <- c(enumeratorID, uniqueID)
+sdval<-2
 
-list[dst,ret_log,var,graph] <- surveyOutliers(ds,
-                                              enumeratorID)
+list[dst,ret_log,var,graph] <- surveyOutliers(ds=ds,
+                                              enumeratorID=enumeratorID,
+                                              sdval=sdval,
+                                              reportingColumns=reportingColumns,
+                                              enumeratorCheck=FALSE)
 head(ret_log,10)
 }
 }

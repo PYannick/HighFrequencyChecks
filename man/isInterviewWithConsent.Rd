@@ -44,9 +44,12 @@ ds <- HighFrequencyChecks::sample_dataset
 surveyConsent <- "survey_consent"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds,
-                                                      surveyConsent)
+list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds=ds,
+                                                      surveyConsent=surveyConsent,
+                                                      reportingColumns=reportingColumns,
+                                                      deleteIsInterviewWithConsent=FALSE)
 head(ret_log,10)
 print(graph)
 }

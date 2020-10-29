@@ -73,7 +73,7 @@ This report can be global (all the surveys) or displayed for each enumerator ID"
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -167,25 +167,26 @@ This report can be global (all the surveys) or displayed for each enumerator ID<
 <span class='va'>otherPattern</span> <span class='op'>&lt;-</span> <span class='st'>"_other$"</span>
 <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyOtherValues</span><span class='op'>(</span><span class='va'>ds</span>,
-                                                 <span class='va'>otherPattern</span>,
-                                                 <span class='va'>enumeratorID</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyOtherValues</span><span class='op'>(</span>ds<span class='op'>=</span><span class='va'>ds</span>,
+                                                 otherPattern<span class='op'>=</span><span class='va'>otherPattern</span>,
+                                                 enumeratorID<span class='op'>=</span><span class='va'>enumeratorID</span>,
+                                                 enumeratorCheck<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 3</span><span>
 #&gt; </span><span style='color: #555555;'># Groups:   field [2]</span><span>
 #&gt;    field                               values                                 nb
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>                               </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                               </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> consent_received.wash.water_collec… </span><span style='color: #555555;'>"</span><span>The source is only available some…     1
-#&gt; </span><span style='color: #555555;'> 2</span><span> consent_received.wash.water_collec… </span><span style='color: #555555;'>"</span><span>They have to collect water from n…     1
-#&gt; </span><span style='color: #555555;'> 3</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>chair-table </span><span style='color: #555555;'>"</span><span>                          1
-#&gt; </span><span style='color: #555555;'> 4</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Cow, goat </span><span style='color: #555555;'>"</span><span>                            1
-#&gt; </span><span style='color: #555555;'> 5</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Dressmaking machine</span><span style='color: #555555;'>"</span><span>                   1
-#&gt; </span><span style='color: #555555;'> 6</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Electric fan</span><span style='color: #555555;'>"</span><span>                          1
-#&gt; </span><span style='color: #555555;'> 7</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Electricity line</span><span style='color: #555555;'>"</span><span>                      2
-#&gt; </span><span style='color: #555555;'> 8</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Electricity supply \n</span><span style='color: #555555;'>"</span><span>                 1
-#&gt; </span><span style='color: #555555;'> 9</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Fridge</span><span style='color: #555555;'>"</span><span>                                1
-#&gt; </span><span style='color: #555555;'>10</span><span> consent_received.shelter_nfi.non_f… </span><span style='color: #555555;'>"</span><span>Furniture</span><span style='color: #555555;'>"</span><span>                             1</div></span></pre>
+#&gt; </span><span style='color: #555555;'> 1</span><span> consent_received.wash.water_collec~ </span><span style='color: #555555;'>"</span><span>The source is only available some~     1
+#&gt; </span><span style='color: #555555;'> 2</span><span> consent_received.wash.water_collec~ </span><span style='color: #555555;'>"</span><span>They have to collect water from n~     1
+#&gt; </span><span style='color: #555555;'> 3</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>chair-table </span><span style='color: #555555;'>"</span><span>                          1
+#&gt; </span><span style='color: #555555;'> 4</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Cow, goat </span><span style='color: #555555;'>"</span><span>                            1
+#&gt; </span><span style='color: #555555;'> 5</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Dressmaking machine</span><span style='color: #555555;'>"</span><span>                   1
+#&gt; </span><span style='color: #555555;'> 6</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Electric fan</span><span style='color: #555555;'>"</span><span>                          1
+#&gt; </span><span style='color: #555555;'> 7</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Electricity line</span><span style='color: #555555;'>"</span><span>                      2
+#&gt; </span><span style='color: #555555;'> 8</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Electricity supply \n</span><span style='color: #555555;'>"</span><span>                 1
+#&gt; </span><span style='color: #555555;'> 9</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Fridge</span><span style='color: #555555;'>"</span><span>                                1
+#&gt; </span><span style='color: #555555;'>10</span><span> consent_received.shelter_nfi.non_f~ </span><span style='color: #555555;'>"</span><span>Furniture</span><span style='color: #555555;'>"</span><span>                             1</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

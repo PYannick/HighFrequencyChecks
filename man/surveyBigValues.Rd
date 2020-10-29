@@ -56,10 +56,13 @@ questionsSurveyBigValues <-c(consent_received.food_security.spend_food=25000,
                              consent_received.food_security.spend_other=25000)
 enumeratorID <- "enumerator_id"
 uniqueID <- "X_uuid"
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- surveyBigValues(ds,
-                                               questionsSurveyBigValues,
-                                               enumeratorID)
+list[dst,ret_log,var,graph] <- surveyBigValues(ds=ds,
+                                               questionsSurveyBigValues=questionsSurveyBigValues,
+                                               enumeratorID=enumeratorID,
+                                               reportingColumns=reportingColumns,
+                                               enumeratorCheck=FALSE)
 head(ret_log,10)
 }
 }

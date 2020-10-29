@@ -51,12 +51,14 @@ surveyConsent <- "survey_consent"
 startDataCollection <- "2018-11-11"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
-deleteIsSurveyStartedBeforeTheAssessment <- FALSE
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds,
-                                                                  dates,
-                                                                  surveyConsent,
-                                                                  startDataCollection)
+list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds=ds,
+                                                   dates=dates,
+                                                   surveyConsent=surveyConsent,
+                                                   startDataCollection=startDataCollection,
+                                                   reportingColumns=reportingColumns,
+                                                   deleteIsSurveyStartedBeforeTheAssessment = FALSE)
 head(ret_log, 10)
 }
 }

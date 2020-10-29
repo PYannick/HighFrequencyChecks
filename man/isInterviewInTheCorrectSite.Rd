@@ -61,13 +61,16 @@ There is an option to automatically correct the site in the surveys whith the co
   surveyConsent <- "survey_consent"
   uniqueID <- "X_uuid"
   enumeratorID <- "enumerator_id"
+  reportingColumns <- c(enumeratorID, uniqueID)
 
-  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(ds,
-                                                             dsSite,
-                                                             dsCoordinates,
-                                                             adminBoundaries,
-                                                             adminBoundariesSite,
-                                                             surveyConsent)
+  list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(ds=ds,
+                                                     dsSite=dsSite,
+                                                     dsCoordinates=dsCoordinates,
+                                                     adminBoundaries=adminBoundaries,
+                                                     adminBoundariesSite=adminBoundariesSite,
+                                                     surveyConsent=surveyConsent,
+                                                     reportingColumns=reportingColumns,
+                                                     correctIsInterviewInTheCorrectSite=FALSE)
   head(ret_log, 10)
 }
 }

@@ -31,9 +31,9 @@ ds <- HighFrequencyChecks::sample_dataset
 surveyDate <- "survey_date"
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
-                                                      surveyDate,
-                                                      enumeratorID)
+list[dst,ret_log,var,graph] <- enumeratorProductivity(ds=ds,
+                                                      surveyDate=surveyDate,
+                                                      enumeratorID=enumeratorID)
 head(ret_log,10)
 print(graph)
 }

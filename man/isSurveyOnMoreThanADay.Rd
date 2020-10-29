@@ -47,11 +47,13 @@ surveyConsent <- "survey_consent"
 dates <- c("survey_start","end_survey")
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
-deleteIsSurveyOnMoreThanADay <- FALSE
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds,
-                                                      surveyConsent,
-                                                      dates)
+list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds=ds,
+                                                      surveyConsent=surveyConsent,
+                                                      dates=dates,
+                                                      reportingColumns=reportingColumns,
+                                                      deleteIsSurveyOnMoreThanADay=FALSE)
 head(ret_log, 10)
 }
 }

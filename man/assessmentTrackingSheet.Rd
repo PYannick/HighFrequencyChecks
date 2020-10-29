@@ -55,14 +55,14 @@ sampleSizeTableAvailable <- "TotPts"                # Usually the Target + a buf
 surveyConsent <- "survey_consent"
 consentForValidSurvey <- "yes"                      # consent value for yes
 
-list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
-                                                       dsSite,
-                                                       sampleSizeTable,
-                                                       sampleSizeTableSite,
-                                                       sampleSizeTableTarget,
-                                                       sampleSizeTableAvailable,
-                                                       surveyConsent,
-                                                       consentForValidSurvey)
+list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds=ds,
+                                                 dsSite=dsSite,
+                                                 sampleSizeTable=sampleSizeTable,
+                                                 sampleSizeTableSite=sampleSizeTableSite,
+                                                 sampleSizeTableTarget=sampleSizeTableTarget,
+                                                 sampleSizeTableAvailable=sampleSizeTableAvailable,
+                                                 surveyConsent=surveyConsent,
+                                                 consentForValidSurvey=consentForValidSurvey)
 head(ret_log,10)
 print(graph)
 }

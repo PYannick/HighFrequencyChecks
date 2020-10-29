@@ -19,8 +19,8 @@
 #' ds <- HighFrequencyChecks::sample_dataset
 #' dates <- c("survey_start","end_survey")
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDuration(ds,
-#'                                                   dates)
+#' list[dst,ret_log,var,graph] <- assessmentDuration(ds=ds,
+#'                                                   dates=dates)
 #' print(var)
 #'}
 #' @export assessmentDuration
@@ -70,9 +70,13 @@ assessmentDuration <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
+#' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
-#'                                                           dates)
+#' list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds=ds,
+#'                                                           dates=dates,
+#'                                                           sdval=sdval,
+#'                                                           reportingColumns=reportingColumns)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -136,10 +140,10 @@ assessmentDurationOutliers <- function(ds=NULL,
 #' dateFormat <- "%m/%d/%Y"
 #' surveyConsent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentProductivity(ds,
-#'                                                       surveyDate,
-#'                                                       dateFormat,
-#'                                                       surveyConsent)
+#' list[dst,ret_log,var,graph] <- assessmentProductivity(ds=ds,
+#'                                                       surveyDate=surveyDate,
+#'                                                       dateFormat=dateFormat,
+#'                                                       surveyConsent=surveyConsent)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -195,10 +199,10 @@ assessmentProductivity <- function(ds=NULL,
 #' dateFormat <- "%m/%d/%Y"
 #' surveyConsent <- "survey_consent"
 #'
-#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds,
-#'                                                            surveyDate,
-#'                                                            dateFormat,
-#'                                                            surveyConsent)
+#' list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds=ds,
+#'                                                            surveyDate=surveyDate,
+#'                                                            dateFormat=dateFormat,
+#'                                                            surveyConsent=surveyConsent)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -262,14 +266,14 @@ assessmentDailyValidSurveys <- function(ds=NULL,
 #' surveyConsent <- "survey_consent"
 #' consentForValidSurvey <- "yes"                      # consent value for yes
 #'
-#' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds,
-#'                                                        dsSite,
-#'                                                        sampleSizeTable,
-#'                                                        sampleSizeTableSite,
-#'                                                        sampleSizeTableTarget,
-#'                                                        sampleSizeTableAvailable,
-#'                                                        surveyConsent,
-#'                                                        consentForValidSurvey)
+#' list[dst,ret_log,var,graph] <- assessmentTrackingSheet(ds=ds,
+#'                                                  dsSite=dsSite,
+#'                                                  sampleSizeTable=sampleSizeTable,
+#'                                                  sampleSizeTableSite=sampleSizeTableSite,
+#'                                                  sampleSizeTableTarget=sampleSizeTableTarget,
+#'                                                  sampleSizeTableAvailable=sampleSizeTableAvailable,
+#'                                                  surveyConsent=surveyConsent,
+#'                                                  consentForValidSurvey=consentForValidSurvey)
 #' head(ret_log,10)
 #' print(graph)
 #'}

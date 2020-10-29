@@ -27,10 +27,13 @@
 #' dates <- c("survey_start","end_survey")
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
 #' list[dst,ret_log,var,graph] <- isInterviewCompleted(ds=ds,
 #'                                                     surveyConsent=surveyConsent,
-#'                                                     dates=dates)
+#'                                                     dates=dates,
+#'                                                     reportingColumns=reportingColumns,
+#'                                                     deleteIsInterviewCompleted=FALSE)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -62,7 +65,6 @@ isInterviewCompleted <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(ds[,dates[2]])) %>% select(all_of(reportingColumns), survey_end=dates[2])
-  # graph <- piechart(data.frame(check=is.na(ds[,dates[2]])), "isInterviewCompleted")
   graph <- piechart(data.frame(categories=c("OK", "NOK"),
                                Nb=c(length(ds[,1])-length(errors[,1]),
                                     length(errors[,1]))),
@@ -96,9 +98,12 @@ isInterviewCompleted <- function(ds=NULL,
 #' surveyConsent <- "survey_consent"
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds,
-#'                                                       surveyConsent)
+#' list[dst,ret_log,var,graph] <- isInterviewWithConsent(ds=ds,
+#'                                                       surveyConsent=surveyConsent,
+#'                                                       reportingColumns=reportingColumns,
+#'                                                       deleteIsInterviewWithConsent=FALSE)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -125,7 +130,6 @@ isInterviewWithConsent <- function(ds=NULL,
   }
 
   errors <- subset(ds,is.na(surveyConsent)) %>% select(all_of(reportingColumns), survey_consent=all_of(surveyConsent))
-  # graph <- piechart(data.frame(check=is.na(ds[,surveyConsent])), "isInterviewWithConsent")
   graph <- piechart(data.frame(categories=c("OK", "NOK"),
                                Nb=c(length(ds[,1])-length(errors[,1]),
                                     length(errors[,1]))),
@@ -169,13 +173,16 @@ isInterviewWithConsent <- function(ds=NULL,
 #'   surveyConsent <- "survey_consent"
 #'   uniqueID <- "X_uuid"
 #'   enumeratorID <- "enumerator_id"
+#'   reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#'   list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(ds,
-#'                                                              dsSite,
-#'                                                              dsCoordinates,
-#'                                                              adminBoundaries,
-#'                                                              adminBoundariesSite,
-#'                                                              surveyConsent)
+#'   list[dst,ret_log,var,graph] <- isInterviewInTheCorrectSite(ds=ds,
+#'                                                      dsSite=dsSite,
+#'                                                      dsCoordinates=dsCoordinates,
+#'                                                      adminBoundaries=adminBoundaries,
+#'                                                      adminBoundariesSite=adminBoundariesSite,
+#'                                                      surveyConsent=surveyConsent,
+#'                                                      reportingColumns=reportingColumns,
+#'                                                      correctIsInterviewInTheCorrectSite=FALSE)
 #'   head(ret_log, 10)
 #'}
 #' @export isInterviewInTheCorrectSite
@@ -274,12 +281,15 @@ isInterviewInTheCorrectSite <- function(ds=NULL,
 #' surveyConsent <- "survey_consent"
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint(ds,
-#'                                                            dsCoordinates,
-#'                                                            sampledPoints,
-#'                                                            buffer,
-#'                                                            surveyConsent)
+#' list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint(ds=ds,
+#'                                                            dsCoordinates=dsCoordinates,
+#'                                                            sampledPoints=sampledPoints,
+#'                                                            buffer=buffer,
+#'                                                            surveyConsent=surveyConsent,
+#'                                                            reportingColumns=reportingColumns,
+#'                                                            deleteIsInterviewAtTheSamplePoint=FALSE)
 #' head(ret_log, 10)
 #' }
 #' @export isInterviewAtTheSamplePoint
@@ -385,10 +395,13 @@ isInterviewAtTheSamplePoint <- function(ds=NULL,
 #' uniqueID <- "X_uuid"
 #' surveyConsent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds,
-#'                                                  uniqueID,
-#'                                                  surveyConsent)
+#' list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds=ds,
+#'                                                  uniqueID=uniqueID,
+#'                                                  surveyConsent=surveyConsent,
+#'                                                  reportingColumns=reportingColumns,
+#'                                                  deleteIsUniqueIDMissing=FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isUniqueIDMissing
@@ -455,10 +468,13 @@ isUniqueIDMissing <- function(ds=NULL,
 #' uniqueID <- "X_uuid"
 #' surveyConsent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds,
-#'                                                     uniqueID,
-#'                                                     surveyConsent)
+#' list[dst,ret_log,var,graph] <- isUniqueIDDuplicated(ds=ds,
+#'                                                     uniqueID=uniqueID,
+#'                                                     surveyConsent=surveyConsent,
+#'                                                     reportingColumns=reportingColumns,
+#'                                                     deleteIsUniqueIDDuplicated=FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isUniqueIDDuplicated
@@ -526,11 +542,13 @@ isUniqueIDDuplicated <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
-#' deleteIsSurveyOnMoreThanADay <- FALSE
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds,
-#'                                                       surveyConsent,
-#'                                                       dates)
+#' list[dst,ret_log,var,graph] <- isSurveyOnMoreThanADay(ds=ds,
+#'                                                       surveyConsent=surveyConsent,
+#'                                                       dates=dates,
+#'                                                       reportingColumns=reportingColumns,
+#'                                                       deleteIsSurveyOnMoreThanADay=FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyOnMoreThanADay
@@ -599,10 +617,13 @@ isSurveyOnMoreThanADay <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds,
-#'                                                          surveyConsent,
-#'                                                          dates)
+#' list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds=ds,
+#'                                                          surveyConsent=surveyConsent,
+#'                                                          dates=dates,
+#'                                                          reportingColumns=reportingColumns,
+#'                                                          deleteIsSurveyEndBeforeItStarts=FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyEndBeforeItStarts
@@ -673,12 +694,14 @@ isSurveyEndBeforeItStarts <- function(ds=NULL,
 #' startDataCollection <- "2018-11-11"
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
-#' deleteIsSurveyStartedBeforeTheAssessment <- FALSE
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds,
-#'                                                                   dates,
-#'                                                                   surveyConsent,
-#'                                                                   startDataCollection)
+#' list[dst,ret_log,var,graph] <- isSurveyStartedBeforeTheAssessment(ds=ds,
+#'                                                    dates=dates,
+#'                                                    surveyConsent=surveyConsent,
+#'                                                    startDataCollection=startDataCollection,
+#'                                                    reportingColumns=reportingColumns,
+#'                                                    deleteIsSurveyStartedBeforeTheAssessment = FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyStartedBeforeTheAssessment
@@ -749,11 +772,13 @@ isSurveyStartedBeforeTheAssessment <- function(ds = NULL,
 #' surveyConsent <- "survey_consent"
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
-#' deleteIsSurveyMadeInTheFuture  <- FALSE
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds,
-#'                                                        surveyConsent,
-#'                                                        dates)
+#' list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds=ds,
+#'                                                        surveyConsent=surveyConsent,
+#'                                                        dates=dates,
+#'                                                        reportingColumns=reportingColumns,
+#'                                                        deleteIsSurveyMadeInTheFuture = FALSE)
 #' head(ret_log, 10)
 #'}
 #' @export isSurveyMadeInTheFuture
@@ -761,7 +786,7 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
                                     surveyConsent=NULL,
                                     dates=NULL,
                                     reportingColumns=c(enumeratorID, uniqueID),
-                                    deleteIsSurveyMadeInTheFuture =FALSE){
+                                    deleteIsSurveyMadeInTheFuture = FALSE){
   if(is.null(ds) | nrow(ds)==0 | !is.data.frame(ds)){
     stop("Please provide the dataset")
   }
@@ -827,11 +852,14 @@ isSurveyMadeInTheFuture <- function(ds=NULL,
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
 #' minimumSurveyDuration <- 30
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewTooShort(ds,
-#'                                                    surveyConsent,
-#'                                                    dates,
-#'                                                    minimumSurveyDuration)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShort(ds=ds,
+#'                                                    surveyConsent=surveyConsent,
+#'                                                    dates=dates,
+#'                                                    minimumSurveyDuration=minimumSurveyDuration,
+#'                                                    reportingColumns=reportingColumns,
+#'                                                    deleteIsInterviewTooShort=FALSE)
 #' head(ret_log, 10)
 #' print(graph)
 #'}
@@ -871,12 +899,6 @@ isInterviewTooShort <- function(ds=NULL,
     ds[,surveyConsent][tmp$SurveyLength<minimumSurveyDuration] <- "deletedIsInterviewTooShort"
   }
   errors <- subset(tmp, SurveyLength<minimumSurveyDuration)
-  # graph <- piechart(data.frame(check=tmp$SurveyLength<minimumSurveyDuration), "isInterviewTooShort")
-  # graph <- piechart(data.frame(categories=c("OK", "NOK", "NA"),
-  #                              Nb=c(sum((tmp$SurveyLength<minimumSurveyDuration)==FALSE, na.rm = TRUE),
-  #                                   sum((tmp$SurveyLength<minimumSurveyDuration)==TRUE, na.rm=TRUE),
-  #                                   sum(is.na((tmp$SurveyLength<minimumSurveyDuration))))),
-  #                   "isInterviewTooShort")
   graph <- piechart(data.frame(categories=c("OK", "NOK"),
                                Nb=c(length(ds[,1])-length(errors[,1]),
                                     length(errors[,1]))),
@@ -917,13 +939,15 @@ isInterviewTooShort <- function(ds=NULL,
 #' uniqueID <- "X_uuid"
 #' enumeratorID <- "enumerator_id"
 #' minimumSurveyDurationByIndividual <- 10
-#' deleteIsInterviewTooShortForTheHouseholdSize <- FALSE
+#' reportingColumns <- c(enumeratorID, uniqueID)
 #'
-#' list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds,
-#'                                                  surveyConsent,
-#'                                                  dates,
-#'                                                  householdSize,
-#'                                                  minimumSurveyDurationByIndividual)
+#' list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds=ds,
+#'                            surveyConsent=surveyConsent,
+#'                            dates=dates,
+#'                            householdSize=householdSize,
+#'                            minimumSurveyDurationByIndividual=minimumSurveyDurationByIndividual,
+#'                            reportingColumns=reportingColumns,
+#'                            deleteIsInterviewTooShortForTheHouseholdSize=FALSE)
 #' head(ret_log, 10)
 #' print(graph)
 #'}
@@ -967,11 +991,6 @@ isInterviewTooShortForTheHouseholdSize <- function(ds=NULL,
     ds[,surveyConsent][(tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual] <- "deletedIsInterviewTooShortForTheHouseholdSize"
   }
   errors <- subset(tmp, (SurveyLength/HHSize)<minimumSurveyDurationByIndividual)
-  # graph <- piechart(data.frame(categories=c("OK", "NOK", "NA"),
-  #                              Nb=c(sum(((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)==FALSE, na.rm = TRUE),
-  #                                   sum(((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)==TRUE, na.rm=TRUE),
-  #                                   sum(is.na((tmp$SurveyLength/tmp$HHSize)<minimumSurveyDurationByIndividual)))),
-  #                   "isInterviewTooShortForTheHouseholdSize")
   graph <- piechart(data.frame(categories=c("OK", "NOK"),
                                Nb=c(length(ds[,1])-length(errors[,1]),
                                     length(errors[,1]))),

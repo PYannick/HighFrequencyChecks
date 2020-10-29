@@ -37,10 +37,12 @@ This function display the surveyors with very low or high productivity.
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 surveyDate <- "survey_date"
+sdval<-2
 
-list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds,
-                                                              enumeratorID,
-                                                              surveyDate)
+list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds=ds,
+                                                              enumeratorID=enumeratorID,
+                                                              surveyDate=surveyDate,
+                                                              sdval=sdval)
 head(ret_log,10)
 print(graph)
 }

@@ -29,8 +29,8 @@ Warning: If there are uncorrected mistakes in the survey dates, it can lead to h
 ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
 
-list[dst,ret_log,var,graph] <- assessmentDuration(ds,
-                                                  dates)
+list[dst,ret_log,var,graph] <- assessmentDuration(ds=ds,
+                                                  dates=dates)
 print(var)
 }
 }

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -190,14 +190,14 @@
 <span class='va'>surveyConsent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
 <span class='va'>consentForValidSurvey</span> <span class='op'>&lt;-</span> <span class='st'>"yes"</span>                      <span class='co'># consent value for yes</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span><span class='op'>(</span><span class='va'>ds</span>,
-                                                       <span class='va'>dsSite</span>,
-                                                       <span class='va'>sampleSizeTable</span>,
-                                                       <span class='va'>sampleSizeTableSite</span>,
-                                                       <span class='va'>sampleSizeTableTarget</span>,
-                                                       <span class='va'>sampleSizeTableAvailable</span>,
-                                                       <span class='va'>surveyConsent</span>,
-                                                       <span class='va'>consentForValidSurvey</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>assessmentTrackingSheet</span><span class='op'>(</span>ds<span class='op'>=</span><span class='va'>ds</span>,
+                                                 dsSite<span class='op'>=</span><span class='va'>dsSite</span>,
+                                                 sampleSizeTable<span class='op'>=</span><span class='va'>sampleSizeTable</span>,
+                                                 sampleSizeTableSite<span class='op'>=</span><span class='va'>sampleSizeTableSite</span>,
+                                                 sampleSizeTableTarget<span class='op'>=</span><span class='va'>sampleSizeTableTarget</span>,
+                                                 sampleSizeTableAvailable<span class='op'>=</span><span class='va'>sampleSizeTableAvailable</span>,
+                                                 surveyConsent<span class='op'>=</span><span class='va'>surveyConsent</span>,
+                                                 consentForValidSurvey<span class='op'>=</span><span class='va'>consentForValidSurvey</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>graph</span><span class='op'>)</span>
 <span class='op'>}</span>

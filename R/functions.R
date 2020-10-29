@@ -73,27 +73,25 @@ mapFunctions <- function(variablesConfig, reportType){
 
   allFunctions <- list()
   for(i in functionsConfig$functionName){
-    # Recuperer les variables necessaires
-    # variablesList <- names(functionsConfig[functionsConfig$functionName==i,unlist(lapply(functionsConfig[functionsConfig$functionName==i,], isTRUE))])
+    # Get the needed variables for the function
     variablesList <- names(functionsConfig[functionsConfig$functionName==i,])[unlist(lapply(functionsConfig[functionsConfig$functionName==i,], isTRUE))]
     variablesListNotOptional <- variablesList[mapply('%ni%', variablesList, variablesOptional)]
-    # Verifier que ces variables sont disponibles
+    # Check the variables are available in the configuration files provided
     variablesDefined <- variablesConfig[variablesConfig$variableName %in% variablesList,]
     if(!booleanSum(variablesListNotOptional %in% variablesConfig$variableName)){
-      # Toutes les variables necessaires pour cette fonction ne sont pas definies
+      # All the necessary variables for this function are not defined
     } else if(booleanSum(variablesListNotOptional %in% variablesConfig$variableName)){
-      # Toutes les variables necessaires pour cette fonction sont definies
-      # Supprimer les variables necessaires (variable qui doivent de toutes facon etre declarees mais ne font pas partie de l'appel)
+      # All the necessary variables for this function are defined
+      # Remove the Necessary variables (the ones which have to be defined in any way but are not passed directly to the function)
       variableListNotNecessary <- names(variablesNecessary[variablesNecessary$functionName==i,])[unlist(lapply(variablesNecessary[variablesNecessary$functionName==i,], isTRUE))]
       if(!identical(variableListNotNecessary, character(0))){
         variablesDefined <- variablesDefined[variablesDefined$variableName %ni% variableListNotNecessary, ]
-        # variablesDefined <- variablesDefined[mapply('%ni%', variablesDefined, variableListNotNecessary)]
       }
-      # On construit l'appel pour la fonction
       variablesDefined[variablesDefined$variableName %in% variablesDatasets$datasets, "variableValue"] <-
         variablesDefined[variablesDefined$variableName %in% variablesDatasets$datasets, "variableName"]
+      # Building the function call
       functionCode <- paste0(i, "(", paste(paste0(variablesDefined$variableName, "=", variablesDefined$variableValue), collapse=", "), ")")
-      # Sauvegarde pour une utilisation ulterieure
+      # Put the function call in a list
       allFunctions[i] <- functionCode
     }
   }
@@ -104,7 +102,6 @@ mapFunctions <- function(variablesConfig, reportType){
       functionsList[[i]] <- allFunctions[[i]]
     }
   } else if(reportType=="G"){
-    # Liste les fonctions disponibles pour un affichage graphique
     for(i in functionsConfig[with(functionsConfig, order(ord)), "functionName"]){
       if(i %in% functionsGraphics$functionName){
         functionsList[[i]] <- allFunctions[[i]]

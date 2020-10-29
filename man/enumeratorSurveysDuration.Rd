@@ -31,9 +31,9 @@ ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds,
-                                                         dates,
-                                                         enumeratorID)
+list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds=ds,
+                                                         dates=dates,
+                                                         enumeratorID=enumeratorID)
 head(ret_log,10)
 print(graph)
 }

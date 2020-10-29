@@ -60,12 +60,15 @@ buffer <- 10
 surveyConsent <- "survey_consent"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint(ds,
-                                                           dsCoordinates,
-                                                           sampledPoints,
-                                                           buffer,
-                                                           surveyConsent)
+list[dst,ret_log,var,graph] <- isInterviewAtTheSamplePoint(ds=ds,
+                                                           dsCoordinates=dsCoordinates,
+                                                           sampledPoints=sampledPoints,
+                                                           buffer=buffer,
+                                                           surveyConsent=surveyConsent,
+                                                           reportingColumns=reportingColumns,
+                                                           deleteIsInterviewAtTheSamplePoint=FALSE)
 head(ret_log, 10)
 }
 }

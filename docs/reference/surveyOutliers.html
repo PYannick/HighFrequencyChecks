@@ -74,7 +74,7 @@ based on the difference between mean and median between untransformed normalized
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -177,12 +177,38 @@ based on the difference between mean and median between untransformed normalized
 <span class='va'>ds</span> <span class='op'>&lt;-</span> <span class='fu'>HighFrequencyChecks</span><span class='fu'>::</span><span class='va'><a href='sample_dataset.html'>sample_dataset</a></span>
 <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 <span class='va'>uniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
+<span class='va'>reportingColumns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>enumeratorID</span>, <span class='va'>uniqueID</span><span class='op'>)</span>
+<span class='va'>sdval</span><span class='op'>&lt;-</span><span class='fl'>2</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyOutliers</span><span class='op'>(</span><span class='va'>ds</span>,
-                                              <span class='va'>enumeratorID</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyOutliers</span><span class='op'>(</span>ds<span class='op'>=</span><span class='va'>ds</span>,
+                                              enumeratorID<span class='op'>=</span><span class='va'>enumeratorID</span>,
+                                              sdval<span class='op'>=</span><span class='va'>sdval</span>,
+                                              reportingColumns<span class='op'>=</span><span class='va'>reportingColumns</span>,
+                                              enumeratorCheck<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in surveyOutliers(ds, enumeratorID): object 'uniqueID' not found</span></div></pre>
+</div><div class='output co'>#&gt;    enumerator_id                               X_uuid    values
+#&gt; 1          30003 ea2e587b-dd65-4d9c-9f0d-ca8cc3f877fd  3.021103
+#&gt; 2             96 31ca6635-07e8-44e8-afcb-e42928440931  2.048250
+#&gt; 3             13 ab916698-4dab-4919-ad70-3cd8390da3c6  2.048250
+#&gt; 4             13 4faffb4a-8e8c-4417-a8d0-aa4c36b1775d  2.241889
+#&gt; 5             91 9dfa9c28-714b-4efc-93f3-4f9fee3f88fe  2.423026
+#&gt; 6             42 25c51488-2ae2-4d9c-9bf8-653498c7e689  2.241889
+#&gt; 7          30007 a0724b86-fd95-4ab1-b4e3-77dd1157fdca  2.048250
+#&gt; 8            102 a8c524d3-6ae7-4018-9972-ed66fe04f397  2.992609
+#&gt; 9          10038 6b5d4b42-0c76-4917-a932-040f10fd7b44  2.048250
+#&gt; 10            18 3e5ede43-369c-40f6-b59b-c73a5525a81d -2.340188
+#&gt;                                                ind DistributionType
+#&gt; 1  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 2  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 3  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 4  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 5  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 6  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 7  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 8  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 9  consent_received.respondent_info.respondent_age        LogNormal
+#&gt; 10        consent_received.respondent_info.hh_size        LogNormal</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

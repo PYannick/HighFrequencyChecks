@@ -75,7 +75,7 @@ There is an option to automatically correct the site in the surveys whith the co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -203,16 +203,32 @@ There is an option to automatically correct the site in the surveys whith the co
   <span class='va'>surveyConsent</span> <span class='op'>&lt;-</span> <span class='st'>"survey_consent"</span>
   <span class='va'>uniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
   <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
+  <span class='va'>reportingColumns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>enumeratorID</span>, <span class='va'>uniqueID</span><span class='op'>)</span>
 
-  <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewInTheCorrectSite</span><span class='op'>(</span><span class='va'>ds</span>,
-                                                             <span class='va'>dsSite</span>,
-                                                             <span class='va'>dsCoordinates</span>,
-                                                             <span class='va'>adminBoundaries</span>,
-                                                             <span class='va'>adminBoundariesSite</span>,
-                                                             <span class='va'>surveyConsent</span><span class='op'>)</span>
+  <span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>isInterviewInTheCorrectSite</span><span class='op'>(</span>ds<span class='op'>=</span><span class='va'>ds</span>,
+                                                     dsSite<span class='op'>=</span><span class='va'>dsSite</span>,
+                                                     dsCoordinates<span class='op'>=</span><span class='va'>dsCoordinates</span>,
+                                                     adminBoundaries<span class='op'>=</span><span class='va'>adminBoundaries</span>,
+                                                     adminBoundariesSite<span class='op'>=</span><span class='va'>adminBoundariesSite</span>,
+                                                     surveyConsent<span class='op'>=</span><span class='va'>surveyConsent</span>,
+                                                     reportingColumns<span class='op'>=</span><span class='va'>reportingColumns</span>,
+                                                     correctIsInterviewInTheCorrectSite<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>, <span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in isInterviewInTheCorrectSite(ds, dsSite, dsCoordinates, adminBoundaries,     adminBoundariesSite, surveyConsent): object 'enumeratorID' not found</span></div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
+#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
+#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum WGS_1984 in CRS definition,</span>
+#&gt; <span class='warning'> but +towgs84= values preserved</span></div><div class='output co'>#&gt;    enumerator_id                               X_uuid     SiteRec    SiteReal
+#&gt; 1             52 4e05b9ee-2fb6-4276-ab73-7675e94f5011 baharchhara Baharchhara
+#&gt; 2          10052 3c34b46b-96c4-46aa-9d4f-4147527f9042 baharchhara Baharchhara
+#&gt; 3          10049 b404f0fa-d5ef-4fdf-a217-07509244c1f1 baharchhara Baharchhara
+#&gt; 4          10046 b1634db9-9108-486d-a8f1-5706290b5f7d baharchhara Baharchhara
+#&gt; 5             18 3e5ede43-369c-40f6-b59b-c73a5525a81d baharchhara Baharchhara
+#&gt; 6             83 225f1521-c75d-4a4e-b394-0f02ac8e9d8a baharchhara Baharchhara
+#&gt; 7             54 06b1df42-600d-4b51-90c0-1ec06b9c2d13 baharchhara Baharchhara
+#&gt; 8          30022 89af7eaf-efa4-4f05-89eb-cae03133258a baharchhara Baharchhara
+#&gt; 9             43 a98f85bc-0752-437d-a513-cc729804c303 baharchhara Baharchhara
+#&gt; 10         10046 5222a1b0-75a8-4b99-9ce2-138128f88b73 baharchhara Baharchhara</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

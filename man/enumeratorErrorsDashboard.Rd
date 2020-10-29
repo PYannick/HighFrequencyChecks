@@ -41,8 +41,8 @@ reports <- c("reportisInterviewAtTheSamplePoint",
              "reportisUniqueIDDuplicated",
              "reportisUniqueIDMissing")
 
-list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID,
-                                                         reports)
+list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID=enumeratorID,
+                                                         reports=reports)
 print(graph)
 }
 }

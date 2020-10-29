@@ -1,13 +1,5 @@
 library(shiny)
 
-# Define custom functions
-
-
-# workingDirectory <- "C:/Users/yanni/Documents/GitHub/HighFrequencyChecks/inst/demo/"
-# ### Trouver un moyen pour mettre ca en base de donnees dans le package
-# load("configuration.Rdata")
-
-
 server <- function(input, output, session) {
   getData <- reactive({
     inFile <- input$file1
@@ -54,7 +46,7 @@ server <- function(input, output, session) {
     working_directY <- HighFrequencyChecks:::RmdWrapper(variablesList=subset(getData(), !is.null(getData()$variableValue) & !is.na(getData()$variableValue) & getData()$variableValue!=""),
                                                         functionsList=mapFunctions(getData(), input$repType)[input$fnSelected],
                                                         functionsOrder=functionsConfig[,c("functionName","ord")],
-                                                        functionsOutput=functionsOutputs,
+                                                        functionsOutput=subset(functionsOutputs, outputType=="csv"),
                                                         reportOutput="pdf",
                                                         reportType=input$repType,
                                                         fileName=fileName)

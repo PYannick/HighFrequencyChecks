@@ -56,13 +56,15 @@ householdSize <-"consent_received.respondent_info.hh_size"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
 minimumSurveyDurationByIndividual <- 10
-deleteIsInterviewTooShortForTheHouseholdSize <- FALSE
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds,
-                                                 surveyConsent,
-                                                 dates,
-                                                 householdSize,
-                                                 minimumSurveyDurationByIndividual)
+list[dst,ret_log,var,graph] <- isInterviewTooShortForTheHouseholdSize(ds=ds,
+                           surveyConsent=surveyConsent,
+                           dates=dates,
+                           householdSize=householdSize,
+                           minimumSurveyDurationByIndividual=minimumSurveyDurationByIndividual,
+                           reportingColumns=reportingColumns,
+                           deleteIsInterviewTooShortForTheHouseholdSize=FALSE)
 head(ret_log, 10)
 print(graph)
 }

@@ -31,9 +31,9 @@ ds <- HighFrequencyChecks::sample_dataset
 surveyConsent <- "survey_consent"
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
-                                                        surveyConsent,
-                                                        enumeratorID)
+list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds=ds,
+                                                        surveyConsent=surveyConsent,
+                                                        enumeratorID=enumeratorID)
 head(ret_log,10)
 print(graph)
 }

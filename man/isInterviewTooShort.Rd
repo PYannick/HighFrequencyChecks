@@ -52,11 +52,14 @@ dates <- c("survey_start","end_survey")
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
 minimumSurveyDuration <- 30
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isInterviewTooShort(ds,
-                                                   surveyConsent,
-                                                   dates,
-                                                   minimumSurveyDuration)
+list[dst,ret_log,var,graph] <- isInterviewTooShort(ds=ds,
+                                                   surveyConsent=surveyConsent,
+                                                   dates=dates,
+                                                   minimumSurveyDuration=minimumSurveyDuration,
+                                                   reportingColumns=reportingColumns,
+                                                   deleteIsInterviewTooShort=FALSE)
 head(ret_log, 10)
 print(graph)
 }

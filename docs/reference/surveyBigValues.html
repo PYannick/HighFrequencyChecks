@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HighFrequencyChecks</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -187,13 +187,37 @@
                              consent_received.food_security.spend_other<span class='op'>=</span><span class='fl'>25000</span><span class='op'>)</span>
 <span class='va'>enumeratorID</span> <span class='op'>&lt;-</span> <span class='st'>"enumerator_id"</span>
 <span class='va'>uniqueID</span> <span class='op'>&lt;-</span> <span class='st'>"X_uuid"</span>
+<span class='va'>reportingColumns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>enumeratorID</span>, <span class='va'>uniqueID</span><span class='op'>)</span>
 
-<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyBigValues</span><span class='op'>(</span><span class='va'>ds</span>,
-                                               <span class='va'>questionsSurveyBigValues</span>,
-                                               <span class='va'>enumeratorID</span><span class='op'>)</span>
+<span class='va'>list</span><span class='op'>[</span><span class='va'>dst</span>,<span class='va'>ret_log</span>,<span class='va'>var</span>,<span class='va'>graph</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'>surveyBigValues</span><span class='op'>(</span>ds<span class='op'>=</span><span class='va'>ds</span>,
+                                               questionsSurveyBigValues<span class='op'>=</span><span class='va'>questionsSurveyBigValues</span>,
+                                               enumeratorID<span class='op'>=</span><span class='va'>enumeratorID</span>,
+                                               reportingColumns<span class='op'>=</span><span class='va'>reportingColumns</span>,
+                                               enumeratorCheck<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ret_log</span>,<span class='fl'>10</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in surveyBigValues(ds, questionsSurveyBigValues, enumeratorID): object 'uniqueID' not found</span></div></pre>
+</div><div class='output co'>#&gt;     enumerator_id                               X_uuid values
+#&gt; 9              43 a98f85bc-0752-437d-a513-cc729804c303  25000
+#&gt; 16             16 67324a24-765c-4ed7-bff0-5c739643b21b  25000
+#&gt; 57             65 7d6031c7-0dca-476b-89bc-2c5737f0e199  30000
+#&gt; 209            76 48a8986e-f3df-4507-9570-171c1499d123  40000
+#&gt; 220            45 a2656f4d-b3a6-4f2d-b580-2765aca98a37  30000
+#&gt; 271            71 cba3325e-d926-4d83-8fb2-ef8562c898d2  30000
+#&gt; 279            71 a0bfb570-21b0-4e8b-96a6-02d54ef28bff  30000
+#&gt; 280         30022 cad17139-8278-4542-ba27-270a31707f80  27000
+#&gt; 341            31 933e2ed6-c556-4a86-9b6d-5f84a1e538ca  30000
+#&gt; 396            45 7291bdc3-652c-414a-9f85-a77c998d0fbc  30000
+#&gt;                                           ind
+#&gt; 9   consent_received.food_security.spend_food
+#&gt; 16  consent_received.food_security.spend_food
+#&gt; 57  consent_received.food_security.spend_food
+#&gt; 209 consent_received.food_security.spend_food
+#&gt; 220 consent_received.food_security.spend_food
+#&gt; 271 consent_received.food_security.spend_food
+#&gt; 279 consent_received.food_security.spend_food
+#&gt; 280 consent_received.food_security.spend_food
+#&gt; 341 consent_received.food_security.spend_food
+#&gt; 396 consent_received.food_security.spend_food</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,8 +31,9 @@ This report can be global (all the surveys) or displayed for each enumerator ID
 ds <- HighFrequencyChecks::sample_dataset
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- surveyMissingValues(ds,
-                                                   enumeratorID)
+list[dst,ret_log,var,graph] <- surveyMissingValues(ds=ds,
+                                                   enumeratorID=enumeratorID,
+                                                   enumeratorCheck=FALSE)
 head(ret_log,10)
 }
 }

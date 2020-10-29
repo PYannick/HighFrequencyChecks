@@ -47,10 +47,13 @@ surveyConsent <- "survey_consent"
 dates <- c("survey_start","end_survey")
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds,
-                                                         surveyConsent,
-                                                         dates)
+list[dst,ret_log,var,graph] <- isSurveyEndBeforeItStarts(ds=ds,
+                                                         surveyConsent=surveyConsent,
+                                                         dates=dates,
+                                                         reportingColumns=reportingColumns,
+                                                         deleteIsSurveyEndBeforeItStarts=FALSE)
 head(ret_log, 10)
 }
 }

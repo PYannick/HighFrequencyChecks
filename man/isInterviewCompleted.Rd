@@ -48,10 +48,13 @@ surveyConsent <- "survey_consent"
 dates <- c("survey_start","end_survey")
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
 
 list[dst,ret_log,var,graph] <- isInterviewCompleted(ds=ds,
                                                     surveyConsent=surveyConsent,
-                                                    dates=dates)
+                                                    dates=dates,
+                                                    reportingColumns=reportingColumns,
+                                                    deleteIsInterviewCompleted=FALSE)
 head(ret_log,10)
 print(graph)
 }

@@ -39,10 +39,10 @@ surveyDate <- "survey_date"
 dateFormat <- "\%m/\%d/\%Y"
 surveyConsent <- "survey_consent"
 
-list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds,
-                                                           surveyDate,
-                                                           dateFormat,
-                                                           surveyConsent)
+list[dst,ret_log,var,graph] <- assessmentDailyValidSurveys(ds=ds,
+                                                           surveyDate=surveyDate,
+                                                           dateFormat=dateFormat,
+                                                           surveyConsent=surveyConsent)
 head(ret_log,10)
 print(graph)
 }

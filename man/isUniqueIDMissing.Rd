@@ -44,10 +44,13 @@ ds <- HighFrequencyChecks::sample_dataset
 uniqueID <- "X_uuid"
 surveyConsent <- "survey_consent"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds,
-                                                 uniqueID,
-                                                 surveyConsent)
+list[dst,ret_log,var,graph] <- isUniqueIDMissing(ds=ds,
+                                                 uniqueID=uniqueID,
+                                                 surveyConsent=surveyConsent,
+                                                 reportingColumns=reportingColumns,
+                                                 deleteIsUniqueIDMissing=FALSE)
 head(ret_log, 10)
 }
 }

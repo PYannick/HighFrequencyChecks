@@ -41,9 +41,9 @@ questionsEnumeratorIsLazy <- c(consent_received.shelter_nfi.non_food_items=3,
                                consent_received.child_protection.boy_risk=3,
                                consent_received.child_protection.girl_risk=3)
 
-list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds,
-                                                enumeratorID,
-                                                questionsEnumeratorIsLazy)
+list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds=ds,
+                                                enumeratorID=enumeratorID,
+                                                questionsEnumeratorIsLazy=questionsEnumeratorIsLazy)
 head(ret_log,10)
 }
 }

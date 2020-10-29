@@ -20,9 +20,9 @@
 #' surveyConsent <- "survey_consent"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds,
-#'                                                         surveyConsent,
-#'                                                         enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysConsent(ds=ds,
+#'                                                         surveyConsent=surveyConsent,
+#'                                                         enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -72,9 +72,9 @@ enumeratorSurveysConsent <- function(ds=NULL,
 #' dates <- c("survey_start","end_survey")
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds,
-#'                                                          dates,
-#'                                                          enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorSurveysDuration(ds=ds,
+#'                                                          dates=dates,
+#'                                                          enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -129,9 +129,9 @@ enumeratorSurveysDuration <- function(ds=NULL,
 #' surveyDate <- "survey_date"
 #' enumeratorID <- "enumerator_id"
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds,
-#'                                                       surveyDate,
-#'                                                       enumeratorID)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivity(ds=ds,
+#'                                                       surveyDate=surveyDate,
+#'                                                       enumeratorID=enumeratorID)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -180,10 +180,12 @@ enumeratorProductivity <- function(ds=NULL,
 #' ds <- HighFrequencyChecks::sample_dataset
 #' enumeratorID <- "enumerator_id"
 #' surveyDate <- "survey_date"
+#' sdval<-2
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds,
-#'                                                               enumeratorID,
-#'                                                               surveyDate)
+#' list[dst,ret_log,var,graph] <- enumeratorProductivityOutliers(ds=ds,
+#'                                                               enumeratorID=enumeratorID,
+#'                                                               surveyDate=surveyDate,
+#'                                                               sdval=sdval)
 #' head(ret_log,10)
 #' print(graph)
 #'}
@@ -252,9 +254,9 @@ enumeratorProductivityOutliers <- function(ds=NULL,
 #'                                consent_received.child_protection.boy_risk=3,
 #'                                consent_received.child_protection.girl_risk=3)
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds,
-#'                                                 enumeratorID,
-#'                                                 questionsEnumeratorIsLazy)
+#' list[dst,ret_log,var,graph] <- enumeratorIsLazy(ds=ds,
+#'                                                 enumeratorID=enumeratorID,
+#'                                                 questionsEnumeratorIsLazy=questionsEnumeratorIsLazy)
 #' head(ret_log,10)
 #' }
 #' @export enumeratorIsLazy
@@ -314,8 +316,8 @@ enumeratorIsLazy <- function(ds=NULL,
 #'              "reportisUniqueIDDuplicated",
 #'              "reportisUniqueIDMissing")
 #'
-#' list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID,
-#'                                                          reports)
+#' list[dst,ret_log,var,graph] <- enumeratorErrorsDashboard(enumeratorID=enumeratorID,
+#'                                                          reports=reports)
 #' print(graph)
 #' }
 #' @export enumeratorErrorsDashboard
@@ -332,7 +334,7 @@ enumeratorErrorsDashboard <- function(enumeratorID=NULL, reports=NULL){
   graph <- ggplot2::ggplot(tmp) +
     ggplot2::geom_col(ggplot2::aes(x=Error, y=Nb)) +
     ggplot2::scale_y_continuous(breaks=seq(0, max(tmp$Nb), by=ceiling(max(tmp$Nb)/5))) +
-    ggplot2::facet_wrap(vars(Enumerator), ncol=floor(40/length(unique(tmp$Error)))) +
+    ggplot2::facet_wrap(ggplot2::vars(Enumerator), ncol=floor(40/length(unique(tmp$Error)))) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = .3, unit = "cm"), angle = 90, vjust = .5, hjust=1))
 
   return(list(NULL,NULL,NULL,graph))

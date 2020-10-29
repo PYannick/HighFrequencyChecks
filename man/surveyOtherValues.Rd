@@ -39,9 +39,10 @@ ds <- HighFrequencyChecks::sample_dataset
 otherPattern <- "_other$"
 enumeratorID <- "enumerator_id"
 
-list[dst,ret_log,var,graph] <- surveyOtherValues(ds,
-                                                 otherPattern,
-                                                 enumeratorID)
+list[dst,ret_log,var,graph] <- surveyOtherValues(ds=ds,
+                                                 otherPattern=otherPattern,
+                                                 enumeratorID=enumeratorID,
+                                                 enumeratorCheck=FALSE)
 head(ret_log,10)
 }
 }

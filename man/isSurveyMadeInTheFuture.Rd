@@ -47,11 +47,13 @@ dates <- c("survey_start","end_survey")
 surveyConsent <- "survey_consent"
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
-deleteIsSurveyMadeInTheFuture  <- FALSE
+reportingColumns <- c(enumeratorID, uniqueID)
 
-list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds,
-                                                       surveyConsent,
-                                                       dates)
+list[dst,ret_log,var,graph] <- isSurveyMadeInTheFuture(ds=ds,
+                                                       surveyConsent=surveyConsent,
+                                                       dates=dates,
+                                                       reportingColumns=reportingColumns,
+                                                       deleteIsSurveyMadeInTheFuture = FALSE)
 head(ret_log, 10)
 }
 }

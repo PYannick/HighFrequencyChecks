@@ -42,9 +42,13 @@ ds <- HighFrequencyChecks::sample_dataset
 dates <- c("survey_start","end_survey")
 uniqueID <- "X_uuid"
 enumeratorID <- "enumerator_id"
+reportingColumns <- c(enumeratorID, uniqueID)
+sdval<-2
 
-list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds,
-                                                          dates)
+list[dst,ret_log,var,graph] <- assessmentDurationOutliers(ds=ds,
+                                                          dates=dates,
+                                                          sdval=sdval,
+                                                          reportingColumns=reportingColumns)
 head(ret_log,10)
 print(graph)
 }
