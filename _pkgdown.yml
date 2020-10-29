@@ -42,8 +42,10 @@ reference:
       - isInterviewWithConsent
       - surveyOutliers
       - surveyBigValues
+      - surveySmallValues
       - surveyMissingValues
       - surveyDistinctValues
+      - enumeratorErrorsDashboard
   - title: Pro-active actions - Enumerators productivity
     contents:
       - assessmentProductivity
@@ -55,8 +57,6 @@ reference:
   - title: Convenience functions
     contents:
       - hfc_projectinit
-      - ReportWrapper
-      - GenerateRmd
       - hfcApp
   - title: Dataset used for demonstration
     contents:
