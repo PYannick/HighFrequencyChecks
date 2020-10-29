@@ -1,0 +1,775 @@
+---
+title: "High Frequency Checks template"
+always_allow_html: yes
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{High Frequency Checks template}
+  %\VignetteEngine{knitr::rmarkdown}
+geometry: margin=0.5in
+fontsize: 10pt
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(gsubfn)
+library(dplyr)
+library(data.table)
+library(HighFrequencyChecks)
+```
+```{r surveysDataset, eval=TRUE, echo=FALSE}
+dset<-list()
+dset[["lev1"]]<-sample_dataset
+```
+```{r sampleSizeDataset, eval=TRUE, echo=FALSE}
+begin_sample<-NA
+sampleSizeTable<-SampleSize
+```
+```{r shapefiles, eval=TRUE, echo=FALSE}
+begin_shp<-NA
+adminBoundaries<-admin
+sampledPoints<-SamplePts
+```
+```{r initializeVariables, eval=TRUE, echo=FALSE}
+adminBoundariesSite<-"Union"
+buffer<-10
+consentForValidSurvey<-"yes"
+dateFormat<-"%m/%d/%Y"
+dates<-c("survey_start","end_survey")
+dsCoordinates<-c("X_gps_reading_longitude","X_gps_reading_latitude")
+dsSite<-"union_name"
+enumeratorID<-"enumerator_id"
+householdSize<-"consent_received.respondent_info.hh_size"
+minimumSurveyDuration<-30
+minimumSurveyDurationByIndividual<-10
+otherPattern<-"_other$"
+questionsEnumeratorIsLazy<-c(consent_received.shelter_nfi.non_food_items=3, consent_received.food_security.main_income=3, consent_received.child_protection.boy_risk=3, consent_received.child_protection.girl_risk=3)
+questionsSurveyBigValues<-c(consent_received.food_security.spend_food=25000, consent_received.food_security.spend_medication=25000, consent_received.food_security.spend_education=25000, consent_received.food_security.spend_fix_shelter=25000, consent_received.food_security.spend_clothing=25000, consent_received.food_security.spend_hygiene=25000, consent_received.food_security.spend_fuel=25000, consent_received.food_security.spend_hh_items=25000, consent_received.food_security.spend_transport=25000, consent_received.food_security.spend_communication=25000, consent_received.food_security.spend_tobacco=25000, consent_received.food_security.spend_rent=25000, consent_received.food_security.spend_debts=25000, consent_received.food_security.spend_other=25000)
+questionsSurveySmallValues<-c(consent_received.food_security.spend_food=25000, consent_received.food_security.spend_medication=25000, consent_received.food_security.spend_education=25000, consent_received.food_security.spend_fix_shelter=25000, consent_received.food_security.spend_clothing=25000, consent_received.food_security.spend_hygiene=25000, consent_received.food_security.spend_fuel=25000, consent_received.food_security.spend_hh_items=25000, consent_received.food_security.spend_transport=25000, consent_received.food_security.spend_communication=25000, consent_received.food_security.spend_tobacco=25000, consent_received.food_security.spend_rent=25000, consent_received.food_security.spend_debts=25000, consent_received.food_security.spend_other=25000)
+sampleSizeTableAvailable<-"TotPts"
+sampleSizeTableSite<-"Union"
+sampleSizeTableTarget<-"SS"
+startDataCollection<-"2018-11-11"
+surveyConsent<-"survey_consent"
+surveyDate<-"survey_date"
+uniqueID<-"X_uuid"
+deleteIsInterviewCompleted<-TRUE
+deleteIsInterviewWithConsent<-TRUE
+correctIsInterviewInTheCorrectSite<-TRUE
+deleteIsInterviewAtTheSamplePoint<-TRUE
+deleteIsUniqueIDMissing<-TRUE
+deleteIsUniqueIDDuplicated<-TRUE
+deleteIsSurveyOnMoreThanADay<-TRUE
+deleteIsSurveyEndBeforeItStarts<-TRUE
+deleteIsSurveyStartedBeforeTheAssessment<-TRUE
+deleteIsSurveyMadeInTheFuture<-TRUE
+deleteIsInterviewTooShort<-TRUE
+deleteIsInterviewTooShortForTheHouseholdSize<-TRUE
+```
+```{r eval=TRUE, echo=FALSE}
+dset[["lev1"]]$union_name<-tolower(dset[["lev1"]]$union_name)
+```
+```{r eval=TRUE, echo=FALSE}
+sampleSizeTable$Union<-tolower(sampleSizeTable$Union)
+```
+```{r eval=TRUE, echo=FALSE}
+adminBoundaries$Union<-tolower(adminBoundaries$Union)
+```
+```{r eval=TRUE, echo=FALSE}
+options(scipen = 999)
+```
+
+## High Frequency Check - Examples
+
+### isInterviewAtTheSamplePoint
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dsCoordinates, sampledPoints, buffer, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dsCoordinates, sampledPoints, buffer, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dsCoordinates, sampledPoints, buffer, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewAtTheSamplePoint(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dsCoordinates, sampledPoints, buffer, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isInterviewCompleted
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewCompleted(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isInterviewInTheCorrectSite
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dsSite, dsCoordinates, adminBoundaries, adminBoundariesSite, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dsSite, dsCoordinates, adminBoundaries, adminBoundariesSite, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dsSite, dsCoordinates, adminBoundaries, adminBoundariesSite, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewInTheCorrectSite(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dsSite, dsCoordinates, adminBoundaries, adminBoundariesSite, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isInterviewTooShort
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates, minimumSurveyDuration",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, minimumSurveyDuration", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, minimumSurveyDuration", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewTooShort(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, minimumSurveyDuration", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isInterviewTooShortForTheHouseholdSize
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates, householdSize, minimumSurveyDurationByIndividual",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, householdSize, minimumSurveyDurationByIndividual", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, householdSize, minimumSurveyDurationByIndividual", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewTooShortForTheHouseholdSize(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates, householdSize, minimumSurveyDurationByIndividual", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isInterviewWithConsent
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isInterviewWithConsent(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isSurveyEndBeforeItStarts
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isSurveyEndBeforeItStarts(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isSurveyMadeInTheFuture
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isSurveyMadeInTheFuture(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isSurveyOnMoreThanADay
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isSurveyOnMoreThanADay(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isSurveyStartedBeforeTheAssessment
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates, surveyConsent, startDataCollection",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates, surveyConsent, startDataCollection", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates, surveyConsent, startDataCollection", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isSurveyStartedBeforeTheAssessment(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates, surveyConsent, startDataCollection", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isUniqueIDDuplicated
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, uniqueID, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isUniqueIDDuplicated(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### isUniqueIDMissing
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, uniqueID, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("isUniqueIDMissing(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, uniqueID, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### assessmentDailyValidSurveys
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyDate, dateFormat, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("assessmentDailyValidSurveys(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### assessmentDuration
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("assessmentDuration(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### assessmentDurationOutliers
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("assessmentDurationOutliers(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### assessmentProductivity
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyDate, dateFormat, surveyConsent",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("assessmentProductivity(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, dateFormat, surveyConsent", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### assessmentTrackingSheet
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dsSite, sampleSizeTable, sampleSizeTableSite, sampleSizeTableTarget, sampleSizeTableAvailable, surveyConsent, consentForValidSurvey",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dsSite, sampleSizeTable, sampleSizeTableSite, sampleSizeTableTarget, sampleSizeTableAvailable, surveyConsent, consentForValidSurvey", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dsSite, sampleSizeTable, sampleSizeTableSite, sampleSizeTableTarget, sampleSizeTableAvailable, surveyConsent, consentForValidSurvey", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("assessmentTrackingSheet(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dsSite, sampleSizeTable, sampleSizeTableSite, sampleSizeTableTarget, sampleSizeTableAvailable, surveyConsent, consentForValidSurvey", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveyBigValues
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, questionsSurveyBigValues, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveyBigValues, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveyBigValues, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveyBigValues(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveyBigValues, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveyDistinctValues
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveyDistinctValues(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))]]]<-var1
+}
+write.csv(var2, paste0("surveyDistinctValues", ".csv"))
+```
+Please see the generated csv file: surveyDistinctValues.csv
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveyMissingValues
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveyMissingValues(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))]]]<-var1
+}
+write.csv(var2, paste0("surveyMissingValues", ".csv"))
+```
+Please see the generated csv file: surveyMissingValues.csv
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveyOtherValues
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, otherPattern, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, otherPattern, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, otherPattern, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveyOtherValues(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, otherPattern, enumeratorID", names(dset))]]]<-var1
+}
+write.csv(var2, paste0("surveyOtherValues", ".csv"))
+```
+Please see the generated csv file: surveyOtherValues.csv
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveyOutliers
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveyOutliers(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### surveySmallValues
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, questionsSurveySmallValues, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveySmallValues, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveySmallValues, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("surveySmallValues(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, questionsSurveySmallValues, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### enumeratorIsLazy
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumeratorID, questionsEnumeratorIsLazy",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, questionsEnumeratorIsLazy", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, questionsEnumeratorIsLazy", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("enumeratorIsLazy(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, questionsEnumeratorIsLazy", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### enumeratorProductivity
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyDate, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("enumeratorProductivity(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyDate, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### enumeratorProductivityOutliers
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, enumeratorID, surveyDate",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, surveyDate", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, surveyDate", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("enumeratorProductivityOutliers(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, enumeratorID, surveyDate", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### enumeratorSurveysConsent
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, surveyConsent, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("enumeratorSurveysConsent(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, surveyConsent, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```
+
+### enumeratorSurveysDuration
+```{r eval=TRUE, echo=FALSE, results='asis'}
+tmp<-(stringi::stri_replace_all_fixed("lev1, dates, enumeratorID",
+                                           names(dset)[stringi::stri_detect_fixed("lev1, dates, enumeratorID", names(dset))],
+                                           paste0("dset[['", names(dset)[stringi::stri_detect_fixed("lev1, dates, enumeratorID", names(dset))], "']]"),
+                                           vectorize_all=FALSE))
+list[var1,var2,var3,var4]<-eval(parse(text=paste0("enumeratorSurveysDuration(", tmp, ")")))
+if(!is.null(var1)){
+  dset[[names(dset)[stringi::stri_detect_fixed("lev1, dates, enumeratorID", names(dset))]]]<-var1
+}
+if(!is.null(var2)){
+  if(nrow(var2)>0){
+    kable(var2)
+  } else {
+    cat("
+no errors")
+  }
+}
+```
+```{r eval=TRUE, echo=FALSE, results='asis', fig.align='center'}
+if(!is.null(var4)){
+  print(var4)
+}
+```

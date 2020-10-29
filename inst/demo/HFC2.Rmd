@@ -1,0 +1,585 @@
+---
+title: "High Frequency Checks: a template for data quality monitoring"
+always_allow_html: yes
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{High Frequency Checks: a template for data quality monitoring}
+  %\VignetteEngine{knitr::rmarkdown}
+geometry: margin=0.5in
+fontsize: 10pt
+editor_options: 
+  chunk_output_type: inline 
+---
+
+Supervising the quality of data collection is not straightforward. Survey questionnaires are often quite long and have systematic control is worth automatizing.
+
+`HighFrequencyCheck` can be used to detect programming errors, surveyor errors, data fabrication, poorly understood questions, and other issues. The results of these checks can also be useful in improving your survey, identifying enumerator effects, and assessing the reliability of your outcome measures. It allows teams to catch survey issues and collection mistakes in time to correct them and ensure high-quality data
+
+The `HighFrequencyCheck` package is a translation in in R of the [Stata package](https://github.com/PovertyAction/high-frequency-checks) based on [best practices from Innovations for Poverty Action](https://www.povertyactionlab.org/resource/data-quality-checks).  High Frequency Checks are also recommend by the [World Bank](https://dimewiki.worldbank.org/wiki/High_Frequency_Checks). It can be installed from github with `devtools::install_github("unhcr/HighFrequencyChecks")`.
+
+
+The package brings a series of convenience functions to monitor data quality during the data collection when running a survey with [KoboToolbox](http://kobo.unhcr.org) (or any `xlsform` compatible platform). 
+
+Those are the basis of a  feedback mechanism with enumerators and can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports:
+
+* A `wrapper` function is included to generate directly an final data quality assessment Rmd Report
+
+* A `ShinyApp` Interface is also included to provide a live monitoring dashboard to be run locally.
+
+## Introduction: Measuring data collection quality 
+
+Data collection quality monitoring includes 4 different dimensions
+
+ 1. Correct set-up of data collection devices
+ 2. Data collected according the sampling plan
+ 3. Enumerator rigorous work standards 
+ 4. Enumerator productivity 
+
+Ideally the data collection monitoring dashboard should be known to all enumerators so that they are aware of the data quality metrics that will be used to assess the quality of their work and potentially some incentive can be offered for the enumerators performing on the quality metrics (_It is good to recall that each records in household survey cost between 15 to 50 USD_). Some of those indicators can support some remedial supervision interventions, such as calling individually the enumerator and point some specific issues that were detected.
+
+It is important to prepare high frequency checks (code and instructions), as part of the data quality assurance plan, before before starting with field data collection.
+
+Below are the required configuration and an illustration of those indicators based on a demo dataset included in the package.
+
+## Process configuration
+
+### loading the required R packages
+
+```{r message=FALSE, warning=FALSE, include=TRUE, echo = TRUE}
+library(knitr)
+library(gsubfn)
+library(dplyr)
+library(data.table)
+library(HighFrequencyChecks)
+library(kableExtra)
+library(DT)
+library(ggplot2)
+library(plotly)
+```
+
+### Loading survey dataset (microdata)
+
+In a production environment, it is possible to connect this a live API (kobotoolbox, ODK , etc.)
+
+```{r, include=TRUE}
+ds <- HighFrequencyChecks::sample_dataset
+# correction for uppercase/lowercase in the site name 
+ds$union_name <- tolower(ds$union_name)
+```
+
+### Loading sampling plan
+
+The sampling plan is defined through the sampling strategy. It includes for each enumerator the sufficient details for the enumerator to reach out to respondent satisfying the sampling target definition (i.e. name, location, phone number)
+
+```{r, include=TRUE}
+SampleSize <- HighFrequencyChecks::SampleSize
+# correction for uppercase/lowercase in the site name 
+SampleSize$Union <- tolower(SampleSize$Union)
+
+# name as a string of the field where the number of points
+# generated is stored in the sampling frame
+sf_nbpts="TotPts"
+
+# name as a string of the field in the dataset where the site is stored
+sf_site="Union"
+
+# name as a string of the field in the sampling frame where the site is stored
+sf_target="SS"
+```
+
+Sampling targets shall also be defined
+
+```{r, include=TRUE}
+
+# formulas as a list of string used to compute the final number 
+# of eligible surveys  and the variance from the target
+# (C('formula1','formula2')).
+# the values/fields available are: done and the ones generated 
+# according the survey consent values (one per value)
+formul = c("done-no-not_eligible-deleted",
+         "done-no-not_eligible-deleted-SS")
+
+# column names as a list of string to order the colums in the result
+# the columns available are: site, done, final, variance and 
+# the ones generated according the survey consent values (one per value)
+colorder = c("site",
+             "SS",
+             "TotPts",
+             "done",
+             "not_eligible",
+             "no",
+             "deleted",
+             "yes",
+             "final",
+             "variance")
+```
+
+### Loading geodata for the surveyed area
+
+Often sampling strategy includes a geographic coverage.
+
+```{r message=FALSE, warning=FALSE, include=TRUE}
+#This can be overview through either:
+
+# a defined polygon, aka area or admin unit
+adm <- HighFrequencyChecks::admin
+# Unique key with the survey dataset is changed to all small cap for further join
+adm$Union <- tolower(adm$Union)
+
+# OR a sampling point, around which enumerators are supposed to randomly interview persons.
+pts <- HighFrequencyChecks::SamplePts
+```
+
+### Specific variables to be controlled
+
+When it comes to back checks, variables can be divided into the following different categories:  
+
+ * Type 1 variables are based on straightforward questions where there is __very little possibility of error__. For example, age and education. If there is an error in these variables, it means there is a serious problem with enumerator, or with the questions.
+ 
+ * Type 2 variables are based on questions where a __risk of error is possible__. For example, questions based on sensitive topics, or questions that involve calculations or classification with possibility of 'or other'. If there is an error in these variables, there might be a need to provide further training for enumerators.
+ 
+ * Type 3 variables are based on questions about the survey instrument, and errors in this case provide feedback which can help improve the survey instrument itself. This is often the case for questions including __or other, please specify__ question type.
+
+Below are initialized variables to perform data quality control for this specific dataset
+
+#### Geodata
+```{r, include=TRUE}
+# Name of variables for geographic coordinates as recorded by data collection device GPS
+df_coord <- c("X_gps_reading_longitude","X_gps_reading_latitude")
+
+# Name of location (__matching external geodata__)
+df_site <- "union_name"
+
+#Name of unique key in polygon file
+admin_site <- "Union"
+```
+
+#### Variable of interest for data quality check
+```{r, include=TRUE}
+# Variable recording initial consent
+survey_consent <- "survey_consent"
+
+# Variable recording multiples screening questions
+questions <- c("consent_received.shelter_nfi.non_food_items[.]",
+             "consent_received.food_security.main_income[.]",
+             "consent_received.child_protection.boy_risk[.]",
+             "consent_received.child_protection.girl_risk[.]")
+
+# Variable to be checked
+reportingcol <- c("enumerator_id","X_uuid")
+```
+
+####  specifying Metadata variables
+
+```{r, include=TRUE}
+# unique ID for each record
+UniqueID <- "X_uuid"
+
+# dates
+dates <- c("survey_start","end_survey")
+ 
+## Official date for start of data collection
+start_collection <- "11/11/2018"
+
+<<<<<<< HEAD
+surveydate <- "survey_date"
+=======
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list[dts,err,var3,var4] <- chk1di_GIS_site(adm, sample_dataset, df_site, df_coord, admin_site, consent, reportcol, TRUE)
+sample_dataset <- dts
+>>>>>>> ff115024ba0c0d240709b337cd49478e53f134fa
+
+# Variable used to record enumerator identifiers
+enumeratorID <- "enumerator_id"
+```
+
+
+#### Quality target
+
+
+```{r, include=TRUE}
+# What is the minimum survey duration in minutes (when using all skip logic)?
+minduration <- 10
+
+# minans answers per specific questions
+minans <- 3
+
+# Standard value
+sdvalue <- 2
+
+#Size of the buffer in meters around the assigned data collection location points
+buffer <- 10
+```
+
+### Server specific config
+
+```{r, include=TRUE}
+otherpattern <- "_other$"
+dateformat <- "%m/%d/%Y"
+delete <- FALSE
+correct <- TRUE
+```
+
+## Corrective actions
+
+### Correct set-up of data collection devices and encoding of the forms
+
+These checks are designed to ensure that responses are consistent for a particular survey instrument, and that the responses fall within a particular range. For example, checks to ensure that all variables are standardized, and there are no outliers in the data. Share a daily log of such errors, and check if it is an issue with enumerators, in which case there might be a need to re-train enumerators.
+
+Missing data: Are some questions skipped more than others? Are there questions that no respondents answered? This may indicate a programming error.
+ 
+ *  Categorical variables: Are respondents selecting the given categories or are many respondents selecting “None of the above”, or “other”? If conducting a survey, you may want to add categories or modify your existing ones.
+
+ *   Too many similar responses: Is there a question where all respondents answer in the same way?
+
+
+
+#### Respondent ID
+
+Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent. 
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_unique_id <- chk2b_unique_id(ds, UniqueID, survey_consent, reportingcol, delete)
+ds <- list_unique_id[[1]]
+
+if(nrow(list_unique_id[[2]])>0){ 
+DT::datatable(list_unique_id[[2]], 
+             caption = "Detected records with errors: Duplicate respondent ID")
+} else {
+  cat(">__No errors__: All records have a unique repondent ID")
+}
+
+```
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_missing_id <- chk2a_missing_id(ds, UniqueID, survey_consent, reportingcol, delete)
+ds <- list_missing_id[[1]] 
+
+if(nrow(list_missing_id[[2]] )>0){ 
+DT::datatable(list_missing_id[[2]], 
+             caption = "Detected records with errors: Missing respondent ID")
+} else {
+  cat(">__No errors__: All records have an ID")
+}
+
+```
+
+#### Configuration of dates on device
+
+ * Checking record for which interview that do not end on the same day as they started
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake <- chk3a_date_mistake(ds, 
+                                                              survey_consent, 
+                                                              dates, 
+                                                              reportingcol, 
+                                                              delete)
+ds <- list_date_mistake[[1]]
+
+if(nrow(list_date_mistake[[2]])>0){ 
+DT::datatable(list_date_mistake[[2]], 
+             caption = "Detected records with errors")
+} else {
+  
+  cat(">__No errors__: All interviews ended on the same day as they started")
+}
+```
+
+ * Checking record for which interview ended before they start
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake2 <- chk3b_date_mistake(ds, 
+                                                                survey_consent, 
+                                                                dates, 
+                                                                reportingcol, 
+                                                                delete)
+#ds <- list_date_mistake2[[1]]
+
+if(nrow(list_date_mistake2[[2]])>0){ 
+DT::datatable(list_date_mistake2[[2]], 
+             caption = "Detected records with errors: interviews ended before they start")
+} else {
+  cat(">__No errors__: All interviews ended before they start")
+}
+```
+
+ * Checking record for which interview tagged in the future
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake3 <- chk3d_date_mistake(ds, 
+                                                                survey_consent, 
+                                                                dates, 
+                                                                reportingcol, 
+                                                                delete)
+#ds <- list_date_mistake3[[1]]
+
+if(nrow(list_date_mistake3[[2]])>0){ 
+DT::datatable(list_date_mistake3[[2]], 
+             caption = "Detected records with errors - date are not in the future")
+} else {
+  cat(">__No errors__: records date are not in the future")
+}
+```
+
+
+### Data collected according the plan
+
+
+
+#### Interviews made before the first day of data collection
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_date_mistake4 <- chk3c_date_mistake(ds, 
+                                    dates,
+                                    survey_consent,  
+                                    start_collection, 
+                                    reportingcol, 
+                                    delete)
+
+ds <- list_date_mistake4[[1]]
+
+if(nrow(list_date_mistake4[[2]])>0){ 
+DT::datatable(list_date_mistake4[[2]], 
+             caption = "Detected records with errors - records occured after the official beginning of data collection")
+} else {
+  cat(paste0(">__No errors__: all records occured after the official beginning of data collection on ", start_collection))
+}
+```
+
+#### Recorded site name for each interview matches the name of the location
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+list_site <- chk1di_GIS_site(adm, 
+                                 ds, 
+                                 df_site, 
+                                 df_coord, 
+                                 admin_site, 
+                                 survey_consent, 
+                                 reportingcol, 
+                                 correct)
+ds <- list_site[[1]]
+
+if(nrow(list_site[[2]])>0){ 
+DT::datatable(list_site[[2]], 
+             caption = "Detected records with errors - location name not matching with GPS")
+} else {
+  cat(">__No errors__: all records location name not matching with GPS")
+}
+```
+
+#### Recorded locations for each interview within a **`r buffer`** meter buffer from a sample point
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+list_sitept <- chk1dii_GIS_Xm(ds, 
+                                pts, 
+                                df_coord, 
+                                buffer, 
+                                survey_consent, 
+                                reportingcol, 
+                                TRUE)
+ds <- list_sitept[[1]]
+
+if(nrow(list_sitept[[2]])>0){ 
+DT::datatable(list_sitept[[2]], 
+             caption = "Detected records with errors - recorded location too far from sampling points")
+} else {
+  cat(">__No errors__: all records location in accpetable distance from sampling points")
+}
+```
+
+
+#### Enumerators who made a survey below **`r minduration`** minutes
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_duration_Xmin <- chk5b_duration_Xmin(ds, 
+                                     survey_consent, 
+                                     dates, 
+                                     reportingcol, 
+                                     minduration, 
+                                     TRUE)
+ds <- list_duration_Xmin[[1]]
+
+if(nrow(list_duration_Xmin[[2]])>0){ 
+DT::datatable(list_duration_Xmin[[2]], 
+             caption = paste0("Detected records with errors - Interviews duration shorter than ", minduration))
+} else {
+  cat(paste0(">__No errors__: No interviews duration shorter than ", minduration))
+}
+
+```
+
+
+#### Tracking sheet per site
+
+Test for target number: since surveys are submitted in daily waves, keep track of the numbers of surveys submitted and the target number of surveys needed for an area to be completed.
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+
+
+trackingSheet <- chk7bii_tracking(ds,
+                              SampleSize,
+                              df_site,
+                              sf_site,
+                              survey_consent,
+                              sf_target,
+                              sf_nbpts,
+                              formul,
+                              colorder)
+DT::datatable(trackingSheet, 
+             caption = "trackingSheet")
+```
+
+## Pro-active actions
+
+### Enumerators rigorous work standards
+
+These are designed to check if data shared by any particular enumerator is significantly different from the data shared by other enumerators. Some parameters to check enumerator performance include percentage of "Don't know" responses, or average interview duration. In the first case, there might be a need to re-draft the questions, while in the second case, there might be a need to re-train enumerators.
+
+
+#### Responses with outliers
+
+Outliers: Are some respondents reporting values drastically higher or lower than the average response? Do these variables need to be top or bottom coded? Many outlier checks can be directly programmed into the survey, either to flag responses or bar responses that are outside the acceptable range.
+
+#### Check the duration of consent and other modules by the enumerator
+
+
+
+
+
+#### Durations of Interviews
+
+Beware that Interviews with potential errors on the dates are not marked for deletion which can lead to weird duration
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+list_dur <- chk5a_duration(ds, 
+                                dates)
+# ds <- dts
+cat("> The total time of data collection is ", list_dur[[1]], " minutes and the average time per survey is ", list_dur[[2]], " minutes")
+```
+
+
+#### Enumerators who pick up less than **`r minans`** answers per specific questions
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_less_X_answers <- chk6g_question_less_X_answers(ds, 
+                                           enumeratorID, 
+                                           questions, 
+                                           minans)
+
+if(nrow(reportlog_less_X_answers)>0){ 
+DT::datatable(reportlog_less_X_answers, 
+             caption = paste0("Detected records with errors - Enumerators who pick up less than ",minans, " answers per specific questions"))
+} 
+
+```
+
+#### Check percentage of “don’t know” and refusal responses by the enumerator. 
+
+#### Number of other distinct values (for the questions with a possibility of other)
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_others_values <- chk4biv_others_values(ds, 
+                                   otherpattern, 
+                                   enumeratorID, 
+                                   TRUE)
+if(nrow(reportlog_others_values)>0){ 
+DT::datatable(reportlog_others_values, 
+             caption = paste0("Detected of other distinct values"))
+} 
+```
+
+
+### Enumerator productivity
+
+#### How many completed interview per day?
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_productivity <- chk7ai_productivity(ds, 
+                                 surveydate, 
+                                 dateformat, 
+                                 survey_consent)
+if(nrow(reportlog_productivity)>0){ 
+DT::datatable(reportlog_productivity, 
+             caption = paste0("Completed interview per day"))
+} 
+```
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+chk7aii_productivity_hist(ds, 
+                                 surveydate, 
+                                 dateformat, 
+                                 survey_consent)
+
+```
+
+#### How many attempted interview per day and obtained consent?
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_nb_status <- chk7bi_nb_status(ds, 
+                              surveydate, 
+                              dateformat, 
+                              survey_consent)
+if(nrow(reportlog_nb_status)>0){ 
+DT::datatable(reportlog_nb_status, 
+             caption = paste0("attempted interview per day and obtained consent"))
+} 
+```
+
+#### Percentage of survey per consent status by enumerator
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_refusal <- chk6a_refusal(ds, 
+                           survey_consent, 
+                           enumeratorID)
+if(nrow(reportlog_refusal)>0){ 
+DT::datatable(reportlog_refusal, 
+             caption = paste0("Percentage of survey per consent status by enumerator"))
+} 
+```
+
+#### Average interview duration by enumerator
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+reportlog_duration <- chk6b_duration(ds, 
+                            dates, 
+                            enumeratorID)
+if(nrow(reportlog_others_values)>0){ 
+DT::datatable(reportlog_duration, 
+             caption = paste0("Average interview duration by enumerator"))
+} 
+```
+
+#### Number of surveys per day by enumerator
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
+reportlog_nb_survey <- chk6c_nb_survey(ds, 
+                             surveydate, 
+                             enumeratorID)
+if(nrow(reportlog_nb_survey)>0){ 
+DT::datatable(reportlog_nb_survey, 
+             caption = paste0("Number of surveys per day by enumerator"))
+} 
+```
+
+#### Enumerators with productivity significantly different from the average (low or high)
+
+```{r eval=TRUE, echo=TRUE, results='asis'}
+
+reportlog_productivity <- chk6f_productivity(ds, 
+                                enumeratorID, 
+                                surveydate, 
+                                sdvalue)
+if(nrow(reportlog_productivity)>0){ 
+DT::datatable(reportlog_productivity, 
+             caption = paste0("Enumerators with productivity significantly different from the average"))
+} 
+```
+
+
