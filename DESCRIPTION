@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.3.7
+Version: 0.3.7.2
 Authors@R: 
     c(person(given = "Yannick",
              family = "Pascaud",

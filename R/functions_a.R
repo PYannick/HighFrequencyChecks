@@ -40,8 +40,8 @@ assessmentDuration <- function(ds=NULL,
 
   # avg <- round(mean(surveytime), digits = 2)
   # tot <- round(sum(surveytime), digits = 2)
-  msg<-paste0("The total time of data collection is ", round(mean(surveytime), digits = 2),
-         " minutes and the average time per survey is ", round(sum(surveytime), digits = 2), " minutes")
+  msg<-paste0("The total time of data collection is ", round(sum(surveytime), digits = 2),
+         " minutes and the average time per survey is ", round(mean(surveytime), digits = 2), " minutes")
   return(list(NULL,NULL,msg,NULL))
 }
 

@@ -7,7 +7,7 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                 tags$style(".glyphicon-ok {color:#00FF00}"),
                 tags$style(".glyphicon-remove {color:#FF0000}"),
                 title = "High Frequency Checks",
-                titlePanel(title=div("High Frequency Checks", img(src="unhcr-logo blue.jpg", height="75", width="270", align = "right"))),
+                titlePanel(title=div("High Frequency Checks", img(src="UNHCR_Logo.jpg", height="75", width="270", align = "right"))),
 
                 mainPanel(
                   tabsetPanel(id = "tabs",

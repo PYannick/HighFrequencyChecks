@@ -15,3 +15,4 @@ boolean value
 \description{
 This function allow to perform a Boolean sum (AND) over a vector of boolean values (TRUE/FALSE)
 }
+\keyword{internal}

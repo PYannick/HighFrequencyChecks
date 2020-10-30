@@ -60,7 +60,7 @@ remotes::install_github('unhcr/unhcrdatapackage’)
 remotes::install_github('unhcr-web/hcrdata’)
 
 ## Perform High Frequency Check https://unhcr.github.io/HighFrequencyChecks/docs/
-remotes::install_github('unhcr-web/HighFrequencyChecks’)
+remotes::install_github('unhcr/HighFrequencyChecks’)
 
 ## Process data crunching for survey dataset - https://unhcr.github.io/koboloadeR/docs/
 remotes::install_github('unhcr/koboloadeR’)

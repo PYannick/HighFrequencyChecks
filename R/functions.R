@@ -2,6 +2,7 @@
 #' @rdname piechart
 #' @title Create a donut chart with ggplot
 #' @description This function allow to create a donut chart with ggplot.
+#' @keywords internal
 #'
 #' @param data dataset as a data.frame object
 #' @param graphTitle aes paramters
@@ -17,22 +18,20 @@ piechart <- function(data, graphTitle){
   ggplot2::ggplot(t1, ggplot2::aes(fill=categories, ymax=ymax, ymin=ymin, xmax=4, xmin=3)) +
     ggplot2::geom_rect(colour="grey30") +
     ggplot2::coord_polar(theta="y") +
-    ggplot2::xlim(c(0, 4)) +
-    ggplot2::annotate(geom = 'text', x = 0, y = 0,
-                      label = paste0("Errors\n", round(t1$fraction[t1$categories == 'NOK']*100,0), "%"),
-                      size = 10,
-                      color = "red") +
+    ggplot2::xlim(c(1, 4)) +
     ggplot2::theme_void() +
     ggplot2::theme(panel.grid=ggplot2::element_blank()) +
     ggplot2::theme(axis.text=ggplot2::element_blank()) +
     ggplot2::theme(axis.ticks=ggplot2::element_blank()) +
-    ggplot2::labs(title=graphTitle)
+    ggplot2::theme(legend.position='none') +
+    ggplot2::labs(title=graphTitle, subtitle = paste0("Errors: ", round(t1$fraction[t1$categories == 'NOK']*100,2), "%"))
 }
 
 #' @name booleanSum
 #' @rdname booleanSum
 #' @title Sum bollean value
 #' @description This function allow to perform a Boolean sum (AND) over a vector of boolean values (TRUE/FALSE)
+#' @keywords internal
 #'
 #' @param x vector of booleans
 #'
@@ -47,10 +46,11 @@ booleanSum <- function(x){
   return(result)
 }
 
-#' @name ni
-#' @rdname ni
+#' @name NotIn
+#' @rdname NotIn
 #' @title Not in
 #' @description This function create the not in function
+#' @keywords internal
 #'
 #' @param x vector or NULL: the values to be matched. Long vectors are supported.
 #' @param table vector or NULL: the values to be matched against. Long vectors are not supported.
@@ -61,6 +61,7 @@ booleanSum <- function(x){
 #' @rdname mapFunctions
 #' @title Mapping of the function which can be used for the report
 #' @description Mapping of the function which can be used for the report based on the variables configured
+#' @keywords internal
 #'
 #' @param variablesConfig dataset where the variables are defined
 #' @param reportType type of report wanted (N for text one, G for graphical one)

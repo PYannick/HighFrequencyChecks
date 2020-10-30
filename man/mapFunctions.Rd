@@ -17,3 +17,4 @@ list of possible functions
 \description{
 Mapping of the function which can be used for the report based on the variables configured
 }
+\keyword{internal}
