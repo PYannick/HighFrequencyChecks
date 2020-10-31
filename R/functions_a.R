@@ -171,7 +171,11 @@ assessmentProductivity <- function(ds=NULL,
     summarize(NbSurvey=n())
   tmp$surveydate<-as.Date(tmp$surveydate, dateFormat)
   logf<-tmp[with(tmp, order(surveydate)), ]
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=NbSurvey))
+  graph <- ggplot2::ggplot(tmp) +
+    ggplot2::geom_col(ggplot2::aes(x=surveydate, y=NbSurvey)) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.x=ggplot2::element_blank(), panel.grid.minor.x=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Dates", y="Number of surveys")
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -230,7 +234,11 @@ assessmentDailyValidSurveys <- function(ds=NULL,
   tmp <- tmp[with(tmp, order(surveydate)), ]
   logf <- reshape2::dcast(tmp,surveydate ~ surveyConsent, value.var="n")
   logf[is.na(logf)] <- 0
-  graph <- ggplot2::ggplot(tmp) + ggplot2::geom_col(ggplot2::aes(x=surveydate, y=n, fill=surveyConsent))
+  graph <- ggplot2::ggplot(tmp) +
+    ggplot2::geom_col(ggplot2::aes(x=surveydate, y=n, fill=surveyConsent)) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.x=ggplot2::element_blank(), panel.grid.minor.x=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Dates", y="Number of surveys", fill="Consent status")
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -329,7 +337,7 @@ assessmentTrackingSheet <- function(ds=NULL,
 
   logf <- tmp
 
-  alertText <- "there is not enough points available to reach the sample size for:"
+  alertText <- "There is not enough points available to reach the sample size for:"
   alertTextToBeDisplayed <- FALSE
   for(i in 1:length(tmp[,1])){
     if(((tmp[i,]$RemainingPoints - tmp[i,]$ToDo) < 0)){
@@ -368,6 +376,8 @@ assessmentTrackingSheet <- function(ds=NULL,
       breaks = tmp$x[tmp$variable == "ToDo"] + 0.2,
       labels = tmp$Site[tmp$variable == "ToDo"]) +
     ggplot2::theme_minimal() +
+    ggplot2::theme(panel.grid.major.y=ggplot2::element_blank()) +
+    ggplot2::labs(x = "Sites", y="Number of surveys", fill="Categories") +
     ggplot2::coord_flip()
 
   return(list(NULL,logf,alertText,graph))
