@@ -262,9 +262,12 @@ if(!is.null(minimumSurveyDuration) | !is.na(minimumSurveyDuration) | minimumSurv
 if(!is.null(minimumSurveyDurationByIndividual) | !is.na(minimumSurveyDurationByIndividual) | minimumSurveyDurationByIndividual!=""){
   cat(paste0("The minimum duration taken into account the household size (duration per individual) for a survey to be valid is set to ", minimumSurveyDurationByIndividual, " minutes  \n"))
 }
-kable(data.frame(Values=questionsSurveySmallValues), caption = "Questions with values under will be reported for further checking")
-kable(data.frame(Values=questionsSurveyBigValues), caption = "Questions with values above will be reported for further checking")
-kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy), caption = "Questions with an expected minimum number of answers")
+kable(data.frame(Values=questionsSurveySmallValues), caption = "Questions with values under will be reported for further checking", format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
+kable(data.frame(Values=questionsSurveyBigValues), caption = "Questions with values above will be reported for further checking", format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
+kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy), caption = "Questions with an expected minimum number of answers", format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
 ```
 
 ## Overall duration of the assessment till now
@@ -288,10 +291,11 @@ for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
   }
 }
 cat("The following reports have been exported in .csv for further analysis or to prepare the cleaning log")
-kable(listReports, caption = "Reports list")
+kable(listReports, caption = "Reports list", format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
 ```
 
-## Graph i
+## Overview of errors which should lead to a survey deletion
 
 ```{r display graphi, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=8}
 colors <- c("OK" = "#238b45", "NOK" = "#cb181d")
@@ -362,7 +366,11 @@ print(graphenumeratorProductivityOutliers)
 ### Percentage of valid surveys
 
 ```{r display graphenumeratorSurveysConsent, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=10}
-print(graphenumeratorSurveysConsent + ggplot2::theme(legend.position = 'bottom'))
+colors <- eval(parse(text=paste0("c(", paste0(unique(ds$survey_consent), "='", colormap::colormap(colormap=c('#fff5f0','#67000d'), nshades=length(unique(ds$survey_consent))), "'", collapse = ","), ")")))
+colors["yes"] <- "#238b45"
+
+print(graphenumeratorSurveysConsent + ggplot2::theme(legend.position = 'bottom') + 
+        ggplot2::scale_fill_manual(values = colors))
 ```
 
 ### Surveys duration
