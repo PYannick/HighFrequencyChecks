@@ -254,19 +254,25 @@ list[var1,reportenumeratorErrorsDashboard,textenumeratorErrorsDashboard,graphenu
 
 ```{r display summaryParameters, eval=TRUE, echo=FALSE, results='asis'}
 if(!is.null(buffer) | !is.na(buffer) | buffer!=""){
-  cat(paste0("The buffer for the points to be valid is set to ", buffer, " meters from the sampled point  \n"))
+  cat(paste0("The buffer for the points to be valid is set to ***", buffer, " meters*** from the sampled point  \n"))
 }
 if(!is.null(minimumSurveyDuration) | !is.na(minimumSurveyDuration) | minimumSurveyDuration!=""){
-  cat(paste0("The minimum duration for a survey to be valid is set to ", minimumSurveyDuration, " minutes  \n"))
+  cat(paste0("The minimum duration for a survey to be valid is set to ***", minimumSurveyDuration, " minutes***  \n"))
 }
 if(!is.null(minimumSurveyDurationByIndividual) | !is.na(minimumSurveyDurationByIndividual) | minimumSurveyDurationByIndividual!=""){
-  cat(paste0("The minimum duration taken into account the household size (duration per individual) for a survey to be valid is set to ", minimumSurveyDurationByIndividual, " minutes  \n"))
+  cat(paste0("The minimum duration taken into account the household size (duration per individual) for a survey to be valid is set to ***", minimumSurveyDurationByIndividual, " minutes***  \n"))
 }
-kable(data.frame(Values=questionsSurveySmallValues), caption = "Questions with values under will be reported for further checking", format = "html") %>%
+
+df <- merge(data.frame(questionsSurveySmallValues), data.frame(questionsSurveyBigValues), by=0, all=TRUE)
+colnames(df) <- c("Questions", "Lower bound", "Upper bound")
+kable(df, 
+      caption = "Questions with values to be checked for", 
+      format = "html") %>%
   kableExtra::kable_styling(full_width=T)
-kable(data.frame(Values=questionsSurveyBigValues), caption = "Questions with values above will be reported for further checking", format = "html") %>%
-  kableExtra::kable_styling(full_width=T)
-kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy), caption = "Questions with an expected minimum number of answers", format = "html") %>%
+
+kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy), 
+      caption = "Questions with an expected minimum number of answers", 
+      format = "html") %>%
   kableExtra::kable_styling(full_width=T)
 ```
 
@@ -290,59 +296,97 @@ for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
     listReports <- rbind(listReports, data.frame(Reports=i), stringsAsFactors = FALSE)
   }
 }
-cat("The following reports have been exported in .csv for further analysis or to prepare the cleaning log")
-kable(listReports, caption = "Reports list", format = "html") %>%
+if(length(listReports[,1]) %% 2 !=0){
+  listReports <- rbind(listReports, data.frame(Reports=""), stringsAsFactors = FALSE)
+}
+
+cat("Most of the analysis selected outputed a detailed report which could be used for further analysis or to prepare the cleaning log")
+kable(data.frame(listReports[1:(length(listReports[,1])/2),],
+                 listReports[(1+length(listReports[,1])/2):length(listReports[,1]),]), 
+      col.names = NULL, 
+      caption = "Reports exported in .csv", 
+      format = "html") %>%
   kableExtra::kable_styling(full_width=T)
 ```
 
 ## Overview of errors which should lead to a survey deletion
 
-```{r display graphi, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=8}
-colors <- c("OK" = "#238b45", "NOK" = "#cb181d")
-for(i in ls(all.names = T)[ls(all.names = T) %like% "graphi"]){
+### Programming Checks
+
+These errors are most likely linked to some issues with the phones/ tablets used for the data collection, server configuration or connectivity issues.
+
+```{r graphiProgramming, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=5}
+colors <- c("OK" = "#00cc00", "NOK" = "#cc0000")
+graphsi <- c("graphisInterviewWithConsent",
+             "graphisUniqueIDMissing",
+             "graphisUniqueIDDuplicated",
+             "graphisSurveyEndBeforeItStarts",
+             "graphisSurveyStartedBeforeTheAssessment",
+             "graphisSurveyMadeInTheFuture")
+for(i in ls(all.names = T)[ls(all.names = T) %in% graphsi]){
   eval(parse(text=paste0(i, " <- ", i, " + ggplot2::theme(plot.title=ggplot2::element_text(size=10), plot.subtitle=ggplot2::element_text(size=8, colour = ' red')) + ggplot2::scale_fill_manual(values = colors)")))
 }
-gridExtra::grid.arrange(grobs=mget(ls(all.names = T)[ls(all.names = T) %like% "graphi"]), ncol = 4)
+gridExtra::grid.arrange(grobs=mget(ls(all.names = T)[ls(all.names = T) %in% graphsi]), ncol = 3)
+```
+
+### Enumerators Checks
+
+These errors are most likely linked to some lack of technical training of the enumerators, like proper use of a GPS, being certain the survey is ended in the tool used for the data collection before moving to the next one. Or to some bad behaviours for the surveys marked as too short.
+
+```{r graphiEnumerators, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=5}
+colors <- c("OK" = "#00cc00", "NOK" = "#cc0000")
+graphsi <- c("graphisInterviewInTheCorrectSite",
+             "graphisInterviewAtTheSamplePoint",
+             "graphisSurveyOnMoreThanADay",
+             "graphisInterviewCompleted",
+             "graphisInterviewTooShort",
+             "graphisInterviewTooShortForTheHouseholdSize")
+for(i in ls(all.names = T)[ls(all.names = T) %in% graphsi]){
+  eval(parse(text=paste0(i, " <- ", i, " + ggplot2::theme(plot.title=ggplot2::element_text(size=10), plot.subtitle=ggplot2::element_text(size=8, colour = ' red')) + ggplot2::scale_fill_manual(values = colors)")))
+}
+gridExtra::grid.arrange(grobs=mget(ls(all.names = T)[ls(all.names = T) %in% graphsi]), ncol = 3)
 ```
 
 ## Assessment follow-up
 
-```{r display grapha, eval=FALSE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=6}
-for(i in ls(all.names = T)[ls(all.names = T) %like% "grapha"]){
-  if(!is.null(get(i))){
-    print(get(i) + ggplot2::labs(title=i))
-  }
-}
-```
-
 ### Productivity
 
-```{r display graphassessmentProductivity, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=6}
+Follow-up on the daily productivity.
+
+```{r graphassessmentProductivity, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=4}
 print(graphassessmentProductivity)
 ```
 
 ### Daily surveys by status
 
-```{r display graphassessmentDailyValidSurveys, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=6}
-colors <- eval(parse(text=paste0("c(", paste0(unique(ds$survey_consent), "='", colormap::colormap(colormap=c('#fff5f0','#67000d'), nshades=length(unique(ds$survey_consent))), "'", collapse = ","), ")")))
-colors["yes"] <- "#238b45"
+Follow-up on the daily productivity taking into account the surveys status to get a closer look on the ones which would be usable at the end.
 
-print(graphassessmentDailyValidSurveys + ggplot2::theme(legend.position = 'bottom') + 
+```{r graphassessmentDailyValidSurveys, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=5}
+colors <- eval(parse(text=paste0("c(", paste0(unique(ds$survey_consent), "='", colormap::colormap(colormap=c('#fff5f0','#67000d'), nshades=length(unique(ds$survey_consent))), "'", collapse = ","), ")")))
+colors["yes"] <- "#00cc00"
+
+print(graphassessmentDailyValidSurveys + 
+        ggplot2::theme(legend.position = 'bottom') + 
+        ggplot2::guides(fill=ggplot2::guide_legend(nrow=ceiling(length(unique(ds$survey_consent))/2), byrow=TRUE)) +  
         ggplot2::scale_fill_manual(values = colors))
 ```
 
 ### Surveys duration outliers
 
-```{r display graphassessmentDurationOutliers, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=1.5}
+The surveys duration distribution could be usefull to revise the minimum expected duration of one survey.
+
+```{r graphassessmentDurationOutliers, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=1}
 print(graphassessmentDurationOutliers)
 ```
 
 ### Tracking Sheet
 
-```{r display graphassessmentTrackingSheet, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=6}
+The tracking sheet is a powerfull tool to monitor the progress of the assessment and to warn about the potential shortage of sampled points available in some areas.
+
+```{r graphassessmentTrackingSheet, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=4}
 print(graphassessmentTrackingSheet + ggplot2::theme(legend.position = 'bottom'))
 if(!is.null(textassessmentTrackingSheet)){
-  cat(textassessmentTrackingSheet)
+  cat(paste0("***", textassessmentTrackingSheet, "***"))
 }
 ```
 
@@ -353,35 +397,45 @@ if(!is.null(textassessmentTrackingSheet)){
 
 ### Productivity
 
-```{r display graphenumeratorProductivity, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=10}
+Basic average number of surveys made daily by each enumerators (based on the number of days the enumerators worked).
+
+```{r graphenumeratorProductivity, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=10}
 print(graphenumeratorProductivity)
 ```
 
 ### Productivity outliers
 
-```{r display graphenumeratorProductivityOutliers, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=1.5}
+The productivity distribution, in combination with the ***Productivity***, could be usefull to identify enumerators who are particularly performent or on the other hand not enough. Keeping in mind an enumerator who over performed could be an enumerator who is cheating. A further analysis crossed with the ***Percentage of valid surveys***, the ***Survey duration*** distribution and the time spend per question could help to identify the way the duration distribution has to be interpreted.
+
+```{r graphenumeratorProductivityOutliers, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=1}
 print(graphenumeratorProductivityOutliers)
 ```
 
 ### Percentage of valid surveys
 
-```{r display graphenumeratorSurveysConsent, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=10}
-colors <- eval(parse(text=paste0("c(", paste0(unique(ds$survey_consent), "='", colormap::colormap(colormap=c('#fff5f0','#67000d'), nshades=length(unique(ds$survey_consent))), "'", collapse = ","), ")")))
-colors["yes"] <- "#238b45"
+Within all the surveys made by each enumerator, what is the percentage of them which could be used for the assessment analysis.
 
-print(graphenumeratorSurveysConsent + ggplot2::theme(legend.position = 'bottom') + 
+```{r graphenumeratorSurveysConsent, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=10}
+colors <- eval(parse(text=paste0("c(", paste0(unique(ds$survey_consent), "='", colormap::colormap(colormap=c('#fff5f0','#67000d'), nshades=length(unique(ds$survey_consent))), "'", collapse = ","), ")")))
+colors["yes"] <- "#00cc00"
+
+print(graphenumeratorSurveysConsent + 
+        ggplot2::theme(legend.position = 'bottom') + 
+        ggplot2::guides(fill=ggplot2::guide_legend(nrow=ceiling(length(unique(ds$survey_consent))/2), byrow=TRUE)) + 
         ggplot2::scale_fill_manual(values = colors))
 ```
 
 ### Surveys duration
 
-```{r display graphenumeratorSurveysDuration, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=10}
+The survey duration distribution per enumerator could be useful to identify enumerators which are consistent (i.e. having similar duration for each of their surveys made). Be aware that a consistent survey durations could be interpreted in different ways, it could be seen as a good thing, meaning the enumerator on the overall takes similar time to ask the questions, but it could also be interpreted as a negative sign if we assume the enumerator is filling the survey by himself and monitoring his time to not have a short overall duration. A closer monitoring of the time spend per question could help to identify the way the duration distribution has to be interpreted.
+
+```{r graphenumeratorSurveysDuration, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=10}
 print(graphenumeratorSurveysDuration)
 ```
 
 ### Overall number of errors per type by enumerator
 
-```{r display graph enumeratorErrorsDashboard, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=30}
+```{r enumeratorErrorsDashboard, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=30}
 print(graphenumeratorErrorsDashboard)
 ```
 

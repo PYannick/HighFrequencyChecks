@@ -111,7 +111,7 @@ enumeratorSurveysDuration <- function(ds=NULL,
   graph <- eval(parse(text=paste0("ggplot2::ggplot(ds) +
                                   ggplot2::geom_boxplot(ggplot2::aes(surveytime, as.character(", enumeratorID, ")), outlier.colour = 'red') +
                                   ggplot2::theme_minimal() +
-                                  ggplot2::labs(x = \"Enumerators ID\", y=\"Survey duration\")")))
+                                  ggplot2::labs(x = \"Survey duration\", y=\"Enumerators ID\")")))
   return(list(NULL,logf,NULL,graph))
 }
 
@@ -346,10 +346,11 @@ enumeratorErrorsDashboard <- function(enumeratorID=NULL, reports=NULL){
   graph <- ggplot2::ggplot(tmp) +
     ggplot2::geom_col(ggplot2::aes(x=Error, y=Nb)) +
     ggplot2::scale_y_continuous(breaks=seq(0, max(tmp$Nb), by=ceiling(max(tmp$Nb)/5))) +
-    ggplot2::theme_minimal() +
+    ggplot2::theme_light() +
     ggplot2::labs(x = "Error types", y="Numbers") +
     ggplot2::facet_wrap(ggplot2::vars(Enumerator), ncol=floor(40/length(unique(tmp$Error)))) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = .3, unit = "cm"), angle = 90, vjust = .5, hjust=1))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(margin = ggplot2::margin(t = .3, unit = "cm"), angle = 90, vjust = .5, hjust=1),
+                   panel.grid=ggplot2::element_line(linetype=3))
 
   return(list(NULL,NULL,NULL,graph))
 }
