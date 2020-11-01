@@ -35,7 +35,7 @@ Imports:
     ggplot2,
     openxlsx, 
     readr
-Suggests: knitr, rmarkdown, shiny, shinythemes
+Suggests: knitr, rmarkdown, shiny, shinythemes, colormap, gridExtra, kableExtra
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 

@@ -1,12 +1,12 @@
 ---
-title: "High Frequency Checks template"
+title: "High Frequency Checks: Example of a graphical template"
 always_allow_html: yes
 output:
   rmarkdown::html_vignette:
     toc: yes
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{High Frequency Checks template}
+  %\VignetteIndexEntry{High Frequency Checks: Example of a graphical template}
   %\VignetteEngine{knitr::rmarkdown}
 geometry: margin=0.5in
 fontsize: 10pt
@@ -23,7 +23,7 @@ library(data.table)
 library(HighFrequencyChecks)
 options(scipen = 999)
 ```
-```{r define variables, eval=TRUE, echo=FALSE}
+```{r defineVariables, eval=TRUE, echo=FALSE}
 ds<-sample_dataset
 sampleSizeTable<-SampleSize
 adminBoundaries<-admin
@@ -104,13 +104,13 @@ deleteIsSurveyMadeInTheFuture<-TRUE
 deleteIsInterviewTooShort<-TRUE
 deleteIsInterviewTooShortForTheHouseholdSize<-TRUE
 ```
-```{r some cleaning, eval=TRUE, echo=FALSE}
+```{r someCleaning, eval=TRUE, echo=FALSE}
 ds$union_name<-tolower(ds$union_name)
 sampleSizeTable$Union<-tolower(sampleSizeTable$Union)
 adminBoundaries$Union<-tolower(adminBoundaries$Union)
 ```
 
-```{r run all functions, eval=TRUE, echo=FALSE}
+```{r runAllFunctions, eval=TRUE, echo=FALSE}
 list[var1,reportisInterviewCompleted,textisInterviewCompleted,graphisInterviewCompleted] <- 
   isInterviewCompleted(ds=ds, dates=c("survey_start","end_survey"), surveyConsent="survey_consent", deleteIsInterviewCompleted=TRUE)
 if(!is.null(var1)){
@@ -252,7 +252,7 @@ list[var1,reportenumeratorErrorsDashboard,textenumeratorErrorsDashboard,graphenu
 
 ## Summary of defined parameters
 
-```{r display summaryParameters, eval=TRUE, echo=FALSE, results='asis'}
+```{r summaryParameters, eval=TRUE, echo=FALSE, results='asis'}
 if(!is.null(buffer) | !is.na(buffer) | buffer!=""){
   cat(paste0("The buffer for the points to be valid is set to ***", buffer, " meters*** from the sampled point  \n"))
 }
@@ -278,7 +278,7 @@ kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy),
 
 ## Overall duration of the assessment till now
 
-```{r display textassessmentDuration, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=8}
+```{r textassessmentDuration, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=8}
 if(!is.null(textassessmentDuration)){
   cat(textassessmentDuration)
 }
@@ -286,7 +286,10 @@ if(!is.null(textassessmentDuration)){
 
 ## Reports
 
-```{r export results in csv, eval=TRUE, echo=FALSE, results='asis'}
+```{r exportResultsInCSV, eval=FALSE, echo=FALSE, results='asis'}
+#################################################################
+## Not run during package creation, set eval=TRUE in real life ##
+#################################################################
 listReports <- data.frame(Reports=character(), stringsAsFactors = FALSE)
 for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
   if(i=="reports"){

@@ -1,5 +1,5 @@
 ---
-title: "High Frequency Checks template"
+title: "High Frequency Checks: Test of all functions template"
 always_allow_html: yes
 header-includes:
 - \usepackage{pdflscape}
@@ -10,7 +10,7 @@ output:
     toc: yes
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{High Frequency Checks template}
+  %\VignetteIndexEntry{High Frequency Checks: Test of all functions template}
   %\VignetteEngine{knitr::rmarkdown}
 geometry: margin=0.5in
 fontsize: 10pt
