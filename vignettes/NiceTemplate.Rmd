@@ -389,7 +389,7 @@ The tracking sheet is a powerfull tool to monitor the progress of the assessment
 ```{r graphassessmentTrackingSheet, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=7, fig.height=4}
 print(graphassessmentTrackingSheet + ggplot2::theme(legend.position = 'bottom'))
 if(!is.null(textassessmentTrackingSheet)){
-  cat(paste0("***", textassessmentTrackingSheet, "***"))
+  cat(textassessmentTrackingSheet)
 }
 ```
 

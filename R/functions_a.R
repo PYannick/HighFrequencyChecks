@@ -337,11 +337,11 @@ assessmentTrackingSheet <- function(ds=NULL,
 
   logf <- tmp
 
-  alertText <- "There is not enough points available to reach the sample size for:"
+  alertText <- "There is not enough points available to reach the sample size for:  \n"
   alertTextToBeDisplayed <- FALSE
   for(i in 1:length(tmp[,1])){
     if(((tmp[i,]$RemainingPoints - tmp[i,]$ToDo) < 0)){
-      alertText <- paste(alertText, tmp[i,1], sep = " ")
+      alertText <- paste(alertText, tmp[i,1], sep = "  \n")
       alertTextToBeDisplayed <- TRUE
     }
   }
