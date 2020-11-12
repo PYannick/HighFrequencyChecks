@@ -31,4 +31,4 @@ admin
 \description{
 This dataset contains the boudaries for the Unions in both Ukhia and Teknaf.
 }
-\keyword{datasets}
+\keyword{internal}

@@ -1,52 +1,5 @@
-#' @name piechart
-#' @rdname piechart
-#' @title Create a donut chart with ggplot
-#' @description This function allow to create a donut chart with ggplot.
-#' @keywords internal
-#'
-#' @param data dataset as a data.frame object
-#' @param graphTitle aes paramters
-#'
-#' @return  a ggplot object
-piechart <- function(data, graphTitle){
-  t1<-data
-  t1$fraction = t1$Nb / sum(t1$Nb)
-  t1 = t1[order(t1$fraction), ]
-  t1$ymax = cumsum(t1$fraction)
-  t1$ymin = c(0, utils::head(t1$ymax, n=-1))
+'%ni%' <- function(x, table) !(match(x, table, nomatch = 0) > 0)
 
-  ggplot2::ggplot(t1, ggplot2::aes(fill=categories, ymax=ymax, ymin=ymin, xmax=4, xmin=3)) +
-    ggplot2::geom_rect(colour="grey30") +
-    ggplot2::coord_polar(theta="y") +
-    ggplot2::xlim(c(1, 4)) +
-    ggplot2::theme_void() +
-    ggplot2::theme(panel.grid=ggplot2::element_blank()) +
-    ggplot2::theme(axis.text=ggplot2::element_blank()) +
-    ggplot2::theme(axis.ticks=ggplot2::element_blank()) +
-    ggplot2::theme(legend.position='none') +
-    ggplot2::labs(title=graphTitle, subtitle = paste0("Errors: ", round(t1$fraction[t1$categories == 'NOK']*100,2), "%"))
-}
-
-#' @name NotIn
-#' @rdname NotIn
-#' @title Not in
-#' @description This function create the not in function
-#' @keywords internal
-#'
-#' @param x vector or NULL: the values to be matched. Long vectors are supported.
-#' @param table vector or NULL: the values to be matched against. Long vectors are not supported.
-#'
-'%ni%' <- function(x, table){!(match(x, table, nomatch = 0) > 0)}
-
-# #' @name booleanSum
-# #' @rdname booleanSum
-# #' @title Sum bollean value
-# #' @description This function allow to perform a Boolean sum (AND) over a vector of boolean values (TRUE/FALSE)
-# #' @keywords internal
-# #'
-# #' @param x vector of booleans
-# #'
-# #' @return boolean value
 booleanSum <- function(x){
   result <- x[1]
   if(length(x)>1){
@@ -57,16 +10,7 @@ booleanSum <- function(x){
   return(result)
 }
 
-
-#### OTHER FUNCTIONS FOR THE SHINY APP
-
-.APPonAttach <- function(libname, pkgname) {
-  shiny::addResourcePath('logos',
-                         system.file('logos',
-                                     package = 'HighFrequencyChecks'))
-}
-
-.APPmapFunctions <- function(variablesConfig){
+mapFunctions <- function(variablesConfig){
   functionsOutputs <- subset(functionsOutputs, !is.null(functionsOutputs$outputType) & !is.na(functionsOutputs$outputType) & functionsOutputs$outputType!="")
   functionsGraphics <- subset(functionsGraphics, !is.null(functionsGraphics$graph) & !is.na(functionsGraphics$graph) & functionsGraphics$graph!="")
   variablesConfig <- subset(variablesConfig, !is.null(variablesConfig$variableValue) & !is.na(variablesConfig$variableValue) & variablesConfig$variableValue!="")
@@ -104,7 +48,23 @@ booleanSum <- function(x){
   return(functionsList)
 }
 
-.APPvariableGroups <- function(surveyPart){
+
+variableGroups <- function(surveyPart, choicesPart){
+  #kobo_form(formid, user = user, api = api)
+  # cat("\n Your form should be placed within the `data` folder. \n \n")
+  # read the survey tab of ODK from
+  # mainDir <- kobo_getMainDirectory()
+  # mainDir <- "C:/Users/yanni/Documents/tmpSavHFC/TestHFC"
+  #
+  # form_tmp <- paste(mainDir, "data", form, sep = "/", collapse = "/")
+
+  # mainDir <- "C:/Users/yanni/Documents/tmpSavHFC/TestHFC"
+  # form <- "ISCG_HC_MSNA_Questionnaire_Final_KOBO.xlsx"
+  # form_tmp <- paste(mainDir, "data", form, sep = "/", collapse = "/")
+  # ### First review all questions from survey sheet #################################################
+  # survey <- readxl::read_excel(form_tmp, sheet = "survey")
+
+
   ### First review all questions from survey sheet #################################################
   survey <- surveyPart
   survey <- survey[,c("type", "name")]
@@ -114,84 +74,194 @@ booleanSum <- function(x){
   ## need to delete empty rows from the form
   survey <- as.data.frame(survey[!is.na(survey$type), ])
 
-  ### We can now extract the id of the list name to reconstruct the full label for the question
+  ### We can now extract the id of the list name to reconstruct the full label fo rthe question
   survey$listname <- ""
 
   ## Extract for select_one
-  survey$listname <- with(survey, ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE, survey$type) ,
-                                         paste0(substr(survey$type ,
-                                                       (regexpr("select_one", survey$type, ignore.case = FALSE, fixed = TRUE)) + 10, 250)),
+  survey$listname <- with(survey, ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  survey$type) ,
+                                         paste0( substr(survey$type ,
+                                                        (regexpr("select_one", survey$type , ignore.case = FALSE, fixed = TRUE)) + 10, 250)),
                                          survey$listname))
+
   survey$type <- with(survey, ifelse(grepl("select_one", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  survey$type), paste0("select_one"),
                                      survey$type))
 
   ## Extract for select multiple & clean type field
-  survey$listname <- with(survey,  ifelse(grepl("select_multiple", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE, survey$type),
-                                          paste0(substr(survey$type ,
-                                                        (regexpr("select_multiple",survey$type , ignore.case = FALSE, fixed = TRUE)) + 16, 250)),
+  survey$listname <- with(survey,  ifelse(grepl("select_multiple", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  survey$type),
+                                          paste0( substr(survey$type ,
+                                                         (regexpr("select_multiple", survey$type , ignore.case = FALSE, fixed = TRUE)) + 16, 250)),
                                           survey$listname ))
 
-  survey$type <- with(survey, ifelse(grepl("select_multiple", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE, survey$type), paste0("select_multiple_d"),survey$type))
+
+  survey$type <- with(survey, ifelse(grepl("select_multiple", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  survey$type), paste0("select_multiple_d"),survey$type))
 
   ## handle case where we have "or_other"
-  survey$listname <- with(survey, ifelse(grepl("or_other", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE, survey$listname) ,
-                                         paste0(substr(survey$listname, 1, (nchar(survey$listname) - 8))),
+  survey$listname <- with(survey, ifelse(grepl("or_other", ignore.case = TRUE, fixed = FALSE, useBytes = FALSE,  survey$listname) ,
+                                         paste0( substr(survey$listname , 1, (nchar(survey$listname) - 8 ))),
                                          survey$listname))
 
   ## Remove trailing space
   survey$listname <- trimws(survey$listname)
 
-  survey$level <- 1
-  level <- 1
-  questionFull <- list()
-  groupLevel <- 1
-  survey$questionFull <- ""
-  questionFull <- ""
-  for(i in 1:nrow(survey)){
-    if(survey[i, "type"] %in% c("begin repeat","begin_repeat")){
-      level <- level + 1
-      groupLevel <- groupLevel + 1
-      # questionFullPrevious <- questionFull
-      questionFull[groupLevel] <- paste0(questionFull[groupLevel - 1], survey[i, "name"], sep = ".")
-    } else if(survey[i, "type"] %in% c("end repeat","end_repeat")){
-      level <- level - 1
-      groupLevel <- groupLevel - 1
-      # questionFull <- questionFullPrevious
-    } else if(survey[i, "type"] == "begin_group"){
-      groupLevel <- groupLevel + 1
-      # questionFullPrevious <- questionFull
-      questionFull[groupLevel] <- paste0(questionFull[groupLevel - 1], survey[i, "name"], sep = ".")
-    } else if(survey[i, "type"] == "end_group"){
-      groupLevel <- groupLevel - 1
-      # questionFull <- questionFullPrevious
-    }
-    survey[i, "questionFull"] <- questionFull[groupLevel]
-    survey[i, "level"] <- level
-  }
-  survey$questionFull <- paste0(survey$questionFull, survey$name)
-  # Remove unecessary lines (to be amended if there are other kobo types not producing data)
-  survey <- subset(survey, type %ni% c("begin repeat", "begin_group", "end_group", "end_repeat", "geopoint", "note"))
+  ## Now creating full name in order to match with data variables name
 
-  # Build the survey structure
-  surveyAsList <- list()
-  for(i in unique(survey$level)){
-    surveyAsList[[i]] <- subset(survey, level == i)[c("type", "name", "listname", "questionFull")]
+  ### identify Repeat questions with nest levels
+  survey$qrepeat <- ""
+  for (i in 2:nrow(survey))
+  {
+    #Check based on repeat type
+    if (survey[ i, c("type")] %in% c("begin repeat","begin_repeat") && survey[ i - 1, c("qrepeat")] == "")                  {survey[ i, c("qrepeat")]  <- "repeatnest1"}
+    else if (survey[ i, c("type")] %in% c("begin repeat","begin_repeat") && survey[ i - 1, c("qrepeat")] == "repeatnest1")       {survey[ i, c("qrepeat")]  <-  "repeatnest2"}
+    else if (!(survey[ i, c("type")] %in% c("end repeat","end_repeat"))  && survey[ i - 1, c("qrepeat")] == "repeatnest1")       {survey[ i, c("qrepeat")]  <-  "repeatnest1"}
+    else if (!(survey[ i, c("type")] %in% c("end repeat","end_repeat"))  && survey[ i - 1, c("qrepeat")] == "repeatnest2")       {survey[ i, c("qrepeat")]  <-  "repeatnest2"}
+    else if (survey[ i, c("type")] %in% c("end repeat","end_repeat")     && survey[ i - 1, c("qrepeat")] == "repeatnest1" )      {survey[ i, c("qrepeat")]  <-  ""}
+    else if (survey[ i, c("type")] %in% c("end repeat","end_repeat")     && survey[ i - 1, c("qrepeat")] == "repeatnest2" )      {survey[ i, c("qrepeat")]  <-  "repeatnest1"}
+
+    else   {survey[ i, c("qrepeat")]  <-  ""}
   }
 
-   return(surveyAsList)
+  ### identify Repeat questions
+
+  survey$qrepeatlabel <- "MainDataFrame"
+
+  nestable <- survey[survey$type %in% c("begin_repeat","begin repeat") , c("name","qrepeat","type")]
+  nestable$name <- as.character(nestable$name)
+  for (i in 2:nrow(survey)){
+    # Now insert the repeat label based on name
+    if ( survey[ i, c("type")] == "begin repeat" )                                                {survey[ i, c("qrepeatlabel")]  <- survey[ i, c("name")]}
+    else if ( survey[ i, c("type")] != "end repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest1" )   {survey[ i, c("qrepeatlabel")]  <- survey[ i - 1, c("qrepeatlabel")] }
+    else if ( survey[ i, c("type")] != "end repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest2" )   {survey[ i, c("qrepeatlabel")]  <- survey[ i - 1, c("qrepeatlabel")] }
+
+    else if ( survey[ i, c("type")] == "end repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest1")    {survey[ i, c("qrepeatlabel")]  <-  "MainDataFrame"}
+
+    else if ( survey[ i, c("type")] == "end repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest2")    { nestabove <- as.character(survey[ i - 1, c("qrepeatlabel")])
+    nestabovenum <- as.integer(which(nestable$name == nestabove ) - 1)
+    survey[ i, c("qrepeatlabel")]  <-  as.character( nestable[ nestabovenum , 1] ) }
+
+    ## Sometimes it seems that we get an underscore for type
+    else if ( survey[ i, c("type")] == "begin_repeat" )                                                {survey[ i, c("qrepeatlabel")]  <- survey[ i, c("name")]}
+    else if ( survey[ i, c("type")] != "end_repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest1" )   {survey[ i, c("qrepeatlabel")]  <- survey[ i - 1, c("qrepeatlabel")] }
+    else if ( survey[ i, c("type")] != "end_repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest2" )   {survey[ i, c("qrepeatlabel")]  <- survey[ i - 1, c("qrepeatlabel")] }
+
+    else if ( survey[ i, c("type")] == "end_repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest1")    {survey[ i, c("qrepeatlabel")]  <-  "MainDataFrame"}
+
+    else if ( survey[ i, c("type")] == "end_repeat"   && survey[ i - 1, c("qrepeat")] == "repeatnest2")    { nestabove <- as.character(survey[ i - 1, c("qrepeatlabel")])
+    nestabovenum <- as.integer(which(nestable$name == nestabove ) - 1)
+    survey[ i, c("qrepeatlabel")]  <-  as.character( nestable[ nestabovenum , 1] ) }
+
+    else   {survey[ i, c("qrepeatlabel")]  <-  "MainDataFrame"}
+  }
+
+  ### Get question levels in order to match the variable name
+  survey$qlevel <- ""
+  for (i in 2:nrow(survey)){
+    if (survey[ i, c("type")] == "begin group" && survey[ i - 1, c("qlevel")] == "" )      {survey[ i, c("qlevel")]  <-  "level1"}
+    else if (survey[ i, c("type")] == "begin_group" && survey[ i - 1, c("qlevel")] == "" )      {survey[ i, c("qlevel")]  <-  "level1"}
+
+    else if (survey[ i, c("type")] == "begin group" && survey[ i - 1, c("qlevel")] == "level1") {survey[ i, c("qlevel")]  <-  "level2"}
+    else if (survey[ i, c("type")] == "begin_group" && survey[ i - 1, c("qlevel")] == "level1") {survey[ i, c("qlevel")]  <-  "level2"}
+
+    else if (survey[ i, c("type")] == "begin group" && survey[ i - 1, c("qlevel")] == "level2") {survey[ i, c("qlevel")]  <-  "level3"}
+    else if (survey[ i, c("type")] == "begin_group" && survey[ i - 1, c("qlevel")] == "level2") {survey[ i, c("qlevel")]  <-  "level3"}
+
+    else if (survey[ i, c("type")] == "begin group" && survey[ i - 1, c("qlevel")] == "level3") {survey[ i, c("qlevel")]  <-  "level4"}
+    else if (survey[ i, c("type")] == "begin_group" && survey[ i - 1, c("qlevel")] == "level3") {survey[ i, c("qlevel")]  <-  "level4"}
+
+    else if (survey[ i, c("type")] == "begin group" && survey[ i - 1, c("qlevel")] == "level4") {survey[ i, c("qlevel")]  <-  "level5"}
+    else if (survey[ i, c("type")] == "begin_group" && survey[ i - 1, c("qlevel")] == "level4") {survey[ i, c("qlevel")]  <-  "level5"}
+
+    ## Now end of group
+    else if (survey[ i, c("type")] == "end group" && survey[ i - 1, c("qlevel")] == "level1") {survey[ i, c("qlevel")] <- "" }
+    else if (survey[ i, c("type")] == "end_group" && survey[ i - 1, c("qlevel")] == "level1") {survey[ i, c("qlevel")] <- "" }
+
+    else if (survey[ i, c("type")] == "end group" && survey[ i - 1, c("qlevel")] == "level2") {survey[ i, c("qlevel")]  <-  "level1"}
+    else if (survey[ i, c("type")] == "end_group" && survey[ i - 1, c("qlevel")] == "level2") {survey[ i, c("qlevel")]  <-  "level1"}
+
+    else if (survey[ i, c("type")] == "end group" && survey[ i - 1, c("qlevel")] == "level3") {survey[ i, c("qlevel")]  <-  "level2"}
+    else if (survey[ i, c("type")] == "end_group" && survey[ i - 1, c("qlevel")] == "level3") {survey[ i, c("qlevel")]  <-  "level2"}
+
+    else if (survey[ i, c("type")] == "end group" && survey[ i - 1, c("qlevel")] == "level4") {survey[ i, c("qlevel")]  <-  "level3"}
+    else if (survey[ i, c("type")] == "end_group" && survey[ i - 1, c("qlevel")] == "level4") {survey[ i, c("qlevel")]  <-  "level3"}
+
+    else if (survey[ i, c("type")] == "end group" && survey[ i - 1, c("qlevel")] == "level5") {survey[ i, c("qlevel")]  <-  "level4"}
+    else if (survey[ i, c("type")] == "end_group" && survey[ i - 1, c("qlevel")] == "level5") {survey[ i, c("qlevel")]  <-  "level4"}
+
+    else   {survey[ i, c("qlevel")]  <-  survey[ i - 1, c("qlevel")]}
+  }
+
+  ### Get question groups in order to match the variable name
+  ## Concatenation ofqlevel & qrepeat & type
+  survey$type2 <- survey$type
+  ## We need to handle situation with both repeat & group
+  ## So 12 cases to handle
+
+  survey$qgroup <- ""
+  for (i in 2:nrow(survey)){
+    if (survey[ i, c("qlevel")]  %in% c("level1","level2","level3","level4","level5") &&
+        survey[ i, c("qrepeat")] %in% c("", "repeatnest1", "repeatnest2") &&
+        !(survey[ i, c("type")]   %in% c("begin_group","begin group","end_group","end group","begin_repeat","begin repeat","end_repeat","end repeat")) )
+
+    {survey[ i, c("qgroup")] <- survey[ i - 1, c("qgroup")]
+
+    } else if (survey[ i, c("qlevel")]   %in% c("level1") &&
+               survey[ i, c("qrepeat")]  %in% c("", "repeatnest1", "repeatnest2") &&
+               survey[ i, c("type")]     %in% c("begin_group","begin group")  )
+
+    {survey[ i, c("qgroup")] <- survey[ i, c("name")]
+
+    } else if (survey[ i, c("qlevel")]   %in% c("level2","level3","level4","level5") &&
+               survey[ i, c("qrepeat")]  %in% c("", "repeatnest1", "repeatnest2") &&
+               survey[ i, c("type")]     %in% c("begin_group","begin group") )
+
+    {survey[ i, c("qgroup")] <- paste(survey[ i - 1, c("qgroup")], survey[ i, c("name")],sep = ".")
+
+    } else if (survey[ i, c("qlevel")]   %in% c("level1","level2","level3","level4","level5")  &&
+               survey[ i, c("qrepeat")]  %in% c("repeatnest1", "repeatnest2") &&
+               survey[ i, c("type")]     %in% c("begin_repeat","begin repeat")   )
+
+    {survey[ i, c("qgroup")] <- paste(survey[ i - 1, c("qgroup")], survey[ i, c("qrepeatlabel")], sep = ".")
+
+    } else if (survey[ i, c("qlevel")]   %in% c("level1","level2","level3","level4","level5") &&
+               survey[ i, c("qrepeat")]  %in% c("", "repeatnest1", "repeatnest2") &&
+               survey[ i, c("type")]     %in% c("end_group","end group","end_repeat","end repeat") )
+
+    {survey[ i, c("qgroup")] <- substr(survey[ i - 1, c("qgroup")] ,0, regexpr("\\.[^\\.]*$", survey[ i - 1, c("qgroup")] ) - 1)
+
+    } else  {survey[ i, c("qgroup")]  <- ""}
+  }
+
+  survey$fullname <- ""
+  ## Need to loop around the data frame in order to concatenate full name as observed in data dump
+  survey[ 1, c("fullname")]  <-  survey[ 1, c("name")]
+  for (i in 2:nrow(survey)){
+    if (survey[ i, c("qlevel")] == "") {survey[ i, c("fullname")]  <-  survey[ i, c("name")]}
+    else {survey[ i, c("fullname")]  <-  paste(survey[ i, c("qgroup")],survey[ i, c("name")],sep = ".") }
+  }
+
+  dico <- survey[,c("type", "name", "fullname", "listname")]
+
+  ## Remove trailing space
+  dico$fullname <- trimws(dico$fullname)
+  dico$listname <- trimws(dico$listname)
+
+  ## A few fix on the dico
+  dico <- dico[ !is.na(dico$name), ]
+  dico <- dico[ !is.na(dico$type), ]
+  colnames(dico) <- c("type2", "name", "fullname", "type3")
+
+  return(dico)
 }
 
-.APPRmdWrapper <- function(variablesList=NULL,
+RmdWrapper <- function(variablesList=NULL,
                        functionsList=NULL,
                        functionsOrder=NULL,
                        functionsOutput=NULL,
                        fileName=NULL){
 
   working_directY <- getwd()
-  vignette_directory <- paste0("/", vignettes)
-  report_name <- "/UnPetitNom.Rmd"
+  vignette_directory <- paste0("/", fileName, ".Rmd")
 
-  reportRMD  <- paste0(working_directY, vignette_directory, report_name)
+  reportRMD  <- paste0(working_directY,vignette_directory)
   ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
   if (file.exists(reportRMD)) file.remove(reportRMD)
 
@@ -414,64 +484,3 @@ booleanSum <- function(x){
   cat("print(graphenumeratorErrorsDashboard)", file = reportRMD , sep = "\n", append = TRUE)
   cat("```", file = reportRMD , sep = "\n", append = TRUE)
 }
-
-
-
-
-
-
-# #' @name mapFunctions
-# #' @rdname mapFunctions
-# #' @title Mapping of the function which can be used for the report
-# #' @description Mapping of the function which can be used for the report based on the variables configured
-# #' @keywords internal
-# #'
-# #' @param variablesConfig dataset where the variables are defined
-# #' @param reportType type of report wanted (N for text one, G for graphical one)
-# #'
-# #' @return list of possible functions
-# mapFunctions <- function(variablesConfig, reportType){
-#   functionsOutputs <- subset(functionsOutputs, !is.null(functionsOutputs$outputType) & !is.na(functionsOutputs$outputType) & functionsOutputs$outputType!="")
-#   functionsGraphics <- subset(functionsGraphics, !is.null(functionsGraphics$graph) & !is.na(functionsGraphics$graph) & functionsGraphics$graph!="")
-#   variablesConfig <- subset(variablesConfig, !is.null(variablesConfig$variableValue) & !is.na(variablesConfig$variableValue) & variablesConfig$variableValue!="")
-#
-#   allFunctions <- list()
-#   for(i in functionsConfig$functionName){
-#     # Get the needed variables for the function
-#     variablesList <- names(functionsConfig[functionsConfig$functionName==i,])[unlist(lapply(functionsConfig[functionsConfig$functionName==i,], isTRUE))]
-#     variablesListNotOptional <- variablesList[mapply('%ni%', variablesList, variablesOptional)]
-#     # Check the variables are available in the configuration files provided
-#     variablesDefined <- variablesConfig[variablesConfig$variableName %in% variablesList,]
-#     if(!booleanSum(variablesListNotOptional %in% variablesConfig$variableName)){
-#       # All the necessary variables for this function are not defined
-#     } else if(booleanSum(variablesListNotOptional %in% variablesConfig$variableName)){
-#       # All the necessary variables for this function are defined
-#       # Remove the Necessary variables (the ones which have to be defined in any way but are not passed directly to the function)
-#       variableListNotNecessary <- names(variablesNecessary[variablesNecessary$functionName==i,])[unlist(lapply(variablesNecessary[variablesNecessary$functionName==i,], isTRUE))]
-#       if(!identical(variableListNotNecessary, character(0))){
-#         variablesDefined <- variablesDefined[variablesDefined$variableName %ni% variableListNotNecessary, ]
-#       }
-#       variablesDefined[variablesDefined$variableName %in% variablesDatasets$datasets, "variableValue"] <-
-#         variablesDefined[variablesDefined$variableName %in% variablesDatasets$datasets, "variableName"]
-#       # Building the function call
-#       functionCode <- paste0(i, "(", paste(paste0(variablesDefined$variableName, "=", variablesDefined$variableValue), collapse=", "), ")")
-#       # Put the function call in a list
-#       allFunctions[i] <- functionCode
-#     }
-#   }
-#
-#   functionsList <- list()
-#   if(reportType=="N"){
-#     for(i in functionsConfig[with(functionsConfig, order(ord)), "functionName"]){
-#       functionsList[[i]] <- allFunctions[[i]]
-#     }
-#   } else if(reportType=="G"){
-#     for(i in functionsConfig[with(functionsConfig, order(ord)), "functionName"]){
-#       if(i %in% functionsGraphics$functionName){
-#         functionsList[[i]] <- allFunctions[[i]]
-#       }
-#     }
-#   }
-#
-#   return(functionsList)
-# }

@@ -1,23 +1,21 @@
-#' @name hfc_projectinit
-#' @rdname hfc_projectinit
+#' @name hfcProjectInit
+#' @rdname hfcProjectInit
 #' @title  Analysis package project initiation
 #'
 #' @description  Create analysis package project structure
 #'
-#'
 #' @return A structure of directory and scripts in order to set up quickly a project.
 #'
-#' @export hfc_projectinit
+#' @export hfcProjectInit
 #'
 #' @author Edouard Legoupil, Elliott Messeiller
 #' @examples
 #' \dontrun{
-#' hfc_projectinit()
+#' hfcProjectInit()
 #' }
 
 
-hfc_projectinit <- function() {
-
+hfcProjectInit <- function() {
     mainDir <- getwd()
 
     cat("Let's create various standard folders and copy some analysis script\n")
@@ -95,7 +93,6 @@ hfc_projectinit <- function() {
       close(fileConn)
     }
 
-
     ## R folder creation ####
     subDir <- "R"
     if (file.exists(paste(mainDir, subDir, "/", sep = "/", collapse = "/"))) {
@@ -151,8 +148,6 @@ hfc_projectinit <- function() {
       file.copy(paste(path_correct,"/HighFrequencyChecks/script/run-check.R",sep = ""), destfile)
     }
 
-
-
     ## vignettes folder creation ####
     subDir <- "vignettes"
     if (file.exists(paste(mainDir, subDir, "/", sep = "/", collapse = "/"))) {
@@ -178,7 +173,6 @@ hfc_projectinit <- function() {
       writeLines(c("### This folder is where reports notbook will be kept - it follows standard R package structure"), fileConn)
       close(fileConn)
     }
-
 
     ## Data folder creation ####
     subDir <- "data"
@@ -210,8 +204,6 @@ hfc_projectinit <- function() {
       close(fileConn)
     }
 
-
-
     ## Data-raw folder creation ####
     subDir <- "data-raw"
 
@@ -221,8 +213,11 @@ hfc_projectinit <- function() {
       cat("data-raw directory exists in your project directory.\n")
       # you will probably want to handle this separately
     } else {
-      cat("data-raw directory does not exist in your project directory - creating now! \n")
+      cat("data-raw directory structure does not exist in your project directory - creating now! \n")
       dir.create(file.path(mainDir, subDir))
+      dir.create(file.path(paste0(mainDir, "/", subDir), "data"))
+      dir.create(file.path(paste0(mainDir, "/", subDir), "admin"))
+      dir.create(file.path(paste0(mainDir, "/", subDir), "points"))
     }
 
     if (file.exists(paste(mainDir, subDir, "/", sep = "/", collapse = "/"))) {
@@ -235,18 +230,19 @@ hfc_projectinit <- function() {
     destfile = paste0(mainDir,"/data-raw/README.md")
     if (!file.exists(destfile)) {
       fileConn <- file(destfile)
-      writeLines(c("### This folder is the one where are stored data in CSV format, the form in XLS format and geodata in SHP format",
+      writeLines(c("### This folder is the one where are stored the necessary datasets",
+                   "The XLSform and the SampleSize file have to be stored in the ***data-raw*** folder",
+                   "The dataset has to be stored in the ***data-raw/data*** folder",
+                   "The Site boundaries files have to be stored in the ***data-raw/admin*** folder (you have to put there all the GIS files (.shp, .shx, .prj. .dbf...))",
+                   "The points sampled files have to be stored in the ***data-raw/points*** folder (you have to put there all the GIS files (.shp, .shx, .prj. .dbf...))",
+                   "",
                    "# BE CAREFUL: DO NOT SHARE PROTECTION SENSITIVE DATA ON GITHUB!",
                    "",
                    "This project is only to keep track of your analysis workflow"), fileConn)
       close(fileConn)
     }
 
-
-
-
     ## Out folder creation ####
-
     subDir <- "out"
     if (file.exists(paste(mainDir, subDir, "/", sep = "/", collapse = "/"))) {
       cat("Out directory exists in your project directory and is a directory.\n")
@@ -273,9 +269,6 @@ hfc_projectinit <- function() {
       close(fileConn)
     }
 
-
-
-
     mainDirectory <- paste0(mainDir,"/out")
     subDir <- "/High_Frequency_Checks"
     if (file.exists(paste(mainDirectory, subDir, "/", sep = "/", collapse = "/"))) {
@@ -288,12 +281,9 @@ hfc_projectinit <- function() {
       dir.create(file.path(mainDirectory, subDir))
     }
 
-
-
     ## reset the correct Working directory
     setwd(mainDir)
-    cat("Please open now the file called run-check.R within the ++R++ folder, configure the xlsform and get your dataset. \n ")
-
-
+    cat("Please read the README.md locatedin the data-raw folder to know where to store the different needed files.")
+    # cat("Please open now the file called run-check.R within the ++R++ folder, configure the xlsform and get your dataset. \n ")
 }
 NULL

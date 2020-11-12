@@ -41,4 +41,4 @@ SamplePts
 This dataset is a sample of the points to be surveyed in both Ukhia and Teknaf.
 For privacy purpose, the GPS coordinates are faked but are still located in the designated areas.
 }
-\keyword{datasets}
+\keyword{internal}

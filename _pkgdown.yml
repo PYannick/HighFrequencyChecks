@@ -56,7 +56,7 @@ reference:
       - enumeratorProductivityOutliers
   - title: Convenience functions
     contents:
-      - hfc_projectinit
+      - hfcProjectInit
       - hfcApp
   - title: Dataset used for demonstration
     contents:

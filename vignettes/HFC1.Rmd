@@ -1,0 +1,147 @@
+---
+title: "1. purpose of the High Frequency Checks"
+always_allow_html: yes
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{1. purpose of the High Frequency Checks}
+  %\VignetteEngine{knitr::rmarkdown}
+geometry: margin=0.5in
+fontsize: 10pt
+editor_options:
+  chunk_output_type: inline
+---
+
+Supervising the quality of data collection is not straightforward. Survey questionnaires are often quite long and have systematic control is worth automatizing.
+
+`HighFrequencyCheck` can be used to detect programming errors, surveyor errors, data fabrication, poorly understood questions, and other issues. The results of these checks can also be useful in improving your survey, identifying enumerator effects, and assessing the reliability of your outcome measures. It allows teams to catch survey issues and collection mistakes in time to correct them and ensure high-quality data
+
+The `HighFrequencyCheck` package is a translation in in R of the [Stata package](https://github.com/PovertyAction/high-frequency-checks) based on [best practices from Innovations for Poverty Action](https://www.povertyactionlab.org/resource/data-quality-checks).  High Frequency Checks are also recommend by the [World Bank](https://dimewiki.worldbank.org/wiki/High_Frequency_Checks). It can be installed from github with `devtools::install_github("unhcr/HighFrequencyChecks")`.
+
+
+The package brings a series of convenience functions to monitor data quality during the data collection when running a survey with [KoboToolbox](http://kobo.unhcr.org) (or any `xlsform` compatible platform).
+
+Those are the basis of a  feedback mechanism with enumerators and can be performed periodically during the data collection process to check for possible errors and provide meaningful inputs to the enumerators. All these functions do not have to be ran at the same period of time. They are provided there to help data supervisor to build reports:
+
+* A `wrapper` function is included to generate directly an final data quality assessment Rmd Report
+
+* A `ShinyApp` Interface is also included to provide a live monitoring dashboard to be run locally.
+
+## Introduction
+
+### Measuring data collection quality
+
+Data collection quality monitoring includes 4 different dimensions
+
+ 1. Correct set-up of data collection devices
+ 2. Data collected according the sampling plan
+ 3. Enumerator rigorous work standards
+ 4. Enumerator productivity
+
+Ideally the data collection monitoring dashboard should be known to all enumerators so that they are aware of the data quality metrics that will be used to assess the quality of their work and potentially some incentive can be offered for the enumerators performing on the quality metrics (_It is good to recall that each records in household survey cost between 15 to 50 USD_). Some of those indicators can support some remedial supervision interventions, such as calling individually the enumerator and point some specific issues that were detected.
+
+It is important to prepare high frequency checks (code and instructions), as part of the data quality assurance plan, before before starting with field data collection.
+
+Below are the required configuration and an illustration of those indicators based on a demo dataset included in the package.
+
+### Specific variables to be controlled
+
+When it comes to back checks, variables can be divided into the following different categories:
+
+ * Type 1 variables are based on straightforward questions where there is __very little possibility of error__. For example, age and education. If there is an error in these variables, it means there is a serious problem with enumerator, or with the questions.
+
+ * Type 2 variables are based on questions where a __risk of error is possible__. For example, questions based on sensitive topics, or questions that involve calculations. If there is an error in these variables, there might be a need to provide further training for enumerators.
+
+ * Type 3 variables are based on questions about the survey instrument, and errors in this case provide feedback which can help improve the survey instrument itself. This is often the case for questions including __or other, please specify__ question type.
+
+## Process configuration
+
+### Setting up the sampling plan
+
+The sampling plan is defined through the sampling strategy. It includes for each enumerator the sufficient details for the enumerator to reach out to respondent satisfying the sampling target definition (i.e. name, location, phone number)
+
+### Define the geodata for the surveyed area
+
+Often sampling strategy includes a geographic coverage.
+
+## Corrective actions
+
+### Correct set-up of data collection devices and encoding of the forms
+
+These checks are designed to ensure that responses are consistent for a particular survey instrument, and that the responses fall within a particular range. For example, checks to ensure that all variables are standardized, and there are no outliers in the data. Share a daily log of such errors, and check if it is an issue with enumerators, in which case there might be a need to re-train enumerators.
+
+Missing data: Are some questions skipped more than others? Are there questions that no respondents answered? This may indicate a programming error.
+
+ *  Categorical variables: Are respondents selecting the given categories or are many respondents selecting “None of the above”, or “other”? If conducting a survey, you may want to add categories or modify your existing ones.
+
+ *   Too many similar responses: Is there a question where all respondents answer in the same way?
+
+#### Respondent ID
+
+Respondent IDs: Are there duplicates of your unique identifiers? If so, does the reason why make sense? (e.g., one circumstance in which there may be duplicates of unique IDs is when surveyors have to end and restart an interview.) Are there blank or invalid IDs? This might be a sign your surveyors are not interviewing the correct respondent.
+
+#### Configuration of dates on device
+
+ * Checking record for which interview that do not end on the same day as they started
+
+ * Checking record for which interview ended before they start
+
+ * Checking record for which interview tagged in the future
+
+### Data collected according the plan
+
+#### Completed interviews
+
+#### Interviews made before the first day of data collection
+
+#### Enumerators who made a survey below a certain duration threshold
+
+#### Recorded site name for each interview matches the name of the location
+
+#### Recorded locations for each interview within a specified buffer from a sample point
+
+#### Tracking sheet per site
+
+Test for target number: since surveys are submitted in daily waves, keep track of the numbers of surveys submitted and the target number of surveys needed for an area to be completed.
+
+## Pro-active actions
+
+### Enumerators rigorous work standards
+
+These are designed to check if data shared by any particular enumerator is significantly different from the data shared by other enumerators. Some parameters to check enumerator performance include percentage of "Don't know" responses, or average interview duration. In the first case, there might be a need to re-draft the questions, while in the second case, there might be a need to re-train enumerators.
+
+#### Durations of Interviews
+
+#### Responses with outliers
+
+Outliers can be observed when some respondents reporting values drastically higher or lower than the average response. This may require to have these variables to be top or bottom coded. Many outlier checks can be directly programmed into the survey, either to flag responses or bar responses that are outside the acceptable range.
+
+#### Numeric value above a certain threshold
+
+#### Enumerators who pick up less than a predifined number of answers per specific questions:
+
+#### Check percentage of “don’t know” and refusal responses by the enumerator.
+
+#### Number of other distinct values (for the questions with a possibility of other)
+
+### Enumerator productivity
+
+#### How many completed interview per day?
+
+#### How many attempted interview per day and obtained consent?
+
+#### Percentage of survey per consent status by enumerator
+
+#### Average interview duration by enumerator
+
+#### Number of surveys per day by enumerator
+
+#### Enumerators with productivity significantly different from the average (low or high)
+
+

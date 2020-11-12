@@ -286,16 +286,13 @@ if(!is.null(textassessmentDuration)){
 
 ## Reports
 
-```{r exportResultsInCSV, eval=FALSE, echo=FALSE, results='asis'}
-#################################################################
-## Not run during package creation, set eval=TRUE in real life ##
-#################################################################
+```{r exportResultsInCSV, eval=TRUE, echo=FALSE, results='asis'}
 listReports <- data.frame(Reports=character(), stringsAsFactors = FALSE)
 for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
   if(i=="reports"){
     #Do nothing
   } else{
-    write.csv(get(i), paste0(i, ".csv"))
+    # write.csv(get(i), paste0(i, ".csv"))         ## Not run during package creation, remove the comment (#) in real life ##
     listReports <- rbind(listReports, data.frame(Reports=i), stringsAsFactors = FALSE)
   }
 }
