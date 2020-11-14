@@ -130,6 +130,7 @@ server <- function(input, output, session) {
       # nothing
       session$userData$partHFC <- NULL
     }
+    session$userData$SurveyFileName <- inFile$name
     session$userData$partSurvey <- openxlsx::read.xlsx(inFile$datapath, "survey")
     session$userData$partChoices <- openxlsx::read.xlsx(inFile$datapath, "choices")
     # session$userData$partSurvey <- .APPvariableGroups(session$userData$partSurvey, session$userData$partChoices)
@@ -363,22 +364,42 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$createReport, {
-    fileName="UnPetitNom.csv"
+    fileName=Sys.glob(file.path("*.Rproj"))
 
     variableTable <- rbind(variableTable,
                            data.frame(variableStatus="",
                                       variableName=deleteOptions,
                                       variableValue=ifelse(deleteOptions %in% input$actionOptions, TRUE, FALSE),
-                                      comments="",
                                       stringsAsFactors = F))
 
-    write.csv(variableTable[,c("variableName", "variableValue")], paste0(getwd(), "/data-raw/", fileName))
+    # Save the HFC configuration in the XLSform
+    # rebuild the path were is stored the XLSform
+    XLSform <- paste0(getwd(), "/data-raw/", session$userData$SurveyFileName)
+    # Test if file exist
+    if(file.exists(XLSform)){
+      worksheets <- openxlsx::getSheetNames(XLSform)
+      # If the XLSform already have a HFC tab
+      if("HFC" %in% worksheets){
+        # HFC tab already exist, remove the tab
+        wb <- loadWorkbook(file = XLSform)
+        removeWorksheet(wb, "HFC")
+      } else {
+        # nothing
+      }
+      # Create the HFC tab and write the content
+      addWorksheet(wb, "HFC")
+      writeDataTable(wb, sheet = "HFC", x = variableTable[,c("variableName", "variableValue")], withFilter = FALSE)
+      # write.csv(variableTable[,c("variableName", "variableValue")], paste0(getwd(), "/data-raw/", fileName))
+      saveWorkbook(wb, paste0(getwd(), "/data-raw/", sub('\\..[^\\.]*$', '', fileName), ".xlsx"), overwrite = TRUE)
+    } else {
+      stop("There is no XLSform present")
+    }
 
     .APPRmdWrapper(variablesList=subset(variableTable, !is.null(variableValue) & !is.na(variableValue) & variableValue!=""),
                functionsList=.APPmapFunctions(variableTable)[names(.APPmapFunctions(variableTable))],
                functionsOrder=functionsConfig[,c("functionName","ord")],
                functionsOutput=subset(functionsOutputs, outputType=="csv"),
-               fileName=fileName)
+               fileName=sub('\\..[^\\.]*$', '', fileName))
   }, ignoreInit=TRUE)
 }
 

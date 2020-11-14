@@ -66,8 +66,9 @@ ui <- fluidPage(theme = shinytheme("cerulean"),
                             ),
                             tabPanel("Help", value = "Help",
                                      mainPanel(
-                                       h4("Help"),
-                                       source("help.R")
+                                       #h4("Help"),
+                                       #source("help.R")
+                                       includeHTML("help.html")
                                      )
                             )
                 )

@@ -64,6 +64,9 @@ booleanSum <- function(x){
   shiny::addResourcePath('logos',
                          system.file('logos',
                                      package = 'HighFrequencyChecks'))
+  shiny::addResourcePath('hlpPic',
+                         system.file('shiny', 'hfcApp', 'hlpPic',
+                                     package = 'HighFrequencyChecks'))
 }
 
 .APPmapFunctions <- function(variablesConfig){
@@ -188,10 +191,10 @@ booleanSum <- function(x){
                        fileName=NULL){
 
   working_directY <- getwd()
-  vignette_directory <- paste0("/", vignettes)
-  report_name <- "/UnPetitNom.Rmd"
+  vignette_directory <- "/vignettes/"
+  report_name <- fileName
 
-  reportRMD  <- paste0(working_directY, vignette_directory, report_name)
+  reportRMD  <- paste0(working_directY, vignette_directory, report_name, ".Rmd")
   ## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
   if (file.exists(reportRMD)) file.remove(reportRMD)
 
