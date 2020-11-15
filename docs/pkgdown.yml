@@ -1,10 +1,12 @@
-pandoc: '2.6'
+pandoc: 2.11.0.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  HFC: HFC.html
-  HFC_TAF: HFC_TAF.html
-last_built: 2020-10-29T10:11Z
+  HFC1: HFC1.html
+  HFC2: HFC2.html
+  HFC3: HFC3.html
+  HFC4: HFC4.html
+last_built: 2020-11-15T05:38Z
 urls:
   reference: https://unhcr.github.io/HighFrequencyChecks/docs//reference
   article: https://unhcr.github.io/HighFrequencyChecks/docs//articles

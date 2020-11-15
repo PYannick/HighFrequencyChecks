@@ -148,7 +148,7 @@ server <- function(input, output, session) {
     inFile <- input$fileDataset
     if (is.null(input$fileDataset))
       return(NULL)
-    partDataset <- openxlsx::read.xlsx(inFile$datapath, 1)
+    partDataset <- read.csv(inFile$datapath, stringsAsFactors = F)
     session$userData$partDataset <- colnames(partDataset)
     session$userData$DatasetFileName <- inFile$name
     # return(partDataset)
@@ -158,7 +158,7 @@ server <- function(input, output, session) {
     inFile <- input$samplesizeFile
     if (is.null(input$samplesizeFile))
       return(NULL)
-    session$userData$partSamplesize <- openxlsx::read.xlsx(inFile$datapath, 1)
+    session$userData$partSamplesize <- read.csv(inFile$datapath, stringsAsFactors = F)
     session$userData$samplesizeFileName <- inFile$name
     # return(partSamplesize)
   })
@@ -232,7 +232,7 @@ server <- function(input, output, session) {
   observeEvent(input$fileDataset, {
     getDataset()
 
-    variableTable[variableTable$variableName=="ds","variableValue"] <<- paste0("openxlsx::read.xlsx('", getwd(), "/data-raw/data/", session$userData$DatasetFileName, "')")
+    variableTable[variableTable$variableName=="ds","variableValue"] <<- paste0("read.csv('", getwd(), "/data-raw/data/", session$userData$DatasetFileName, "', stringsAsFactors = F)")
 
     variableTable <<- updateStatus(variableTable, session)
     output$table <- DT::renderDataTable(DT::datatable({
@@ -259,7 +259,7 @@ server <- function(input, output, session) {
     getSamplesize()
     session$userData$partSamplesize <- colnames(session$userData$partSamplesize)
 
-    variableTable[variableTable$variableName=="sampleSizeTable","variableValue"] <<- paste0("openxlsx::read.xlsx('", getwd(), "/data-raw/", session$userData$samplesizeFileName, "')")
+    variableTable[variableTable$variableName=="sampleSizeTable","variableValue"] <<- paste0("read.csv('", getwd(), "/data-raw/", session$userData$samplesizeFileName, "', stringsAsFactors = F)")
 
     variableTable <<- updateStatus(variableTable, session)
     output$table <- DT::renderDataTable(DT::datatable({
@@ -377,20 +377,20 @@ server <- function(input, output, session) {
     XLSform <- paste0(getwd(), "/data-raw/", session$userData$SurveyFileName)
     # Test if file exist
     if(file.exists(XLSform)){
+      workbook <- openxlsx::loadWorkbook(file = XLSform)
       worksheets <- openxlsx::getSheetNames(XLSform)
       # If the XLSform already have a HFC tab
       if("HFC" %in% worksheets){
         # HFC tab already exist, remove the tab
-        wb <- loadWorkbook(file = XLSform)
-        removeWorksheet(wb, "HFC")
+        openxlsx::removeWorksheet(workbook, "HFC")
       } else {
         # nothing
       }
       # Create the HFC tab and write the content
-      addWorksheet(wb, "HFC")
-      writeDataTable(wb, sheet = "HFC", x = variableTable[,c("variableName", "variableValue")], withFilter = FALSE)
+      openxlsx::addWorksheet(workbook, "HFC")
+      openxlsx::writeDataTable(workbook, sheet = "HFC", x = variableTable[,c("variableName", "variableValue")], withFilter = FALSE)
       # write.csv(variableTable[,c("variableName", "variableValue")], paste0(getwd(), "/data-raw/", fileName))
-      saveWorkbook(wb, paste0(getwd(), "/data-raw/", sub('\\..[^\\.]*$', '', fileName), ".xlsx"), overwrite = TRUE)
+      openxlsx::saveWorkbook(workbook, paste0(getwd(), "/data-raw/", sub('\\..[^\\.]*$', '', fileName), ".xlsx"), overwrite = TRUE)
     } else {
       stop("There is no XLSform present")
     }

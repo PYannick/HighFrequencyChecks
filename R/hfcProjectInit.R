@@ -140,13 +140,13 @@ hfcProjectInit <- function() {
     #   dir.create(file.path(mainDir, subDir,subsubDir))
     # }
 
-    destfile = paste0(mainDir,"/R/run-check.R")
-    if (!file.exists(destfile)) {
-      file.copy(paste(path_correct,"/HighFrequencyChecks/script/run-check.R",sep = ""), destfile)
-    }else{
-      file.remove(destfile)
-      file.copy(paste(path_correct,"/HighFrequencyChecks/script/run-check.R",sep = ""), destfile)
-    }
+    # destfile = paste0(mainDir,"/R/run-check.R")
+    # if (!file.exists(destfile)) {
+    #   file.copy(paste(path_correct,"/HighFrequencyChecks/script/run-check.R",sep = ""), destfile)
+    # }else{
+    #   file.remove(destfile)
+    #   file.copy(paste(path_correct,"/HighFrequencyChecks/script/run-check.R",sep = ""), destfile)
+    # }
 
     ## vignettes folder creation ####
     subDir <- "vignettes"

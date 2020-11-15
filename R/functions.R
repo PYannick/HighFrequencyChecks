@@ -227,13 +227,16 @@ booleanSum <- function(x){
   }
   cat("```", file = reportRMD , sep = "\n", append = TRUE)
 
-  ##### A supprimer quand les gens arretterons de faire nimp
   cat("```{r, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
-  cat("ds$union_name<-tolower(ds$union_name)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("sampleSizeTable$Union<-tolower(sampleSizeTable$Union)", file = reportRMD , sep = "\n", append = TRUE)
-  cat("adminBoundaries$Union<-tolower(adminBoundaries$Union)", file = reportRMD , sep = "\n", append = TRUE)
+  cat("###########################################################################################################################################", file = reportRMD , sep = "\n", append = TRUE)
+  cat("##", file = reportRMD , sep = "\n", append = TRUE)
+  cat("##    INCLUDE HERE SOME SPECIFIC CODE YOU MAY NEED IN ORDER TO PREPARE YOUR DATA", file = reportRMD , sep = "\n", append = TRUE)
+  cat("##", file = reportRMD , sep = "\n", append = TRUE)
+  cat("##-----------------------------------------------------------------------------------------------------------------------------------------", file = reportRMD , sep = "\n", append = TRUE)
+  cat("", file = reportRMD , sep = "\n", append = TRUE)
+  cat("", file = reportRMD , sep = "\n", append = TRUE)
+  cat("###########################################################################################################################################", file = reportRMD , sep = "\n", append = TRUE)
   cat("```", file = reportRMD , sep = "\n", append = TRUE)
-  #####
 
   cat("```{r runAllFunctions, eval=TRUE, echo=FALSE}", file = reportRMD , sep = "\n", append = TRUE)
   for(i in functionsOrder[with(functionsOrder, order(ord)), "functionName"][functionsOrder[with(functionsOrder, order(ord)), "functionName"] %in% names(functionsList)]){
@@ -286,7 +289,7 @@ booleanSum <- function(x){
   cat("```{r exportResultsInCSV, eval=TRUE, echo=FALSE, results='asis'}", file = reportRMD , sep = "\n", append = TRUE)
   cat("listReports <- data.frame(Reports=character(), stringsAsFactors = FALSE)", file = reportRMD , sep = "\n", append = TRUE)
   cat("for(i in ls(all.names = T)[ls(all.names = T) %like% 'report']){", file = reportRMD , sep = "\n", append = TRUE)
-  cat("  if(i=='reports'){", file = reportRMD , sep = "\n", append = TRUE)
+  cat("  if(i=='reporti'){", file = reportRMD , sep = "\n", append = TRUE)
   cat("  } else{", file = reportRMD , sep = "\n", append = TRUE)
   cat("    write.csv(get(i), paste0(i, '.csv'))", file = reportRMD , sep = "\n", append = TRUE)
   cat("    listReports <- rbind(listReports, data.frame(Reports=i), stringsAsFactors = FALSE)", file = reportRMD , sep = "\n", append = TRUE)
