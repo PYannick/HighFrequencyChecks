@@ -1,0 +1,324 @@
+---
+title: "3. Example of a more tabular High Frequecy Check document"
+always_allow_html: yes
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{3. Example of a more tabular High Frequecy Check document}
+  %\VignetteEngine{knitr::rmarkdown}
+geometry: margin=0.5in
+fontsize: 10pt
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(gsubfn)
+library(dplyr)
+library(data.table)
+library(HighFrequencyChecks)
+options(scipen = 999)
+```
+```{r defineVariables, eval=TRUE, echo=FALSE}
+ds<-sample_dataset
+sampleSizeTable<-SampleSize
+adminBoundaries<-admin
+sampledPoints<-SamplePts
+adminBoundariesSite<-"Union"
+buffer<-10
+consentForValidSurvey<-"yes"
+dateFormat<-"%m/%d/%Y"
+dates<-c("survey_start","end_survey")
+dsCoordinates<-c("X_gps_reading_longitude","X_gps_reading_latitude")
+dsSite<-"union_name"
+enumeratorID<-"enumerator_id"
+householdSize<-"consent_received.respondent_info.hh_size"
+minimumSurveyDuration<-30
+minimumSurveyDurationByIndividual<-10
+otherPattern<-"_other$"
+questionsSurveyBigValues<-c(consent_received.food_security.spend_food=25000,
+                            consent_received.food_security.spend_medication=15000,
+                            consent_received.food_security.spend_education=10000,
+                            consent_received.food_security.spend_fix_shelter=5000,
+                            consent_received.food_security.spend_clothing=5000,
+                            consent_received.food_security.spend_hygiene=10000,
+                            consent_received.food_security.spend_fuel=15000,
+                            consent_received.food_security.spend_hh_items=5000,
+                            consent_received.food_security.spend_transport=1000,
+                            consent_received.food_security.spend_communication=1000, 
+                            consent_received.food_security.spend_tobacco=1000,
+                            consent_received.food_security.spend_rent=25000,
+                            consent_received.food_security.spend_debts=25000,
+                            consent_received.food_security.spend_other=25000)
+questionsSurveySmallValues<-c(consent_received.food_security.spend_food=400,
+                              consent_received.food_security.spend_medication=250,
+                              consent_received.food_security.spend_education=400,
+                              consent_received.food_security.spend_fix_shelter=300,
+                              consent_received.food_security.spend_clothing=200,
+                              consent_received.food_security.spend_hygiene=300,
+                              consent_received.food_security.spend_fuel=100,
+                              consent_received.food_security.spend_hh_items=100,
+                              consent_received.food_security.spend_transport=100,
+                              consent_received.food_security.spend_communication=100,
+                              consent_received.food_security.spend_tobacco=100,
+                              consent_received.food_security.spend_rent=300,
+                              consent_received.food_security.spend_debts=500,
+                              consent_received.food_security.spend_other=500)
+questionsEnumeratorIsLazy<-c(consent_received.shelter_nfi.non_food_items=3,
+                             consent_received.food_security.main_income=2,
+                             consent_received.child_protection.boy_risk=3,
+                             consent_received.child_protection.girl_risk=3)
+reports<-c("reportisInterviewAtTheSamplePoint", 
+           "reportisInterviewCompleted", 
+           "reportisInterviewInTheCorrectSite", 
+           "reportisInterviewTooShort",
+           "reportisInterviewTooShortForTheHouseholdSize", 
+           "reportisInterviewWithConsent", 
+           "reportisSurveyEndBeforeItStarts", 
+           "reportisSurveyMadeInTheFuture", 
+           "reportisSurveyOnMoreThanADay",
+           "reportisSurveyStartedBeforeTheAssessment", 
+           "reportisUniqueIDDuplicated", 
+           "reportisUniqueIDMissing")
+sampleSizeTableAvailable<-"TotPts"
+sampleSizeTableSite<-"Union"
+sampleSizeTableTarget<-"SS"
+startDataCollection<-"2018-11-11"
+surveyConsent<-"survey_consent"
+surveyDate<-"survey_date"
+uniqueID<-"X_uuid"
+deleteIsInterviewCompleted<-TRUE
+deleteIsInterviewWithConsent<-TRUE
+correctIsInterviewInTheCorrectSite<-TRUE
+deleteIsInterviewAtTheSamplePoint<-TRUE
+deleteIsUniqueIDMissing<-TRUE
+deleteIsUniqueIDDuplicated<-TRUE
+deleteIsSurveyOnMoreThanADay<-TRUE
+deleteIsSurveyEndBeforeItStarts<-TRUE
+deleteIsSurveyStartedBeforeTheAssessment<-TRUE
+deleteIsSurveyMadeInTheFuture<-TRUE
+deleteIsInterviewTooShort<-TRUE
+deleteIsInterviewTooShortForTheHouseholdSize<-TRUE
+```
+```{r someCleaning, eval=TRUE, echo=FALSE}
+ds$union_name<-tolower(ds$union_name)
+sampleSizeTable$Union<-tolower(sampleSizeTable$Union)
+adminBoundaries$Union<-tolower(adminBoundaries$Union)
+```
+
+```{r runAllFunctions, eval=TRUE, echo=FALSE}
+list[var1,reportisInterviewCompleted,textisInterviewCompleted,graphisInterviewCompleted] <- 
+  isInterviewCompleted(ds=ds, dates=c("survey_start","end_survey"), surveyConsent="survey_consent", deleteIsInterviewCompleted=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisInterviewWithConsent,textisInterviewWithConsent,graphisInterviewWithConsent] <- 
+  isInterviewWithConsent(ds=ds, surveyConsent="survey_consent", deleteIsInterviewWithConsent=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisInterviewInTheCorrectSite,textisInterviewInTheCorrectSite,graphisInterviewInTheCorrectSite] <- 
+  isInterviewInTheCorrectSite(ds=ds, adminBoundaries=adminBoundaries, adminBoundariesSite="Union", dsCoordinates=c("X_gps_reading_longitude","X_gps_reading_latitude"), dsSite="union_name", surveyConsent="survey_consent", correctIsInterviewInTheCorrectSite=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisInterviewAtTheSamplePoint,textisInterviewAtTheSamplePoint,graphisInterviewAtTheSamplePoint] <- 
+  isInterviewAtTheSamplePoint(ds=ds, sampledPoints=sampledPoints, buffer=10, dsCoordinates=c("X_gps_reading_longitude","X_gps_reading_latitude"), surveyConsent="survey_consent", deleteIsInterviewAtTheSamplePoint=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisUniqueIDMissing,textisUniqueIDMissing,graphisUniqueIDMissing] <- 
+  isUniqueIDMissing(ds=ds, surveyConsent="survey_consent", uniqueID="X_uuid", deleteIsUniqueIDMissing=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisUniqueIDDuplicated,textisUniqueIDDuplicated,graphisUniqueIDDuplicated] <- 
+  isUniqueIDDuplicated(ds=ds, surveyConsent="survey_consent", uniqueID="X_uuid", deleteIsUniqueIDDuplicated=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisSurveyOnMoreThanADay,textisSurveyOnMoreThanADay,graphisSurveyOnMoreThanADay] <- 
+  isSurveyOnMoreThanADay(ds=ds, dates=c("survey_start","end_survey"), surveyConsent="survey_consent", deleteIsSurveyOnMoreThanADay=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisSurveyEndBeforeItStarts,textisSurveyEndBeforeItStarts,graphisSurveyEndBeforeItStarts] <- 
+  isSurveyEndBeforeItStarts(ds=ds, dates=c("survey_start","end_survey"), surveyConsent="survey_consent", deleteIsSurveyEndBeforeItStarts=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisSurveyStartedBeforeTheAssessment,textisSurveyStartedBeforeTheAssessment,graphisSurveyStartedBeforeTheAssessment] <- 
+  isSurveyStartedBeforeTheAssessment(ds=ds, dates=c("survey_start","end_survey"), startDataCollection="2018-11-11", surveyConsent="survey_consent", deleteIsSurveyStartedBeforeTheAssessment=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisSurveyMadeInTheFuture,textisSurveyMadeInTheFuture,graphisSurveyMadeInTheFuture] <- 
+  isSurveyMadeInTheFuture(ds=ds, dates=c("survey_start","end_survey"), surveyConsent="survey_consent", deleteIsSurveyMadeInTheFuture=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisInterviewTooShort,textisInterviewTooShort,graphisInterviewTooShort] <- 
+  isInterviewTooShort(ds=ds, dates=c("survey_start","end_survey"), minimumSurveyDuration=30, surveyConsent="survey_consent", deleteIsInterviewTooShort=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+list[var1,reportisInterviewTooShortForTheHouseholdSize,textisInterviewTooShortForTheHouseholdSize,graphisInterviewTooShortForTheHouseholdSize] <- 
+  isInterviewTooShortForTheHouseholdSize(ds=ds, dates=c("survey_start","end_survey"), householdSize="consent_received.respondent_info.hh_size", minimumSurveyDurationByIndividual=10, surveyConsent="survey_consent", deleteIsInterviewTooShortForTheHouseholdSize=TRUE)
+if(!is.null(var1)){
+  ds<-var1
+}
+
+list[var1,reportassessmentDuration,textassessmentDuration,graphassessmentDuration] <- 
+  assessmentDuration(ds=ds, dates=c("survey_start","end_survey"))
+list[var1,reportassessmentDurationOutliers,textassessmentDurationOutliers,graphassessmentDurationOutliers] <- 
+  assessmentDurationOutliers(ds=ds, dates=c("survey_start","end_survey"))
+list[var1,reportassessmentProductivity,textassessmentProductivity,graphassessmentProductivity] <- 
+  assessmentProductivity(ds=ds, dateFormat="%m/%d/%Y", surveyConsent="survey_consent", surveyDate="survey_date")
+list[var1,reportassessmentDailyValidSurveys,textassessmentDailyValidSurveys,graphassessmentDailyValidSurveys] <- 
+  assessmentDailyValidSurveys(ds=ds, dateFormat="%m/%d/%Y", surveyConsent="survey_consent", surveyDate="survey_date")
+list[var1,reportassessmentTrackingSheet,textassessmentTrackingSheet,graphassessmentTrackingSheet] <- 
+  assessmentTrackingSheet(ds=ds, sampleSizeTable=sampleSizeTable, consentForValidSurvey="yes", dsSite="union_name", sampleSizeTableAvailable="TotPts", sampleSizeTableSite="Union", sampleSizeTableTarget="SS", surveyConsent="survey_consent")
+
+list[var1,reportsurveyMissingValues,textsurveyMissingValues,graphsurveyMissingValues] <- 
+  surveyMissingValues(ds=ds, enumeratorID="enumerator_id")
+list[var1,reportsurveyDistinctValues,textsurveyDistinctValues,graphsurveyDistinctValues] <- 
+  surveyDistinctValues(ds=ds, enumeratorID="enumerator_id")
+list[var1,reportsurveyOtherValues,textsurveyOtherValues,graphsurveyOtherValues] <- 
+  surveyOtherValues(ds=ds, enumeratorID="enumerator_id", otherPattern="_other$")
+list[var1,reportsurveyOutliers,textsurveyOutliers,graphsurveyOutliers] <- 
+  surveyOutliers(ds=ds, enumeratorID="enumerator_id")
+list[var1,reportsurveySmallValues,textsurveySmallValues,graphsurveySmallValues] <- 
+  surveySmallValues(ds=ds, enumeratorID="enumerator_id", questionsSurveySmallValues=c(consent_received.food_security.spend_food=400,
+                                                                                      consent_received.food_security.spend_medication=250,
+                                                                                      consent_received.food_security.spend_education=400,
+                                                                                      consent_received.food_security.spend_fix_shelter=300,
+                                                                                      consent_received.food_security.spend_clothing=200,
+                                                                                      consent_received.food_security.spend_hygiene=300,
+                                                                                      consent_received.food_security.spend_fuel=100,
+                                                                                      consent_received.food_security.spend_hh_items=100,
+                                                                                      consent_received.food_security.spend_transport=100,
+                                                                                      consent_received.food_security.spend_communication=100,
+                                                                                      consent_received.food_security.spend_tobacco=100,
+                                                                                      consent_received.food_security.spend_rent=300,
+                                                                                      consent_received.food_security.spend_debts=500,
+                                                                                      consent_received.food_security.spend_other=500))
+list[var1,reportsurveyBigValues,textsurveyBigValues,graphsurveyBigValues] <- 
+  surveyBigValues(ds=ds, enumeratorID="enumerator_id", questionsSurveyBigValues=c(consent_received.food_security.spend_food=25000,
+                                                                                  consent_received.food_security.spend_medication=15000,
+                                                                                  consent_received.food_security.spend_education=10000,
+                                                                                  consent_received.food_security.spend_fix_shelter=5000,
+                                                                                  consent_received.food_security.spend_clothing=5000,
+                                                                                  consent_received.food_security.spend_hygiene=10000,
+                                                                                  consent_received.food_security.spend_fuel=15000,
+                                                                                  consent_received.food_security.spend_hh_items=5000,
+                                                                                  consent_received.food_security.spend_transport=1000,
+                                                                                  consent_received.food_security.spend_communication=1000, 
+                                                                                  consent_received.food_security.spend_tobacco=1000,
+                                                                                  consent_received.food_security.spend_rent=25000,
+                                                                                  consent_received.food_security.spend_debts=25000,
+                                                                                  consent_received.food_security.spend_other=25000))
+
+list[var1,reportenumeratorSurveysConsent,textenumeratorSurveysConsent,graphenumeratorSurveysConsent] <- 
+  enumeratorSurveysConsent(ds=ds, enumeratorID="enumerator_id", surveyConsent="survey_consent")
+list[var1,reportenumeratorSurveysDuration,textenumeratorSurveysDuration,graphenumeratorSurveysDuration] <- 
+  enumeratorSurveysDuration(ds=ds, dates=c("survey_start","end_survey"), enumeratorID="enumerator_id")
+list[var1,reportenumeratorProductivity,textenumeratorProductivity,graphenumeratorProductivity] <- 
+  enumeratorProductivity(ds=ds, enumeratorID="enumerator_id", surveyDate="survey_date")
+list[var1,reportenumeratorProductivityOutliers,textenumeratorProductivityOutliers,graphenumeratorProductivityOutliers] <- 
+  enumeratorProductivityOutliers(ds=ds, enumeratorID="enumerator_id", surveyDate="survey_date")
+list[var1,reportenumeratorIsLazy,textenumeratorIsLazy,graphenumeratorIsLazy] <- 
+  enumeratorIsLazy(ds=ds, enumeratorID="enumerator_id", questionsEnumeratorIsLazy=c(consent_received.shelter_nfi.non_food_items=3,
+                                                                                    consent_received.food_security.main_income=2,
+                                                                                    consent_received.child_protection.boy_risk=3,
+                                                                                    consent_received.child_protection.girl_risk=3))
+list[var1,reportenumeratorErrorsDashboard,textenumeratorErrorsDashboard,graphenumeratorErrorsDashboard] <- 
+  enumeratorErrorsDashboard(enumeratorID="enumerator_id", reports=c("reportisInterviewAtTheSamplePoint", 
+                                                                    "reportisInterviewCompleted", 
+                                                                    "reportisInterviewInTheCorrectSite", 
+                                                                    "reportisInterviewTooShort",
+                                                                    "reportisInterviewTooShortForTheHouseholdSize", 
+                                                                    "reportisInterviewWithConsent", 
+                                                                    "reportisSurveyEndBeforeItStarts", 
+                                                                    "reportisSurveyMadeInTheFuture", 
+                                                                    "reportisSurveyOnMoreThanADay",
+                                                                    "reportisSurveyStartedBeforeTheAssessment", 
+                                                                    "reportisUniqueIDDuplicated", 
+                                                                    "reportisUniqueIDMissing"))
+```
+
+## Summary of defined parameters
+
+```{r summaryParameters, eval=TRUE, echo=FALSE, results='asis'}
+if(!is.null(buffer) | !is.na(buffer) | buffer!=""){
+  cat(paste0("The buffer for the points to be valid is set to ***", buffer, " meters*** from the sampled point  \n"))
+}
+if(!is.null(minimumSurveyDuration) | !is.na(minimumSurveyDuration) | minimumSurveyDuration!=""){
+  cat(paste0("The minimum duration for a survey to be valid is set to ***", minimumSurveyDuration, " minutes***  \n"))
+}
+if(!is.null(minimumSurveyDurationByIndividual) | !is.na(minimumSurveyDurationByIndividual) | minimumSurveyDurationByIndividual!=""){
+  cat(paste0("The minimum duration taken into account the household size (duration per individual) for a survey to be valid is set to ***", minimumSurveyDurationByIndividual, " minutes***  \n"))
+}
+
+df <- merge(data.frame(questionsSurveySmallValues), data.frame(questionsSurveyBigValues), by=0, all=TRUE)
+colnames(df) <- c("Questions", "Lower bound", "Upper bound")
+kable(df, 
+      caption = "Questions with values to be checked for", 
+      format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
+
+kable(data.frame(minimumAnswers=questionsEnumeratorIsLazy), 
+      caption = "Questions with an expected minimum number of answers", 
+      format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
+```
+
+## Overall duration of the assessment till now
+
+```{r textassessmentDuration, eval=TRUE, echo=FALSE, results='asis', fig.align='center', fig.width=10, fig.height=8}
+if(!is.null(textassessmentDuration)){
+  cat(textassessmentDuration)
+}
+```
+
+## Reports
+
+```{r exportResultsInCSV, eval=TRUE, echo=FALSE, results='asis'}
+listReports <- data.frame(Reports=character(), stringsAsFactors = FALSE)
+for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
+  if(i %in% c("reports", "reportenumeratorErrorsDashboard", "reportassessmentDuration")){
+    #Do nothing
+  } else if(i %in% c("reportsurveyDistinctValues","reportsurveyMissingValues","reportsurveyOtherValues","reportsurveyOutliers","reportsurveyBigValues","reportsurveySmallValues")){
+    #Do csv
+    # write.csv(get(i), paste0(i, ".csv"))         ## Not run during package creation, remove the comment (#) in real life ##
+    listReports <- rbind(listReports, data.frame(Reports=i), stringsAsFactors = FALSE)
+  } else{
+    cat(paste0("### ", i, "  \n"))
+    if(!is.null(get(i))){
+      if(nrow(get(i))>0){
+        print(kable(get(i), 
+          format = "html") %>%
+        kableExtra::kable_styling(full_width=T))
+      } else {
+        cat("no errors  \n")
+      }
+    }
+    cat("  \n")
+  }
+}
+if(length(listReports[,1]) %% 2 !=0){
+  listReports <- rbind(listReports, data.frame(Reports=""), stringsAsFactors = FALSE)
+}
+cat("### Some of the analysis selected outputed a report which is better to be saved as a csv  \n")
+kable(data.frame(listReports[1:(length(listReports[,1])/2),],
+                 listReports[(1+length(listReports[,1])/2):length(listReports[,1]),]), 
+      col.names = NULL, 
+      caption = "Reports exported in .csv", 
+      format = "html") %>%
+  kableExtra::kable_styling(full_width=T)
+```
+
+

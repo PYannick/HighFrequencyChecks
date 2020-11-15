@@ -1,7 +1,7 @@
 Package: HighFrequencyChecks
 Type: Package
 Title: High Frequency Checks
-Version: 0.3.7
+Version: 0.3.9
 Authors@R: 
     c(person(given = "Yannick",
              family = "Pascaud",
@@ -35,7 +35,7 @@ Imports:
     ggplot2,
     openxlsx, 
     readr
-Suggests: knitr, rmarkdown, shiny, shinythemes
+Suggests: knitr, rmarkdown, shiny, shinythemes, colormap, gridExtra, kableExtra
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 

@@ -1,6 +1,7 @@
 #sinew::makeOxygen(admin@data, add_fields = "source")
 #' @title admin boundary dataset to be used as an example
 #' @description This dataset contains the boudaries for the Unions in both Ukhia and Teknaf.
+#' @keywords internal
 #' @format A spatial polygon data frame with 12 rows and 13 variables:
 #' \describe{
 #'   \item{\code{OBJECTID_1}}{character COLUMN_DESCRIPTION}
@@ -25,6 +26,7 @@
 #' @title sample size used
 #' @description This dataset comes from the Host Community Multi Sector Needs Assessment conducted in 2018 by IMPACT/REACH on behalf
 #' of the ISCG and funded by ECHO. This is the sample size per union used in both Ukhia and Teknaf.
+#' @keywords internal
 #' @format A data frame with 11 rows and 7 variables:
 #' \describe{
 #'   \item{\code{Upazila}}{character COLUMN_DESCRIPTION}
@@ -43,6 +45,7 @@
 #' @description This dataset comes from the Host Community Multi Sector Needs Assessment conducted in 2018
 #' by IMPACT/REACH on behalf of the ISCG and funded by ECHO. This is a sample of the data collected in both Ukhia and Teknaf.
 #' For privacy purpose, the GPS coordinates are faked but are still located in the designated areas.
+#' @keywords internal
 #' @format A data frame with 498 rows and 587 variables:
 #' \describe{
 #'   \item{\code{X.5}}{integer COLUMN_DESCRIPTION}
@@ -640,6 +643,7 @@
 #' @title points sampled to be surveyed dataset to be used as an example
 #' @description This dataset is a sample of the points to be surveyed in both Ukhia and Teknaf.
 #' For privacy purpose, the GPS coordinates are faked but are still located in the designated areas.
+#' @keywords internal
 #' @format A Spatial Point data frame with 498 rows and 22 variables:
 #' \describe{
 #'   \item{\code{field_1}}{character COLUMN_DESCRIPTION}

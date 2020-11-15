@@ -17,3 +17,4 @@ a ggplot object
 \description{
 This function allow to create a donut chart with ggplot.
 }
+\keyword{internal}

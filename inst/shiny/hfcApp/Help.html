@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Help</title>
+  </head>
+  <body>
+    <h3><strong>Welcome to the help page for the Shiny application for the
+        HighFrequencyChecks (HFC) R package</strong></h3>
+    <p>When running the app, you will see the main following screen.</p>
+    <p><img src="hlpPic/MainScreenBlank.png" alt="" style="width: 1400px; height: 869px;"></p>
+    <p>This screen is separated in several parts (by steps you should deal with
+      during the configuration of your HFC report).</p>
+    <p><strong>Step 1: Uploading the necessary files</strong></p>
+    <p><img src="hlpPic/Step1Blank.png" alt="" style="width: 381px; height: 626px;"></p>
+    <p>1. Import the XLSform containing the survey questionnaire (in a tab named
+      'survey') and the questions choices (in a tab named 'choices'). It has to
+      be in the <strong>.xlsx</strong> format.</p>
+    <p>2. Import the dataset against which you would like to run the HFC. It has
+      to be a dataset generated form the questionnaire imported previously. It
+      has to be in the <strong>.csv</strong> format.</p>
+    <p>3. Choose if when you exported the questionnaire from kobo you did it
+      with the generation of the groupname (which should be the good behavior).</p>
+    <p>4. Import the sample size information (meaning the number of survey you
+      intend to perform per site, and the number of points you sampled). It has
+      to be in the <strong>.csv</strong> format.</p>
+    <p>5. Import the shapefile use for the Site boundaries (you will have to
+      select all the files, meaning the <strong>.shp</strong>, <strong>.shx</strong>,
+      <strong>.cpg</strong>, <strong>.dbf</strong>, <strong>.prj</strong>, <strong>.qpj</strong>,
+      and so on).</p>
+    <p>6. Import the shapefile use for the sampled points (you will have to
+      select all the files, meaning the <strong>.shp</strong>, <strong>.shx</strong>,
+      <strong>.cpg</strong>, <strong>.dbf</strong>, <strong>.prj</strong>, <strong>.qpj</strong>,
+      and so on).</p>
+    <p><strong>Step 2: Defining the necessary variables to execute the HFC</strong></p>
+    <p>When uploading the files, you will see the table being updated</p>
+    <table style="width: 1195px; height: 744px;" border="0">
+      <tbody>
+        <tr>
+          <td style="width: 630.33px;"><img src="hlpPic/Step2Blank.png" alt="" style="width: 633px; height: 731px;"></td>
+          <td style="width: 265.33px;"><img src="hlpPic/arrow_outline_blue_right_T.png"
+              alt="" style="width: 101px; height: 77px;"></td>
+          <td style="width: 882.997px;"><img src="hlpPic/Step2NotBlank.png" alt=""
+              style="width: 635px; height: 735px;"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>By clicking on the variable name, you will be able to define the
+      remaining variables (conditionally the status allows it to be defined).</p>
+    <p><img src="hlpPic/NotSet.png" alt="">This status inform you the variable
+      is not yet defined and it cannot be defined at this moment (one or more
+      necessary files has not been uploaded yet, or another necessary variable
+      has to be defined before).</p>
+    <p><img src="hlpPic/CanBeSet.png" alt="">This status inform you the variable
+      is not yet defined but could be.</p>
+    <p><img src="hlpPic/Set.png" alt="">This status inform you the variable has
+      been defined.</p>
+    <p><strong>Step 3: Defining the action to be performed on the dataset when
+        executing the HFC</strong></p>
+    <p><strong><img src="hlpPic/Step3Blank.png" alt="" style="width: 370px; height: 322px;"><br>
+      </strong></p>
+    <p>In this box, you can defined if you want the survey being marked for
+      deletion if a specific test find the survey has an issue. See the
+      functions documentation for more (especially the functions starting with <em>is</em>.</p>
+    <p><strong>Step 4: Summary of the functions which will be executed based on
+        the configuration</strong></p>
+    <p><strong></strong><img src="hlpPic/Step4Blank.png" alt="" style="width: 374px; height: 471px;"><img
+        src="hlpPic/arrow_outline_blue_right_T.png" alt="" style="width: 101px; height: 76px;"><img
+        src="hlpPic/Step4NotBlank.png" alt="" style="width: 370px; height: 470px;"></p>
+    <p>When you launch the app, the <em>step 4</em> is blank, but when you will
+      start to configure the variables, you will see the list being filled based
+      with the functions which will be executed when running the HFC report. The
+      list is determined based on the variables you have defined in the <em>Step
+        2</em>.</p>
+    <p><strong>Step 5: Generating the .Rmd</strong></p>
+    <p><strong></strong><img src="hlpPic/Step5.png" alt="" style="width: 376px; height: 80px;"></p>
+    <p>This last step, will create the RMarkdown file to be executed to generate
+      the report.</p>
+    <p>In the same time the configuration defined is saved in the XLSform (tab
+      'HFC'), for you not having to redo the whole process if you would like to
+      update it.</p>
+    <p><br>
+      <strong></strong></p>
+  </body>
+</html>

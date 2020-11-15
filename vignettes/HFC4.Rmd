@@ -1,0 +1,41 @@
+---
+title: "3. Going further"
+always_allow_html: yes
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{3. Going further}
+  %\VignetteEngine{knitr::rmarkdown}
+geometry: margin=0.5in
+fontsize: 10pt
+editor_options: 
+  chunk_output_type: inline
+---
+
+Some examples (with R code) on how to use the fuctions for more checks
+
+- Doing some of the available checks on the individual loops
+      . enumeratorIsLazy
+      . surveyOtherValues
+      . surveyOutliers
+      . surveyMissingValues
+      . surveyDistinctValues
+      . surveySmallValues
+      . surveyBigValues
+      
+- Using some of the functions by Enumerator or not (to be checked if it is actually used in all of these functions)
+      . surveyMissingValues
+      . surveyDistinctValues
+      . surveyOutliers
+      . surveyOtherValues
+      . surveySmallValues
+      . surveyBigValues
+      
+- Use this package for a periodic checking (daily, weekly...) and how to subset the dataset accordingly and rebuild it when needed
+
+- Ideas on how to tweak some functions to change their purpose (like replacing the Enumerator ID by the Site to identify if there is differences between them)
+      . enumeratorSurveysConsent
+        ex: HighFrequencyChecks::enumeratorSurveysConsent(subset(HighFrequencyChecks::sample_dataset, survey_consent"!="not_eligible"), surveyConsent = "survey_consent", enumeratorID = "union_name")
+

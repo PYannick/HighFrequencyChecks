@@ -22,9 +22,6 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/assessmentTrackingSheet.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/booleanSum.html</loc>
-  </url>
-  <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/enumeratorErrorsDashboard.html</loc>
   </url>
   <url>
@@ -46,7 +43,7 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfcApp.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfc_projectinit.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/hfcProjectInit.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isInterviewAtTheSamplePoint.html</loc>
@@ -85,10 +82,7 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/isUniqueIDMissing.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/mapFunctions.html</loc>
-  </url>
-  <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/ni.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/NotIn.html</loc>
   </url>
   <url>
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/piechart.html</loc>
@@ -121,9 +115,15 @@
     <loc>https://unhcr.github.io/HighFrequencyChecks/docs//reference/surveySmallValues.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC1.html</loc>
   </url>
   <url>
-    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC_TAF.html</loc>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC2.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC3.html</loc>
+  </url>
+  <url>
+    <loc>https://unhcr.github.io/HighFrequencyChecks/docs//articles/HFC4.html</loc>
   </url>
 </urlset>

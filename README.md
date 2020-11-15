@@ -31,10 +31,15 @@ You can then create a new Rstudio project and run the following
 library(HighFrequencyChecks)
 
 ## create a standard folder sructure
-hfc_projectinit()
+hfcProjectInit()
 ```
 
-You can then follow the instructions in the `R/run-check.R` script.
+You can then run the Shiny application built-in the package.
+
+``` r
+## Run the Shiny application
+hfcApp()
+```
 
 
 #### Building package documentation 
@@ -54,16 +59,16 @@ If you encounter a clear bug, please file a minimal reproducible example on [git
 
 ```r
 ## Use UNHCR Open data  - https://unhcr.github.io/unhcrdatapackage/docs/
-remotes::install_github('unhcr/unhcrdatapackage’)
+remotes::install_github('unhcr/unhcrdatapackage')
 
 ## API to connect to internal data source - https://unhcr-web.github.io/hcrdata/docs/
-remotes::install_github('unhcr-web/hcrdata’)
+remotes::install_github('unhcr-web/hcrdata')
 
 ## Perform High Frequency Check https://unhcr.github.io/HighFrequencyChecks/docs/
-remotes::install_github('unhcr-web/HighFrequencyChecks’)
+remotes::install_github('unhcr/HighFrequencyChecks')
 
 ## Process data crunching for survey dataset - https://unhcr.github.io/koboloadeR/docs/
-remotes::install_github('unhcr/koboloadeR’)
+remotes::install_github('unhcr/koboloadeR')
 
 ## Use UNHCR graphical template- https://unhcr-web.github.io/unhcRstyle/docs/
 remotes::install_github('unhcr-web/unhcRstyle')
