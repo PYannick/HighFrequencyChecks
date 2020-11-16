@@ -288,8 +288,43 @@ if(!is.null(textassessmentDuration)){
 
 ```{r exportResultsInCSV, eval=TRUE, echo=FALSE, results='asis'}
 listReports <- data.frame(Reports=character(), stringsAsFactors = FALSE)
-for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
-  if(i %in% c("reports", "reportenumeratorErrorsDashboard", "reportassessmentDuration")){
+# Reporti
+for(i in ls(all.names = T)[ls(all.names = T) %like% "reporti"]){
+    cat(paste0("### ", i, "  \n"))
+    if(!is.null(get(i))){
+      if(nrow(get(i))>0){
+        print(kable(get(i), 
+          format = "html") %>%
+        kableExtra::kable_styling(full_width=T))
+      } else {
+        cat("no errors  \n")
+      }
+    }
+    cat("  \n")
+}
+
+# Reporta
+for(i in ls(all.names = T)[ls(all.names = T) %like% "reporta"]){
+  if(i %in% c("reportassessmentDuration")){
+    #Do nothing
+  } else{
+    cat(paste0("### ", i, "  \n"))
+    if(!is.null(get(i))){
+      if(nrow(get(i))>0){
+        print(kable(get(i), 
+          format = "html") %>%
+        kableExtra::kable_styling(full_width=T))
+      } else {
+        cat("no errors  \n")
+      }
+    }
+    cat("  \n")
+  }
+}
+
+# Reports
+for(i in ls(all.names = T)[ls(all.names = T) %like% "reports"]){
+  if(i %in% c("reports")){
     #Do nothing
   } else if(i %in% c("reportsurveyDistinctValues","reportsurveyMissingValues","reportsurveyOtherValues","reportsurveyOutliers","reportsurveyBigValues","reportsurveySmallValues")){
     #Do csv
@@ -309,6 +344,26 @@ for(i in ls(all.names = T)[ls(all.names = T) %like% "report"]){
     cat("  \n")
   }
 }
+
+# Reporte
+for(i in ls(all.names = T)[ls(all.names = T) %like% "reporte"]){
+  if(i %in% c("reportenumeratorErrorsDashboard")){
+    #Do nothing
+  } else{
+    cat(paste0("### ", i, "  \n"))
+    if(!is.null(get(i))){
+      if(nrow(get(i))>0){
+        print(kable(get(i), 
+          format = "html") %>%
+        kableExtra::kable_styling(full_width=T))
+      } else {
+        cat("no errors  \n")
+      }
+    }
+    cat("  \n")
+  }
+}
+
 if(length(listReports[,1]) %% 2 !=0){
   listReports <- rbind(listReports, data.frame(Reports=""), stringsAsFactors = FALSE)
 }
