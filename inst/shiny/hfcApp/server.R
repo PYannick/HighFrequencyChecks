@@ -379,13 +379,16 @@ server <- function(input, output, session) {
     if(file.exists(XLSform)){
       workbook <- openxlsx::loadWorkbook(file = XLSform)
       worksheets <- openxlsx::getSheetNames(XLSform)
+      nbWorksheets <- length(worksheets)
       # If the XLSform already have a HFC tab
       if("HFC" %in% worksheets){
         # HFC tab already exist, remove the tab
         openxlsx::removeWorksheet(workbook, "HFC")
+        nbWorksheets <- nbWorksheets - 1
       } else {
         # nothing
       }
+      openxlsx::removeFilter(workbook, 1:nbWorksheets)
       # Create the HFC tab and write the content
       openxlsx::addWorksheet(workbook, "HFC")
       openxlsx::writeDataTable(workbook, sheet = "HFC", x = variableTable[,c("variableName", "variableValue")], withFilter = FALSE)
@@ -400,6 +403,12 @@ server <- function(input, output, session) {
                functionsOrder=functionsConfig[,c("functionName","ord")],
                functionsOutput=subset(functionsOutputs, outputType=="csv"),
                fileName=sub('\\..[^\\.]*$', '', fileName))
+    messageText <- paste0("The .Rmd file has been created in the vignette directory as :",
+                          sub('\\..[^\\.]*$', '', fileName),
+                          ".Rmd, and the XLSform has been updated/created in the data-raw folder as: ",
+                          fileName,
+                          ".xlsx")
+    showNotification(messageText, type = 'message', duration = 5)
   }, ignoreInit=TRUE)
 }
 

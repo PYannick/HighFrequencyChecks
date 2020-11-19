@@ -7,6 +7,17 @@ library(shinythemes)
 #### APP side
 ui <- fluidPage(theme = shinytheme("cerulean"),
                 shinyjs::useShinyjs(),
+                tags$head(
+                  tags$style(
+                    HTML(".shiny-notification {
+                          position:fixed;
+                          top: calc(50%);
+                          left: calc(50% - 340px);
+                          width: 680px
+                          }"
+                    )
+                  )
+                ),
                 tags$style(".glyphicon-ok {color:#00FF00}"),
                 tags$style(".glyphicon-remove {color:#FF0000}"),
                 title = "High Frequency Checks",
