@@ -36,4 +36,5 @@ if(getRversion() >= "2.15.1")
                            "variablesDatasets",
                            "categories",
                            "ymax",
-                           "ymin"))
+                           "ymin",
+                           "type"))
